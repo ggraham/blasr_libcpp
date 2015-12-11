@@ -158,7 +158,7 @@ void CompressedSequence<T_Sequence>::Read(std::string inFileName) {
 
 template<typename T_Sequence>
 int CompressedSequence<T_Sequence>::BuildFourBitReverseIndex(int binSize) {
-    BuildReverseIndex(15, binSize);
+    return BuildReverseIndex(15, binSize);
 }
 
 template<typename T_Sequence>
@@ -212,9 +212,9 @@ int CompressedSequence<T_Sequence>::BuildReverseIndex(int maxRun, int binSize) {
 }
 
 template<typename T_Sequence>
-long CompressedSequence<T_Sequence>::Lookup4BitCompressedSequencePos(int cpPos) {
-    int      bin = cpPos / index.binSize;
-    int  origPos = index.index[bin];
+GenomeLength CompressedSequence<T_Sequence>::Lookup4BitCompressedSequencePos(int cpPos) {
+    int bin = cpPos / index.binSize;
+    GenomeLength origPos = index.index[bin];
     int cpBinPos = bin * index.binSize;
     int cp;
     for (cp = cpBinPos; cp < cpPos; cp++ ){

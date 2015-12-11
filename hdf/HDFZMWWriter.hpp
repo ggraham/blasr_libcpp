@@ -70,7 +70,7 @@ public:
 private:
     /// \name Private Data 
     /// ZMW/NumEvent
-    BufferedHDFArray<int>           numEventArray_;
+    BufferedHDFArray<uint32_t>      numEventArray_;
     /// ZMW/HoleNumber
     BufferedHDFArray<unsigned int>  holeNumberArray_;
     /// ZMW/HoleStatus
@@ -84,6 +84,7 @@ private:
     HDFGroup zmwGroup_;
     /// Parent group PulseCalls or BaseCalls
     HDFGroup & parentGroup_;
+
     /// Map 'ACGT' to channel indices, defined in /ScanData/RunInfo/BaseMap
     std::map<char, size_t> baseMap_;
     /// true if parent gropu is PulseCalls.

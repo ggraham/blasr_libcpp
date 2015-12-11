@@ -37,26 +37,28 @@
 
 #include "ScanData.hpp"
 #include <iostream>
+#include <algorithm>
 
 std::string ScanData::BaseMapToStr(const std::map<char, size_t> & baseMap) {
-    std::string baseMapStr = ""; //4 dye channels.
-    if (not baseMap.empty()) {
-        baseMapStr = "    ";
-        for (auto it = baseMap.begin(); it != baseMap.end(); ++it){
-            if (it->second > 4 or it->second < 0) {
-                std::cout << "ERROR, there are more than four dye channels."
-                          << std::endl;
-                exit(1);
-            }
+    std::string baseMapStr = "    "; //4 dye channels.
+    for (auto it = baseMap.begin(); it != baseMap.end(); ++it){
+        if (it->second < 4) {
             baseMapStr[it->second]= it->first;
         }
+    }
+    std::string tmpBaseMap = baseMapStr;
+    std::sort(tmpBaseMap.begin(), tmpBaseMap.end());
+    std::transform(tmpBaseMap.begin(), tmpBaseMap.end(), tmpBaseMap.begin(), ::toupper);
+    if (tmpBaseMap != "ACGT") {
+        std::cout << "ERROR, invalid ScanData BaseMap " << baseMapStr << std::endl;
+        exit(1);
     }
     return baseMapStr;
 }
 
 std::map<char, size_t> ScanData::StrToBaseMap(const std::string & baseMapStr) {
     std::map<char, size_t> ret;
-    for (auto i = 0; i < baseMapStr.size(); i++) {
+    for (size_t i = 0; i < baseMapStr.size(); i++) {
         ret[baseMapStr[i]] = i;
     }
     return ret;
@@ -68,8 +70,7 @@ bool ScanData::IsValidBaseMap(const std::map<char, size_t> & baseMap) {
 
     for(const char base : {'A', 'T', 'G', 'C'}) {
         size_t index = baseMap.find(base)->second;
-        if (not (baseMap.find(base) != baseMap.end() and 
-                 index >= 0 and index <= 3))
+        if (not (baseMap.find(base) != baseMap.end() and index <= 3))
             return false;
         else
             v[index] = 'o';
