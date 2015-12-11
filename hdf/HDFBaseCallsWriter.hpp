@@ -28,8 +28,7 @@ public:
                        HDFGroup & parentGroup,
                        const std::map<char, size_t> & baseMap,
                        const std::string & basecallerVersion,
-                       const std::vector<PacBio::BAM::BaseFeature> & qvsToWrite = {},
-                       const bool fakeQualityValue = true);
+                       const std::vector<PacBio::BAM::BaseFeature> & qvsToWrite = {});
 
     ~HDFBaseCallsWriter(void);
 
@@ -43,11 +42,6 @@ public:
     void Close(void);
 
 public:
-    
-    /// \returns true if FakeQualityValue() and qualityValueArray_ 
-    ///          has been initialized
-    inline bool HasQualityValue(void) const;
-
     /// \returns true if has DeletionQV dataset and deletionQVArray_
     ///          has been initialized.
     inline bool HasDeletionQV(void) const;
@@ -61,13 +55,6 @@ public:
     inline bool HasPulseIndex(void) const;
 
     std::vector<std::string> Errors(void) const;
-
-public: 
-    /// \returns whether or not to fake QualityValue.
-    bool FakeQualityValue() const;
-
-private:
-    bool fakeQualityValue_;
 
 private:
     /// \brief Write all attributes of BaseCalls group
@@ -104,6 +91,7 @@ private:
     std::unique_ptr<HDFZMWMetricsWriter> zmwMetricsWriter_;
 	HDFGroup basecallsGroup_;
     std::string basecallerVersion_;
+    uint32_t arrayLength_;
 
 private:
     /// BaseCalls/Basecall group
@@ -144,11 +132,6 @@ bool HDFBaseCallsWriter::_HasQV(const PacBio::BAM::BaseFeature & qvToQuery) cons
 }
 
 inline
-bool HDFBaseCallsWriter::HasQualityValue(void) const
-{return (FakeQualityValue() and 
-         qualityValueArray_.IsInitialized());}
-
-inline
 bool HDFBaseCallsWriter::HasDeletionQV(void) const
 {return (_HasQV(PacBio::BAM::BaseFeature::DELETION_QV) and 
          deletionQVArray_.IsInitialized());}
@@ -187,10 +170,6 @@ inline
 bool HDFBaseCallsWriter::HasPulseWidth(void) const
 {return (_HasQV(PacBio::BAM::BaseFeature::PULSE_WIDTH) and
          pulseWidthArray_.IsInitialized());}
-
-inline
-bool HDFBaseCallsWriter::FakeQualityValue(void) const
-{return this->fakeQualityValue_;}
 
 inline
 bool HDFBaseCallsWriter::HasPulseIndex(void) const

@@ -31,16 +31,15 @@ HDFBaseCallsWriter::HDFBaseCallsWriter(const std::string & filename,
                                        HDFGroup & parentGroup,
                                        const std::map<char, size_t> & baseMap,
                                        const std::string & basecallerVersion,
-                                       const std::vector<PacBio::BAM::BaseFeature> & qvsToWrite,
-                                       const bool fakeQualityValue)
+                                       const std::vector<PacBio::BAM::BaseFeature> & qvsToWrite)
     : HDFWriterBase(filename)
     , parentGroup_(parentGroup)
     , baseMap_(baseMap)
-    , qvsToWrite_({}) // Input qvsToWrite must be checked.
+    , basecallerVersion_(basecallerVersion)
+    , qvsToWrite_({})
+    , arrayLength_(0)
     , zmwWriter_(nullptr)
     , zmwMetricsWriter_(nullptr)
-    , fakeQualityValue_(fakeQualityValue)
-    , basecallerVersion_(basecallerVersion)
 {
     // Add BaseCalls as a child group to the parent group.
     AddChildGroup(parentGroup_, basecallsGroup_, PacBio::GroupNames::basecalls);
@@ -87,9 +86,6 @@ HDFBaseCallsWriter::~HDFBaseCallsWriter(void) {
 
 bool HDFBaseCallsWriter::InitializeQVGroups(void) {
     int ret = 1;
-    // special dataset
-    if (FakeQualityValue())
-        ret *= qualityValueArray_.Initialize(basecallsGroup_,    PacBio::GroupNames::qualityvalue);
 
     // normal datasets
     if (_HasQV(PacBio::BAM::BaseFeature::DELETION_QV)) 
@@ -135,8 +131,6 @@ bool HDFBaseCallsWriter::WriteOneZmw(const SMRTSequence & read) {
 
     OK = OK and _WriteBasecall(read);
 
-    if (FakeQualityValue()) 
-        OK = OK and _WriteQualityValue(read);
     OK = OK and _WriteDeletionQV(read);
     OK = OK and _WriteDeletionTag(read);
     OK = OK and _WriteInsertionQV(read);
@@ -146,6 +140,8 @@ bool HDFBaseCallsWriter::WriteOneZmw(const SMRTSequence & read) {
     OK = OK and _WriteIPD(read);
     OK = OK and _WritePulseWidth(read);
     OK = OK and _WritePulseIndex(read);
+
+    arrayLength_ +=  read.length;
     return OK;
 }
 
@@ -154,6 +150,7 @@ bool HDFBaseCallsWriter::_WriteBasecall(const SMRTSequence & read) {
     return true;
 }
 
+/*
 bool HDFBaseCallsWriter::_WriteQualityValue(const SMRTSequence & read) {
     if (FakeQualityValue()) {
         if (read.length <= 0) {
@@ -173,6 +170,7 @@ bool HDFBaseCallsWriter::_WriteQualityValue(const SMRTSequence & read) {
     }
     return true;
 }
+*/
 
 bool HDFBaseCallsWriter::_WriteDeletionQV(const SMRTSequence & read) {
     if (HasDeletionQV()) {
@@ -307,13 +305,18 @@ bool HDFBaseCallsWriter::_WritePulseIndex(const SMRTSequence & read) {
     return true;
 }
 
-bool HDFBaseCallsWriter::WriteFakeDataSets()
-{ return true; }
+bool HDFBaseCallsWriter::WriteFakeDataSets() {   
+    // Fake QualityValue with 255
+    uint32_t block_sz = (2 >> 32); // This is a data buffer.
+    std::vector<uint8_t> buffer_uint16_5M_0(block_sz);
+    std::fill(buffer_uint16_5M_0.begin(), buffer_uint16_5M_0.end(), 255);
+    bool OK = __WriteFakeDataSet<uint8_t>(basecallsGroup_, PacBio::GroupNames::qualityvalue, arrayLength_, buffer_uint16_5M_0);
+    return OK;
+}
  
 void HDFBaseCallsWriter::Flush(void) {
     basecallArray_.Flush();
 
-    if (HasQualityValue())    qualityValueArray_.Flush();
     if (HasDeletionQV())      deletionQVArray_.Flush();
     if (HasDeletionTag())     deletionTagArray_.Flush();
     if (HasInsertionQV())     insertionQVArray_.Flush();
@@ -339,7 +342,6 @@ void HDFBaseCallsWriter::Close(void) {
 
     basecallArray_.Close();
 
-    if (HasQualityValue())    qualityValueArray_.Close();
     if (HasDeletionQV())      deletionQVArray_.Close();
     if (HasDeletionTag())     deletionTagArray_.Close();
     if (HasInsertionQV())     insertionQVArray_.Close();
