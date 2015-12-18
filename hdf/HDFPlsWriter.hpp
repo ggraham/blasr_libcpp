@@ -1,6 +1,7 @@
 #ifndef _BLASR_HDF_PLS_WRITER_HPP_
 #define _BLASR_HDF_PLS_WRITER_HPP_
 
+#error "Where is data/??? Apparently this file is no longer needed, since it probably cannot compile."
 #include "data/hdf/HDFArray.h"
 #include "data/hdf/BufferedHDFArray.h"
 #include "data/hdf/HDF2DArray.h"
