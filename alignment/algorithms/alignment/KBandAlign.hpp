@@ -4,12 +4,14 @@
 #include <algorithm>
 #include <vector>
 #include <limits.h>
-#include "defs.h"
+// pbdata
+#include <defs.h>
+#include <NucConversion.hpp>
+#include <matrix/FlatMatrix.hpp>
+
 #include "AlignmentUtils.hpp"
-#include "NucConversion.hpp"
-#include "matrix/FlatMatrix.hpp"
-#include "datastructures/alignment/Alignment.hpp"
-#include "statistics/StatUtils.hpp"
+#include "../../datastructures/alignment/Alignment.hpp"
+#include "../../statistics/StatUtils.hpp"
 
 class DefaultGuide {
  public:

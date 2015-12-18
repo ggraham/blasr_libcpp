@@ -1,4 +1,4 @@
-#include "statistics/LookupAnchorDistribution.hpp"
+#include "LookupAnchorDistribution.hpp"
 
 int LookupAnchorDistribution(int readLength, int minMatchLength, 
     int accuracy, float &mn, float &sdn, float &mnab, 

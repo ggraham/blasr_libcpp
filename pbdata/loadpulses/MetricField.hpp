@@ -6,7 +6,7 @@
 
 #include <stdlib.h>
 
-#include "Types.h"
+#include "../Types.h"
 
 enum FieldType {BasField, PlsField};
 

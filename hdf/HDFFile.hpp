@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "H5Cpp.h"
+#include <H5Cpp.h>
 #include "HDFConfig.hpp"
 #include "HDFGroup.hpp"
 

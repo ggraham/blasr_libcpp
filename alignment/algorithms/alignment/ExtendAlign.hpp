@@ -3,11 +3,13 @@
 
 #include <vector>
 #include <algorithm>
-#include "defs.h"
+// pbdata
+#include <defs.h>
+#include <NucConversion.hpp>
+#include <matrix/FlatMatrix.hpp>
+
+#include "../../datastructures/alignment/Alignment.hpp"
 #include "KBandAlign.hpp"
-#include "NucConversion.hpp"
-#include "matrix/FlatMatrix.hpp"
-#include "datastructures/alignment/Alignment.hpp"
 
 //FIXME: change data type of target pos from int to GenomeLength 
 //       in order to support > 4G genome.

@@ -3,11 +3,11 @@
 
 #include <vector>
 #include <string>
-#include "Types.h"
-#include "defs.h"
-#include "DNASequence.hpp"
-#include "datastructures/alignment/Alignment.hpp"
-#include "algorithms/alignment/AlignmentUtils.hpp"
+#include <Types.h> // pbdata
+#include <defs.h> // pbdata
+#include <DNASequence.hpp> // pbdata
+#include "../../../datastructures/alignment/Alignment.hpp"
+#include "../AlignmentUtils.hpp"
 
 /*******************************************************************************
  *  Sparse dynamic programming implementation of Longest Common Subsequence

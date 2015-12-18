@@ -9,10 +9,13 @@
 #include "HDFPulseDataFile.hpp"
 #include "DatasetCollection.hpp"
 #include "HDFZMWReader.hpp"
-#include "reads/PulseFile.hpp"
 #include "HDFScanDataReader.hpp"
-#include "FASTQSequence.hpp"
-#include "VectorUtils.hpp"
+
+// pbdata/
+#include <reads/PulseFile.hpp>
+#include <FASTQSequence.hpp>
+#include <VectorUtils.hpp>
+
 #include <sstream>
 #include <vector>
 #include <set>

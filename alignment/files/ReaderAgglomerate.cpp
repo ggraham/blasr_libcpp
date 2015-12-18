@@ -1,4 +1,4 @@
-#include "files/ReaderAgglomerate.hpp"
+#include "ReaderAgglomerate.hpp"
 
 void ReaderAgglomerate::SetToUpper() {
     fastaReader.SetToUpper();

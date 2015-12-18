@@ -234,7 +234,7 @@ Bad input
 */
 
 #include <stdlib.h>
-#include "utils.hpp"
+#include <utils.hpp> // pbdata
 
 enum {
 	ORIG = ~(~0u>>1),			/* sign bit */

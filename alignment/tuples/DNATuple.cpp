@@ -1,4 +1,4 @@
-#include "tuples/DNATuple.hpp"
+#include "DNATuple.hpp"
 
 
 int DNATuple::FromStringRL(Nucleotide *strPtr, TupleMetrics &tm) {

@@ -2,16 +2,18 @@
 #define _BLASR_HDF_CMP_READER_HPP_
 #error "Does this compile anymore? Where is data/hdf/*.h?"
 
-#include "H5Cpp.h"
+#include <H5Cpp.h>
 #include <iostream>
 #include <assert.h>
-#include "datastructures/alignment/CmpFile.h"
-#include "datastructures/alignment/Alignment.h"
-#include "datastructures/alignment/AlignmentCandidate.h"
-#include "datastructures/alignment/CmpAlignment.h"
-#include "datastructures/alignment/CmpReadGroupTable.h"
-#include "datastructures/alignment/CmpRefSeqTable.h"
-#include "datastructures/alignment/ByteAlignment.h"
+// ../alignment/datastructures/alignment
+#include <datastructures/alignment/CmpFile.h>
+#include <datastructures/alignment/Alignment.h>
+#include <datastructures/alignment/AlignmentCandidate.h>
+#include <datastructures/alignment/CmpAlignment.h>
+#include <datastructures/alignment/CmpReadGroupTable.h>
+#include <datastructures/alignment/CmpRefSeqTable.h>
+#include <datastructures/alignment/ByteAlignment.h>
+
 #include "data/hdf/HDFAtom.h"
 #include "data/hdf/HDFArray.h"
 #include "data/hdf/HDF2DArray.h"
@@ -25,7 +27,7 @@
 #include "HDFMovieInfoGroup.h"
 #include "HDFCmpRootGroup.h"
 #include "HDFCmpSupportedFields.h"
-#include "SMRTSequence.h"
+#include "SMRTSequence.h" // ../pbdata/SMRTSequence.h or ../../blasr/SMRTSequence.h ???
 #include <sstream>
 #include <map>
 

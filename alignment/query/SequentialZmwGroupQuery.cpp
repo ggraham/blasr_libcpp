@@ -1,7 +1,7 @@
-#include "libconfig.h"
+#include <libconfig.h>
 #ifdef USE_PBBAM
 #include "SequentialZmwGroupQuery.h"
-#include "pbbam/CompositeBamReader.h"
+#include <pbbam/CompositeBamReader.h>
 #include <boost/optional.hpp>
 #include <cassert>
 using namespace PacBio;

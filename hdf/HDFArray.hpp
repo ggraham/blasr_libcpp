@@ -4,13 +4,13 @@
 #include <assert.h>
 #include <iostream>
 
-#include "H5Cpp.h"
+#include <H5Cpp.h>
 
 #include "HDFConfig.hpp"
 #include "HDFData.hpp"
 #include "BufferedHDFArray.hpp"
-#include "DNASequence.hpp"
-#include "FASTQSequence.hpp"
+#include <DNASequence.hpp> // pbdata/
+#include <FASTQSequence.hpp> // pbdata/
 
 /*
  *

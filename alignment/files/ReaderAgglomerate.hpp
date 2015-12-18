@@ -2,28 +2,27 @@
 #define _BLASR_READER_AGGLOMERATE_HPP_
 
 #include <cstdlib>
+// pbdata
+#include <Enumerations.h>
+#include <reads/ReadType.hpp>
+#include <FASTAReader.hpp>
+#include <FASTQReader.hpp>
+#include <CCSSequence.hpp>
+#include <SMRTSequence.hpp>
+#include <StringUtils.hpp>
+// hdf
+#include <HDFBasReader.hpp>
+#include <HDFCCSReader.hpp>
 
-#include "Enumerations.h"
-#include "reads/ReadType.hpp"
-#include "files/BaseSequenceIO.hpp"
-
-#include "FASTAReader.hpp"
-#include "FASTQReader.hpp"
-#include "CCSSequence.hpp"
-#include "SMRTSequence.hpp"
-#include "StringUtils.hpp"
-
-#include "HDFBasReader.hpp"
-#include "HDFCCSReader.hpp"
-
+#include "BaseSequenceIO.hpp"
 #ifdef USE_PBBAM
-#include "pbbam/DataSet.h"
-#include "pbbam/EntireFileQuery.h"
-#include "pbbam/PbiFilter.h"
-#include "pbbam/PbiFilterQuery.h"
-#include "query/SequentialZmwGroupQuery.h"
-#include "query/PbiFilterZmwGroupQuery.h"
-#include "pbbam/BamRecord.h"
+#include <pbbam/DataSet.h>
+#include <pbbam/EntireFileQuery.h>
+#include <pbbam/PbiFilter.h>
+#include <pbbam/PbiFilterQuery.h>
+#include "../query/SequentialZmwGroupQuery.h"
+#include "../query/PbiFilterZmwGroupQuery.h"
+#include <pbbam/BamRecord.h>
 #endif
 
 class ReaderAgglomerate : public BaseSequenceIO {
@@ -142,6 +141,6 @@ int ReadChunkByNReads(ReaderAgglomerate &reader, vector<T_Sequence> &reads, int 
 template<typename T_Sequence>
 int ReadChunkBySize (ReaderAgglomerate &reader, vector<T_Sequence> &reads, int maxMemorySize);
 
-#include "files/ReaderAgglomerateImpl.hpp"
+#include "ReaderAgglomerateImpl.hpp"
 
 #endif

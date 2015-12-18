@@ -2,7 +2,7 @@
 #define _BLASR_MATRIX_HPP_
 
 #include <vector>
-#include "Types.h"
+#include "../Types.h"
 
 template<typename T>
 void CreateMatrix(int rows, int cols, std::vector<T*> matrix); 

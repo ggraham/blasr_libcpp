@@ -5,11 +5,11 @@
 #include <string>
 #include <vector>
 
-#include "FASTASequence.hpp"
-#include "sam/ReadGroup.hpp"
-#include "sam/ReferenceSequence.hpp"
-#include "sam/SAMAlignment.hpp"
-#include "sam/SAMHeader.hpp"
+#include "../FASTASequence.hpp"
+#include "ReadGroup.hpp"
+#include "ReferenceSequence.hpp"
+#include "SAMAlignment.hpp"
+#include "SAMHeader.hpp"
 
 template<typename T_ReferenceSequence=SAMReferenceSequence, typename T_ReadGroup=SAMReadGroup, typename T_Alignment=SAMAlignment>
 class AlignmentSet {

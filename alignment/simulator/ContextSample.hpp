@@ -4,8 +4,8 @@
 #include<string>
 #include<vector>
 #include<iostream>
-#include "simulator/QualitySample.hpp"
-#include "statistics/StatUtils.hpp"
+#include "QualitySample.hpp"
+#include "../statistics/StatUtils.hpp"
 
 class ContextSample {
 public:

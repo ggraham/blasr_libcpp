@@ -3,7 +3,7 @@
 
 #include <map>
 #include <fstream>
-#include "utils.hpp"
+#include <utils.hpp> // pbdata
 
 template <typename T>
 class LCPTable {

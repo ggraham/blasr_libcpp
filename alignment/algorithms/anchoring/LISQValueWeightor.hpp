@@ -1,9 +1,10 @@
 #ifndef _BLASR_LIS_QVALUE_WEIGHTOR_HPP_
 #define _BLASR_LIS_QVALUE_WEIGHTOR_HPP_
 
-#include "qvs/QualityValue.hpp"
-#include "DNASequence.hpp"
-#include "FASTQSequence.hpp"
+// pbdata
+#include <qvs/QualityValue.hpp>
+#include <DNASequence.hpp>
+#include <FASTQSequence.hpp>
 
 template<typename T_MatchList, typename T_Sequence>
 class LISQValueWeightor {

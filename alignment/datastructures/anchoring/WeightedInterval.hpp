@@ -3,8 +3,8 @@
 
 #include <vector>
 #include <set>
-#include "DNASequence.hpp"
-#include "datastructures/anchoring/MatchPos.hpp" 
+#include <DNASequence.hpp> // pbdata
+#include "MatchPos.hpp"
 
 class WeightedInterval {
 public:

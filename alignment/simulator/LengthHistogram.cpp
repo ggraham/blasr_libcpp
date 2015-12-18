@@ -1,4 +1,4 @@
-#include "simulator/LengthHistogram.hpp"
+#include "LengthHistogram.hpp"
 
 int LengthHistogram::Read(std::string &inName) {
     std::ifstream in;

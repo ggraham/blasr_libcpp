@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "sam/SAMKeywordValuePair.hpp"
+#include "SAMKeywordValuePair.hpp"
 
 class SAMHeader {
  public:

@@ -1,7 +1,7 @@
 #ifndef DATASTRUCTURES_SAF_HDF_MOVIE_INFO_H_
 #define DATASTRUCTURES_SAF_HDF_MOVIE_INFO_H_
 
-#include "Types.h"
+#include "../Types.h"
 #include <string>
 #include <vector>
 

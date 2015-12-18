@@ -7,17 +7,17 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <defs.h> // pbdata
+#include <utils.hpp> // pbdata
+#include <qvs/QualityValue.hpp> // pbdata
+#include <DNASequence.hpp> // pbdata
+#include <NucConversion.hpp> // pbdata
 #include "LCPTable.hpp"
-#include "defs.h"
-#include "utils.hpp"
-#include "tuples/DNATuple.hpp"
-#include "tuples/CompressedDNATuple.hpp"
-#include "qvs/QualityValue.hpp"
-#include "DNASequence.hpp"
-#include "NucConversion.hpp"
-#include "algorithms/compare/CompareStrings.hpp"
-#include "algorithms/sorting/qsufsort.hpp"
-#include "algorithms/sorting/LightweightSuffixArray.hpp"
+#include "../algorithms/compare/CompareStrings.hpp"
+#include "../algorithms/sorting/qsufsort.hpp"
+#include "../algorithms/sorting/LightweightSuffixArray.hpp"
+#include "../tuples/DNATuple.hpp"
+#include "../tuples/CompressedDNATuple.hpp"
 /*
  * Suffix array implementation, with a Manber and Meyers sort, but
  * that is typically not used.

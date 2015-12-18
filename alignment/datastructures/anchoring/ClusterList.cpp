@@ -1,4 +1,4 @@
-#include "datastructures/anchoring/ClusterList.hpp"
+#include "ClusterList.hpp"
 
 ClusterList::ClusterList() {
     lowerSizeLimit = 20;

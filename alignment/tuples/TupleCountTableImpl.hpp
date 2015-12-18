@@ -1,6 +1,6 @@
 #ifndef _BLASR_TUPLE_COUNT_TABLE_IMPL_HPP_
 #define _BLASR_TUPLE_COUNT_TABLE_IMPL_HPP_
-#include "utils.hpp"
+#include <utils.hpp> // pbdata
 
 using namespace std;
 

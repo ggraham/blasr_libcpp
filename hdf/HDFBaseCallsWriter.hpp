@@ -177,5 +177,5 @@ bool HDFBaseCallsWriter::HasPulseIndex(void) const
 {return (_HasQV(PacBio::BAM::BaseFeature::PULSE_CALL) and
          pulseIndexArray_.IsInitialized());}
 
-#endif
+#endif  // USE_PBBAM
 #endif

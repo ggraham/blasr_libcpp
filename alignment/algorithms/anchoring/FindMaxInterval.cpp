@@ -1,4 +1,4 @@
-#include "algorithms/anchoring/FindMaxInterval.hpp"
+#include "FindMaxInterval.hpp"
 
 unsigned int NumRemainingBases(DNALength curPos, DNALength intervalLength) {
   if (curPos > intervalLength) {

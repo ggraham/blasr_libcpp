@@ -5,9 +5,9 @@
 
 #include <string>
 #include <map>
-#include "reads/AcqParams.hpp"
-#include "Enumerations.h"
-#include "PacBioDefs.h"
+#include "AcqParams.hpp"
+#include "../Enumerations.h"
+#include "../PacBioDefs.h"
 
 class HDFScanDataReader;
 class HDFScanDataWriter;

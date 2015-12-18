@@ -1,10 +1,10 @@
-#include "libconfig.h"
+#include <libconfig.h>
 #ifdef USE_PBBAM
 #ifndef PBIFILTER_ZMWGROUPQUERY_H 
 #define PBIFILTER_ZMWGROUPQUERY_H
 
-#include "pbbam/internal/QueryBase.h"
-#include "pbbam/PbiFilter.h"
+#include <pbbam/internal/QueryBase.h>
+#include <pbbam/PbiFilter.h>
 #include <memory>
 
 namespace PacBio {

@@ -3,8 +3,8 @@
 
 #include <cstdint>
 #include <vector>
-#include "Types.h"
-#include "alignment/CmpAlignment.hpp"
+#include "../Types.h"
+#include "../alignment/CmpAlignment.hpp"
 
 class AlnInfo {
 public:

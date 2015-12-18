@@ -5,7 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <assert.h>
-#include "tuples/TupleMetrics.hpp"
+#include "TupleMetrics.hpp"
 using namespace std;
 
 template<typename TSequence, typename TTuple>
@@ -28,6 +28,6 @@ public:
 	void Read(ifstream &in);
 };
 
-#include "tuples/TupleCountTableImpl.hpp"
+#include "TupleCountTableImpl.hpp"
 
 #endif

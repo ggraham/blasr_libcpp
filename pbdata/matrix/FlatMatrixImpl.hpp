@@ -2,8 +2,8 @@
 #include <vector>
 #include <iostream>
 #include <assert.h>
-#include "Types.h"
-#include "utils.hpp"
+#include "../Types.h"
+#include "../utils.hpp"
 #include "FlatMatrix.hpp"
 
 template<typename T>

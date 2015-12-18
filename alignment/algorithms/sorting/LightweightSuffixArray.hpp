@@ -5,7 +5,7 @@
 #include "qsufsort.hpp"
 #include "MultikeyQuicksort.hpp"
 #include "DifferenceCovers.hpp"
-#include "Types.h"
+#include <Types.h> // pbdata
 
 /*
  * a - b potentially may not fit into a signed type.  Use some logic

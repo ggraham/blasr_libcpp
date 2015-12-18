@@ -1,4 +1,4 @@
-#include "utils/RegionUtils.hpp"
+#include "RegionUtils.hpp"
 
 // General functions.
 bool LookupHQRegion(int holeNumber, RegionTable &regionTable, 

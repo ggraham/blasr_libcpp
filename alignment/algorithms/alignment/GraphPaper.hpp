@@ -1,8 +1,8 @@
 #ifndef GRAPH_PAPER_HPP_
 #define GRAPH_PAPER_HPP_
 
-#include "datastructures/alignment/Path.h"
-#include "matrix/FlatMatrix.hpp"
+#include "../../datastructures/alignment/Path.h"
+#include <matrix/FlatMatrix.hpp> // pbdata
 
 template<typename T_Point>
 bool SetBounds(vector<T_Point> &points, 

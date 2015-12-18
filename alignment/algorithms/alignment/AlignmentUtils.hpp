@@ -2,9 +2,9 @@
 #define _BLASR_ALIGNMENT_UTILS_HPP_
 
 #include <string>
-#include "DNASequence.hpp"
-#include "datastructures/alignment/Alignment.hpp"
-#include "algorithms/alignment/DistanceMatrixScoreFunction.hpp"
+#include <DNASequence.hpp> // pbdata
+#include "../../datastructures/alignment/Alignment.hpp"
+#include "DistanceMatrixScoreFunction.hpp"
 
 enum AlignmentType { 
     Local,     // Standard Smith-Waterman

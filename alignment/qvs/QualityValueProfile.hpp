@@ -1,11 +1,11 @@
 #ifndef _BLASR_QUALITY_VALUE_PROFILE_HPP_
 #define _BLASR_QUALITY_VALUE_PROFILE_HPP_
 
+#include "../tuples/DNATuple.hpp"
+#include "../tuples/TupleMetrics.hpp"
 #include <fstream>
-#include "tuples/DNATuple.hpp"
-#include "tuples/TupleMetrics.hpp"
-#include "matrix/FlatMatrix.hpp"
-#include "qvs/QualityValue.hpp"
+#include <qvs/QualityValue.hpp> // pbdata
+#include <matrix/FlatMatrix.hpp> // pbdata
 
 class QualityValueProfile {
 	int wordSize;

@@ -4,8 +4,8 @@
 #include <string>
 #include <sstream>
 
-#include "sam/SAMKeywordValuePair.hpp"
-#include "sam/CigarString.h"
+#include "SAMKeywordValuePair.hpp"
+#include "CigarString.h"
 
 class SAMAlignment {
  public:

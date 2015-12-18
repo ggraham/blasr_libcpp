@@ -2,10 +2,10 @@
 #define _BLASR_BWT_SEARCH_HPP_
 
 #include <vector>
-#include "FASTASequence.hpp"
-#include "bwt/BWT.hpp"
-#include "datastructures/anchoring/MatchPos.hpp"
-#include "datastructures/anchoring/AnchorParameters.hpp"
+#include <FASTASequence.hpp> // pbdata
+#include "../../bwt/BWT.hpp"
+#include "../../datastructures/anchoring/MatchPos.hpp"
+#include "../../datastructures/anchoring/AnchorParameters.hpp"
 
 int MapReadToGenome(BWT & bwt,
 	FASTASequence & seq,
@@ -30,6 +30,6 @@ int MapReadToGenome(BWT & bwt,
     AnchorParameters & params, int & numBasesAnchored, 
     T_MappingBuffers & mappingBuffers);
 
-#include "algorithms/anchoring/BWTSearchImpl.hpp"
+#include "BWTSearchImpl.hpp"
 
 #endif

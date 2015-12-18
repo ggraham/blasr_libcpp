@@ -2,10 +2,11 @@
 #define _BLASR_SAM_TO_ALIGNMENT_CANDIDATE_ADAPTER_HPP_
 
 #include <map>
+// pbdata
+#include <sam/SAMAlignment.hpp>
+#include <sam/SAMFlag.h>
 
-#include "sam/SAMAlignment.hpp"
-#include "sam/SAMFlag.h"
-#include "datastructures/alignment/AlignmentCandidate.hpp"
+#include "AlignmentCandidate.hpp"
 
 void InitializeCandidateFromSAM(SAMAlignment &sam,
                                 AlignmentCandidate<> &candidate);

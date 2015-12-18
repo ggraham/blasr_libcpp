@@ -9,8 +9,8 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-#include "Types.h"
-#include "Enumerations.h"
+#include "../Types.h"
+#include "../Enumerations.h"
 
 
 class RegionTypeMap {

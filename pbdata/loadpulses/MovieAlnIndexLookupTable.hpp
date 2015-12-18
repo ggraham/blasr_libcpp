@@ -39,7 +39,7 @@
 #include <iostream>
 #include <string>
 
-#include "Types.h"
+#include "../Types.h"
 
 class MovieAlnIndexLookupTable {
 public: 

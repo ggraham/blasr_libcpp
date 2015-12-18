@@ -1,7 +1,7 @@
 #ifndef _BLASR_COORDINATE_HPP_
 #define _BLASR_COORDINATE_HPP_
 
-#include "Types.h"
+#include <Types.h> // pbdata
 
 class Coordinate {
 private:

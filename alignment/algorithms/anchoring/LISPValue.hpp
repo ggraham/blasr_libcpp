@@ -2,9 +2,9 @@
 #define _BLASR_LISPVALUE_HPP_
 
 #include <math.h>
-#include "datastructures/anchoring/MatchPos.hpp"
-#include "tuples/TupleCountTable.hpp"
-#include "algorithms/anchoring/ScoreAnchors.hpp"
+#include "../../datastructures/anchoring/MatchPos.hpp"
+#include "../../tuples/TupleCountTable.hpp"
+#include "ScoreAnchors.hpp"
 
 template<typename T_MatchPos>
 void StoreNonOverlappingIndices(std::vector<T_MatchPos> &lis, 
@@ -19,6 +19,6 @@ float ComputeLISPValue(std::vector<T_MatchPos> &lis,
 	TupleMetrics &tm, TupleCountTable<T_TextSequence, T_Tuple> &ct,
     int &lisNBases, int &lisSize );
 
-#include "algorithms/anchoring/LISPValueImpl.hpp"
+#include "LISPValueImpl.hpp"
 
 #endif

@@ -7,8 +7,8 @@
 #include <assert.h>
 #include <algorithm>
 
-#include "Types.h"
-#include "Enumerations.h"
+#include "../Types.h"
+#include "../Enumerations.h"
 
 class CmpAlignmentBase  {
 public:

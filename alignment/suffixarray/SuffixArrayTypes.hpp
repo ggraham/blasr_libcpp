@@ -7,7 +7,7 @@
 
 #include "CompressedSequence.hpp"
 #include "Compare4BitCompressed.hpp"
-#include "FASTASequence.hpp"
+#include <FASTASequence.hpp> // pbdata
 
 typedef SuffixArray<Nucleotide, std::vector<int> > DNASuffixArray;
 typedef SuffixArray<Nucleotide, std::vector<int>, 

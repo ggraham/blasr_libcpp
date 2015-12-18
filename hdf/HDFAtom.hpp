@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
-#include "H5Cpp.h"
+#include <H5Cpp.h>
 
 #include "HDFConfig.hpp"
 #include "HDFGroup.hpp"

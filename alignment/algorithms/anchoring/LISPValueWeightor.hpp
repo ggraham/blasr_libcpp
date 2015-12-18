@@ -1,8 +1,8 @@
 #ifndef _BLASR_LISPVALUE_WEIGHTOR_HPP_
 #define _BLASR_LISPVALUE_WEIGHTOR_HPP_
 
-#include "algorithms/anchoring/LISPValue.hpp"
-#include "tuples/TupleMetrics.hpp"
+#include "LISPValue.hpp"
+#include "../../tuples/TupleMetrics.hpp"
 
 template<typename T_RefSequence, typename T_MatchList>
 class LISSumOfLogPWeightor {
@@ -47,6 +47,6 @@ public:
     float operator()(T_MatchList &matchList);
 };
 
-#include "algorithms/anchoring/LISPValueWeightorImpl.hpp"
+#include "LISPValueWeightorImpl.hpp"
 
 #endif

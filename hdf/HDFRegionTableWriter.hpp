@@ -2,9 +2,9 @@
 #define _BLASR_HDF_REGION_TABLE_WRITER_HPP_
 
 #include <string>
-
-#include "Enumerations.h"
-#include "reads/RegionTable.hpp"
+// pbdata/
+#include <Enumerations.h>
+#include <reads/RegionTable.hpp>
 #include "HDFFile.hpp"
 #include "HDFArray.hpp"
 #include "HDF2DArray.hpp"

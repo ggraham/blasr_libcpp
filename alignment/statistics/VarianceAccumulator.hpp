@@ -23,6 +23,6 @@ public:
     void Append(T v);
 };
 
-#include "statistics/VarianceAccumulatorImpl.hpp"
+#include "VarianceAccumulatorImpl.hpp"
 
 #endif

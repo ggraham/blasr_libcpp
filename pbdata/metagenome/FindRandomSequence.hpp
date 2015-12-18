@@ -2,8 +2,8 @@
 #define _FIND_RANDOM_SEQUENCE_HPP_
 
 #include <vector>
-#include "DNASequence.hpp"
-#include "statistics/StatUtils.hpp"
+#include "../DNASequence.hpp"
+#include "statistics/StatUtils.hpp" // Where does this come from? Does this compile anymore?
 
 
 template<typename T_Sequence>

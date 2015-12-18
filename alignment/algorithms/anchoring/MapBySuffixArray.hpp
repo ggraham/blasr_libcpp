@@ -2,11 +2,11 @@
 #define _BLASR_MAP_BY_SUFFIX_ARRAY_HPP_
 
 #include <algorithm>
-#include "suffixarray/SuffixArray.hpp"
-#include "datastructures/anchoring/MatchPos.hpp"
-#include "datastructures/anchoring/AnchorParameters.hpp"
-#include "algorithms/alignment/SWAlign.hpp"
-#include "algorithms/alignment/ScoreMatrices.hpp"
+#include "../../suffixarray/SuffixArray.hpp"
+#include "../../datastructures/anchoring/MatchPos.hpp"
+#include "../../datastructures/anchoring/AnchorParameters.hpp"
+#include "../../algorithms/alignment/SWAlign.hpp"
+#include "../../algorithms/alignment/ScoreMatrices.hpp"
 
 /*
  * Parameters:
@@ -40,5 +40,5 @@ int MapReadToGenome(T_RefSequence &reference,
 	vector<T_MatchPos> &matchPosList,
 	AnchorParameters &anchorParameters);
 
-#include "algorithms/anchoring/MapBySuffixArrayImpl.hpp"
+#include "MapBySuffixArrayImpl.hpp"
 #endif

@@ -6,8 +6,8 @@
 
 #include "PackedHash.hpp"
 
-#include "DNASequence.hpp"
-#include "Types.h"
+#include <DNASequence.hpp> // pbdata
+#include <Types.h> // pbdata
 #include "utils/BitUtils.hpp"
 
 template< typename T_BWT_Sequence>

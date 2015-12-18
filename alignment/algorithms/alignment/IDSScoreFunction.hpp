@@ -5,9 +5,10 @@
 #include <cmath>
 #include "ScoreMatrices.hpp"
 #include "BaseScoreFunction.hpp"
-#include "FASTASequence.hpp"
-#include "FASTQSequence.hpp"
-#include "utils/LogUtils.hpp"
+#include "../../utils/LogUtils.hpp"
+// pbdata
+#include <FASTASequence.hpp>
+#include <FASTQSequence.hpp>
 
 float SumAsValidPhred(float v1, float v2, float v3); 
 

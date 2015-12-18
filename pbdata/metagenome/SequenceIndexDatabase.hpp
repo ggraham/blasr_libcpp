@@ -9,9 +9,9 @@
 #include <sstream>
 #include <cstring>
 #include <algorithm>
-#include "Types.h"
-#include "DNASequence.hpp"
-#include "StringUtils.hpp"
+#include "../Types.h"
+#include "../DNASequence.hpp"
+#include "../StringUtils.hpp"
 
 
 #define SEQUENCE_INDEX_DATABASE_MAGIC 1233211233
@@ -91,6 +91,6 @@ public:
     DNALength Length(DNALength pos);
 };
 
-#include "metagenome/SequenceIndexDatabaseImpl.hpp"
+#include "SequenceIndexDatabaseImpl.hpp"
 
 #endif

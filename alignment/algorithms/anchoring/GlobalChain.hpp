@@ -2,9 +2,11 @@
 #define _BLASR_GLOBAL_CHAIN_HPP_
 
 #include <vector>
-#include "Types.h"
-#include "DNASequence.hpp"
-#include "algorithms/anchoring/PrioritySearchTree.hpp"
+// pbdata
+#include <Types.h>
+#include <DNASequence.hpp>
+
+#include "PrioritySearchTree.hpp"
 
 template<typename T_Fragment, typename T_Endpoint>
 void FragmentSetToEndpoints(T_Fragment* fragments, int nFragments, 
@@ -32,6 +34,6 @@ int GlobalChain(std::vector<T_Fragment> &fragments,
     std::vector<VectorIndex> &optFragmentChainIndices,
     std::vector<T_Endpoint> *bufEndpointsPtr = NULL);
 
-#include "algorithms/anchoring/GlobalChainImpl.hpp"
+#include "GlobalChainImpl.hpp"
 
 #endif

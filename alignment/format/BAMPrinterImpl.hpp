@@ -4,11 +4,11 @@
 #ifdef USE_PBBAM
 
 #include <algorithm>
-#include "utils/SMRTTitle.hpp"
+#include <utils/SMRTTitle.hpp> // pbdata
 using namespace BAMOutput;
 using namespace std;
-#include "pbbam/BamRecord.h"
-#include "pbbam/BamFile.h"
+#include <pbbam/BamRecord.h>
+#include <pbbam/BamFile.h>
 
 template<typename T_Sequence>
 void AlignmentToBamRecord(T_AlignmentCandidate & alignment, 

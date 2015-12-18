@@ -6,12 +6,14 @@
 #include <string>
 #include <cstring>
 #include <ostream>
-#include "Types.h"
-#include "NucConversion.hpp"
-#include "Enumerations.h"
-#include "DNASequence.hpp"
-#include "FASTASequence.hpp"
-#include "FASTQSequence.hpp"
+// pbdata
+#include <Types.h>
+#include <NucConversion.hpp>
+#include <Enumerations.h>
+#include <DNASequence.hpp>
+#include <FASTASequence.hpp>
+#include <FASTQSequence.hpp>
+
 #include "DistanceMatrixScoreFunction.hpp"
 
 template<typename T_RefSequence, typename T_QuerySequence>

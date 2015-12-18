@@ -6,12 +6,12 @@
 #include <set>
 #include <iostream>
 #include <sstream>
-#include "Types.h"
-#include "Enumerations.h"
-#include "StringUtils.hpp"
-#include "files/BaseSequenceIO.hpp"
-#include "files/ReaderAgglomerate.hpp"
-#include "datastructures/alignmentset/SAMSupplementalQVList.hpp"
+#include <Types.h> // pbdata
+#include <Enumerations.h> // pbdata
+#include <StringUtils.hpp> // pbdata
+#include "../files/BaseSequenceIO.hpp"
+#include "../files/ReaderAgglomerate.hpp"
+#include "../datastructures/alignmentset/SAMSupplementalQVList.hpp"
 
 /// This is a simple implementation for generating SAM Headers. 
 /// It is provided such that libblasr can compile with and without
