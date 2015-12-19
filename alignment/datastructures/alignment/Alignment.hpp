@@ -2,10 +2,10 @@
 #define _BLASR_ALIGNMENT_HPP_
 
 #include "Path.h"
+#include "AlignmentStats.hpp"
 #include <vector>
 #include <string>
-#include "DNASequence.hpp"
-#include "datastructures/alignment/AlignmentStats.hpp"
+#include <DNASequence.hpp> // pbdata
 
 namespace blasr {
 class Block {

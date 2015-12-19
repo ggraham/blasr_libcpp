@@ -1,5 +1,5 @@
 #include <math.h>
-#include "defs.h"
+#include "../defs.h"
 #include <assert.h>
 #include "QualityValue.hpp"
 

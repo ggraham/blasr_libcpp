@@ -1,8 +1,10 @@
 #ifndef _BLASR_QUALITY_VALUE_SCORE_FUNCTION_HPP_
 #define _BLASR_QUALITY_VALUE_SCORE_FUNCTION_HPP_
-#include "FASTASequence.hpp"
-#include "FASTQSequence.hpp"
-#include "NucConversion.hpp"
+// pbdata
+#include <FASTASequence.hpp>
+#include <FASTQSequence.hpp>
+#include <NucConversion.hpp>
+
 #include "ScoreMatrices.hpp"
 #include "BaseScoreFunction.hpp"
 

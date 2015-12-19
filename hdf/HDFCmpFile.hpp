@@ -6,7 +6,7 @@
 #include <sstream>
 #include <map>
 
-#include "H5Cpp.h"
+#include <H5Cpp.h>
 
 #include "HDFAtom.hpp"
 #include "HDFArray.hpp"
@@ -24,16 +24,18 @@
 #include "HDFCmpSupportedFields.hpp"
 #include "HDFFileLogGroup.hpp"
 
-#include "SMRTSequence.hpp"
+// pbdata/
+#include <SMRTSequence.hpp>
+#include <alignment/CmpAlignment.hpp> // not ../alignment!
+#include <saf/RefInfo.hpp>
 
-#include "datastructures/alignment/CmpFile.hpp"
-#include "datastructures/alignment/Alignment.hpp"
-#include "datastructures/alignment/AlignmentCandidate.hpp"
-#include "alignment/CmpAlignment.hpp"
-#include "datastructures/alignment/CmpReadGroupTable.h"
-#include "datastructures/alignment/CmpRefSeqTable.h"
-#include "datastructures/alignment/ByteAlignment.h"
-#include "saf/RefInfo.hpp"
+// alignment/datastructures/alignment  -- Yes, seriously.
+#include <datastructures/alignment/CmpFile.hpp>
+#include <datastructures/alignment/Alignment.hpp>
+#include <datastructures/alignment/AlignmentCandidate.hpp>
+#include <datastructures/alignment/CmpReadGroupTable.h>
+#include <datastructures/alignment/CmpRefSeqTable.h>
+#include <datastructures/alignment/ByteAlignment.h>
 
 using namespace H5;
 using namespace std;

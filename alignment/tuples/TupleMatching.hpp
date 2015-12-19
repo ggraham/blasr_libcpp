@@ -1,11 +1,11 @@
 #ifndef _BLASR_TUPLE_MATCHING_HPP_
 #define _BLASR_TUPLE_MATCHING_HPP_
 
-#include "tuples/TupleMetrics.hpp"
-#include "tuples/TupleList.hpp"
-#include "tuples/BaseTuple.hpp"
-#include "tuples/DNATuple.hpp"
-#include "tuples/TupleMatching.hpp"
+#include "TupleMetrics.hpp"
+#include "TupleList.hpp"
+#include "BaseTuple.hpp"
+#include "DNATuple.hpp"
+#include "TupleMatching.hpp"
 
 template<typename Sequence, typename T_TupleList> 
 int SequenceToTupleList(

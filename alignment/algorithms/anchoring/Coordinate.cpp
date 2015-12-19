@@ -1,4 +1,4 @@
-#include "algorithms/anchoring/Coordinate.hpp"
+#include "Coordinate.hpp"
 
 
 int Coordinate::operator<=(const Coordinate &rhs) const {

@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "H5Cpp.h"
+#include <H5Cpp.h>
 #include "HDFGroup.hpp"
 #include "HDFZMWReader.hpp"
 #include "HDFScanDataReader.hpp"

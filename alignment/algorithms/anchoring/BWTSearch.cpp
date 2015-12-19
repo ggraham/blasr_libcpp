@@ -1,4 +1,4 @@
-#include "algorithms/anchoring/BWTSearch.hpp"
+#include "BWTSearch.hpp"
 
 int MapReadToGenome(BWT & bwt,
 	FASTASequence & seq,

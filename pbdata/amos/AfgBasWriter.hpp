@@ -4,7 +4,7 @@
 #include <cmath>
 #include <fstream>
 #include <sstream>
-#include "SMRTSequence.hpp"
+#include "../SMRTSequence.hpp"
 
 class AfgBasWriter {
     // TODO correct file type? outFile

@@ -1,7 +1,7 @@
 #ifndef DATASTRUCTURES_READS_ACQ_PARAMS_H_
 #define DATASTRUCTURES_READS_ACQ_PARAMS_H_
 
-#include "Types.h"
+#include "../Types.h"
 class ScanData;
 class HDFScanDataWriter;
 

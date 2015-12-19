@@ -1,8 +1,8 @@
 #ifndef _BLASR_INTERVAL_ALIGNMENT_PRINTER_HPP_
 #define _BLASR_INTERVAL_ALIGNMENT_PRINTER_HPP_
 
-#include "datastructures/alignment/AlignmentCandidate.hpp"
-#include "FASTQSequence.hpp"
+#include "../datastructures/alignment/AlignmentCandidate.hpp"
+#include <FASTQSequence.hpp> // pbdata
 
 namespace IntervalOutput{
 

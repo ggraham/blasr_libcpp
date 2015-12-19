@@ -3,7 +3,7 @@
 
 #include "HDFAtom.hpp"
 #include "HDF2DArray.hpp"
-#include "datastructures/alignment/CmpFile.hpp"
+#include <datastructures/alignment/CmpFile.hpp> // ../alignment/datastructures/alignment
 template <typename T_Alignment>
 class HDFCmpRootGroup {
  public:

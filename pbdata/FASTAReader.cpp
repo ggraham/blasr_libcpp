@@ -5,8 +5,8 @@
 #include <limits.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include "sys/mman.h"
-#include "sys/fcntl.h"
+#include <sys/mman.h>
+#include <sys/fcntl.h>
 
 #include "Enumerations.h"
 #include "NucConversion.hpp"

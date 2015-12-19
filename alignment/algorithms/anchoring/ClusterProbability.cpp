@@ -1,4 +1,4 @@
-#include "algorithms/anchoring/ClusterProbability.hpp"
+#include "ClusterProbability.hpp"
 #include <cassert>
 #include <math.h>
 

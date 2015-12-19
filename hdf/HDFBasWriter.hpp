@@ -2,10 +2,12 @@
 #define _BLASR_HDF_BAS_WRITER_HPP_
 
 #include <sstream>
-#include "Types.h"
-#include "Enumerations.h"
-#include "utils/SMRTReadUtils.hpp"
-#include "SMRTSequence.hpp"
+// pbdata/
+#include <Types.h>
+#include <Enumerations.h>
+#include <utils/SMRTReadUtils.hpp>
+#include <SMRTSequence.hpp>
+
 #include "HDFAtom.hpp"
 #include "HDFFile.hpp"
 #include "DatasetCollection.hpp"

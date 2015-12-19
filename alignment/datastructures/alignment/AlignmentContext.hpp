@@ -2,7 +2,8 @@
 #define _BLASR_ALIGNMENT_CONTEXT_HPP_
 
 #include <string>
-#include "Enumerations.h"
+// pbdata
+#include <Enumerations.h>
 
 class AlignmentContext {
 public:

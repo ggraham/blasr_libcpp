@@ -7,17 +7,17 @@
 #include <vector>
 
 // HDF5 library includes
-#include "hdf5.h"
-#include "H5Cpp.h"
+#include <hdf5.h>
+#include <H5Cpp.h>
 
-#include "Types.h"
+#include <Types.h> // pbdata
 #include "HDFConfig.hpp"
 #include "HDFData.hpp"
 #include "HDFGroup.hpp"
 #include "HDFWriteBuffer.hpp"
 #include "HDFFile.hpp"
-#include "DNASequence.hpp"
-#include "FASTQSequence.hpp"
+#include <DNASequence.hpp> // pbdata
+#include <FASTQSequence.hpp> // pbdata
 
 /*
  *

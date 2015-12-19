@@ -1,9 +1,9 @@
 #ifndef _BLASR_FULL_QV_ALIGN_HPP_
 #define _BLASR_FULL_QV_ALIGN_HPP_
-
-#include "matrix/Matrix.hpp"
-#include "FASTQSequence.hpp"
-#include "FASTASequence.hpp"
+// pbdata
+#include <matrix/Matrix.hpp>
+#include <FASTQSequence.hpp>
+#include <FASTASequence.hpp>
 
 template<typename T_Query, typename T_Reference>
 double FullQVAlign(T_Query       &query,

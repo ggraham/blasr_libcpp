@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <vector>
 #include <assert.h>
-#include "statistics/StatUtils.hpp"
+#include "../statistics/StatUtils.hpp"
 
 template<typename T_Data>
 class CDFMap {

@@ -1,4 +1,4 @@
-#include "algorithms/alignment/KBandAlign.hpp"
+#include "KBandAlign.hpp"
 
 DefaultGuide::DefaultGuide() {}
 

@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 #include <sstream>
-#include "Types.h"
-#include "StringUtils.hpp"
+#include "../Types.h"
+#include "../StringUtils.hpp"
 
 class SMRTTitle {
 public:

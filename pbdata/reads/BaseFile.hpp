@@ -3,8 +3,8 @@
 
 #include <stdint.h>
 #include <vector>
-#include "Enumerations.h"
-#include "SMRTSequence.hpp"
+#include "../Enumerations.h"
+#include "../SMRTSequence.hpp"
 
 #include "HoleXY.hpp"
 #include "PulseBaseCommon.hpp"

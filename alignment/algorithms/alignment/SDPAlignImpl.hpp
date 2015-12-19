@@ -6,17 +6,19 @@
 #include <math.h>
 #include <cstdlib>
 #include <ostream>
-#include "Types.h"
-#include "defs.h"
-#include "utils.hpp"
-#include "Enumerations.h"
-#include "DNASequence.hpp"
-#include "matrix/FlatMatrix.hpp"
-#include "datastructures/alignment/Alignment.hpp"
-#include "sdp/SDPFragment.hpp"
+// pbdata
+#include <Types.h>
+#include <defs.h>
+#include <utils.hpp>
+#include <Enumerations.h>
+#include <DNASequence.hpp>
+#include <matrix/FlatMatrix.hpp>
+
+#include "../../datastructures/alignment/Alignment.hpp"
 #include "GraphPaper.hpp"
 #include "AlignmentUtils.hpp"
 #include "SWAlign.hpp"
+#include "sdp/SDPFragment.hpp"
 #include "sdp/SparseDynamicProgramming.hpp"
 #include "SDPAlign.hpp"
 

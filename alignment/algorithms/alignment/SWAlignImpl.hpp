@@ -3,14 +3,16 @@
 #include <stdint.h>
 #include <iostream>
 #include <ostream>
-#include "Types.h"
-#include "defs.h"
-#include "DNASequence.hpp"
-#include "matrix/FlatMatrix.hpp"
-#include "datastructures/alignment/Path.h"
-#include "datastructures/alignment/AlignmentMap.hpp"
-#include "datastructures/alignment/AlignmentStats.hpp"
-#include "datastructures/alignment/Alignment.hpp"
+// pbdata
+#include <Types.h>
+#include <defs.h>
+#include <DNASequence.hpp>
+#include <matrix/FlatMatrix.hpp>
+
+#include "../../datastructures/alignment/Path.h"
+#include "../../datastructures/alignment/AlignmentMap.hpp"
+#include "../../datastructures/alignment/AlignmentStats.hpp"
+#include "../../datastructures/alignment/Alignment.hpp"
 #include "AlignmentUtils.hpp"
 #include "SWAlign.hpp"
 

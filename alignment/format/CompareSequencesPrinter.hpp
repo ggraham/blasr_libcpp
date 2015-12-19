@@ -3,7 +3,7 @@
 
 #include <fstream>
 #include <iostream>
-#include "algorithms/alignment/AlignmentUtils.hpp"
+#include "../algorithms/alignment/AlignmentUtils.hpp"
 
 namespace CompareSequencesOutput{
 

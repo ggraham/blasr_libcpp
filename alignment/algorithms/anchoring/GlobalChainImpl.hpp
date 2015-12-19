@@ -2,9 +2,11 @@
 #define _BLASR_GLOBAL_CHAIN_IMPL_HPP_
 
 #include <algorithm>
-#include "Types.h"
-#include "DNASequence.hpp"
-#include "algorithms/anchoring/PrioritySearchTree.hpp"
+// pbdata
+#include <Types.h>
+#include <DNASequence.hpp>
+
+#include "PrioritySearchTree.hpp"
 
 using namespace std;
 

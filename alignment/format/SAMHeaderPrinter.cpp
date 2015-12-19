@@ -1,5 +1,5 @@
 #include <assert.h>
-#include "format/SAMHeaderPrinter.hpp"
+#include "SAMHeaderPrinter.hpp"
 
 const std::string SAMVERSION("1.5");
 const std::string PBBAMVERSION("3.0.1");

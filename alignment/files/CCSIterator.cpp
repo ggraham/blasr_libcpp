@@ -1,4 +1,4 @@
-#include "files/CCSIterator.hpp"
+#include "CCSIterator.hpp"
 
 void CCSIterator::Initialize(CCSSequence *_seqPtr) {
     seqPtr = _seqPtr;

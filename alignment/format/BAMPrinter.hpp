@@ -4,9 +4,9 @@
 #ifdef USE_PBBAM
 #include <sstream>
 #include <stdint.h>
-#include "format/SAMPrinter.hpp"
-#include "pbbam/BamHeader.h"
-#include "pbbam/BamWriter.h"
+#include "SAMPrinter.hpp"
+#include <pbbam/BamHeader.h>
+#include <pbbam/BamWriter.h>
 
 template<typename T_Sequence>
 void AlignmentToBamRecord(T_AlignmentCandidate & alignment, 

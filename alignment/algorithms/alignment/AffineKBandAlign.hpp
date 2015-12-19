@@ -4,10 +4,10 @@
 #include <cassert>
 #include <vector>
 #include <iostream>
-#include "NucConversion.hpp"
-#include "defs.h"
-#include "matrix/FlatMatrix.hpp"
-#include "datastructures/alignment/Alignment.hpp"
+#include <NucConversion.hpp> // pbdata
+#include <defs.h> // pbdata
+#include <matrix/FlatMatrix.hpp> // pbdata
+#include "../../datastructures/alignment/Alignment.hpp"
 #include "KBandAlign.hpp"
 
 template<typename T_QuerySequence, typename T_TargetSequence, typename T_Alignment>

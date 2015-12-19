@@ -5,8 +5,10 @@
 
 #include <sstream>
 #include <memory>
-#include "Enumerations.h"
-#include "SMRTSequence.hpp"
+// pbdata/
+#include <Enumerations.h>
+#include <SMRTSequence.hpp>
+
 #include "HDFFile.hpp"
 #include "HDFWriterBase.hpp"
 #include "HDFScanDataWriter.hpp"

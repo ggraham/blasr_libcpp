@@ -4,7 +4,7 @@
 #include <string>
 #include "HDFArray.hpp"
 #include "HDFGroup.hpp"
-#include "saf/AlnGroup.hpp"
+#include <saf/AlnGroup.hpp> // pbdata
 
 class HDFAlnGroupGroup {
 public:

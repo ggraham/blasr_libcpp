@@ -1,14 +1,15 @@
 #ifndef _BLASR_CMP_FILE_HPP_
 #define _BLASR_CMP_FILE_HPP_
 
-#include "reads/ReadType.hpp"
-#include "datastructures/alignment/CmpIndexedStringTable.h"
-#include "saf/AlnGroup.hpp"
-#include "saf/AlnInfo.hpp"
-#include "saf/RefGroup.hpp"
-#include "saf/RefInfo.hpp"
-#include "saf/MovieInfo.hpp"
-#include "Enumerations.h"
+#include "CmpIndexedStringTable.h"
+// pbdata
+#include <reads/ReadType.hpp>
+#include <saf/AlnGroup.hpp>
+#include <saf/AlnInfo.hpp>
+#include <saf/RefGroup.hpp>
+#include <saf/RefInfo.hpp>
+#include <saf/MovieInfo.hpp>
+#include <Enumerations.h>
 
 #include <vector>
 

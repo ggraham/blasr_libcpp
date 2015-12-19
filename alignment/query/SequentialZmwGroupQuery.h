@@ -1,9 +1,9 @@
-#include "libconfig.h"
+#include <libconfig.h>
 #ifdef USE_PBBAM
 #ifndef SEQUENTIAL_ZMWGROUPQUERY_H
 #define SEQUENTIAL_ZMWGROUPQUERY_H
 
-#include "pbbam/internal/QueryBase.h"
+#include <pbbam/internal/QueryBase.h>
 #include <memory>
 
 namespace PacBio {

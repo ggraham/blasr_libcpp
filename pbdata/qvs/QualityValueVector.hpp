@@ -4,8 +4,8 @@
 #include <cstddef>
 #include <ostream>
 #include <cstring>
-#include "Types.h"
-#include "utils.hpp"
+#include "../Types.h"
+#include "../utils.hpp"
 #include "QualityValue.hpp"
 
 template<typename T_QV>

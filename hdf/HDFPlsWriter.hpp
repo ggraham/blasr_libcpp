@@ -9,8 +9,10 @@
 #include "data/hdf/HDFAtom.h"
 #include "data/hdf/HDFFile.h"
 #include "data/hdf/PlatformId.h"
-#include "utils/SMRTReadUtils.h"
-#include "FASTQSequence.h"
+// pbdata/
+#include <utils/SMRTReadUtils.h>
+#include <FASTQSequence.h>
+
 #include <sstream>
 
 using namespace H5;

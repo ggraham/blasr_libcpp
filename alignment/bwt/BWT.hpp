@@ -5,9 +5,9 @@
 #include <fstream>
 #include "Occ.hpp"
 #include "Pos.hpp"
-#include "suffixarray/SuffixArray.hpp"
+#include "../suffixarray/SuffixArray.hpp"
 #include "PackedDNASequence.hpp"
-#include "FASTASequence.hpp"
+#include <FASTASequence.hpp> // pbdata
 
 /*
  * Define an Occurrence table appropriate for Gb sized genomes.

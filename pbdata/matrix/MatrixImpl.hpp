@@ -5,8 +5,8 @@
 #include <iostream>
 #include <fstream>
 #include <stdint.h>
-#include "utils.hpp"
-#include "Types.h"
+#include "../utils.hpp"
+#include "../Types.h"
 
 template<typename T>
 void CreateMatrix(int rows, int cols, std::vector<T*> matrix) {

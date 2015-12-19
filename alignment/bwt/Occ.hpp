@@ -4,11 +4,11 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
-#include "DNASequence.hpp"
-#include "NucConversion.hpp"
-#include "utils.hpp"
-#include "matrix/Matrix.hpp"
-#include "matrix/FlatMatrix.hpp"
+#include <DNASequence.hpp> // pbdata
+#include <NucConversion.hpp> // pbdata
+#include <utils.hpp> // pbdata
+#include <matrix/Matrix.hpp> // pbdata
+#include <matrix/FlatMatrix.hpp> // pbdata
 
 template<typename T_BWTSequence, typename T_Major, typename T_Minor>
 class Occ {

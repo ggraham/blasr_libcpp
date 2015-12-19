@@ -5,25 +5,27 @@
 #include <cmath>
 #include <limits.h>
 #include <ostream>
-#include "Types.h"
-#include "defs.h"
-#include "NucConversion.hpp"
-#include "DNASequence.hpp"
+// pbdata
+#include <Types.h>
+#include <defs.h>
+#include <NucConversion.hpp>
+#include <DNASequence.hpp>
+#include <matrix/FlatMatrix.hpp>
+#include <matrix/Matrix.hpp>
+#include <qvs/QualityValue.hpp>
+#include <qvs/QualityValueVector.hpp>
+
+#include "../../utils/LogUtils.hpp"
+#include "../../utils/PhredUtils.hpp"
+#include "../../datastructures/alignment/Alignment.hpp"
+#include "../../datastructures/anchoring/MatchPos.hpp"
+#include "../../tuples/TupleList.hpp"
+#include "../../tuples/TupleMetrics.hpp"
+#include "../../tuples/DNATuple.hpp"
 #include "sdp/SDPFragment.hpp"
-#include "matrix/FlatMatrix.hpp"
-#include "datastructures/alignment/Alignment.hpp"
-#include "datastructures/anchoring/MatchPos.hpp"
-#include "matrix/Matrix.hpp"
-#include "tuples/TupleList.hpp"
-#include "tuples/TupleMetrics.hpp"
-#include "tuples/DNATuple.hpp"
-#include "utils/LogUtils.hpp"
-#include "utils/PhredUtils.hpp"
-#include "qvs/QualityValue.hpp"
-#include "qvs/QualityValueVector.hpp"
 #include "AlignmentUtils.hpp"
 #include "DistanceMatrixScoreFunction.hpp"
-#include "algorithms/alignment/SDPAlign.hpp"
+#include "SDPAlign.hpp"
 
 #define LOWEST_LOG_VALUE  -700
 

@@ -4,9 +4,9 @@
 #include <string>
 #include <vector>
 
-#include "H5Cpp.h"
+#include <H5Cpp.h>
 
-#include "reads/RegionTable.hpp"
+#include <reads/RegionTable.hpp> // pbdata/
 #include "HDFFile.hpp"
 #include "HDFArray.hpp"
 #include "HDF2DArray.hpp"

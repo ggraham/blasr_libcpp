@@ -5,10 +5,10 @@
 #include <fstream>
 #include <sstream>
 #include "SuffixArray.hpp"
-#include "ipc/SharedMemoryAllocator.hpp"
-#include "tuples/DNATuple.hpp"
-#include "tuples/CompressedDNATuple.hpp"
-#include "algorithms/compare/CompareStrings.hpp"
+#include "../ipc/SharedMemoryAllocator.hpp"
+#include "../tuples/DNATuple.hpp"
+#include "../tuples/CompressedDNATuple.hpp"
+#include "../algorithms/compare/CompareStrings.hpp"
 
 
 template<typename T, 

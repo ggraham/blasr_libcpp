@@ -4,7 +4,7 @@
 #include "HDFAtom.hpp"
 #include "HDFArray.hpp"
 #include "HDFGroup.hpp"
-#include "saf/RefGroup.hpp"
+#include <saf/RefGroup.hpp> // pbdata/
 
 class HDFRefGroupGroup {
  public:

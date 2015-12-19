@@ -3,10 +3,10 @@
 
 #include <algorithm>
 #include <cmath>
-#include "SMRTSequence.hpp"
-#include "statistics/StatUtils.hpp"
-#include "reads/ReadInterval.hpp"
-#include "reads/RegionTable.hpp"
+#include <SMRTSequence.hpp>
+#include <reads/ReadInterval.hpp>
+#include <reads/RegionTable.hpp>
+#include "../statistics/StatUtils.hpp"
 
 bool LookupHQRegion(int holeNumber, RegionTable &regionTable, 
     int &start, int &end, int &score);
@@ -79,6 +79,6 @@ void CreateDirections(std::vector<int> & directions, const int & n);
 // Flop all directions in the given vector, if flop is true.
 void UpdateDirections(std::vector<int> & directions, bool flop = false);
 
-#include "utils/RegionUtilsImpl.hpp"
+#include "RegionUtilsImpl.hpp"
 
 #endif

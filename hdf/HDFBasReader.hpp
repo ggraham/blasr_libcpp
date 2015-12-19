@@ -7,12 +7,13 @@
 #include <string>
 #include <cstdint>
 
-#include "Enumerations.h"
-#include "FASTQSequence.hpp"
-#include "SMRTSequence.hpp"
-#include "VectorUtils.hpp"
-#include "ChangeListID.hpp"
-#include "reads/BaseFile.hpp"
+// pbdata/
+#include <Enumerations.h>
+#include <FASTQSequence.hpp>
+#include <SMRTSequence.hpp>
+#include <VectorUtils.hpp>
+#include <ChangeListID.hpp>
+#include <reads/BaseFile.hpp>
 
 #include "HDFArray.hpp"
 #include "HDF2DArray.hpp"

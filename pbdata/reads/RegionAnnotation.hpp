@@ -10,9 +10,9 @@
 #include <vector>
 #include <map>
 #include <ostream>
-#include "Types.h"
-#include "Enumerations.h"
-#include "PacBioDefs.h"
+#include "../Types.h"
+#include "../Enumerations.h"
+#include "../PacBioDefs.h"
 #include "RegionTypeMap.hpp"
 
 

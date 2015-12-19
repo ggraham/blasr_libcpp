@@ -2,7 +2,7 @@
 #define _BLASR_PRIORITY_SEARCH_TREE_HPP_
 
 #include <vector>
-#include "algorithms/anchoring/BasicEndpoint.hpp"
+#include "BasicEndpoint.hpp"
 
 /*
  * Define a priority search tree on a point that implements 
@@ -64,6 +64,6 @@ public:
         KeyType maxPointKey, int &maxPointIndex);
 };
 
-#include "algorithms/anchoring/PrioritySearchTreeImpl.hpp"
+#include "PrioritySearchTreeImpl.hpp"
 
 #endif

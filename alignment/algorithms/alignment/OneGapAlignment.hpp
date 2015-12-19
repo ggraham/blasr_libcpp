@@ -2,11 +2,13 @@
 #define _BLASR_ONEGAP_ALIGNMENT_HPP_
 
 #include <limits.h>
-#include "Types.h"
-#include "FASTQSequence.hpp"
-#include "matrix/FlatMatrix.hpp"
-#include "datastructures/alignment/Path.h"
-#include "datastructures/alignment/Alignment.hpp"
+// pbdata
+#include <Types.h>
+#include <FASTQSequence.hpp>
+#include <matrix/FlatMatrix.hpp>
+
+#include "../../datastructures/alignment/Path.h"
+#include "../../datastructures/alignment/Alignment.hpp"
 
 /*
    Perform gapped alignment that aligns the entire query sequence to

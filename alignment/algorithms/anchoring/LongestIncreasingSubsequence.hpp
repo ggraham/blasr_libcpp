@@ -26,6 +26,6 @@ int LongestIncreasingSubset(T *x, int xLength, vector<int> &subsetIndices,
 template<typename T, typename F_IntValue>
 int LongestIncreasingSubset(T*x, int& xLength, vector<int> &subsetIndices);
 
-#include "algorithms/anchoring/LongestIncreasingSubsequenceImpl.hpp"
+#include "LongestIncreasingSubsequenceImpl.hpp"
 
 #endif

@@ -1,11 +1,12 @@
 #ifndef _BLASR_SDP_ALIGN_HPP_
 #define _BLASR_SDP_ALIGN_HPP_
+// pbdata
+#include <DNASequence.hpp>
+#include <FASTASequence.hpp>
+#include <FASTQSequence.hpp>
 
-#include "DNASequence.hpp"
-#include "tuples/TupleMatching.hpp"
+#include "../../tuples/TupleMatching.hpp"
 #include "sdp/SDPFragment.hpp"
-#include "FASTASequence.hpp"
-#include "FASTQSequence.hpp"
 #include "DistanceMatrixScoreFunction.hpp"
 
 #define SDP_DETAILED_WORD_SIZE 5

@@ -1,12 +1,12 @@
 #ifndef _BLASR_ALIGNMENT_SET_TO_CMPH5_ADAPTER_HPP_
 #define _BLASR_ALIGNMENT_SET_TO_CMPH5_ADAPTER_HPP_
 
-#include "utils/SMRTReadUtils.hpp"
-#include "HDFCmpFile.hpp"
-#include "sam/AlignmentSet.hpp"
+#include <utils/SMRTReadUtils.hpp> // pbdata
+#include <sam/AlignmentSet.hpp> // pbdata
+#include <HDFCmpFile.hpp> // hdf
 #include "datastructures/alignment/AlignmentCandidate.hpp"
 #include "datastructures/alignment/ByteAlignment.h"
-#include "algorithms/alignment/DistanceMatrixScoreFunction.hpp"
+#include "../../algorithms/alignment/DistanceMatrixScoreFunction.hpp"
 
 class RefGroupNameId {
  public:

@@ -5,13 +5,13 @@
 #include <math.h>
 #include <fstream>
 #include <iostream>
-#include "algorithms/anchoring/LongestIncreasingSubsequence.hpp"
-#include "algorithms/anchoring/GlobalChain.hpp"
-#include "algorithms/anchoring/BasicEndpoint.hpp"
-#include "datastructures/anchoring/WeightedInterval.hpp"
-#include "datastructures/anchoring/MatchPos.hpp"
-#include "datastructures/anchoring/ClusterList.hpp"
-#include "statistics/VarianceAccumulator.hpp"
+#include "LongestIncreasingSubsequence.hpp"
+#include "GlobalChain.hpp"
+#include "BasicEndpoint.hpp"
+#include "../../datastructures/anchoring/WeightedInterval.hpp"
+#include "../../datastructures/anchoring/MatchPos.hpp"
+#include "../../datastructures/anchoring/ClusterList.hpp"
+#include "../../statistics/VarianceAccumulator.hpp"
 
 unsigned int NumRemainingBases(DNALength curPos, DNALength intervalLength);
 
@@ -171,5 +171,5 @@ int ExhaustiveFindMaxIncreasingInterval(
         VarianceAccumulator<float> &accumPValue, 
         VarianceAccumulator<float> &accumWeight);
 
-#include "algorithms/anchoring/FindMaxIntervalImpl.hpp"
+#include "FindMaxIntervalImpl.hpp"
 #endif

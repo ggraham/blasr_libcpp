@@ -2,7 +2,7 @@
 #define _BLASR_HDF_DATA_HPP_
 
 #include <string>
-#include "H5Cpp.h"
+#include <H5Cpp.h>
 #include "HDFConfig.hpp"
 #include "HDFGroup.hpp"
 #include "HDFAttributable.hpp"

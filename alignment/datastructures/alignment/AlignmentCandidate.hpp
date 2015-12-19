@@ -2,8 +2,9 @@
 #define _ALIGNMENT_ALIGNMENT_CANDIDATE_HPP_
 
 #include "Alignment.hpp"
-#include "DNASequence.hpp"
-#include "FASTQSequence.hpp"
+// pbdata
+#include <DNASequence.hpp>
+#include <FASTQSequence.hpp>
 
 template<typename T_TSequence=FASTASequence, typename T_QSequence=FASTASequence>
 class AlignmentCandidate : public blasr::Alignment {

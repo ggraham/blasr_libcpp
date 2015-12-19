@@ -6,9 +6,9 @@
 #include <iostream>
 #include <ostream>
 #include <fstream>
-#include "Types.h"
-#include "DNASequence.hpp"
-#include "datastructures/alignment/Alignment.hpp"
+#include <Types.h> // pbdata
+#include <DNASequence.hpp> // pbdata
+#include "Alignment.hpp"
 
 using namespace blasr;
 

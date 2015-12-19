@@ -5,8 +5,10 @@
 
 #include <sstream>
 #include <memory>
-#include "Enumerations.h"
-#include "SMRTSequence.hpp"
+// pbdata/
+#include <Enumerations.h>
+#include <SMRTSequence.hpp>
+
 #include "HDFFile.hpp"
 #include "HDFWriterBase.hpp"
 #include "HDFScanDataWriter.hpp"
@@ -109,5 +111,5 @@ private:
 inline bool HDFPulseWriter::HasRegions(void) const
 { return bool(regionsWriter_); }
 
-#endif
+#endif  // USE_PBBAM
 #endif

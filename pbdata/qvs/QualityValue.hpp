@@ -2,7 +2,7 @@
 #define _BLASR_QUALITY_VALUE_HPP_
 
 #include <stdint.h>
-#include "ChangeListID.hpp"
+#include "../ChangeListID.hpp"
 
 typedef unsigned char QualityValue;
 typedef float QualityProbability;

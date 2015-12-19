@@ -1,6 +1,6 @@
 #ifndef _BLASR_QSUFSORT_HPP_
 #define _BLASR_QSUFSORT_HPP_
-#include "utils.hpp"
+#include <utils.hpp> // pbdata
 #include <assert.h>
 
 void suffixsort(int *x, int *p, int n, int k, int l);

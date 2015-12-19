@@ -1,4 +1,4 @@
-#include "utils/SMRTTitle.hpp"
+#include "SMRTTitle.hpp"
 
 /// Parse a Pacbio read name, it is a SMRTTitle, get movieName, 
 /// holeNumber, start and end, set isSMRTTitle to be true. 

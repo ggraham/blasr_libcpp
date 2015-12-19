@@ -3,10 +3,10 @@
 
 #include <map>
 #include <vector>
-#include "Types.h"
-#include "Enumerations.h"
-#include "DNASequence.hpp"
-#include "SMRTSequence.hpp"
+#include "../Types.h"
+#include "../Enumerations.h"
+#include "../DNASequence.hpp"
+#include "../SMRTSequence.hpp"
 #include "PulseBaseCommon.hpp"
 #include "ScanData.hpp"
 

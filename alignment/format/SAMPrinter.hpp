@@ -3,12 +3,12 @@
 
 #include <sstream>
 #include <stdint.h>
-#include "SMRTSequence.hpp"
-#include "datastructures/alignment/AlignmentCandidate.hpp"
-#include "datastructures/alignment/AlignmentContext.hpp"
-#include "datastructures/alignment/Alignment.hpp"
-#include "datastructures/alignment/Alignment.hpp"
-#include "datastructures/alignmentset/SAMSupplementalQVList.hpp"
+#include <SMRTSequence.hpp> // pbdata
+#include "../datastructures/alignment/AlignmentCandidate.hpp"
+#include "../datastructures/alignment/AlignmentContext.hpp"
+#include "../datastructures/alignment/Alignment.hpp"
+#include "../datastructures/alignment/Alignment.hpp"
+#include "../datastructures/alignmentset/SAMSupplementalQVList.hpp"
 
 
 #define MULTI_SEGMENTS 0x1

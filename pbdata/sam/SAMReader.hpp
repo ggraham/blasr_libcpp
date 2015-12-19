@@ -1,13 +1,13 @@
 #ifndef _BLASR_SAM_READER_HPP_
 #define _BLASR_SAM_READER_HPP_
 
-#include "sam/SAMKeywordValuePair.hpp"
-#include "sam/ReadGroup.hpp"
-#include "sam/ReferenceSequence.hpp"
+#include "SAMKeywordValuePair.hpp"
+#include "ReadGroup.hpp"
+#include "ReferenceSequence.hpp"
 
-#include "sam/AlignmentSet.hpp"
-#include "StringUtils.hpp"
-#include "utils.hpp"
+#include "AlignmentSet.hpp"
+#include "../StringUtils.hpp"
+#include "../utils.hpp"
 
 template<typename T_ReferenceSequence, typename T_ReadGroup, typename T_SAMAlignment>
 class SAMReader {

@@ -12,7 +12,7 @@
 #include "libconfig.h"
 
 #ifdef USE_PBBAM
-#include "pbbam/BamRecord.h"
+#include <pbbam/BamRecord.h>
 #endif
 
 
