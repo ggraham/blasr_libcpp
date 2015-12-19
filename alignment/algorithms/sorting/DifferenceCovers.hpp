@@ -1,7 +1,7 @@
 #ifndef _BLASR_DIFFERENCE_COVERS_HPP_
 #define _BLASR_DIFFERENCE_COVERS_HPP_
 
-#include <Types.h> // pbdata
+#include <pbdata/Types.h>
 
 #define N_COVERS 5
 const UInt diffCovers[N_COVERS][60] = {

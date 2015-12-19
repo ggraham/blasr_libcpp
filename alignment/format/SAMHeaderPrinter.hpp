@@ -6,9 +6,9 @@
 #include <set>
 #include <iostream>
 #include <sstream>
-#include <Types.h> // pbdata
-#include <Enumerations.h> // pbdata
-#include <StringUtils.hpp> // pbdata
+#include <pbdata/Types.h>
+#include <pbdata/Enumerations.h>
+#include <pbdata/StringUtils.hpp>
 #include "../files/BaseSequenceIO.hpp"
 #include "../files/ReaderAgglomerate.hpp"
 #include "../datastructures/alignmentset/SAMSupplementalQVList.hpp"

@@ -4,10 +4,10 @@
 #include <iostream>
 #include <ostream>
 // pbdata
-#include <Types.h>
-#include <defs.h>
-#include <DNASequence.hpp>
-#include <matrix/FlatMatrix.hpp>
+#include <pbdata/Types.h>
+#include <pbdata/defs.h>
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/matrix/FlatMatrix.hpp>
 
 #include "../../datastructures/alignment/Path.h"
 #include "../../datastructures/alignment/AlignmentMap.hpp"

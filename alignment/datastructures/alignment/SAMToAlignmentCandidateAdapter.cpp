@@ -1,5 +1,5 @@
 #include <algorithm>
-#include <utils/SMRTTitle.hpp> // pbdata
+#include <pbdata/utils/SMRTTitle.hpp>
 #include "SAMToAlignmentCandidateAdapter.hpp"
 
 void InitializeCandidateFromSAM(SAMAlignment &sam,

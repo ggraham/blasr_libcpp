@@ -2,7 +2,7 @@
 #define _BLASR_FLAT_MATRIX_HPP_
 
 #define rc2index(r, c, rowSize) ( (r) * (rowSize) + c)
-#include "Types.h" // UInt
+#include "../Types.h" // UInt
 
 template<typename T>
 void CreateFlatMatrix(int rows, int cols, std::vector<T> &matrix); 

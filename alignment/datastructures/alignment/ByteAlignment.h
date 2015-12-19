@@ -2,7 +2,7 @@
 #define DATASTRUCTURES_ALIGNMENT_BYTE_ALIGNMENT_H_
 #include <vector>
 #include "../../algorithms/alignment/AlignmentUtils.hpp"
-#include <DNASequence.hpp> // pbdata
+#include <pbdata/DNASequence.hpp>
 
 using namespace std;
 /*

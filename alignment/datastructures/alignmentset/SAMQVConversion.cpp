@@ -1,6 +1,6 @@
 #include <cstddef>
 #include <assert.h>
-#include <FASTQSequence.hpp> // pbdata
+#include <pbdata/FASTQSequence.hpp>
 #include "SAMQVConversion.hpp"
 
 void QualityVectorToPrintable(unsigned char *data, int length) {

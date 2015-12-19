@@ -3,7 +3,7 @@
 
 #include <sstream>
 #include <stdint.h>
-#include <SMRTSequence.hpp> // pbdata
+#include <pbdata/SMRTSequence.hpp>
 #include "../datastructures/alignment/AlignmentCandidate.hpp"
 #include "../datastructures/alignment/AlignmentContext.hpp"
 #include "../datastructures/alignment/Alignment.hpp"

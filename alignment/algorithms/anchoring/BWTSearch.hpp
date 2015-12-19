@@ -2,7 +2,7 @@
 #define _BLASR_BWT_SEARCH_HPP_
 
 #include <vector>
-#include <FASTASequence.hpp> // pbdata
+#include <pbdata/FASTASequence.hpp>
 #include "../../bwt/BWT.hpp"
 #include "../../datastructures/anchoring/MatchPos.hpp"
 #include "../../datastructures/anchoring/AnchorParameters.hpp"

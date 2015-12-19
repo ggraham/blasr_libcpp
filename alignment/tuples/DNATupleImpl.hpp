@@ -1,5 +1,5 @@
 #include <cassert>
-#include <NucConversion.hpp> // pbdata
+#include <pbdata/NucConversion.hpp>
 
 inline int DNATuple::FromStringLR(Nucleotide *strPtr, TupleMetrics &tm) {
     DNASequence tmpSeq;

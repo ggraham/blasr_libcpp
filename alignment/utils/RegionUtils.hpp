@@ -3,9 +3,9 @@
 
 #include <algorithm>
 #include <cmath>
-#include <SMRTSequence.hpp>
-#include <reads/ReadInterval.hpp>
-#include <reads/RegionTable.hpp>
+#include <pbdata/SMRTSequence.hpp>
+#include <pbdata/reads/ReadInterval.hpp>
+#include <pbdata/reads/RegionTable.hpp>
 #include "../statistics/StatUtils.hpp"
 
 bool LookupHQRegion(int holeNumber, RegionTable &regionTable, 

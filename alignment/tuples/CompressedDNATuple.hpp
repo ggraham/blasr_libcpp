@@ -2,7 +2,7 @@
 #define _BLASR_COMPRESSED_DNA_TUPLE_HPP_
 
 #include "DNATuple.hpp"
-#include "CompressedSequence.hpp"
+#include <pbdata/CompressedSequence.hpp>
 
 template<typename T_Sequence>
 class CompressedDNATuple : public DNATuple {
