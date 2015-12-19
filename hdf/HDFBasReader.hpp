@@ -32,8 +32,8 @@
 // call InitializeDefaultIncludedFields() BEFORE initializing the
 // reader on the file name.
 //
-//#include "data/hdf/HDFBasReader.h"
-//#include "SMRTSequence.h"
+//#include <hdf/HDFBasReader.h>
+//#include <pbdata/SMRTSequence.hpp>
 //#include <string>
 //
 //int main(int argc, char* argv[]) {

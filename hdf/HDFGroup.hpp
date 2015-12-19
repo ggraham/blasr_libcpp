@@ -5,9 +5,10 @@
 #include <iostream>
 #include <string>
 #include <stdlib.h>
-#include "H5Cpp.h"
+#include <H5Cpp.h>
+#include <H5Location.h>
 #include "HDFAttributable.hpp"
-#include "StringUtils.hpp"
+#include <StringUtils.hpp> // pbdata/
 
 
 class HDFGroup : public HDFAttributable {

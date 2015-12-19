@@ -1,6 +1,7 @@
 #ifndef _BLASR_HDF_SMRT_SEQUENCE_READER_HPP_
 #define _BLASR_HDF_SMRT_SEQUENCE_READER_HPP_
 
+#error "Where is data/*? Apparently this header is no longer used."
 #include "data/hdf/HDFBasReader.h"
 #include "data/hdf/HDFZMWReader.h"
 #include "SMRTSequence.h"

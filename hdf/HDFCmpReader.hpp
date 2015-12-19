@@ -1,5 +1,6 @@
 #ifndef _BLASR_HDF_CMP_READER_HPP_
 #define _BLASR_HDF_CMP_READER_HPP_
+#error "Does this compile anymore? Where is data/hdf/*.h?"
 
 #include "H5Cpp.h"
 #include <iostream>
