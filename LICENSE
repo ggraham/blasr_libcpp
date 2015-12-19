@@ -1,3 +1,4 @@
+```
 // Copyright (c) 2014-2015, Pacific Biosciences of California, Inc.
 //
 // All rights reserved.
@@ -56,3 +57,44 @@ without express or implied warranty of any kind.
 These notices must be retained in any copies of any part of this
 documentation and/or software.
  */
+
+See alignment/suffixarray/ssort.hpp for the following:
+/****************************************************************
+Copyright (C) Lucent Technologies 1997
+All Rights Reserved
+
+Permission to use, copy, modify, and distribute this software and
+its documentation for any purpose and without fee is hereby
+granted, provided that the above copyright notice appear in all
+copies and that both that the copyright notice and this
+permission notice and warranty disclaimer appear in supporting
+documentation, and that the name Lucent Technologies or any of
+its entities not be used in advertising or publicity pertaining
+to distribution of the software without specific, written prior
+permission.
+
+LUCENT DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS.
+IN NO EVENT SHALL LUCENT OR ANY OF ITS ENTITIES BE LIABLE FOR ANY
+SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
+IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+THIS SOFTWARE.
+****************************************************************/
+
+See alignment/algorithms/sorting/qsufsort.cpp for the following:
+/* qsufsort.c
+   Copyright 1999, N. Jesper Larsson, all rights reserved.
+
+   This file contains an implementation of the algorithm presented in "Faster
+   Suffix Sorting" by N. Jesper Larsson (jesper@cs.lth.se) and Kunihiko
+   Sadakane (sada@is.s.u-tokyo.ac.jp).
+
+   This software may be used freely for any purpose. However, when distributed,
+   the original source must be clearly stated, and, when the source code is
+   distributed, the copyright notice must be retained and any alterations in
+   the code must be clearly marked. No warranty is given regarding the quality
+   of this software.*/
+
+```
