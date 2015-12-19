@@ -4,7 +4,7 @@
 #ifndef _BLASR_HDF_HDFZMWMETRICSWriter_HPP_
 #define _BLASR_HDF_HDFZMWMETRICSWriter_HPP_
 
-#include <SMRTSequence.hpp> // pbdata
+#include <pbdata/SMRTSequence.hpp>
 #include "HDFWriterBase.hpp"
 #include "BufferedHDFArray.hpp"
 #include "BufferedHDF2DArray.hpp"

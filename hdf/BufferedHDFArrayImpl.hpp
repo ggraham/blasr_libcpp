@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <cstring>
-#include <utils.hpp> // pbdata
+#include <pbdata/utils.hpp>
 #include "BufferedHDFArray.hpp"
 
 template<typename T>

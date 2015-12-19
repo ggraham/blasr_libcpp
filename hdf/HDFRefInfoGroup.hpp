@@ -1,7 +1,7 @@
 #ifndef _BLASR_HDF_REF_INFO_HPP_
 #define _BLASR_HDF_REF_INFO_HPP_
 
-#include <saf/RefInfo.hpp> // pbdata/
+#include <pbdata/saf/RefInfo.hpp>
 
 class HDFRefInfoGroup {
  public:

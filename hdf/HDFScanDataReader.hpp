@@ -4,8 +4,8 @@
 #include <map>
 #include <string>
 // pbdata/
-#include <Enumerations.h>
-#include <reads/ScanData.hpp>
+#include <pbdata/Enumerations.h>
+#include <pbdata/reads/ScanData.hpp>
 #include "HDFGroup.hpp"
 #include "HDFFile.hpp"
 #include "HDFAtom.hpp"

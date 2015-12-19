@@ -25,9 +25,9 @@
 #include "HDFFileLogGroup.hpp"
 
 // pbdata/
-#include <SMRTSequence.hpp>
-#include <alignment/CmpAlignment.hpp> // not ../alignment!
-#include <saf/RefInfo.hpp>
+#include <pbdata/SMRTSequence.hpp>
+#include <pbdata/alignment/CmpAlignment.hpp> // not ../alignment!
+#include <pbdata/saf/RefInfo.hpp>
 
 // alignment/datastructures/alignment  -- Yes, seriously.
 #include <datastructures/alignment/CmpFile.hpp>

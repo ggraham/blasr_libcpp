@@ -7,7 +7,7 @@
 #include "HDFWriterBase.hpp"
 #include "BufferedHDFArray.hpp"
 #include "BufferedHDF2DArray.hpp"
-#include <SMRTSequence.hpp> // pbdata
+#include <pbdata/SMRTSequence.hpp>
 #include <pbbam/BamRecord.h>
 
 class HDFBaseCallerWriter;
