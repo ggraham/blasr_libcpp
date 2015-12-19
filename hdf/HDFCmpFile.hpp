@@ -30,12 +30,12 @@
 #include <pbdata/saf/RefInfo.hpp>
 
 // alignment/datastructures/alignment  -- Yes, seriously.
-#include <datastructures/alignment/CmpFile.hpp>
-#include <datastructures/alignment/Alignment.hpp>
-#include <datastructures/alignment/AlignmentCandidate.hpp>
-#include <datastructures/alignment/CmpReadGroupTable.h>
-#include <datastructures/alignment/CmpRefSeqTable.h>
-#include <datastructures/alignment/ByteAlignment.h>
+#include <alignment/datastructures/alignment/CmpFile.hpp>
+#include <alignment/datastructures/alignment/Alignment.hpp>
+#include <alignment/datastructures/alignment/AlignmentCandidate.hpp>
+#include <alignment/datastructures/alignment/CmpReadGroupTable.h>
+#include <alignment/datastructures/alignment/CmpRefSeqTable.h>
+#include <alignment/datastructures/alignment/ByteAlignment.h>
 
 using namespace H5;
 using namespace std;
