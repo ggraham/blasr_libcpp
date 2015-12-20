@@ -2,7 +2,7 @@
 #define _BLASR_CLUSTER_LIST_HPP_
 
 #include <vector>
-#include <DNASequence.hpp> // pbdata
+#include "../../../pbdata/DNASequence.hpp"
 
 class ClusterList {
 public:

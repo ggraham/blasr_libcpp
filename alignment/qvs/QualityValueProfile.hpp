@@ -4,8 +4,8 @@
 #include "../tuples/DNATuple.hpp"
 #include "../tuples/TupleMetrics.hpp"
 #include <fstream>
-#include <qvs/QualityValue.hpp> // pbdata
-#include <matrix/FlatMatrix.hpp> // pbdata
+#include "../../pbdata/qvs/QualityValue.hpp"
+#include "../../pbdata/matrix/FlatMatrix.hpp"
 
 class QualityValueProfile {
 	int wordSize;

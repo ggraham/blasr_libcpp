@@ -1,9 +1,9 @@
 #ifndef _BLASR_SDP_ALIGN_HPP_
 #define _BLASR_SDP_ALIGN_HPP_
 // pbdata
-#include <DNASequence.hpp>
-#include <FASTASequence.hpp>
-#include <FASTQSequence.hpp>
+#include "../../../pbdata/DNASequence.hpp"
+#include "../../../pbdata/FASTASequence.hpp"
+#include "../../../pbdata/FASTQSequence.hpp"
 
 #include "../../tuples/TupleMatching.hpp"
 #include "sdp/SDPFragment.hpp"

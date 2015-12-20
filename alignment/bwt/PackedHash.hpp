@@ -6,10 +6,10 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
-#include <Types.h> // pbdata
-#include <utils.hpp> // pbdata
-#include "utils/BitUtils.hpp"
-#include <DNASequence.hpp> // pbdata
+#include "../../pbdata/Types.h"
+#include "../../pbdata/utils.hpp"
+#include "../../pbdata/utils/BitUtils.hpp"
+#include "../../pbdata/DNASequence.hpp"
 
 class PackedHash {
 public:

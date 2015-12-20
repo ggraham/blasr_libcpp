@@ -8,12 +8,12 @@
 #include <cstdint>
 
 // pbdata/
-#include <Enumerations.h>
-#include <FASTQSequence.hpp>
-#include <SMRTSequence.hpp>
-#include <VectorUtils.hpp>
-#include <ChangeListID.hpp>
-#include <reads/BaseFile.hpp>
+#include "../pbdata/Enumerations.h"
+#include "../pbdata/FASTQSequence.hpp"
+#include "../pbdata/SMRTSequence.hpp"
+#include "../pbdata/VectorUtils.hpp"
+#include "../pbdata/ChangeListID.hpp"
+#include "../pbdata/reads/BaseFile.hpp"
 
 #include "HDFArray.hpp"
 #include "HDF2DArray.hpp"
@@ -33,8 +33,8 @@
 // call InitializeDefaultIncludedFields() BEFORE initializing the
 // reader on the file name.
 //
-//#include <hdf/HDFBasReader.h>
-//#include <pbdata/SMRTSequence.hpp>
+//#include "../hdf/HDFBasReader.h"
+//#include "../pbdata/SMRTSequence.hpp"
 //#include <string>
 //
 //int main(int argc, char* argv[]) {

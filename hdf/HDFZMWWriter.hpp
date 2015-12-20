@@ -1,13 +1,13 @@
 #ifndef _BLASR_HDF_HDFZMWWriter_HPP_
 #define _BLASR_HDF_HDFZMWWriter_HPP_
 
-#include "libconfig.h"
+#include "../pbdata/libconfig.h"
 #ifdef USE_PBBAM
 
 #include "HDFWriterBase.hpp"
 #include "BufferedHDFArray.hpp"
 #include "BufferedHDF2DArray.hpp"
-#include <SMRTSequence.hpp> // pbdata
+#include "../pbdata/SMRTSequence.hpp"
 #include <pbbam/BamRecord.h>
 
 class HDFBaseCallerWriter;

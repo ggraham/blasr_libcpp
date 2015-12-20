@@ -2,7 +2,7 @@
 #define _BLASR_HDF_WRITE_BUFFER_HPP_
 
 #include <cstddef>
-#include <utils.hpp> // pbdata/
+#include "../pbdata/utils.hpp"
 
 template<typename T>
 class HDFWriteBuffer {

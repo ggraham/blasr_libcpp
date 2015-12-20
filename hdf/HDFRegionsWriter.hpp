@@ -5,8 +5,8 @@
 
 #include <string>
 // pbdata/
-#include <Enumerations.h>
-#include <reads/RegionTable.hpp>
+#include "../pbdata/Enumerations.h"
+#include "../pbdata/reads/RegionTable.hpp"
 
 #include "HDFFile.hpp"
 #include "HDFArray.hpp"

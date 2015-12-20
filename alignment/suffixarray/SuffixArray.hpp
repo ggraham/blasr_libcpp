@@ -7,11 +7,11 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <defs.h> // pbdata
-#include <utils.hpp> // pbdata
-#include <qvs/QualityValue.hpp> // pbdata
-#include <DNASequence.hpp> // pbdata
-#include <NucConversion.hpp> // pbdata
+#include "../../pbdata/defs.h"
+#include "../../pbdata/utils.hpp"
+#include "../../pbdata/qvs/QualityValue.hpp"
+#include "../../pbdata/DNASequence.hpp"
+#include "../../pbdata/NucConversion.hpp"
 #include "LCPTable.hpp"
 #include "../algorithms/compare/CompareStrings.hpp"
 #include "../algorithms/sorting/qsufsort.hpp"

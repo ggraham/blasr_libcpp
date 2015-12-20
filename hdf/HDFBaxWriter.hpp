@@ -1,13 +1,13 @@
 #ifndef _BLASR_HDF_BAX_WRITER_HPP_
 #define _BLASR_HDF_BAX_WRITER_HPP_
-#include "libconfig.h"
+#include "../pbdata/libconfig.h"
 #ifdef USE_PBBAM
 
 #include <sstream>
 #include <memory>
 // pbdata/
-#include <Enumerations.h>
-#include <SMRTSequence.hpp>
+#include "../pbdata/Enumerations.h"
+#include "../pbdata/SMRTSequence.hpp"
 
 #include "HDFFile.hpp"
 #include "HDFWriterBase.hpp"

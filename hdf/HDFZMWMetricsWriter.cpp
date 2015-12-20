@@ -1,7 +1,7 @@
 // Author: Yuan Li
 
 #include "HDFZMWMetricsWriter.hpp"
-#include "reads/ScanData.hpp"
+#include "../pbdata/reads/ScanData.hpp"
 
 HDFZMWMetricsWriter::HDFZMWMetricsWriter(const std::string & filename, 
         HDFGroup & parentGroup, const std::map<char, size_t> & baseMap)

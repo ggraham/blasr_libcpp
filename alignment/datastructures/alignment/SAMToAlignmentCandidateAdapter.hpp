@@ -3,8 +3,8 @@
 
 #include <map>
 // pbdata
-#include <sam/SAMAlignment.hpp>
-#include <sam/SAMFlag.h>
+#include "../../../pbdata/sam/SAMAlignment.hpp"
+#include "../../../pbdata/sam/SAMFlag.h"
 
 #include "AlignmentCandidate.hpp"
 

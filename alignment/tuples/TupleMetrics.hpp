@@ -1,7 +1,7 @@
 #ifndef _BLASR_TUPLE_METRICS_HPP_
 #define _BLASR_TUPLE_METRICS_HPP_
 
-#include <Types.h> // pbdata
+#include "../../pbdata/Types.h"
 
 class TupleMetrics {
 public:

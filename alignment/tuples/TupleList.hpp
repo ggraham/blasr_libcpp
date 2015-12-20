@@ -8,7 +8,7 @@
 #include <fstream>
 #include <vector>
 
-#include <Types.h> // pbdata
+#include "../../pbdata/Types.h"
 #include "TupleMetrics.hpp"
 
 template<typename T>
