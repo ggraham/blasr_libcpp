@@ -10,6 +10,10 @@ LIBS     += ${LIBPBDATA_LIB} ${HDF5_LIB} ${PBBAM_LIB} ${HTSLIB_LIB} ${ZLIB_LIB}
 LDFLAGS  += $(patsubst %,-L%,${LIBS})
 LDLIBS += -lpbdata -lhdf5 -lhdf5_cpp
 
+foo:
+	echo ${CPPFLAGS}
+	echo ${INCLUDE}
+	echo ${SYSINCLUDES}
 all: libpbihdf.a libpbihdf${SH_LIB_EXT}
 
 paths := ${THISDIR}

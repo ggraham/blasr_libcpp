@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include <sstream>
 #include "HDFPulseCallsWriter.hpp"
-#include <utils/TimeUtils.hpp>
+#include "../pbdata/utils/TimeUtils.hpp"
 
 const std::vector<PacBio::BAM::BaseFeature>  HDFPulseCallsWriter::ValidQVEnums = 
 {     PacBio::BAM::BaseFeature::PULSE_CALL
