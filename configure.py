@@ -2,8 +2,10 @@
 """Configure the build.
 
 - Fetch HDF5 headers.
-- Create libconfig.h
+- Create pbdata/libconfig.h
 - Create defines.mk
+
+Putting libconfig.h into a src-dir is not ideal, but simplifies a lot.
 
 This is not used by './unittest/'.
 """
@@ -136,18 +138,11 @@ def compose_defs_env(env):
 def append_common(envin, content):
     """Dumb way to do this, but this whole thing is evolving.
     """
-    # This is the original libconfig.h. However, in case somebody (like
-    # pbdagcon) builds libpbdata in-place, we need to drop a copy of
-    # libconfig.h wherever pbdata is actually built, which we will not
-    # know until later. This can all be cleared up later, when we are
-    # more clear about where things are built.
-    libconfig_h = os.path.abspath(os.path.join(os.getcwd(), 'libconfig.h'))
     content += """
-LIBCONFIG_H:=%s
 # Use PREFIX dir, if available.
 INCLUDES      += ${PREFIX_INC}
 LIBS          += ${PREFIX_LIB}
-"""%libconfig_h
+"""
     env = dict(envin)
     # Some extra defs.
     if 'PREFIX' in envin:
@@ -215,13 +210,9 @@ def fetch_hdf5_headers():
 
 def update(content_defines_mk, content_libconfig_h):
     """ Write these relative to the same directory as *this* file.
-
-    Unfortunately, we need to record the exact path of libconfig.h
-    in defines.mk, so we know how to copy it.
     """
-    fn_libconfig_h = os.path.join('.', 'libconfig.h')
+    fn_libconfig_h = os.path.join(thisdir, 'pbdata', 'libconfig.h')
     update_content(fn_libconfig_h, content_libconfig_h)
-    #content_defines_mk += 'LIBCONFIG_H:=%s\n' %os.path.abspath(fn_libconfig_h)
     fn_defines_mk = 'defines.mk'
     update_content(fn_defines_mk, content_defines_mk)
     if thisdir == os.path.abspath('.'):

@@ -21,6 +21,8 @@ libpbihdf:
 	${MAKE} -C ${THISDIR}/hdf all
 libblasr:
 	${MAKE} -C ${THISDIR}/alignment all
+install-includes: # Into ${BLASR_INC}, e.g. ${PREFIX}/include/blasr/
+	rsync -a --files-from=${THISDIR}/exports ${THISDIR} ${BLASR_INC}
 gtest:
 	${MAKE} -C ${THISDIR}/unittest gtest
 clean:

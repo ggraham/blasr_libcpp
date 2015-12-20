@@ -1,4 +1,4 @@
-#include <../../pbdata/libconfig.h>
+#include "../../pbdata/libconfig.h"
 #ifdef USE_PBBAM
 #ifndef PBIFILTER_ZMWGROUPQUERY_H 
 #define PBIFILTER_ZMWGROUPQUERY_H

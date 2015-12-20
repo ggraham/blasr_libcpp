@@ -29,7 +29,7 @@ libpbdata.a: $(objects)
 libpbdata${SH_LIB_EXT}: $(shared_objects)
 
 libconfig.h:
-	cp -af ${LIBCONFIG_H} $@
+	echo "Please run 'configure.py' with appropriate args to generate pbdata/libconfig.h"
 
 clean: 
 	rm -f libpbdata.a  libpbdata.so *.o *.d
