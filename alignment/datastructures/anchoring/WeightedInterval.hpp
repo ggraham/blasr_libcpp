@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <set>
-#include <pbdata/DNASequence.hpp>
+#include "../../../pbdata/DNASequence.hpp"
 #include "MatchPos.hpp"
 
 class WeightedInterval {

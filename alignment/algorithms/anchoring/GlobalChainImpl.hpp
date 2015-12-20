@@ -3,8 +3,8 @@
 
 #include <algorithm>
 // pbdata
-#include <pbdata/Types.h>
-#include <pbdata/DNASequence.hpp>
+#include "../../../pbdata/Types.h"
+#include "../../../pbdata/DNASequence.hpp"
 
 #include "PrioritySearchTree.hpp"
 

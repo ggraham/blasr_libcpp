@@ -18,8 +18,8 @@
  */
 #include <stdlib.h>
 #include <algorithm>
-#include <pbdata/StringUtils.hpp>
-#include <pbdata/Types.h>
+#include "../../pbdata/StringUtils.hpp"
+#include "../../pbdata/Types.h"
 
 class Range {
 public:

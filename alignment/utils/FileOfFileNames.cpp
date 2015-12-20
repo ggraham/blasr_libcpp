@@ -1,5 +1,5 @@
 #include "FileOfFileNames.hpp"
-#include <hdf/HDFNewBasReader.hpp>
+#include "../../hdf/HDFNewBasReader.hpp"
 #include <cstdlib>
 
 void

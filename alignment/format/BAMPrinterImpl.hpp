@@ -4,7 +4,7 @@
 #ifdef USE_PBBAM
 
 #include <algorithm>
-#include <pbdata/utils/SMRTTitle.hpp>
+#include "../../pbdata/utils/SMRTTitle.hpp"
 using namespace BAMOutput;
 using namespace std;
 #include <pbbam/BamRecord.h>

@@ -3,13 +3,13 @@
 
 #include "CmpIndexedStringTable.h"
 // pbdata
-#include <pbdata/reads/ReadType.hpp>
-#include <pbdata/saf/AlnGroup.hpp>
-#include <pbdata/saf/AlnInfo.hpp>
-#include <pbdata/saf/RefGroup.hpp>
-#include <pbdata/saf/RefInfo.hpp>
-#include <pbdata/saf/MovieInfo.hpp>
-#include <pbdata/Enumerations.h>
+#include "../../../pbdata/reads/ReadType.hpp"
+#include "../../../pbdata/saf/AlnGroup.hpp"
+#include "../../../pbdata/saf/AlnInfo.hpp"
+#include "../../../pbdata/saf/RefGroup.hpp"
+#include "../../../pbdata/saf/RefInfo.hpp"
+#include "../../../pbdata/saf/MovieInfo.hpp"
+#include "../../../pbdata/Enumerations.h"
 
 #include <vector>
 

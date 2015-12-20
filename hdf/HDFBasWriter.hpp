@@ -3,10 +3,10 @@
 
 #include <sstream>
 // pbdata/
-#include <pbdata/Types.h>
-#include <pbdata/Enumerations.h>
+#include "../pbdata/Types.h"
+#include "../pbdata/Enumerations.h"
 #include <utils/SMRTReadUtils.hpp>
-#include <pbdata/SMRTSequence.hpp>
+#include "../pbdata/SMRTSequence.hpp"
 
 #include "HDFAtom.hpp"
 #include "HDFFile.hpp"

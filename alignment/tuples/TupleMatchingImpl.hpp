@@ -3,10 +3,10 @@
 #include <utility>
 #include <iostream>
 #include <stdint.h>
-#include <pbdata/Types.h>
-#include <pbdata/NucConversion.hpp>
-#include <pbdata/DNASequence.hpp>
-#include <pbdata/SeqUtils.hpp>
+#include "../../pbdata/Types.h"
+#include "../../pbdata/NucConversion.hpp"
+#include "../../pbdata/DNASequence.hpp"
+#include "../../pbdata/SeqUtils.hpp"
 
 using namespace std;
 

@@ -8,7 +8,7 @@
 #include <H5Cpp.h>
 #include <H5Location.h>
 #include "HDFAttributable.hpp"
-#include <pbdata/StringUtils.hpp>
+#include "../pbdata/StringUtils.hpp"
 
 
 class HDFGroup : public HDFAttributable {

@@ -2,7 +2,7 @@
 #define _BLASR_FRAGMENT_CCS_ITERATOR_HPP_
 
 #include <vector>
-#include <pbdata/reads/RegionTable.hpp> // pbdata
+#include "../../pbdata/reads/RegionTable.hpp" // pbdata
 #include "../utils/RegionUtils.hpp"
 #include "CCSIterator.hpp"
 

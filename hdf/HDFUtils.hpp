@@ -8,7 +8,7 @@
 #include "HDFScanDataReader.hpp"
 #include "HDFBasReader.hpp"
 #include "HDFRegionTableReader.hpp"
-#include <pbdata/reads/RegionTable.hpp>
+#include "../pbdata/reads/RegionTable.hpp"
 
 
 // Given a PacBio (pls/plx/bas/bax/ccs/rgn).h5 file, which contains its movie 

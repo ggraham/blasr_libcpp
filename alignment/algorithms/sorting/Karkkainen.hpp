@@ -1,7 +1,7 @@
 #ifndef ALGORITHMS_SORTING_KARKKAINEN_HPP_
 #define ALGORITHMS_SORTING_KARKKAINEN_HPP_
 
-#include <pbdata/DNASequence.hpp>
+#include "../../../pbdata/DNASequence.hpp"
 
 inline bool 
 leq(DNALength a1, DNALength a2,   DNALength b1, DNALength b2) // lexicographic order

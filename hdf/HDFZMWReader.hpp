@@ -3,7 +3,7 @@
 
 #include <cstdint>
 #include <H5Cpp.h>
-#include <pbdata/reads/ZMWGroupEntry.hpp>
+#include "../pbdata/reads/ZMWGroupEntry.hpp"
 #include "HDFArray.hpp"
 #include "HDF2DArray.hpp"
 #include "HDFGroup.hpp"

@@ -3,9 +3,9 @@
 
 #include <vector>
 #include <string>
-#include <pbdata/Types.h>
-#include <pbdata/defs.h>
-#include <pbdata/DNASequence.hpp>
+#include "../../../../pbdata/Types.h"
+#include "../../../../pbdata/defs.h"
+#include "../../../../pbdata/DNASequence.hpp"
 #include "../../../datastructures/alignment/Alignment.hpp"
 #include "../AlignmentUtils.hpp"
 

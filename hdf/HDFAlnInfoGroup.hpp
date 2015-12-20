@@ -8,8 +8,8 @@
 #include "HDFAtom.hpp"
 #include "HDFArray.hpp"
 #include "HDF2DArray.hpp"
-#include <pbdata/saf/AlnInfo.hpp>
-#include <pbdata/alignment/CmpAlignment.hpp> // pbdata/alignment, not ../alignment!
+#include "../pbdata/saf/AlnInfo.hpp"
+#include "../pbdata/alignment/CmpAlignment.hpp" // pbdata/alignment, not ../alignment!
 
 class HDFAlnInfoGroup {
 public:

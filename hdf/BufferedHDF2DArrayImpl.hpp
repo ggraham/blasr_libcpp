@@ -3,7 +3,7 @@
 
 #include <cstring>
 #include <cassert>
-#include <pbdata/utils.hpp>
+#include "../pbdata/utils.hpp"
 
 template<typename T>
 BufferedHDF2DArray<T>::BufferedHDF2DArray(H5::CommonFG *_container, 

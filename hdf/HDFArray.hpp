@@ -9,8 +9,8 @@
 #include "HDFConfig.hpp"
 #include "HDFData.hpp"
 #include "BufferedHDFArray.hpp"
-#include <pbdata/DNASequence.hpp>
-#include <pbdata/FASTQSequence.hpp>
+#include "../pbdata/DNASequence.hpp"
+#include "../pbdata/FASTQSequence.hpp"
 
 /*
  *

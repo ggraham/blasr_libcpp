@@ -7,12 +7,12 @@
 #include <cstdlib>
 #include <ostream>
 // pbdata
-#include <pbdata/Types.h>
-#include <pbdata/defs.h>
-#include <pbdata/utils.hpp>
-#include <pbdata/Enumerations.h>
-#include <pbdata/DNASequence.hpp>
-#include <pbdata/matrix/FlatMatrix.hpp>
+#include "../../../pbdata/Types.h"
+#include "../../../pbdata/defs.h"
+#include "../../../pbdata/utils.hpp"
+#include "../../../pbdata/Enumerations.h"
+#include "../../../pbdata/DNASequence.hpp"
+#include "../../../pbdata/matrix/FlatMatrix.hpp"
 
 #include "../../datastructures/alignment/Alignment.hpp"
 #include "GraphPaper.hpp"

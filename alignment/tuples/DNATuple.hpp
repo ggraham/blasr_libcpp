@@ -6,10 +6,10 @@
 #include <stdint.h>
 #include <ostream>
 #include <string>
-#include <pbdata/Types.h>
-#include <pbdata/SeqUtils.hpp>
-#include <pbdata/DNASequence.hpp>
-#include <pbdata/NucConversion.hpp>
+#include "../../pbdata/Types.h"
+#include "../../pbdata/SeqUtils.hpp"
+#include "../../pbdata/DNASequence.hpp"
+#include "../../pbdata/NucConversion.hpp"
 #include "BaseTuple.hpp"
 #include "TupleMetrics.hpp"
 #include "TupleList.hpp"

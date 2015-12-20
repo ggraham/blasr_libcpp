@@ -7,8 +7,8 @@
 #include "BaseScoreFunction.hpp"
 #include "../../utils/LogUtils.hpp"
 // pbdata
-#include <pbdata/FASTASequence.hpp>
-#include <pbdata/FASTQSequence.hpp>
+#include "../../../pbdata/FASTASequence.hpp"
+#include "../../../pbdata/FASTQSequence.hpp"
 
 float SumAsValidPhred(float v1, float v2, float v3); 
 

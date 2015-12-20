@@ -10,14 +10,14 @@
 #include <hdf5.h>
 #include <H5Cpp.h>
 
-#include <pbdata/Types.h>
+#include "../pbdata/Types.h"
 #include "HDFConfig.hpp"
 #include "HDFData.hpp"
 #include "HDFGroup.hpp"
 #include "HDFWriteBuffer.hpp"
 #include "HDFFile.hpp"
-#include <pbdata/DNASequence.hpp>
-#include <pbdata/FASTQSequence.hpp>
+#include "../pbdata/DNASequence.hpp"
+#include "../pbdata/FASTQSequence.hpp"
 
 /*
  *

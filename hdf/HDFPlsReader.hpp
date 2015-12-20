@@ -12,9 +12,9 @@
 #include "HDFScanDataReader.hpp"
 
 // pbdata/
-#include <pbdata/reads/PulseFile.hpp>
-#include <pbdata/FASTQSequence.hpp>
-#include <pbdata/VectorUtils.hpp>
+#include "../pbdata/reads/PulseFile.hpp"
+#include "../pbdata/FASTQSequence.hpp"
+#include "../pbdata/VectorUtils.hpp"
 
 #include <sstream>
 #include <vector>

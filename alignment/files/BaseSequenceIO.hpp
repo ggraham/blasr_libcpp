@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include <cassert>
-#include <pbdata/Enumerations.h>
+#include "../../pbdata/Enumerations.h"
 
 class BaseSequenceIO {
 

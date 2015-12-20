@@ -5,9 +5,9 @@
 #include "SuffixArray.hpp"
 #include "SharedSuffixArray.hpp"
 
-#include <pbdata/CompressedSequence.hpp>
+#include "../../pbdata/CompressedSequence.hpp"
 #include <Compare4BitCompressed.hpp>
-#include <pbdata/FASTASequence.hpp>
+#include "../../pbdata/FASTASequence.hpp"
 
 typedef SuffixArray<Nucleotide, std::vector<int> > DNASuffixArray;
 typedef SuffixArray<Nucleotide, std::vector<int>, 

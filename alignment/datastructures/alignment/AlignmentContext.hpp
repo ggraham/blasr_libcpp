@@ -3,7 +3,7 @@
 
 #include <string>
 // pbdata
-#include <pbdata/Enumerations.h>
+#include "../../../pbdata/Enumerations.h"
 
 class AlignmentContext {
 public:

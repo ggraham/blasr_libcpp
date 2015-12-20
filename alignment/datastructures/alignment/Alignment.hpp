@@ -5,7 +5,7 @@
 #include "AlignmentStats.hpp"
 #include <vector>
 #include <string>
-#include <pbdata/DNASequence.hpp>
+#include "../../../pbdata/DNASequence.hpp"
 
 namespace blasr {
 class Block {

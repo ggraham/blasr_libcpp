@@ -3,16 +3,16 @@
 
 #include <cstdlib>
 // pbdata
-#include <pbdata/Enumerations.h>
-#include <pbdata/reads/ReadType.hpp>
-#include <pbdata/FASTAReader.hpp>
-#include <pbdata/FASTQReader.hpp>
-#include <pbdata/CCSSequence.hpp>
-#include <pbdata/SMRTSequence.hpp>
-#include <pbdata/StringUtils.hpp>
+#include "../../pbdata/Enumerations.h"
+#include "../../pbdata/reads/ReadType.hpp"
+#include "../../pbdata/FASTAReader.hpp"
+#include "../../pbdata/FASTQReader.hpp"
+#include "../../pbdata/CCSSequence.hpp"
+#include "../../pbdata/SMRTSequence.hpp"
+#include "../../pbdata/StringUtils.hpp"
 // hdf
-#include <hdf/HDFBasReader.hpp>
-#include <hdf/HDFCCSReader.hpp>
+#include "../../hdf/HDFBasReader.hpp"
+#include "../../hdf/HDFCCSReader.hpp"
 
 #include "BaseSequenceIO.hpp"
 #ifdef USE_PBBAM

@@ -1,6 +1,6 @@
 #ifndef _BLASR_SAMSUPPLEMENTALQVLIST_HPP_
 #define _BLASR_SAMSUPPLEMENTALQVLIST_HPP_
-#include <pbdata/SMRTSequence.hpp>
+#include "../../../pbdata/SMRTSequence.hpp"
 #include "SAMQVConversion.hpp"
 
 class SupplementalQVList {

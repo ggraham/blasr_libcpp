@@ -6,13 +6,13 @@
 #include <iostream>
 #include <assert.h>
 // ../alignment/datastructures/alignment
-#include <alignment/datastructures/alignment/CmpFile.h>
-#include <alignment/datastructures/alignment/Alignment.h>
-#include <alignment/datastructures/alignment/AlignmentCandidate.h>
-#include <alignment/datastructures/alignment/CmpAlignment.h>
-#include <alignment/datastructures/alignment/CmpReadGroupTable.h>
-#include <alignment/datastructures/alignment/CmpRefSeqTable.h>
-#include <alignment/datastructures/alignment/ByteAlignment.h>
+#include "../alignment/datastructures/alignment/CmpFile.h"
+#include "../alignment/datastructures/alignment/Alignment.h"
+#include "../alignment/datastructures/alignment/AlignmentCandidate.h"
+#include "../alignment/datastructures/alignment/CmpAlignment.h"
+#include "../alignment/datastructures/alignment/CmpReadGroupTable.h"
+#include "../alignment/datastructures/alignment/CmpRefSeqTable.h"
+#include "../alignment/datastructures/alignment/ByteAlignment.h"
 
 #include "data/hdf/HDFAtom.h"
 #include "data/hdf/HDFArray.h"

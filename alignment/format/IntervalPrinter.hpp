@@ -2,7 +2,7 @@
 #define _BLASR_INTERVAL_ALIGNMENT_PRINTER_HPP_
 
 #include "../datastructures/alignment/AlignmentCandidate.hpp"
-#include <pbdata/FASTQSequence.hpp>
+#include "../../pbdata/FASTQSequence.hpp"
 
 namespace IntervalOutput{
 

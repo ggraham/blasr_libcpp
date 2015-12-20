@@ -6,8 +6,8 @@
 #include <sstream>
 #include <memory>
 // pbdata/
-#include <pbdata/Enumerations.h>
-#include <pbdata/SMRTSequence.hpp>
+#include "../pbdata/Enumerations.h"
+#include "../pbdata/SMRTSequence.hpp"
 
 #include "HDFFile.hpp"
 #include "HDFWriterBase.hpp"

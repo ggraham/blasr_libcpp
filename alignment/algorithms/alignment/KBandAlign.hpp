@@ -5,9 +5,9 @@
 #include <vector>
 #include <limits.h>
 // pbdata
-#include <pbdata/defs.h>
-#include <pbdata/NucConversion.hpp>
-#include <pbdata/matrix/FlatMatrix.hpp>
+#include "../../../pbdata/defs.h"
+#include "../../../pbdata/NucConversion.hpp"
+#include "../../../pbdata/matrix/FlatMatrix.hpp"
 
 #include "AlignmentUtils.hpp"
 #include "../../datastructures/alignment/Alignment.hpp"

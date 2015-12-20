@@ -1,4 +1,4 @@
-#include <pbdata/utils.hpp>
+#include "../../../pbdata/utils.hpp"
 #include "LightweightSuffixArray.hpp"
 
 UInt DiffMod(UInt a, UInt b, UInt d) {

@@ -9,9 +9,9 @@
 #include "HDFGroup.hpp"
 #include "HDFAtom.hpp"
 // pbdata/
-#include <pbdata/Enumerations.h>
-#include <pbdata/reads/ScanData.hpp>
-#include <pbdata/reads/AcqParams.hpp>
+#include "../pbdata/Enumerations.h"
+#include "../pbdata/reads/ScanData.hpp"
+#include "../pbdata/reads/AcqParams.hpp"
 
 
 class HDFScanDataWriter {

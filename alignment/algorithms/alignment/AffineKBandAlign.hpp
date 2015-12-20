@@ -4,9 +4,9 @@
 #include <cassert>
 #include <vector>
 #include <iostream>
-#include <pbdata/NucConversion.hpp>
-#include <pbdata/defs.h>
-#include <pbdata/matrix/FlatMatrix.hpp>
+#include "../../../pbdata/NucConversion.hpp"
+#include "../../../pbdata/defs.h"
+#include "../../../pbdata/matrix/FlatMatrix.hpp"
 #include "../../datastructures/alignment/Alignment.hpp"
 #include "KBandAlign.hpp"
 

@@ -2,7 +2,7 @@
 #define SUMMARY_ALIGNMENT_PRINTER_H_
 
 #include "../datastructures/alignment/AlignmentCandidate.hpp"
-#include <pbdata/FASTQSequence.hpp>
+#include "../../pbdata/FASTQSequence.hpp"
 
 namespace SummaryOutput{
 

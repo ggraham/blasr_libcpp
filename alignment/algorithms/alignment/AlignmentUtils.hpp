@@ -2,7 +2,7 @@
 #define _BLASR_ALIGNMENT_UTILS_HPP_
 
 #include <string>
-#include <pbdata/DNASequence.hpp>
+#include "../../../pbdata/DNASequence.hpp"
 #include "../../datastructures/alignment/Alignment.hpp"
 #include "DistanceMatrixScoreFunction.hpp"
 

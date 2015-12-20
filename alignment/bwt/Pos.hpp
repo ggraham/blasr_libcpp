@@ -6,9 +6,9 @@
 
 #include "PackedHash.hpp"
 
-#include <pbdata/DNASequence.hpp>
-#include <pbdata/Types.h>
-#include <pbdata/utils/BitUtils.hpp>
+#include "../../pbdata/DNASequence.hpp"
+#include "../../pbdata/Types.h"
+#include "../../pbdata/utils/BitUtils.hpp"
 
 template< typename T_BWT_Sequence>
 class Pos {

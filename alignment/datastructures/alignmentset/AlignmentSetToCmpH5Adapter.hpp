@@ -2,7 +2,7 @@
 #define _BLASR_ALIGNMENT_SET_TO_CMPH5_ADAPTER_HPP_
 
 #include <utils/SMRTReadUtils.hpp> // pbdata
-#include <pbdata/sam/AlignmentSet.hpp>
+#include "../../../pbdata/sam/AlignmentSet.hpp"
 #include <HDFCmpFile.hpp> // hdf
 #include "datastructures/alignment/AlignmentCandidate.hpp"
 #include "datastructures/alignment/ByteAlignment.h"

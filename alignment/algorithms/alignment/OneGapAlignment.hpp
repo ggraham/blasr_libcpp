@@ -3,9 +3,9 @@
 
 #include <limits.h>
 // pbdata
-#include <pbdata/Types.h>
-#include <pbdata/FASTQSequence.hpp>
-#include <pbdata/matrix/FlatMatrix.hpp>
+#include "../../../pbdata/Types.h"
+#include "../../../pbdata/FASTQSequence.hpp"
+#include "../../../pbdata/matrix/FlatMatrix.hpp"
 
 #include "../../datastructures/alignment/Path.h"
 #include "../../datastructures/alignment/Alignment.hpp"

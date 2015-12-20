@@ -7,12 +7,12 @@
 #include <cstring>
 #include <ostream>
 // pbdata
-#include <pbdata/Types.h>
-#include <pbdata/NucConversion.hpp>
-#include <pbdata/Enumerations.h>
-#include <pbdata/DNASequence.hpp>
-#include <pbdata/FASTASequence.hpp>
-#include <pbdata/FASTQSequence.hpp>
+#include "../../../pbdata/Types.h"
+#include "../../../pbdata/NucConversion.hpp"
+#include "../../../pbdata/Enumerations.h"
+#include "../../../pbdata/DNASequence.hpp"
+#include "../../../pbdata/FASTASequence.hpp"
+#include "../../../pbdata/FASTQSequence.hpp"
 
 #include "DistanceMatrixScoreFunction.hpp"
 

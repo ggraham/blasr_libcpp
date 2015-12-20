@@ -2,7 +2,7 @@
 #define _SIMULATOR_OUTPUT_SAMPLE_HPP_
 
 #include "QualitySample.hpp"
-#include <pbdata/SMRTSequence.hpp>
+#include "../../pbdata/SMRTSequence.hpp"
 
 class OutputSample {
 public:

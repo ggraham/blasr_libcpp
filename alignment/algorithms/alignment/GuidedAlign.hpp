@@ -6,14 +6,14 @@
 #include <limits.h>
 #include <ostream>
 // pbdata
-#include <pbdata/Types.h>
-#include <pbdata/defs.h>
-#include <pbdata/NucConversion.hpp>
-#include <pbdata/DNASequence.hpp>
-#include <pbdata/matrix/FlatMatrix.hpp>
-#include <pbdata/matrix/Matrix.hpp>
-#include <pbdata/qvs/QualityValue.hpp>
-#include <pbdata/qvs/QualityValueVector.hpp>
+#include "../../../pbdata/Types.h"
+#include "../../../pbdata/defs.h"
+#include "../../../pbdata/NucConversion.hpp"
+#include "../../../pbdata/DNASequence.hpp"
+#include "../../../pbdata/matrix/FlatMatrix.hpp"
+#include "../../../pbdata/matrix/Matrix.hpp"
+#include "../../../pbdata/qvs/QualityValue.hpp"
+#include "../../../pbdata/qvs/QualityValueVector.hpp"
 
 #include "../../utils/LogUtils.hpp"
 #include "../../utils/PhredUtils.hpp"

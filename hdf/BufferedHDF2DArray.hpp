@@ -7,7 +7,7 @@
 
 #include <H5Cpp.h>
 
-#include <pbdata/Types.h>
+#include "../pbdata/Types.h"
 #include "HDFConfig.hpp"
 #include "HDFData.hpp"
 #include "HDFGroup.hpp"

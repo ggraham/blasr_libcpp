@@ -4,7 +4,7 @@
 #include <vector>
 #include <utility>
 
-#include <pbdata/Types.h>
+#include "../../pbdata/Types.h"
 #include "tuples/TupleMetrics.hpp"
 
 template<typename Sequence, typename Tuple>

@@ -6,7 +6,7 @@
 
 #include <H5Cpp.h>
 
-#include <pbdata/reads/RegionTable.hpp>
+#include "../pbdata/reads/RegionTable.hpp"
 #include "HDFFile.hpp"
 #include "HDFArray.hpp"
 #include "HDF2DArray.hpp"

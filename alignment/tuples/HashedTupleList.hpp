@@ -3,7 +3,7 @@
 
 #include "TupleList.hpp"
 #include "TupleMetrics.hpp"
-#include <pbdata/DNASequence.hpp>
+#include "../../pbdata/DNASequence.hpp"
 
 template<typename T_Tuple>
 class HashedTupleList {

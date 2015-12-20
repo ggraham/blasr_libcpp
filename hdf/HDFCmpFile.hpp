@@ -25,17 +25,17 @@
 #include "HDFFileLogGroup.hpp"
 
 // pbdata/
-#include <pbdata/SMRTSequence.hpp>
-#include <pbdata/alignment/CmpAlignment.hpp> // not ../alignment!
-#include <pbdata/saf/RefInfo.hpp>
+#include "../pbdata/SMRTSequence.hpp"
+#include "../pbdata/alignment/CmpAlignment.hpp" // not ../alignment!
+#include "../pbdata/saf/RefInfo.hpp"
 
 // alignment/datastructures/alignment  -- Yes, seriously.
-#include <alignment/datastructures/alignment/CmpFile.hpp>
-#include <alignment/datastructures/alignment/Alignment.hpp>
-#include <alignment/datastructures/alignment/AlignmentCandidate.hpp>
-#include <alignment/datastructures/alignment/CmpReadGroupTable.h>
-#include <alignment/datastructures/alignment/CmpRefSeqTable.h>
-#include <alignment/datastructures/alignment/ByteAlignment.h>
+#include "../alignment/datastructures/alignment/CmpFile.hpp"
+#include "../alignment/datastructures/alignment/Alignment.hpp"
+#include "../alignment/datastructures/alignment/AlignmentCandidate.hpp"
+#include "../alignment/datastructures/alignment/CmpReadGroupTable.h"
+#include "../alignment/datastructures/alignment/CmpRefSeqTable.h"
+#include "../alignment/datastructures/alignment/ByteAlignment.h"
 
 using namespace H5;
 using namespace std;

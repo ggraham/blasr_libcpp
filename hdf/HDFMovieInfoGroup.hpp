@@ -3,7 +3,7 @@
 
 #include "HDFGroup.hpp"
 #include "HDFArray.hpp"
-#include <pbdata/saf/MovieInfo.hpp>
+#include "../pbdata/saf/MovieInfo.hpp"
 
 class HDFMovieInfoGroup {
  public:

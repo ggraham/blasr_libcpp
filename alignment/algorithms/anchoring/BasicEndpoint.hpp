@@ -1,7 +1,7 @@
 #ifndef _BLASR_BASIC_ENDPOINT_HPP_
 #define _BLASR_BASIC_ENDPOINT_HPP_
 
-#include <pbdata/Types.h>
+#include "../../../pbdata/Types.h"
 #include "Coordinate.hpp"
 //
 // An endpoint is one of the ends of a fragment, where

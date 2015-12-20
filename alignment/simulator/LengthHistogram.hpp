@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 #include "CDFMap.hpp"
-#include <pbdata/alignment/CmpAlignment.hpp> // pbdata
-#include <pbdata/utils.hpp>
+#include "../../pbdata/alignment/CmpAlignment.hpp" // pbdata
+#include "../../pbdata/utils.hpp"
 
 class LengthHistogram {
 public:
