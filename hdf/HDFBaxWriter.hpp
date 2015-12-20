@@ -1,6 +1,6 @@
 #ifndef _BLASR_HDF_BAX_WRITER_HPP_
 #define _BLASR_HDF_BAX_WRITER_HPP_
-#include "libconfig.h"
+#include "../pbdata/libconfig.h"
 #ifdef USE_PBBAM
 
 #include <sstream>

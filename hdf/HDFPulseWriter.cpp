@@ -1,4 +1,4 @@
-#include "libconfig.h"
+#include "../pbdata/libconfig.h"
 #ifdef USE_PBBAM
 #include "HDFPulseWriter.hpp"
 

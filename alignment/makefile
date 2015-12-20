@@ -5,7 +5,6 @@ THISDIR:=$(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 include ${THISDIR}/../rules.mk
 
 CXXOPTS  := -std=c++11 -pedantic -Wno-long-long -Wall -Wextra
-#INCLUDES += ${LIBPBIHDF_INC} ${LIBPBDATA_INC}
 SYSINCLUDES = ${HDF5_INC} ${PBBAM_INC} ${HTSLIB_INC} ${BOOST_INC}
 LIBS     += ${LIBPBDATA_LIB} ${LIBPBIHDF_LIB} ${HDF5_LIB} ${PBBAM_LIB} ${HTSLIB_LIB} ${ZLIB_LIB}
 LDFLAGS  += $(patsubst %,-L%,${LIBS})

@@ -1,7 +1,7 @@
 #ifndef _BLASR_HDF_HDFZMWWriter_HPP_
 #define _BLASR_HDF_HDFZMWWriter_HPP_
 
-#include "libconfig.h"
+#include "../pbdata/libconfig.h"
 #ifdef USE_PBBAM
 
 #include "HDFWriterBase.hpp"

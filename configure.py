@@ -53,7 +53,6 @@ def compose_defines_with_hdf(HDF5_INC, HDF5_LIB):
     return """
 HDF5_INC:=%(HDF5_INC)s
 HDF5_LIB:=%(HDF5_LIB)s
-#CPPFLAGS+= -I../pbdata -I../hdf -I../alignment
 LIBPBDATA_INC     ?=../pbdata
 LIBPBIHDF_INC     ?=../hdf
 LIBBLASR_INC      ?=../alignment
@@ -71,7 +70,6 @@ def compose_defines_with_hdf_headers(HDF_HEADERS):
 HDF_HEADERS:=%(HDF_HEADERS)s
 #HDF5_INC  ?=${HDF_HEADERS}/src
 CPPFLAGS+= -I${HDF_HEADERS}/src -I${HDF_HEADERS}/c++/src
-CPPFLAGS+= -I../pbdata -I../hdf -I../alignment
 LIBPBDATA_LIB     ?=../pbdata/
 LIBPBIHDF_LIB     ?=../hdf/
 LIBBLASR_LIB      ?=../alignment/
