@@ -2,7 +2,7 @@
 
 using namespace std;
 
-size_t HDFPulseDataFile::GetAllReadLengths(vector<DNALength> &readLengths) {
+DSLength HDFPulseDataFile::GetAllReadLengths(vector<DNALength> &readLengths) {
     nReads = static_cast<UInt>(zmwReader.numEventArray.arrayLength);
     readLengths.resize(nReads);
     zmwReader.numEventArray.Read(0, nReads, &readLengths[0]);
