@@ -163,7 +163,7 @@ def compose_defines_pacbio(envin):
     """
     env = dict()
     setenv(env, 'SHELL', 'bash')
-    setifenvf(env, envin, 'OS_STRING', get_OS_STRING)
+    #setifenvf(env, envin, 'OS_STRING', get_OS_STRING)
     setifenv(env, envin, 'LIBPBDATA_INC', '../pbdata')
     setifenv(env, envin, 'LIBPBIHDF_INC', '../hdf')
     setifenv(env, envin, 'LIBBLASR_INC', '../alignment')
