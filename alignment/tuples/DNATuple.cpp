@@ -1,7 +1,7 @@
 #include "DNATuple.hpp"
 
 DNATuple::DNATuple()
-    : pos(0) 
+    : pos(0)
 { }
 
 DNATuple::DNATuple(const DNATuple & rhs)
@@ -79,7 +79,7 @@ CountedDNATuple::CountedDNATuple(const CountedDNATuple & rhs)
 { }
 
 PositionDNATuple::PositionDNATuple()
-    : DNATuple() 
+    : DNATuple()
 { 
     pos = static_cast<DNALength>(-1);
 }
