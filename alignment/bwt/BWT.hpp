@@ -209,7 +209,6 @@ class Bwt {
 		DNALength p = seq.length-1;
 		DNALength sp, ep;
 		Nucleotide c;
-		int i;
 
 		//
 		// Original forumlation is using count offsets starting at 1.
