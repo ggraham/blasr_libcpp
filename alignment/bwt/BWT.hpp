@@ -81,7 +81,6 @@ class Bwt {
 
 	int Read(std::string inName) {
 		std::ifstream bwtIn;
-		DNALength seqStorageSize;
 		CrucialOpen(inName, bwtIn, std::ios::binary|std::ios::in);
 		bwtSequence.Read(bwtIn);
 		bwtIn.read((char*)charCount, sizeof(DNALength)*CharCountSize);
@@ -210,7 +209,6 @@ class Bwt {
 		DNALength p = seq.length-1;
 		DNALength sp, ep;
 		Nucleotide c;
-		int i;
 
 		//
 		// Original forumlation is using count offsets starting at 1.

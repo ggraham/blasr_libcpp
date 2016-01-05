@@ -1,6 +1,9 @@
 #ifndef STATISTICS_ANCHOR_DISTRIBUTION_TABLE_H_
 #define STATISTICS_ANCHOR_DISTRIBUTION_TABLE_H_
 
+namespace PacBio {
+namespace AnchorDistributionTable {
+
 static int anchorMinKValues[] = {10,25,1};
 static int anchorReadLengths[] = {100,3000,10};
 static int anchorReadAccuracies[]  = {70,95,1};
@@ -43515,4 +43518,7 @@ static float sdNumAnchorBases[] = {
 141.85,141.14,140.50,141.03,145.70,134.28,141.08,143.15,137.94,135.65,
 143.94,139.25,135.97,142.05,146.51,140.13,144.63,139.89,145.76,143.92
 };
+
+} // namespace AnchorDistributionTable
+} // namespace PacBio
 #endif
