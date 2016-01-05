@@ -257,7 +257,8 @@ ssort(SAIndex a[], SAIndex s[])
     SAIndex *q = 0;
 #	define al a
 #	define pl p
-#	define finish(r)  if(1){result=r; goto out;}
+//#	define finish(r)  if(1){result=r; goto out;}else
+#   define finish(r)  do {result=r; goto out;} while(0)
 
     for(j=n=0; a[n]>0; n++)			/* find n */
         if(a[n] > j)
@@ -299,8 +300,7 @@ ssort(SAIndex a[], SAIndex s[])
                     finish(2);
         }
 
-        //for(i=n; --k>=0; ) {		/* (2) order */
-        for(i=n; k>=1 && --k; ) {		/* (2) order */
+        for(i=n; --k>=0; ) {		/* (2) order */
             j = pl[k];
             do
                 p[--i] = j;
