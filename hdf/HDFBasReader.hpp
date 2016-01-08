@@ -705,7 +705,7 @@ public:
         //
         int retVal;
 
-        DNALength  curBasPosCopy = curBasePos;
+        DSLength curBasPosCopy = curBasePos;
 
         //
         // Getting next advances the curBasPos to the end of 
@@ -733,7 +733,7 @@ public:
             }
             curRead++;
 
-            DNALength nextBasePos = curBasePos;
+            DSLength nextBasePos = curBasePos;
             curBasePos = curBasPosCopy;
 
             if (includedFields["WidthInFrames"] ) {
