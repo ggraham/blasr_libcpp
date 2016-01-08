@@ -27,7 +27,7 @@ using namespace std;
  */
 
 class HDFPlsReader : public DatasetCollection, public HDFPulseDataFile  {
-	DNALength curPos;
+	DSLength curPos;
 	DSLength curRead;
 
 	HDFGroup pulseCallsGroup;
