@@ -299,7 +299,9 @@ ssort(SAIndex a[], SAIndex s[])
                 if(!(pl[i]&ORIG))
                     finish(2);
         }
-
+        abort(); // else infinite loop! probably never called. ~cdunn 2016
+#ifdef DEAD_CODE_20160111
+        // Compiler would warn here (because of the infinite loop):
         for(i=n; --k>=0; ) {		/* (2) order */
             j = pl[k];
             do
@@ -331,6 +333,7 @@ ssort(SAIndex a[], SAIndex s[])
         }
         if(++k >= n)
             break;
+#endif  // DEAD_CODE
     }
 
     for(i=0; i<n; i++)
