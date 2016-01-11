@@ -4,10 +4,10 @@
 namespace PacBio {
 namespace AnchorDistributionTable {
 
-static int anchorMinKValues[] = {10,25,1};
-static int anchorReadLengths[] = {100,3000,10};
-static int anchorReadAccuracies[]  = {70,95,1};
-static float meanNumAnchors[] = {
+const int anchorMinKValues[] = {10,25,1};
+const int anchorReadLengths[] = {100,3000,10};
+const int anchorReadAccuracies[]  = {70,95,1};
+const float meanNumAnchors[] = {
 0.83,0.91,1.07,1.08,1.18,1.21,1.39,1.46,1.54,1.64,
 1.69,1.83,1.87,1.96,2.08,2.11,2.22,2.35,2.38,2.46,
 2.57,2.60,2.66,2.65,2.82,3.03,3.08,3.06,3.26,3.31,
@@ -10885,7 +10885,7 @@ static float meanNumAnchors[] = {
 41.80,42.02,42.01,42.13,42.54,42.53,42.72,42.60,43.03,43.10
 };
 
-static float sdNumAnchors[] = {
+const float sdNumAnchors[] = {
 0.82,0.86,0.94,0.98,0.98,1.02,1.10,1.11,1.12,1.12,
 1.16,1.25,1.26,1.24,1.32,1.36,1.32,1.34,1.44,1.41,
 1.47,1.50,1.48,1.54,1.53,1.60,1.62,1.62,1.61,1.72,
@@ -21763,7 +21763,7 @@ static float sdNumAnchors[] = {
 3.51,3.57,3.51,3.62,3.83,3.72,3.69,3.69,3.74,3.70
 };
 
-static float meanNumAnchorBases[] = {
+const float meanNumAnchorBases[] = {
 10.29,11.18,13.18,13.19,14.50,15.10,17.15,18.04,18.97,20.38,
 21.16,22.65,23.08,24.30,25.73,25.98,27.35,28.95,29.31,30.26,
 31.76,32.39,32.52,32.71,34.88,37.36,38.05,37.55,40.19,40.75,
@@ -32641,7 +32641,7 @@ static float meanNumAnchorBases[] = {
 1664.35,1663.02,1669.93,1675.42,1687.93,1689.50,1689.51,1694.24,1707.42,1709.69
 };
 
-static float sdNumAnchorBases[] = {
+const float sdNumAnchorBases[] = {
 10.47,11.01,11.78,12.26,12.43,13.04,13.75,14.08,14.11,14.49,
 14.74,15.81,15.99,15.62,16.58,17.02,16.57,17.20,18.15,17.63,
 18.48,19.41,18.70,19.14,19.41,20.03,20.56,20.43,20.46,21.47,
