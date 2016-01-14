@@ -62,6 +62,7 @@ void QualityValueVector<T_QV>::Free() {
 
 template<typename T_QV>
 void QualityValueVector<T_QV>::Allocate(unsigned int length) {
+    Free();
     data = ProtectedNew<T_QV>(length);
     _length = static_cast<DNALength>(length);
 }
