@@ -150,6 +150,10 @@ public:
     
 #ifdef USE_PBBAM
 public:
+    /// \returns if record is a valid bam record.
+    /// FIXME: remove this function when pbbam.BamRecord.IsValid is available. 
+    static bool IsValid(const PacBio::BAM::BamRecord & record);
+
     // Copy read sequence, title, holeNumber, readGroupId, and QVs
     // (iq, dq, sq, mq, st, dt) from BamRecord to this SMRTSequence.
     // If copyAllQVs is false, also copy all QVs.
