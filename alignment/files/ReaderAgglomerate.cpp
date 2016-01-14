@@ -155,12 +155,28 @@ bool ReaderAgglomerate::HasRegionTable() {
 #ifdef USE_PBBAM
 
 #define GET_NEXT_FROM_BAM() \
-    numRecords = (entireFileIterator == entireFileQueryPtr->end())?0:1;\
-    if (numRecords != 0) {seq.Copy(*entireFileIterator); entireFileIterator++;} 
+    numRecords = 0; \
+    while (entireFileIterator != entireFileQueryPtr->end()) { \
+        if (not SMRTSequence::IsValid(*entireFileIterator)) { \
+            std::cerr << "Skipping an invalid read " << (*entireFileIterator).FullName() << std::endl;\
+            entireFileIterator++; \
+        } else { \
+            numRecords = 1; seq.Copy(*entireFileIterator); \
+            entireFileIterator++; break; \
+        } \
+    } 
 
 #define GET_NEXT_FROM_DATASET() \
-    numRecords = (pbiFilterIterator == pbiFilterQueryPtr->end())?0:1;\
-    if (numRecords != 0) {seq.Copy(*pbiFilterIterator); pbiFilterIterator++;}
+    numRecords = 0; \
+    while (pbiFilterIterator != pbiFilterQueryPtr->end()) { \
+        if (not SMRTSequence::IsValid(*pbiFilterIterator)) { \
+            std::cerr << "Skipping an invalid read " << (*pbiFilterIterator).FullName() << std::endl; \
+            pbiFilterIterator++; \
+        } else { \
+            numRecords = 1; seq.Copy(*pbiFilterIterator); \
+            pbiFilterIterator++; break; \
+        } \
+    }
 
 #define RESET_PBBAM_PTRS() \
     if (dataSetPtr != nullptr) {delete dataSetPtr; dataSetPtr = nullptr;} \
@@ -362,26 +378,57 @@ int ReaderAgglomerate::GetNext(vector<SMRTSequence> & reads) {
     }
     if (fileType == FileType::PBBAM) {
 #ifdef USE_PBBAM
-        if (sequentialZmwIterator != sequentialZmwQueryPtr->end()) {
+        while (sequentialZmwIterator != sequentialZmwQueryPtr->end()) {
             const vector<PacBio::BAM::BamRecord> & records = *sequentialZmwIterator;
-            numRecords = records.size();
-            reads.resize(numRecords);
+            // bug 30566, short term solution, ignore bad record.
+            bool OK = true;
             for (size_t i=0; i < records.size(); i++) {
-                reads[i].Copy(records[i]);
+                if (not SMRTSequence::IsValid(records[i])) {
+                    OK = false;
+                    std::cerr << "Skipping all subreads in " << records[i].MovieName()
+                              << "/" << records[i].HoleNumber() << ", because "
+                              << records[i].FullName() << " is invalid." << std::endl;
+                    break;
+                }
             }
-            sequentialZmwIterator++;
+            if (OK) {
+                numRecords = records.size();
+                reads.resize(numRecords);
+                for (size_t i=0; i < records.size(); i++) {
+                    reads[i].Copy(records[i]);
+                }
+                sequentialZmwIterator++;
+                break;
+            } else {
+                sequentialZmwIterator++;
+            }
         }
 #endif
     } else if (fileType == FileType::PBDATASET) {
 #ifdef USE_PBBAM
-        if (pbiFilterZmwIterator != pbiFilterZmwQueryPtr->end()) {
+        while (pbiFilterZmwIterator != pbiFilterZmwQueryPtr->end()) {
             const vector<PacBio::BAM::BamRecord> & records = *pbiFilterZmwIterator;
-            numRecords = records.size();
-            reads.resize(numRecords);
+            bool OK = true;
             for (size_t i=0; i < records.size(); i++) {
-                reads[i].Copy(records[i]);
+                if (not SMRTSequence::IsValid(records[i])) {
+                    OK = false;
+                    std::cerr << "Skipping all subreads in " << records[i].MovieName()
+                              << "/" << records[i].HoleNumber() << ", because "
+                              << records[i].FullName() << " is invalid." << std::endl;
+                    break;
+                }
             }
-            pbiFilterZmwIterator++;
+            if (OK) {
+                numRecords = records.size();
+                reads.resize(numRecords);
+                for (size_t i=0; i < records.size(); i++) {
+                    reads[i].Copy(records[i]);
+                }
+                pbiFilterZmwIterator++;
+                break;
+            } else {
+                pbiFilterZmwIterator++;
+            }
         }
 #endif
     } else {

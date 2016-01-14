@@ -1,6 +1,6 @@
 // Author: Mark Chaisson
 
-#include <stdlib.h> 
+#include <stdlib.h>
 #include "utils/SMRTTitle.hpp"
 #include "SMRTSequence.hpp"
 
@@ -43,10 +43,10 @@ void SMRTSequence::Allocate(DNALength length) {
         exit(1);
     }
 
+    FASTQSequence::AllocateQualitySpace(length);
     FASTQSequence::AllocateRichQualityValues(length);
     seq           = ProtectedNew<Nucleotide>(length);
     this->length  = length;
-    qual.Allocate(length);
     preBaseFrames = ProtectedNew<HalfWord>(length);
     widthInFrames = ProtectedNew<HalfWord>(length);
     pulseIndex    = ProtectedNew<int>(length);
@@ -54,11 +54,12 @@ void SMRTSequence::Allocate(DNALength length) {
     deleteOnExit  = true;
 }
 
+
 void SMRTSequence::SetSubreadTitle(SMRTSequence &subread, DNALength subreadStart, DNALength subreadEnd) {
     stringstream titleStream;
     titleStream << title << "/"<< subreadStart << "_" << subreadEnd;
     subread.CopyTitle(titleStream.str());
-}    
+}   
 
 void SMRTSequence::SetSubreadBoundaries(SMRTSequence &subread, DNALength subreadStart, DNALength subreadEnd) {
     if (subreadEnd == static_cast<DNALength>(-1)) {
@@ -70,7 +71,7 @@ void SMRTSequence::SetSubreadBoundaries(SMRTSequence &subread, DNALength subread
     SetSubreadTitle(subread, subreadStart, subreadEnd);
 }
 
-void SMRTSequence::MakeSubreadAsMasked(SMRTSequence &subread, 
+void SMRTSequence::MakeSubreadAsMasked(SMRTSequence &subread,
     DNALength subreadStart, int subreadEnd) {
     subread.Free();
     //
@@ -86,11 +87,11 @@ void SMRTSequence::MakeSubreadAsMasked(SMRTSequence &subread,
     assert(subread.deleteOnExit);
 }
 
-void SMRTSequence::MakeSubreadAsReference(SMRTSequence &subread, 
+void SMRTSequence::MakeSubreadAsReference(SMRTSequence &subread,
     DNALength subreadStart, int subreadEnd) {
     subread.Free();
     //
-    // Just create a reference to a substring of this read.  
+    // Just create a reference to a substring of this read. 
     //
     static_cast<FASTQSequence*>(&subread)->ReferenceSubstring(*this, subreadStart, subreadEnd - subreadStart);
     SetSubreadBoundaries(subread, subreadStart, subreadEnd);
@@ -105,15 +106,15 @@ void SMRTSequence::Copy(const SMRTSequence &rhs) {
 void SMRTSequence::Copy(const SMRTSequence &rhs, DNALength rhsPos, DNALength rhsLength) {
     // Sanity check
     CheckBeforeCopyOrReference(rhs, "SMRTSequence");
-    
+   
     // Free this SMRTSequence before copying anything from rhs.
     SMRTSequence::Free();
 
-    FASTQSequence subseq; 
-    // subseq.seq is referenced, while seq.title is not, we need to call 
+    FASTQSequence subseq;
+    // subseq.seq is referenced, while seq.title is not, we need to call
     // subseq.Free() to prevent memory leak.
     static_cast<FASTQSequence*>(&subseq)->ReferenceSubstring(rhs, rhsPos, rhsLength);
-    static_cast<FASTQSequence*>(&subseq)->CopyTitle(rhs.title, rhs.titleLength); 
+    static_cast<FASTQSequence*>(&subseq)->CopyTitle(rhs.title, rhs.titleLength);
 
     if (rhs.length == 0) {
         static_cast<FASTQSequence*>(this)->Copy(subseq);
@@ -127,7 +128,7 @@ void SMRTSequence::Copy(const SMRTSequence &rhs, DNALength rhsPos, DNALength rhs
         assert(rhsPos < rhs.length);
 
         // Copy seq, title and FASTQ QVs from subseq
-        static_cast<FASTQSequence*>(this)->Copy(subseq); 
+        static_cast<FASTQSequence*>(this)->Copy(subseq);
 
         // Copy SMRT QVs
         if (rhs.preBaseFrames != NULL) {
@@ -208,7 +209,7 @@ void SMRTSequence::Free() {
     copiedFromBam = false;
 #ifdef USE_PBBAM
     bamRecord = PacBio::BAM::BamRecord();
-#endif 
+#endif
 
     // ZMWMetrics
     for (size_t i = 0; i < 4; i++) {
@@ -305,6 +306,43 @@ SMRTSequence & SMRTSequence::HQRegionSnr(const char base, float v) {
 }
 
 #ifdef USE_PBBAM
+bool SMRTSequence::IsValid(const PacBio::BAM::BamRecord & record) {
+    DNALength expectedLength = 0;
+    if (record.Type() != PacBio::BAM::RecordType::CCS) {
+        expectedLength = static_cast<int>(record.QueryEnd()) -
+                         static_cast<int>(record.QueryStart());
+    } else {
+        expectedLength =  static_cast<int>(record.Sequence().length());
+    }
+    if (record.Sequence().size() != expectedLength) return false;
+
+    if (record.HasInsertionQV()) {
+        if (record.InsertionQV().size() != expectedLength) return false;
+    }
+    if (record.HasDeletionQV()) {
+        if (record.DeletionQV().size() != expectedLength) return false;
+    }
+    if (record.HasSubstitutionQV()) {
+        if (record.SubstitutionQV().size() != expectedLength) return false;
+    }
+    if (record.HasMergeQV()) {
+        if (record.MergeQV().size() != expectedLength) return false;
+    }
+    if (record.HasSubstitutionTag()) {
+        if (record.SubstitutionTag().size() != expectedLength) return false;
+    }
+    if (record.HasDeletionTag()) {
+        if (record.DeletionTag().size() != expectedLength) return false;
+    }
+    if (record.HasPreBaseFrames()) {
+        if (record.PreBaseFrames().DataRaw().size() != expectedLength) return false;
+    }
+    if (record.HasPulseWidth()) {
+        if (record.PulseWidth().DataRaw().size() != expectedLength) return false;
+    }
+    return true;
+}
+
 void SMRTSequence::Copy(const PacBio::BAM::BamRecord & record,
                         bool copyAllQVs) {
     Free();
@@ -312,19 +350,19 @@ void SMRTSequence::Copy(const PacBio::BAM::BamRecord & record,
     copiedFromBam = true;
 
     bamRecord = PacBio::BAM::BamRecord(record);
-    
-    // Only copy insertionQV, deletionQV, substitutionQV, mergeQV, 
+   
+    // Only copy insertionQV, deletionQV, substitutionQV, mergeQV,
     // deletionTag and substitutionTag from BamRecord to SMRTSequence.
     // Do NOT copy other SMRTQVs such as startFrame, meanSignal...
     (static_cast<FASTQSequence*>(this))->Copy(record);
 
     // Set subread start, subread end in coordinate of zmw.
-    if (record.Type() != PacBio::BAM::RecordType::CCS) { 
+    if (record.Type() != PacBio::BAM::RecordType::CCS) {
         subreadStart_ = static_cast<int>(record.QueryStart());
         subreadEnd_ = static_cast<int>(record.QueryEnd());
     } else {
         subreadStart_ = 0;
-        subreadEnd_ =  static_cast<int>(record.Sequence().length());;
+        subreadEnd_ =  static_cast<int>(record.Sequence().length());
     }
 
     // Shall we copy all pulse QVs including ipd and pw?
@@ -349,7 +387,7 @@ void SMRTSequence::Copy(const PacBio::BAM::BamRecord & record,
 
     // PacBio bam for secondary analysis does NOT carry zmw
     // info other than holeNumber, including holeStatus, holeX,
-    // holeY, numEvents. 
+    // holeY, numEvents.
     UInt hn = static_cast<UInt> (record.HoleNumber());
     this->HoleNumber(hn).
     // Assumption: holeStatus of a bam record must be 'SEQUENCING'
@@ -365,22 +403,22 @@ void SMRTSequence::Copy(const PacBio::BAM::BamRecord & record,
         // readScore should always be a float in [0, 1],
         // and highQualityRegionScore always be a int in [0, 1000]
         readScore = float(record.ReadAccuracy());
-        if (readScore <= 1.0) { 
+        if (readScore <= 1.0) {
             highQualityRegionScore = int(readScore * 1000);
-        } else { 
+        } else {
             highQualityRegionScore = int(readScore);
             readScore /= 1000.0;
         }
     }
 
-    // Set HQRegionSNR if record has the 'sn' tag 
+    // Set HQRegionSNR if record has the 'sn' tag
     if (record.HasSignalToNoise()) {
-        // Signal to noise ratio of ACGT (in that particular ORDER) over 
-        // HQRegion from BAM: record.SignalToNoise() 
+        // Signal to noise ratio of ACGT (in that particular ORDER) over
+        // HQRegion from BAM: record.SignalToNoise()
         std::vector<float> snrs = record.SignalToNoise();
-        this->HQRegionSnr('A', snrs[0]) 
+        this->HQRegionSnr('A', snrs[0])
              .HQRegionSnr('C', snrs[1])
-             .HQRegionSnr('G', snrs[2]) 
+             .HQRegionSnr('G', snrs[2])
              .HQRegionSnr('T', snrs[3]);
     }
 }
