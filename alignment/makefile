@@ -16,7 +16,9 @@ ifeq (${nohdf},)
 endif
 # We might also need some -l* for pbbam, etc.
 
-all: libblasr.a libblasr${SH_LIB_EXT}
+all: static shared
+static: libblasr.a
+shared: libblasr${SH_LIB_EXT}
 
 paths := . simulator format files utils tuples statistics qvs suffixarray \
 	datastructures/alignment datastructures/alignmentset datastructures/anchoring datastructures/tuplelists \

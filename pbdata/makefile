@@ -11,7 +11,9 @@ SYSINCLUDES = ${PBBAM_INC} ${HTSLIB_INC} ${BOOST_INC}
 LIBS     += ${PBBAM_LIB} ${HTSLIB_LIB}
 LDFLAGS  += $(patsubst %,-L%,${LIBS})
 
-all: libpbdata.a libpbdata${SH_LIB_EXT}
+all: static shared
+static: libpbdata.a
+shared: libpbdata${SH_LIB_EXT}
 
 paths := . matrix reads metagenome qvs saf utils loadpulses alignment amos sam
 paths := ${paths} $(patsubst %,${THISDIR}%,${paths})
