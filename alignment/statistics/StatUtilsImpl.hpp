@@ -41,7 +41,7 @@ template<typename T>
 void MeanVar(std::vector<T> &values, float &mean, float &var) {
   T sum = 0;
   T sumsq = 0;
-  int i;
+  size_t i;
   if (values.size() == 0) {
     mean = 0; var = 0;
     return;

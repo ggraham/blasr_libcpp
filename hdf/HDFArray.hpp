@@ -73,7 +73,7 @@ public:
 
 class HDFStringArray: public HDFArray<std::string> {
 public:
-    void Read(UInt start, UInt end, std::string* dest) {
+    void Read(DSLength start, DSLength end, std::string* dest) {
         std::vector<char*> tmpDestCharPtrs;
         if (end == start) return;
         assert(end > start);

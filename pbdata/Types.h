@@ -23,4 +23,7 @@ typedef uint8_t  Byte;
 typedef uint8_t  UChar;
 typedef uint16_t HalfWord;
 typedef float MatchWeight;
+
+#define PB_UNUSED(VAR) (void)(VAR)
+
 #endif // _BLASR_TYPES_H_

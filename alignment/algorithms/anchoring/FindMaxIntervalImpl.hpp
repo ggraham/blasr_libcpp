@@ -4,6 +4,8 @@
 template<typename T_Sequence, typename T_AnchorList>
 float DefaultWeightFunction<T_Sequence, T_AnchorList>::operator() (
     T_Sequence &text, T_Sequence &read, T_AnchorList matchPosList) {
+    PB_UNUSED(text);
+    PB_UNUSED(read);
     int i;
     float weight = 0;
     for (i = 0; i < matchPosList.size(); i++) {
@@ -201,7 +203,9 @@ void StoreLargestIntervals(
     DNALength curBoundary = 0, nextBoundary = 0;
     DNALength contigLength = ContigStartPos.Length(pos[cur].t);
     DNALength endOfCurrentInterval = curBoundary + contigLength;
-    (void)(curBoundary); (void)(nextBoundary); (void)(endOfCurrentInterval);
+    PB_UNUSED(curBoundary);
+    PB_UNUSED(nextBoundary);
+    PB_UNUSED(endOfCurrentInterval);
 
     curBoundary = ContigStartPos(pos[cur].t);
     nextBoundary = ContigStartPos(pos[next].t);  
@@ -213,7 +217,7 @@ void StoreLargestIntervals(
     //
 
     DNALength curIntervalLength = NumRemainingBases(pos[cur].q, intervalLength);
-    (void)(curIntervalLength);
+    PB_UNUSED(curIntervalLength);
 
     AdvanceIndexToPastInterval(pos, nPos, intervalLength, contigLength, ContigStartPos,
             cur, curBoundary, next, nextBoundary);
@@ -351,7 +355,7 @@ void StoreLargestIntervals(
             // just after where the interval starting at cur is, or the first
             // position in the next contig.
             //
-            int prevNext = next;
+            VectorIndex prevNext = next;
             AdvanceIndexToPastInterval(pos, nPos, intervalLength, contigLength, ContigStartPos,
                                        cur, curBoundary, next, nextBoundary);
             if (prevNext != next or recountInterval) {
@@ -621,7 +625,7 @@ int FastFindMaxIncreasingInterval(
         // Insert the interval into the interval queue maintaining only the 
         // top 'nBest' intervals. 
         //
-        WeightedIntervalSet::iterator lastIt = intervalQueue.begin();
+        //WeightedIntervalSet::iterator lastIt = intervalQueue.begin();
         MatchWeight lisWeight = MatchWeightFunction(lis);
         VectorIndex lisEnd = lis.size() - 1;
 
@@ -791,7 +795,7 @@ int ExhaustiveFindMaxIncreasingInterval(
         // top 'nBest' intervals. 
         //
 
-        WeightedIntervalSet::iterator lastIt = intervalQueue.begin();
+        //WeightedIntervalSet::iterator lastIt = intervalQueue.begin();
         MatchWeight lisWeight = MatchWeightFunction(lis);
         VectorIndex lisEnd = lis.size() - 1;
 

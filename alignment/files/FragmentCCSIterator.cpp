@@ -38,7 +38,7 @@ Initialize(CCSSequence *_seqPtr, RegionTable *_regionTablePtr) {
     int i, j;
     for (i = 0; i < static_cast<int>(subreadIntervals.size()); i++) {
         for (j = 0; j < static_cast<int>(seqPtr->passStartBase.size()); j++) {
-            if (abs( subreadIntervals[i].start - seqPtr->passStartBase[j] ) < 10) {
+            if (abs( subreadIntervals[i].start - static_cast<int>(seqPtr->passStartBase[j]) ) < 10) {
                 readIntervalDirection[i] = seqPtr->passDirection[j];
                 break;
             }

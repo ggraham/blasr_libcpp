@@ -69,7 +69,7 @@ int SearchSequenceForTuple(Sequence &seq, TupleMetrics &tm, DNATuple &queryTuple
         while(curValidEnd < seq.length and IsACTG[seq.seq[curValidEnd]]) {
             curValidEnd++;
         }
-        if (curValidEnd - cur >= tm.tupleSize) {
+        if (curValidEnd - cur >= static_cast<DNALength>(tm.tupleSize)) {
             //
             // Found a span that does not have N's in it, 
             //
@@ -121,7 +121,7 @@ int SequenceToTupleList(Sequence &seq, TupleMetrics &tm, TupleList<DNATuple> &tu
         while(curValidEnd < seq.length and IsACTG[seq.seq[curValidEnd]]) {
             curValidEnd++;
         }
-        if (curValidEnd - cur >= tm.tupleSize) {
+        if (curValidEnd - cur >= static_cast<DNALength>(tm.tupleSize)) {
             //
             // Found a span that does not have N's in it, 
             //
@@ -172,7 +172,7 @@ int SequenceToTupleList(Sequence &seq, TupleMetrics &tm, TupleList<PositionDNATu
         while(curValidEnd < seq.length and IsACTG[seq.seq[curValidEnd]]) {
             curValidEnd++;
         }
-        if (curValidEnd - cur >= tm.tupleSize) {
+        if (curValidEnd - cur >= static_cast<DNALength>(tm.tupleSize)) {
             //
             // Found a span that does not have N's in it, 
             //

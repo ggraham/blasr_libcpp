@@ -1,5 +1,6 @@
 #ifndef _BLASR_LONGEST_INCREASING_SUBSEQUENCE_IMPL_HPP_
 #define _BLASR_LONGEST_INCREASING_SUBSEQUENCE_IMPL_HPP_
+#include "../../../pbdata/Types.h"
 
 using namespace std;
 
@@ -55,7 +56,8 @@ template<typename T, typename F_IntValue >
 int LongestIncreasingSubset(T *x, int xLength, vector<int> &subsetIndices, 
 	vector<int> &m, vector<int> &p, F_IntValue IntValue, 
 	int start, int end) {
-
+  PB_UNUSED(start);
+  PB_UNUSED(end);
 	//
 	// m[i] is the index of the LIS of length i+1
 	//
@@ -70,7 +72,7 @@ int LongestIncreasingSubset(T *x, int xLength, vector<int> &subsetIndices,
 	int maxM;
 	//  On the first iteration m[0] should be set to 0.
 	int lenM = 1;
-	int mi;
+	//int mi;
 
 	for (i = 0; i < xLength; i++) { 
 		//

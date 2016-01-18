@@ -66,7 +66,7 @@ int ComputeAlignmentScore(std::string &queryStr, std::string &textStr, T_ScoreFn
     }
     VectorIndex i;
     int score = 0;
-    int alignStrLen = queryStr.size();
+    VectorIndex alignStrLen = queryStr.size();
     for(i = 0; i < alignStrLen; i++) {
         if (queryStr[i] != '-' and
             textStr[i] != '-') {
@@ -77,7 +77,7 @@ int ComputeAlignmentScore(std::string &queryStr, std::string &textStr, T_ScoreFn
                 //
                 // Compute affine gap scoring.  For now this uses symmetric insertion/deletion penalties. 
                 //
-                int gapEnd = i;
+                unsigned gapEnd = i;
                 while (gapEnd < queryStr.size() and gapEnd < textStr.size() and 
                         (queryStr[gapEnd] == '-' or textStr[gapEnd] == '-')) {
                     ++gapEnd;
@@ -523,7 +523,7 @@ void QVsToCmpH5QVs(const std::string &qvs,
     char tagGapChar = 'N';
     UChar qvGapChar = 255; 
 
-    for (int i=0; i<byteAlignment.size(); i++) {
+    for (unsigned i=0; i<byteAlignment.size(); i++) {
         if (byteAlignment[i] >> 4 == 0) { //Look at upper bits to get query char
             if (isTag) {
                 gappedQVs->push_back(tagGapChar);

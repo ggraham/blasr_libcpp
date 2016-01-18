@@ -149,6 +149,11 @@ void BufferedHDF2DArray<T>::Read(DSLength startX, DSLength endX, T*dest) {
  */
 template<typename T>
 void BufferedHDF2DArray<T>::Read(DSLength startX, DSLength endX, DSLength startY, DSLength endY, T* dest) {
+    (void)(startX);
+    (void)(endX);
+    (void)(startY);
+    (void)(endY);
+    (void)(dest);
     assert("ERROR, calling Read with an unsupported type. Use Read(startx,endx, starty,endy,datatype, dest) instead." == 0);
     exit(1);
 }
@@ -214,9 +219,10 @@ void BufferedHDF2DArray<T>::Create(H5::CommonFG *_container, string _datasetName
 }
 
 template<typename T>
-void BufferedHDF2DArray<T>::TypedCreate(H5::DataSpace &fileSpace, 
+void BufferedHDF2DArray<T>::TypedCreate(H5::DataSpace &fileSpace,
     H5::DSetCreatPropList &cparms) {
-
+    (void)(fileSpace);
+    (void)(cparms);
     assert("Error, calling HDF2DArray<T>::TypedCreate on an unsupported type.  A specialization must be written in HDF2DArray.h" == 0);
 }
 
@@ -224,7 +230,8 @@ void BufferedHDF2DArray<T>::TypedCreate(H5::DataSpace &fileSpace,
 template<typename T>
 void TypedWriteRow(const T*, const H5::DataSpace &memoryDataSpace, 
     const H5::DataSpace &fileDataSpace) {
-
+    (void)(memoryDataSpace);
+    (void)(fileDataSpace);
     assert("Error, calling HDF2DArray<T>::TypedWriteRow on an unsupported type.  A specialization must be written in HDF2DArray.h" == 0);
 }
 
@@ -253,7 +260,7 @@ void BufferedHDF2DArray<T>::WriteRow(const T *data, DSLength dataLength, DSLengt
         //
         bufferCapacity = (this->bufferSize / rowLength)*rowLength - this->bufferIndex;
         flushBuffer = false;
-        if (bufferCapacity  > dataLength - dataIndex) {
+        if (static_cast<long long>(bufferCapacity)  > static_cast<long long>(dataLength) - static_cast<long long>(dataIndex)) {
             bufferFillSize = dataLength - dataIndex;
         }
         else {
@@ -270,7 +277,7 @@ void BufferedHDF2DArray<T>::WriteRow(const T *data, DSLength dataLength, DSLengt
         //  When not appending, increment the position of where the data
         //  is to be written.
         //
-        if (destRow != -1) {
+        if (destRow != static_cast<DSLength>(-1)) {
             destRow += this->bufferIndex / rowLength;
         }
     }
@@ -312,7 +319,7 @@ void BufferedHDF2DArray<T>::Flush(DSLength destRow) {
         // will go, and how much to write.
         //
 
-        if (destRow == -1) {
+        if (destRow == static_cast<DSLength>(-1)) {
             fileArraySize[0] += numDataRows;
         }
         else {
@@ -343,7 +350,7 @@ void BufferedHDF2DArray<T>::Flush(DSLength destRow) {
         //
         // Determine which row to write to.
         //
-        if (destRow == -1) {
+        if (destRow == static_cast<DSLength>(-1)) {
             offset[0] = blockStart[0];
         }
         else {

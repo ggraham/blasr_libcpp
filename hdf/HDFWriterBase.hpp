@@ -125,7 +125,7 @@ bool __WriteFakeDataSet(HDFGroup & dsGroup, const std::string & dsName,
 ///        with value 'fillData'
 template<typename T>
 bool __WriteFake2DDataSet(HDFGroup & dsGroup, const std::string & dsName,
-                           const uint32_t rowNum, const int colNum, const T & fillData) {
+                           const uint32_t rowNum, const size_t colNum, const T & fillData) {
     BufferedHDF2DArray<T> dsArray;
     if (dsArray.Initialize(dsGroup, dsName, colNum) == 0) return false;
     T * data = new T[colNum];

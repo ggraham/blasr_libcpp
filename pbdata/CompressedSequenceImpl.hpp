@@ -163,6 +163,7 @@ int CompressedSequence<T_Sequence>::BuildFourBitReverseIndex(int binSize) {
 
 template<typename T_Sequence>
 int CompressedSequence<T_Sequence>::BuildReverseIndex(int maxRun, int binSize) {
+    PB_UNUSED(binSize);
     hasIndex = 1;
 
     DNALength i;

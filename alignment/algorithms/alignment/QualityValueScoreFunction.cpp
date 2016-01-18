@@ -11,12 +11,18 @@ template<typename T_RefSequence, typename T_QuerySequence>
 int QualityValueScoreFunction<T_RefSequence, T_QuerySequence>::Deletion(
     T_RefSequence &seq, DNALength refPos, T_QuerySequence &querySeq, 
     DNALength queryPos) {
+    PB_UNUSED(seq);
+    PB_UNUSED(refPos);
+    PB_UNUSED(querySeq);
+    PB_UNUSED(queryPos);
     return QualityScoreTypeNotSpecified("Deletion");
 }
 		
 template<typename T_RefSequence, typename T_QuerySequence>
 int QualityValueScoreFunction<T_RefSequence, T_QuerySequence>::Deletion(
     T_RefSequence &seq, DNALength pos) {
+    PB_UNUSED(seq);
+    PB_UNUSED(pos);
     return QualityScoreTypeNotSpecified("Deletion");
 }
 
@@ -24,6 +30,10 @@ template<typename T_RefSequence, typename T_QuerySequence>
 int QualityValueScoreFunction<T_RefSequence, T_QuerySequence>::Match(
     T_RefSequence &ref, DNALength refPos, T_QuerySequence &query, 
     DNALength queryPos) {
+    PB_UNUSED(ref);
+    PB_UNUSED(refPos);
+    PB_UNUSED(query);
+    PB_UNUSED(queryPos);
     return QualityScoreTypeNotSpecified("Match");
 }
 
@@ -31,12 +41,18 @@ template<typename T_RefSequence, typename T_QuerySequence>
 int QualityValueScoreFunction<T_RefSequence, T_QuerySequence>::Insertion(
     T_RefSequence &ref, DNALength refPos, T_QuerySequence &seq, 
     DNALength pos) {
+    PB_UNUSED(ref);
+    PB_UNUSED(refPos);
+    PB_UNUSED(seq);
+    PB_UNUSED(pos);
     return QualityScoreTypeNotSpecified("Insertion");
 }
 
 template<typename T_RefSequence, typename T_QuerySequence>
 int QualityValueScoreFunction<T_RefSequence, T_QuerySequence>::Insertion(
     T_QuerySequence &seq, DNALength pos) {
+    PB_UNUSED(seq);
+    PB_UNUSED(pos);
     return QualityScoreTypeNotSpecified("Insertion");
 }
 
@@ -47,14 +63,16 @@ int QualityValueScoreFunction<T_RefSequence, T_QuerySequence>::Insertion(
 template<>
 int QualityValueScoreFunction<FASTASequence, FASTQSequence>::Deletion(
     FASTASequence &ref, DNALength pos) {
-    (void)(ref); (void)(pos);
+    PB_UNUSED(ref);
+    PB_UNUSED(pos);
     return del; // For now there is no global deletion quality value.
 }
 
 template<>
 int QualityValueScoreFunction<DNASequence, FASTQSequence>::Deletion(
     DNASequence &ref, DNALength pos) {
-    (void)(ref); (void)(pos);
+    PB_UNUSED(ref);
+    PB_UNUSED(pos);
     return del; // For now there is no global deletion quality value.
 }
 
@@ -62,7 +80,8 @@ template<>
 int QualityValueScoreFunction<DNASequence, FASTQSequence>::Deletion(
     DNASequence &seq, DNALength refPos, FASTQSequence &querySeq,
     DNALength queryPos) {
-    (void)(querySeq); (void)(queryPos);
+    PB_UNUSED(querySeq);
+    PB_UNUSED(queryPos);
     return Deletion(seq, refPos);
 }
 
@@ -77,7 +96,10 @@ template<>
 int QualityValueScoreFunction<DNASequence, FASTQSequence>::Insertion(
     DNASequence &ref, DNALength refPos, FASTQSequence &query, 
     DNALength pos) {
-    (void)(ref); (void)(refPos); (void)(query); (void)(pos);
+    PB_UNUSED(ref);
+    PB_UNUSED(refPos);
+    PB_UNUSED(query);
+    PB_UNUSED(pos);
     // Positive value for quality value penalizes the alignment.
     // return query.qual[pos];
     // return Insertion(query, pos);

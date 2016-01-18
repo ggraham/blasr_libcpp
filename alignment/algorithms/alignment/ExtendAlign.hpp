@@ -102,7 +102,8 @@ template<typename T_Alignment,
             // terminating the alignment
             // 
             ) {
-        (void)(queryPos); (void)(refPos);
+        PB_UNUSED(queryPos);
+        PB_UNUSED(refPos);
         //
         // Try extending an alignment in the forward direction as long the
         // maximum score that is extended is above a threshold above the
@@ -111,7 +112,7 @@ template<typename T_Alignment,
         // matrices since reusable buffers are used).   
         // 
 
-        int nCols = 2 * k + 1 + 1;  // 2*k is for search space, +1 is for the
+        DNALength nCols = 2 * k + 1 + 1;  // 2*k is for search space, +1 is for the
         // middle band, and the last +1 is for the
         // boundary conditions at the beginning of
         // the array.
@@ -144,7 +145,8 @@ template<typename T_Alignment,
         // Initialize boundary conditions.
         //
 
-        int q, t;
+        DNALength q;
+        int t;
         // Initialize first column for insertions.
         int firstIndex;
         fill(scoreMat.begin(), scoreMat.begin() + matSize, 0);
