@@ -16,7 +16,7 @@ foo:
 	echo ${SYSINCLUDES}
 all: libpbihdf.a libpbihdf${SH_LIB_EXT}
 
-paths := ${THISDIR}
+paths := .
 sources := $(wildcard ${THISDIR}*.cpp)
 sources := $(notdir ${sources})
 objects := $(sources:.cpp=.o)

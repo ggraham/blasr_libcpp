@@ -22,7 +22,7 @@ paths := . simulator format files utils tuples statistics qvs suffixarray \
 	datastructures/alignment datastructures/alignmentset datastructures/anchoring datastructures/tuplelists \
 	algorithms/alignment algorithms/alignment/sdp algorithms/anchoring algorithms/compare algorithms/sorting \
 	query
-paths := $(patsubst %,${THISDIR}%,${paths})
+#paths := $(patsubst %,${THISDIR}%,${paths})
 sources := $(shell find ${THISDIR} -name '*.cpp')
 
 ifdef nohdf
