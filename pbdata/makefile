@@ -6,7 +6,7 @@ include ${THISDIR}/../rules.mk
 
 CXXOPTS  += -std=c++11 -pedantic -Wall -Wextra
 # CURDIR should have libconfig.h
-INCLUDES += ${CURDIR}
+#INCLUDES += ${CURDIR}
 SYSINCLUDES = ${PBBAM_INC} ${HTSLIB_INC} ${BOOST_INC}
 LIBS     += ${PBBAM_LIB} ${HTSLIB_LIB}
 LDFLAGS  += $(patsubst %,-L%,${LIBS})
@@ -14,7 +14,7 @@ LDFLAGS  += $(patsubst %,-L%,${LIBS})
 all: libpbdata.a libpbdata${SH_LIB_EXT}
 
 paths := . matrix reads metagenome qvs saf utils loadpulses alignment amos sam
-paths := $(patsubst %,${THISDIR}%,${paths})
+#paths := $(patsubst %,${THISDIR}%,${paths})
 sources := $(shell find ${THISDIR} -name '*.cpp')
 sources := $(notdir ${sources})
 objects := $(sources:.cpp=.o)
