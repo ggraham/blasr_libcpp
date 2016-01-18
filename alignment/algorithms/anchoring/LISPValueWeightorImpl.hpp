@@ -14,7 +14,7 @@ template<typename T_RefSequence, typename T_MatchList>
 float LISSumOfLogPWeightor<T_RefSequence, T_MatchList>::ComputePValue(
     T_MatchList &matchList, int &noOvpLisNBases, int &noOvpLisSize) {
     float pMatch = 0;
-    int i;
+    size_t i;
     T_MatchList noOvpLis;
     StoreNonOverlappingIndices(matchList, noOvpLis);
     noOvpLisSize = noOvpLis.size();
@@ -56,7 +56,7 @@ float LISSMatchFrequencyPValueWeightor<T_RefSequence, T_Tuple, T_MatchList>::Com
     T_MatchList noOvpLis;
     StoreNonOverlappingIndices(lis, noOvpLis);
     noOvpLisSize = noOvpLis.size();
-    int i;
+    size_t i;
     noOvpLisNBases = 0;
     for (i = 0; i < noOvpLis.size(); i++) {
         noOvpLisNBases += noOvpLis[i].l;

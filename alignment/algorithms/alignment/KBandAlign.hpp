@@ -170,7 +170,7 @@ int KBandAlign(T_QuerySequence &qSeq, T_TargetSequence &tSeq,
 			}
 		
 			int minScore = MIN(matchScore, MIN(insScore, delScore));
-			int curIndex = rc2index(q, k + t - q, nCols);
+			size_t curIndex = rc2index(q, k + t - q, nCols);
 			assert(curIndex < scoreMat.size());
 			scoreMat[curIndex] = minScore;
       int nEqual = 0;

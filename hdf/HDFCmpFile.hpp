@@ -209,7 +209,7 @@ public:
         // First find the reference group.
         //
         assert(refNameToArrayIndex.find(refName) != refNameToArrayIndex.end());
-        int refIndex = refNameToArrayIndex[refName];
+        size_t refIndex = refNameToArrayIndex[refName];
         assert(refIndex < refAlignGroups.size());
         HDFCmpExperimentGroup *expGroup;
         expGroup = refAlignGroups[refIndex]->GetExperimentGroup(experimentName);
@@ -222,7 +222,7 @@ public:
                  const string &experimentName, unsigned int *offsetBegin,
                  unsigned int *offsetEnd) {
         assert(refNameToArrayIndex.find(refName) != refNameToArrayIndex.end());
-        int refIndex = refNameToArrayIndex[refName];
+        size_t refIndex = refNameToArrayIndex[refName];
         assert(refIndex < refAlignGroups.size());
         HDFCmpExperimentGroup *expGroup;
         expGroup = refAlignGroups[refIndex]->GetExperimentGroup(experimentName);
@@ -236,7 +236,7 @@ public:
                   const string &experimentName, unsigned int *offsetBegin,
                   unsigned int *offsetEnd) {
         assert(refNameToArrayIndex.find(refName) != refNameToArrayIndex.end());
-        int refIndex = refNameToArrayIndex[refName];
+        size_t refIndex = refNameToArrayIndex[refName];
         assert(refIndex < refAlignGroups.size());
         HDFCmpExperimentGroup *expGroup;
         expGroup = refAlignGroups[refIndex]->GetExperimentGroup(experimentName);
@@ -312,7 +312,7 @@ public:
     }
 
     static void ParseReadGroupPath(string &path, string &refName, string &readGroupName){ 
-        int delimPos;
+        size_t delimPos;
         delimPos = path.find_last_of('/');
         if (delimPos != path.npos) {
             refName = path.substr(0, delimPos);
@@ -419,7 +419,7 @@ public:
 
             refAlignGroups[refGroupArrayIndex]->InitializeExperimentGroup(readGroupName, includedFields);
             // experimentNameToIndex should have been set in InitializeExperimentGroup();
-            assert( refAlignGroups[refGroupArrayIndex]->experimentNameToIndex[readGroupName] 
+            assert(static_cast<size_t>(refAlignGroups[refGroupArrayIndex]->experimentNameToIndex[readGroupName])
                     == refAlignGroups[refGroupArrayIndex]->readGroups.size()-1);
             refAlignGroups[refGroupArrayIndex]->experimentNameToIndex[readGroupName] = refAlignGroups[refGroupArrayIndex]->readGroups.size()-1;
         }
@@ -531,8 +531,7 @@ public:
         void StoreQualityValueFromAlignment(vector<T_Value> &fieldValues,
                 vector<int> &baseToAlignmentMap,
                 T_QV *qv) {
-            int i;
-            for (i = 0; i < baseToAlignmentMap.size();i++) {
+            for (size_t i = 0; i < baseToAlignmentMap.size();i++) {
                 qv[i] = fieldValues[baseToAlignmentMap[i]];
             }
         }
@@ -567,8 +566,8 @@ public:
         alignment.tAlignedSeq.Copy(rAlignedSeq);
         alignment.qAlignedSeq.Copy(qAlignedSeq);
 
-        unsigned int qStart = cmpAln.GetQueryStart();
-        unsigned int tStart = cmpAln.GetRefStart();
+        //unsigned int qStart = cmpAln.GetQueryStart();
+        //unsigned int tStart = cmpAln.GetRefStart();
 
         alignment.tPos = cmpAln.GetRefStart();
         alignment.qPos = cmpAln.GetQueryStart();
@@ -589,8 +588,8 @@ public:
         //
         // Cache some stats about the read, and where it was aligned to.
         //
-        int queryStart = cmpAlignment.GetQueryStart();
-        int queryEnd   = cmpAlignment.GetQueryEnd();
+        //int queryStart = cmpAlignment.GetQueryStart();
+        //int queryEnd   = cmpAlignment.GetQueryEnd();
         int refGroupId = cmpAlignment.GetRefGroupId();
         int alnGroupId = cmpAlignment.GetAlnGroupId();
 
@@ -611,7 +610,7 @@ public:
         }
         int readGroupIndex   = refAlignGroups[refGroupIndex]->experimentNameToIndex[readGroupName];
 
-        HDFCmpExperimentGroup* expGroup = refAlignGroups[refGroupIndex]->readGroups[readGroupIndex];
+        //HDFCmpExperimentGroup* expGroup = refAlignGroups[refGroupIndex]->readGroups[readGroupIndex];
 
         int offsetBegin = cmpAlignment.GetOffsetBegin();
         int offsetEnd   = cmpAlignment.GetOffsetEnd();
@@ -638,8 +637,8 @@ public:
         //
         // Cache some stats about the read, and where it was aligned to.
         //
-        int queryStart = cmpAlignment.GetQueryStart();
-        int queryEnd   = cmpAlignment.GetQueryEnd();
+        //int queryStart = cmpAlignment.GetQueryStart();
+        //int queryEnd   = cmpAlignment.GetQueryEnd();
         read.HoleNumber(cmpAlignment.GetHoleNumber());
         int refGroupId = cmpAlignment.GetRefGroupId();
         int alnGroupId = cmpAlignment.GetAlnGroupId();
@@ -715,8 +714,6 @@ public:
         int length = offsetEnd - offsetBegin;
         qvValues.resize(length);
         frameValues.resize(length);
-        int i;
-
 
         if (expGroup->experimentGroup.ContainsObject("QualityValue")) {
             expGroup->qualityValue.Read(offsetBegin, offsetEnd, &qvValues[0]);

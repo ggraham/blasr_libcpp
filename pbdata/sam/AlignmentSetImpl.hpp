@@ -2,7 +2,7 @@
 
 template<typename T_ReferenceSequence, typename T_ReadGroup, typename T_Alignment>
 void AlignmentSet<T_ReferenceSequence, T_ReadGroup, T_Alignment>::RearrangeReferences(std::vector<FASTASequence> &fastaReferences) {
-    int i = 0;
+    size_t i = 0;
     std::map<std::string, int> fastaRefToIndex;
     std::map<std::string, int>::iterator it;
     for (i = 0; i<fastaReferences.size(); i++) {

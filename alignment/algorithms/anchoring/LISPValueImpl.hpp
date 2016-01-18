@@ -83,7 +83,7 @@ float ComputeLISPValue(std::vector<T_MatchPos> &lis,
 	//
 	// First, find a subset of the lis that has non-overlapping matches.
 	//
-    int i;
+    size_t i;
     lisNBases = 0;
     for (i = 0; i < lis.size(); i++) {
         lisNBases += lis[i].l;

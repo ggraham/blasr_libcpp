@@ -40,7 +40,7 @@ int StoreMatchingPositions(TSequence &querySeq, TupleMetrics &tm, T_TupleList &t
     //	TQueryTuple queryTuple;
     typename T_TupleList::Tuple queryTuple;
     queryTuple.pos = 0;
-    if (querySeq.length >= tm.tupleSize) {
+    if (querySeq.length >= static_cast<DNALength>(tm.tupleSize)) {
         int res = 0;
         for (s = 0; s < querySeq.length - tm.tupleSize + 1; s++) {
             if ((res and (res = queryTuple.ShiftAddRL(querySeq.seq[s+tm.tupleSize-1], tm))) or
