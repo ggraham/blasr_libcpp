@@ -339,7 +339,7 @@ int OneGapAlign(T_QuerySequence &query,
         T_ScoreFunction &scoreFn,
         T_BufferList &buffers,
         Alignment   &alignment) {
-
+    PB_UNUSED(scoreFn);
     return OneGapAlign(query, leftTarget, rightTarget, distanceBetweenLeftAndRightTarget, alignment,
             buffers.scoreMat, buffers.pathMat,
             buffers.affineScoreMat, buffers.affinePathMat);

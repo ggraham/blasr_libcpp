@@ -69,8 +69,7 @@ int GraphPaper(vector<T_Point> &points,
   //
   // First set up the grid to optimize over.
   //
-  int i;
-  for (i = 0; i < points.size(); i++) {
+  for (size_t i = 0; i < points.size(); i++) {
     int rowIndex = GetIndex(points[i].GetX(), xMin, xMax, nRows);
     int colIndex = GetIndex(points[i].GetY(), yMin, yMax, nCols);
     bins[rowIndex][colIndex]+= points[i].length;
@@ -134,7 +133,7 @@ int GraphPaper(vector<T_Point> &points,
   // Now mark inclusion/exclusion from matrix.
   //
   int nOpt = 0;
-  for (i = 0; i < points.size(); i++) {
+  for (size_t i = 0; i < points.size(); i++) {
     int rowIndex = GetIndex(points[i].GetX(), xMin, xMax, nRows);
     int colIndex = GetIndex(points[i].GetY(), yMin, yMax, nCols);
     if (pathMat[rowIndex+1][colIndex+1] == Star) {
@@ -162,7 +161,7 @@ int GraphPaper(vector<T_Point> &points,
 
 template<typename T_Point>
 void RemoveOffOpt(vector<T_Point> &points, vector<bool> &optPath) {
-  int i, c;
+  size_t i, c;
   for (i = 0, c = 0; i < points.size(); i++) {
     if (optPath[i]) {
       points[c] = points[i];

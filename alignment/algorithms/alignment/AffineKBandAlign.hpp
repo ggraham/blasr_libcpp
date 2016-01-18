@@ -97,7 +97,7 @@ int AffineKBandAlign(T_QuerySequence &pqSeq, T_TargetSequence &ptSeq,
         insScoreMat[rc2index(0, k, nCols)] = 0;
         insPathMat[rc2index(0, k, nCols)] = AffineInsOpen;
 
-        for (q = 1; q <=k && q < (int) qLen + 1; q++ ){
+        for (q = 1; q <=k && q < static_cast<int>(qLen) + 1; q++ ){
             insScoreMat[rc2index(q, k - q, nCols)] = q * insExtend + insOpen;
             insPathMat[rc2index(q, k-q, nCols)] = AffineInsUp;
         }
@@ -108,7 +108,7 @@ int AffineKBandAlign(T_QuerySequence &pqSeq, T_TargetSequence &ptSeq,
         //
         insScoreMat[rc2index(0, k, nCols)] = 0;
         insPathMat[rc2index(0, k, nCols)]  = AffineInsOpen;
-        for (q = 1; q <= k && q < (int) qLen + 1; q++ ){
+        for (q = 1; q <= k && q < static_cast<int>(qLen) + 1; q++ ){
             insScoreMat[rc2index(q, k - q, nCols)] = 0;
             insPathMat[rc2index(q, k-q, nCols)]    = AffineInsUp;
         }
@@ -123,23 +123,23 @@ int AffineKBandAlign(T_QuerySequence &pqSeq, T_TargetSequence &ptSeq,
     hpInsScoreMat[rc2index(0,k,nCols)] = 0;
     hpInsPathMat[rc2index(0,k,nCols)]  = AffineHPInsOpen;
 
-    for (q = 1; q <= k && q < (int) qLen + 1; q++) { 
+    for (q = 1; q <= k && q < static_cast<int>(qLen) + 1; q++) {
         hpInsScoreMat[rc2index(q, k - q, nCols)] = q * hpInsExtend + hpInsOpen;
         hpInsPathMat[rc2index(q,k-q,nCols)] = AffineHPInsUp;
     }
 
-    for (t = k+1; t < (int) nCols; t++ ) {
+    for (t = k+1; t < static_cast<int>(nCols); t++ ) {
         hpInsScoreMat[rc2index(0, t, nCols)] = INF_SCORE;//  hpInsOpen + (t - k) * hpInsExtend;//; //INF_SCORE;
         hpInsPathMat[t] = NoArrow; //AffineHPInsOpen ; //NoArrow;
         insScoreMat[t] = INF_SCORE; //insOpen + (t - k) * insExtend; //INF_SCORE;
         insPathMat[t] = NoArrow; //AffineInsOpen; //NoArrow;
     }
 
-    for (q = 1; q <= k && q < (int) qLen + 1; q++) {
+    for (q = 1; q <= k && q < static_cast<int>(qLen) + 1; q++) {
         scoreMat[rc2index(q, k - q, nCols)] = insScoreMat[rc2index(q,k-q,nCols)];
         pathMat[rc2index(q, k - q , nCols)] = AffineInsClose;
     }
-    for (t = 1; t <= (int) k; t++) {
+    for (t = 1; t <= k; t++) {
         scoreMat[rc2index(0, t + k , nCols)] = t * del;
         pathMat[rc2index(0, t + k , nCols)] = Left;
     }
@@ -156,12 +156,12 @@ int AffineKBandAlign(T_QuerySequence &pqSeq, T_TargetSequence &ptSeq,
     int matchScore, delScore;
     int hpInsExtendScore, hpInsOpenScore, insOpenScore, insExtendScore;
     int minHpInsScore, minInsScore;
-    for (q = 1; q <= (int) qLen; q++) {
-        for (t = q - k; t < (int) q + k + 1; t++) {
+    for (q = 1; q <= static_cast<int>(qLen); q++) {
+        for (t = q - k; t < static_cast<int>(q) + k + 1; t++) {
             if (t < 1) {
                 continue;
             }
-            if ((DNALength) t >  tLen) {
+            if (static_cast<DNALength>(t) >  tLen) {
                 break;
             }
 
@@ -293,23 +293,23 @@ int AffineKBandAlign(T_QuerySequence &pqSeq, T_TargetSequence &ptSeq,
     int minScoreQPos;
     if (alignType == Global) {
         q = qLen ;
-        t = k - ((int)qLen - (int)tLen);
+        t = k - (static_cast<int>(qLen) - static_cast<int>(tLen));
     }
     else if (alignType == QueryFit) {
         q = qLen;
         minScoreTPos = max(q-k,1);
         DNALength index = rc2index(qLen, k + minScoreTPos - q, nCols);
         minScore = scoreMat[index];
-        for (t = q - k; t < (int) q + k + 1; t++) {
+        for (t = q - k; t < q + k + 1; t++) {
             if (t < 1) { continue;}
-            if (t > tLen) { break;}
+            if (t > static_cast<int>(tLen)) { break;}
             int index = rc2index(qLen,k + t - q,nCols);
             if (scoreMat[index] < minScore) {
                 minScoreTPos = t;
                 minScore = scoreMat[index ];
             }
         }
-        t = k - ((int)qLen - minScoreTPos);
+        t = k - (static_cast<int>(qLen) - minScoreTPos);
     }
     else if (alignType == TargetFit) {
         t = tLen;

@@ -68,7 +68,7 @@ void TupleCountTable<TSequence, TTuple>::AddSequenceTupleCountsLR(
     TSequence &seq) {
     VectorIndex i;
     TTuple tuple;
-    if (seq.length>= tm.tupleSize) {
+    if (seq.length >= static_cast<DNALength>(tm.tupleSize)) {
         for (i = 0; i < seq.length - tm.tupleSize + 1; i++ ) { 
             if (tuple.FromStringLR(&seq.seq[i], tm)) {
                 IncrementCount(tuple);

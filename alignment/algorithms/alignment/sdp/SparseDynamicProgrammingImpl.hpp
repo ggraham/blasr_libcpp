@@ -17,8 +17,7 @@ template<typename T_Fragment>
 void StoreAbove(std::vector<T_Fragment> &fragmentSet, DNALength fragmentLength) {
     (void)(fragmentLength);
 	std::sort(fragmentSet.begin(), fragmentSet.end(), LexicographicFragmentSortByY<T_Fragment>());	
-	int i;
-	for (i = 1; i < fragmentSet.size(); i++) {
+	for (size_t i = 1; i < fragmentSet.size(); i++) {
 		if (fragmentSet[i-1].x <= fragmentSet[i].x 
    		    and fragmentSet[i-1].x + fragmentSet[i-1].length > fragmentSet[i].x 
 			and fragmentSet[i-1].y < fragmentSet[i].y) {
@@ -68,7 +67,7 @@ int SDPLongestCommonSubsequence(DNALength queryLength,
         // Add all elements on the sweep row to the sweep set.  Note that when
         // fSweep is past query.length.
         int startF = fSweep;
-        int fragmentSetSize = fragmentSet.size();
+        size_t fragmentSetSize = fragmentSet.size();
         while (fSweep < fragmentSetSize and 
                 fragmentSet[fSweep].x == sweepRow) {
 

@@ -12,11 +12,11 @@ template<typename T_Data>
 int AllocateMappedShare(std::string &handle, int dataLength, T_Data *&dataPtr, int &shmId) {
     std::cout << "opening shm" << std::endl;
     shmId = shm_open(handle.c_str(), O_CREAT| O_RDWR, S_IRUSR | S_IWUSR);
-    if (ftruncate(shmId, sizeof(T_Data[dataLength])) == -1) {
+    if (ftruncate(shmId, sizeof(T_Data)*dataLength) == -1) {
         std::cout <<" ftruncate error: " << errno << std::endl;
     }
     std::cout << "done truncating." << std::endl;
-    dataPtr = (T_Data*) mmap(NULL, sizeof(T_Data[dataLength]),
+    dataPtr = (T_Data*) mmap(NULL, sizeof(T_Data)*dataLength,
                                                 PROT_READ | PROT_WRITE, MAP_SHARED, shmId, 0); 
     if (dataPtr == MAP_FAILED) {
         // 

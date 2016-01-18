@@ -23,7 +23,7 @@ template<typename T_CmpFile>
 template<typename T_Reference>
 void AlignmentSetToCmpH5Adapter<T_CmpFile>::StoreReferenceInfo(
     std::vector<T_Reference> &references, T_CmpFile &cmpFile) {
-  for (int r = 0; r < references.size(); r++) {
+  for (size_t r = 0; r < references.size(); r++) {
     std::string sequenceName, md5;
     sequenceName = references[r].GetSequenceName();
     md5 = references[r].GetMD5();
@@ -85,8 +85,7 @@ void AlignmentSetToCmpH5Adapter<T_CmpFile>::RemoveGapsAtEndOfAlignment(Alignment
   int numEndDel = 0, numEndIns = 0;
   if (alignment.gaps.size() > 0) {
     int lastGap = alignment.gaps.size() - 1;
-    int g;
-    for (g = 0; g < alignment.gaps[lastGap].size(); g++) {
+    for (size_t g = 0; g < alignment.gaps[lastGap].size(); g++) {
       if (alignment.gaps[lastGap][g].seq == Gap::Target) {
         numEndIns += alignment.gaps[lastGap][g].length;
       }
@@ -145,7 +144,7 @@ void AlignmentSetToCmpH5Adapter<T_CmpFile>::StoreAlignmentCandidate(
     exit(1);
   }
 
-  int    refGroupIndex= cmpFile.refGroupIdToArrayIndex[refGroupId];
+  size_t refGroupIndex= cmpFile.refGroupIdToArrayIndex[refGroupId];
   assert(refGroupIndex + 1 == refGroupId);
 
   std::string path = "/" + refGroupName + "/" + movieName;
@@ -170,7 +169,7 @@ void AlignmentSetToCmpH5Adapter<T_CmpFile>::StoreAlignmentCandidate(
   if (copyQVs) {
     std::vector<std::string> optionalQVs;
     alignment.CopyQVs(&optionalQVs);
-    for (int qv_i=0; qv_i<optionalQVs.size(); qv_i++) {
+    for (size_t qv_i=0; qv_i<optionalQVs.size(); qv_i++) {
       std::string *qvName = &alignment.optionalQVNames[qv_i];
       std::string *qvString = &optionalQVs[qv_i];
       
@@ -245,9 +244,7 @@ void AlignmentSetToCmpH5Adapter<T_CmpFile>::StoreAlignmentCandidateList(
     T_CmpFile &cmpFile,
     int moleculeNumber,
     bool copyQVs) {
-  
-  int a;
-  for (a = 0; a < alignments.size(); a++) {
+  for (size_t a = 0; a < alignments.size(); a++) {
     StoreAlignmentCandidate(alignments[a], a, cmpFile, moleculeNumber, copyQVs);
   }
 }

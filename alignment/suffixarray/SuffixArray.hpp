@@ -953,7 +953,7 @@ public:
     int StoreLCPBounds(T *target, long targetLength, // The string which the suffix array is built on.
             T *query, DNALength queryLength, // The query string. search starts at pos 0 in this string
             bool useLookupTable,  // Should the indices of the first k bases be determined by a lookup table?
-            int  maxMatchLength,  // Stop extending match at lcp length = maxMatchLength,
+            DNALength  maxMatchLength,  // Stop extending match at lcp length = maxMatchLength,
             // Vectors containing lcpLeft and lcpRight from 0 ... lcpLength.
             std::vector<SAIndex> &lcpLeftBounds, std::vector<SAIndex> &lcpRightBounds,
             bool stopOnceUnique=false) {

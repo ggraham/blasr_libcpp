@@ -33,13 +33,12 @@ int PMatch(TSequence &seq, DNALength startPos, DNALength length,
 	pMatch = 1;
 	if (GetTupleCount(seq, startPos, tm, ct, tupleCount)) {
 		if (tupleCount == 0) return 0;
-		int i;
 		//
 		// Compute the frequency of the following tuple, and compare this
 		// to the frequencies of all 4 possible tuples that are next.
 		//		
 		curTuple.FromStringLR(&seq.seq[startPos], tm);
-        if (length < tm.tupleSize)  {
+        if (length < static_cast<DNALength>(tm.tupleSize))  {
             // the match is shorter than the tuples used to model the
             // genome sequence composition.  Don't try and compute a p-value 
             // for it -- assume that you will always find a match of this 
@@ -48,7 +47,7 @@ int PMatch(TSequence &seq, DNALength startPos, DNALength length,
             pMatch = 0;
             return 1;
         }
-		for (i = 1; i < length - tm.tupleSize; i++) {
+		for (size_t i = 1; i < length - tm.tupleSize; i++) {
 			// 
 			// now add on the log counts for the transitions.
 			//
@@ -136,6 +135,7 @@ template<typename TSequence, typename T_Tuple>
 int ComputeTotalTupleCount(TupleMetrics &tm,
     TupleCountTable<TSequence, T_Tuple> &ct, TSequence &seq, 
     int start, int end) {
+  PB_UNUSED(start);
 	if (end == -1) {
 		end = seq.length;
 	}
@@ -157,7 +157,6 @@ int ComputeTotalTupleCount(TupleMetrics &tm,
 template<typename TSequence, typename T_Tuple>
 int ComputeAverageTupleCount(TupleMetrics &tm, 
     TupleCountTable<TSequence, T_Tuple> &ct, TSequence &seq) {
-	int i;
 	int nTuples = seq.length - tm.tupleSize + 1;
 	if (nTuples == 0 ){
 		return 0;

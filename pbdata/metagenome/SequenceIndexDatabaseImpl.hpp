@@ -88,7 +88,7 @@ template<typename TSeq>
 std::string SequenceIndexDatabase<TSeq>::
 GetSpaceDelimitedName(unsigned int index) {
     int pos;
-    assert(index < nSeqPos);
+    assert(index < static_cast<unsigned int>(nSeqPos));
     std::string name;
     for (pos = 0; pos < nameLengths[index]; pos++) {
         if (names[index][pos] == ' ' or 
@@ -235,7 +235,7 @@ SequenceTitleLinesToNames() {
     }
     // Make sure that reference names are unique.
     sort(tmpNameArray.begin(), tmpNameArray.end());
-    for(int j = 0; j < tmpNameArray.size() - 1; j++) {
+    for(size_t j = 0; j < tmpNameArray.size() - 1; j++) {
         if (tmpNameArray[j] == tmpNameArray[j+1]) {
             std::cout << "Error, reference with name \"" 
                       << tmpNameArray[j] 

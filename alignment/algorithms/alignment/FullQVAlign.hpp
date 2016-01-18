@@ -36,9 +36,9 @@ double FullQVAlign(T_Query       &query,
         for (t = 1; t < numCols; t++) {
             // First compute p_ins[q,t] as transitions from match matrix
 
-            double logMatchedPulseProb  = 0;
-            double logInsertedPulseProb = 0;
-            double logDeletedPulseProb  = 0;
+            //double logMatchedPulseProb  = 0;
+            //double logInsertedPulseProb = 0;
+            //double logDeletedPulseProb  = 0;
 
 
             //

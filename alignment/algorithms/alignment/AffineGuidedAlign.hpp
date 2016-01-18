@@ -31,7 +31,7 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq,  Alignment &guid
     qSeq.Assign(origQSeq);
     tSeq.Assign(origTSeq);
 
-    int matrixNElem = ComputeMatrixNElem(guide);
+    size_t matrixNElem = ComputeMatrixNElem(guide);
     StoreMatrixOffsets(guide);
 
     /*
@@ -60,8 +60,7 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq,  Alignment &guid
         //
         // Normalize probability std::vectors so that the probability of transition from each cell is 1.
         //
-        int i;
-        for (i = 0; i < qSeq.length; i++) {
+        for (DNALength i = 0; i < qSeq.length; i++) {
             float subSum  = LogSumOfTwo(lnSubPValueVect[i], QVToLogPScale(scoreFn.substitutionPrior)); // prior on substitution rate
             float denominator = LogSumOfThree(lnDelPValueVect[i], lnInsPValueVect[i], subSum);
             lnDelPValueVect[i] = lnDelPValueVect[i] - denominator;
@@ -368,8 +367,7 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq,  Alignment &guid
             if (arrow == NoArrow) {
                 tSeq.ToAscii();
                 qSeq.ToAscii();
-                int gi;
-                for (gi = 0; gi < guide.size(); gi++) {
+                for (size_t gi = 0; gi < guide.size(); gi++) {
                     cout << guide[gi].q << " " << guide[gi].t << " " << guide[gi].tPre << " " << guide[gi].tPost << endl;
                 }
 
@@ -472,9 +470,8 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq,
             scoreFn, sdpTupleSize, 
             sdpIns, sdpDel, sdpIndelRate,
             sdpAlignment); //, Local, false, false);
-
-    int b;
-    for (b = 0; b < sdpAlignment.blocks.size(); b++) {
+    PB_UNUSED(alignScore);
+    for (size_t b = 0; b < sdpAlignment.blocks.size(); b++) {
         sdpAlignment.blocks[b].qPos += sdpAlignment.qPos;
         sdpAlignment.blocks[b].tPos += sdpAlignment.tPos;
     }
@@ -510,9 +507,8 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq,
             scoreFn, sdpTupleSize, 
             sdpIns, sdpDel, sdpIndelRate,
             sdpAlignment, buffers, Local, false, false);
-
-    int b;
-    for (b = 0; b < sdpAlignment.blocks.size(); b++) {
+    PB_UNUSED(alignScore);
+    for (size_t b = 0; b < sdpAlignment.blocks.size(); b++) {
         sdpAlignment.blocks[b].qPos += sdpAlignment.qPos;
         sdpAlignment.blocks[b].tPos += sdpAlignment.tPos;
     }

@@ -250,7 +250,7 @@ void shared(SAIndex a[], SAIndex n, SAIndex p[], SAIndex q[], SAIndex s[], int h
 inline int
 ssort(SAIndex a[], SAIndex s[]) 
 {
-    SAIndex h, i, j, l, n, t;
+    SAIndex h, i, j, l, n;
     SAIndex k = 0;				/* initialized for lint */
     SAIndex *p = 0;
     int result = 0;

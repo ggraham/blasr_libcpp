@@ -65,7 +65,7 @@ int LocateAnchorBoundsInSuffixArray(T_RefSequence &reference,
         // Possibly print the lcp bounds for debugging
         //
         if (params.lcpBoundsOutPtr != NULL) {
-            for (int i = 0; i < lowMatchBound.size(); i++) {
+            for (size_t i = 0; i < lowMatchBound.size(); i++) {
                 *params.lcpBoundsOutPtr << 
                     (highMatchBound[i] - lowMatchBound[i]);
                 if (i < lowMatchBound.size() - 1) {
@@ -130,7 +130,7 @@ int LocateAnchorBoundsInSuffixArray(T_RefSequence &reference,
                        queryPos + 1 < read.length and
                        reference.seq[refPos + 1] == read.seq[queryPos + 1] and 
                        (params.maxLCPLength == 0 or 
-                        lcpLength < params.maxLCPLength)) {
+                        lcpLength < static_cast<DNALength>(params.maxLCPLength))) {
                     refPos++;
                     queryPos++;
                     lcpLength++;
@@ -215,7 +215,7 @@ int MapReadToGenome(T_RefSequence &reference,
 
     vector<DNALength> matchLow, matchHigh, matchLength;
 
-    int minMatchLen = anchorParameters.minMatchLength;
+    DNALength minMatchLen = anchorParameters.minMatchLength;
     if (read.SubreadLength() < minMatchLen) {
         matchPosList.clear();
         return 0;
@@ -244,7 +244,7 @@ int MapReadToGenome(T_RefSequence &reference,
         vector<bool> removed;
         removed.resize(read.length);
         std::fill(removed.begin(), removed.end(), false);
-        int i;
+        size_t i;
         for (i = 0; i < read.length-1; i++) {
             if (matchLength[i] == matchLength[i+1]+1) {
                 removed[i+1] = true;
@@ -269,7 +269,7 @@ int MapReadToGenome(T_RefSequence &reference,
     }
 
     for (pos = read.SubreadStart(); pos < endOfMapping; pos++) {
-        int matchIndex = pos - read.SubreadStart();
+        size_t matchIndex = pos - read.SubreadStart();
         assert(matchIndex < matchHigh.size());
         if (matchHigh[matchIndex] - matchLow[matchIndex] <= 
             anchorParameters.maxAnchorsPerPosition) {

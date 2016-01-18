@@ -121,8 +121,8 @@ void AdvanceIndexToPastInterval(T_MatchList &pos, DNALength nPos,
 template<typename T_MatchList>  
 int RemoveZeroLengthAnchors(T_MatchList &matchList) {       
     int origSize = matchList.size();
-    int cur = 0, m;
-    for (m = 0; m < matchList.size(); m++) {
+    int cur = 0;
+    for (size_t m = 0; m < matchList.size(); m++) {
         if (matchList[m].l > 0) {
             matchList[cur] = matchList[m];
             cur++;

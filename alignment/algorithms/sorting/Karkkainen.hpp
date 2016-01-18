@@ -70,7 +70,7 @@ void KarkkainenBuildSuffixArray(T_T* T, DNALength* SA, DNALength n, int K)
 
     // find lexicographic names of triples and
     // write them to correct places in R
-    int name = 0, c0 = -1, c1 = -1, c2 = -1;
+    T_T name = 0, c0 = -1, c1 = -1, c2 = -1;
     for (DNALength i = 0; i < n02; i++) {
         if (T[SA12[i]] != c0 || T[SA12[i]+1] != c1 || T[SA12[i]+2] != c2) {
             name++; c0 = T[SA12[i]]; c1 = T[SA12[i]+1]; c2 = T[SA12[i]+2];
@@ -84,7 +84,7 @@ void KarkkainenBuildSuffixArray(T_T* T, DNALength* SA, DNALength n, int K)
     }
 
     // recurse if names are not yet unique
-    if (name < n02) {
+    if (static_cast<DNALength>(name) < n02) {
         KarkkainenBuildSuffixArray<DNALength>(R, SA12, n02, name);
 
         // store unique names in R using the suffix array

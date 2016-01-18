@@ -145,7 +145,7 @@ template<typename T_Alignment,
         // Initialize boundary conditions.
         //
 
-        DNALength q;
+        int q;
         int t;
         // Initialize first column for insertions.
         int firstIndex;
