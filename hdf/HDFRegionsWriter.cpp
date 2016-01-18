@@ -46,8 +46,10 @@ bool HDFRegionsWriter::Write(const RegionAnnotation &annotation) {
         regionsArray_.WriteRow(annotation.row, HDFRegionsWriter::NCOLS);
     }
     catch (H5::Exception &e) {
-        AddErrorMessage("Failed to write region annotation " + 
-                annotation.GetHoleNumber());
+        std::ostringstream sout;
+        sout << "Failed to write region annotation "
+             << annotation.GetHoleNumber();
+        AddErrorMessage(sout.str());
         return false;
     }
     ++curRow_;

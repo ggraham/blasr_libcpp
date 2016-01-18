@@ -164,6 +164,7 @@ public:
     }
 
     void PrintSuffices(T *target, int targetLength, int maxPrintLength) {
+        PB_UNUSED(targetLength);
         std::string seq;
         seq.resize(maxPrintLength+1);
         SAIndex i, s;
@@ -463,6 +464,7 @@ public:
     }
 
     void BuildSuffixArray(T* target, SAIndex targetLength, Sigma &alphabet) {
+        PB_UNUSED(alphabet);
         length = targetLength;
         assert(index == NULL or not deleteStructures);
         index  = ProtectedNew<SAIndex>(length);
@@ -506,6 +508,7 @@ public:
     }
 
     void WriteLCPTable(std::ofstream &out) {
+        PB_UNUSED(out);
         std::cout << "NOT YET IMPLEMENTED." << std::endl;
         exit(1);
     }
@@ -596,6 +599,7 @@ public:
     }
 
     void ReadLCPTable(std::ifstream &in) {
+        PB_UNUSED(in);
         std::cout <<" NOT YET IMPLEMENTED!!!" << std::endl;
         exit(1);
     }
@@ -641,6 +645,7 @@ public:
     }
 
     int SearchLCP(T* target, T* query, DNALength queryLength, SAIndex &low, SAIndex &high, DNALength &lcpLength, DNALength maxlcp) {
+      PB_UNUSED(maxlcp);
         //		cout << "searching lcp with query of length: " << queryLength << endl;
         lcpLength = 0;
         if (startPosTable != NULL and

@@ -351,7 +351,7 @@ void FASTQSequence::PrintFastqQuality(ostream &out, int lineLength) const {
 
 bool FASTQSequence::GetQVs(const QVIndex & qvIndex, std::vector<uint8_t> & qvs, bool reverse) const {
     qvs.clear();
-    uint8_t *  qualPtr;
+    uint8_t *  qualPtr= nullptr;
     int charOffset = charToQuality;
     if (qvIndex == I_QualityValue) {
         qualPtr = qual.data;

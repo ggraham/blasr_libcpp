@@ -250,7 +250,7 @@ template<typename TSeq>
 VectorIndex SequenceIndexDatabase<TSeq>::
 AddSequence(TSeq &sequence) {
     int endPos = growableSeqStartPos[growableSeqStartPos.size() - 1];
-    int growableSize = growableSeqStartPos.size();
+    //int growableSize = growableSeqStartPos.size();
     growableSeqStartPos.push_back(endPos + sequence.length + 1);
     std::string fastaTitle;
     sequence.GetFASTATitle(fastaTitle);
@@ -269,7 +269,7 @@ Finalize() {
     assert(names==NULL);
     names = ProtectedNew<char*>(nSeq);
     deleteNames = true;
-    unsigned int i;
+    int i;
     if (nameLengths) {delete [] nameLengths; nameLengths = NULL;}
     nameLengths = ProtectedNew<int>(nSeq);
     deleteNameLengths = true;

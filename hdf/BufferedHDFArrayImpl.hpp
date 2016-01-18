@@ -54,7 +54,7 @@ void BufferedHDFArray<T>::Write(const T *data, DSLength dataLength, bool append,
     while(dataIndex < dataLength) {
         bufferCapacity = this->bufferSize - this->bufferIndex;
         flushBuffer = false;
-        if (bufferCapacity  > dataLength - dataIndex) {
+        if (static_cast<long long>(bufferCapacity)  > static_cast<long long>(dataLength) - static_cast<long long>(dataIndex)) {
             bufferFillSize = dataLength - dataIndex;
         }
         else {
@@ -162,14 +162,17 @@ void BufferedHDFArray<T>::TypedWrite(const char **data, const H5::DataSpace &mem
 template<typename T>
 void BufferedHDFArray<T>::TypedWrite(const T* data, const H5::DataSpace &memorySpace, 
     const H5::DataSpace &extendedSpace) {
-
+    (void)(data);
+    (void)(memorySpace);
+    (void)(extendedSpace);
     assert("Calling TypedWrite on an unsupported type" == 0);
 }
 
 template<typename T>
 void BufferedHDFArray<T>::TypedCreate(H5::DataSpace &fileSpace, 
     H5::DSetCreatPropList &cparms) {
-
+    (void)(fileSpace);
+    (void)(cparms);
     std::cout << "DEFAULT typed create " << std::endl;
 }
 
@@ -398,6 +401,7 @@ void BufferedHDFArray<T>::Read(DSLength start, DSLength end, T* dest) {
 
 template<typename T>
 void BufferedHDFArray<T>::ReadDataset(std::vector<T> &dest) {
+    (void)(dest);
     assert("ERROR, calling ReadDataset with an unsupported type.");
     exit(1); // this is in case the assert statement is removed.
 }

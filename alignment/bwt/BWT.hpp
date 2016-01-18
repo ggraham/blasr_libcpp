@@ -136,7 +136,7 @@ class Bwt {
 	}
 	
 	DNALength Locate(DNALength sp, DNALength ep, std::vector<DNALength> &positions, 
-        int maxCount = 0) {
+        DNALength maxCount = 0) {
 		DNALength bwtPos;
 		DNALength seqPos;
 		if (sp <= ep and (maxCount == 0 or ep - sp < maxCount)) {
@@ -150,7 +150,8 @@ class Bwt {
 	}
 
 	DNALength Locate(T_DNASequence &seq, std::vector<DNALength> &positions, 
-        int maxCount =0) {
+        DNALength maxCount =0) {
+    PB_UNUSED(maxCount);
 		DNALength ep, sp;
 		Count(seq, sp, ep);
 		return Locate(sp, ep, positions);

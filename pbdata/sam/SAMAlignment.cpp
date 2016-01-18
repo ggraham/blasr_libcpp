@@ -48,7 +48,7 @@ bool SAMAlignment::StoreValues(std::string &line,  int lineNumber) {
   //
   // Define a temporary mapqv value that gets over a GMAP bug that prints a mapqv < 0.
   //
-  int tmpMapQV;
+  int tmpMapQV = 0;
   if (!(strm >> qName)) {
     parseError = true;
     field = S_QNAME;

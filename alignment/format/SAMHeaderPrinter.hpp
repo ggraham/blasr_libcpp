@@ -286,7 +286,7 @@ void SAMHeaderGroups<T>::Append(const std::vector<T> & groups) {
 template<class T>
 std::string SAMHeaderGroups<T>::ToString() {
     std::stringstream ss;
-    for (int i = 0; i < this->_groups.size(); i++) {
+    for (size_t i = 0; i < this->_groups.size(); i++) {
         ss << this->_groups[i] << std::endl;
     }
     return ss.str();

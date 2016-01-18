@@ -383,6 +383,7 @@ SAMHeaderRGs SAMHeaderPrinter::MakeRGs(const std::vector<std::string> & readsFil
 SAMHeaderPGs SAMHeaderPrinter::MakePGs(const std::vector<std::string> & readsFiles, 
         const std::string & progName, const std::string & progVersion, 
         const std::string & commandLine) {
+    PB_UNUSED(readsFiles);
     SAMHeaderPGs pgs;
 
     // program id, unique identifier for @PG lines;
@@ -416,6 +417,7 @@ SAMHeaderPGs SAMHeaderPrinter::MakePGs(const std::vector<std::string> & readsFil
 }
 
 SAMHeaderCOs SAMHeaderPrinter::MakeCOs(const std::vector<std::string> & readsFiles) {
+    PB_UNUSED(readsFiles);
     SAMHeaderCOs cos;
 
     if (fileType == FileType::PBBAM) {

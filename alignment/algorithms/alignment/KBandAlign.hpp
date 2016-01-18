@@ -51,7 +51,8 @@ void CreateThreeBitSequence(T_Sequence &origSeq, T_Sequence &threeBitSeq) {
 
 template<typename T_QuerySequence, typename T_TargetSequence, typename T_Alignment, typename T_ScoreFn>
 int KBandAlign(T_QuerySequence &qSeq, T_TargetSequence &tSeq,
-							 int matchMat[5][5], int ins, int del, int k,
+							 int matchMat[5][5], int ins, int del,
+               DNALength k,
 							 std::vector<int>   &scoreMat,
 							 std::vector<Arrow> &pathMat,
 							 T_Alignment   &alignment, 
@@ -89,7 +90,7 @@ int KBandAlign(T_QuerySequence &qSeq, T_TargetSequence &tSeq,
 	//
 	// Initialize the boundaries of the score and path matrices.
 	//
-	int q, t;
+	DNALength q, t;
 
 	for (q = 1; q <= k && q < qLen + 1; q++) {
 		scoreMat[rc2index(q, k - q, nCols)] = q * ins;
@@ -232,7 +233,7 @@ int KBandAlign(T_QuerySequence &qSeq, T_TargetSequence &tSeq,
 	int minLastColScore = globalMinScore, minLastRowScore = globalMinScore;
 
 	if (alignType == QueryFit or alignType == Fit) {
-		int q2,t2;
+		DNALength q2,t2;
 		q2 = qLen;
 		t2 = k - (qLen - tLen);
 		bool minScoreSet = false;
@@ -256,7 +257,7 @@ int KBandAlign(T_QuerySequence &qSeq, T_TargetSequence &tSeq,
 	}
 	if (alignType == TargetFit or alignType == Fit) {
 		//  Fit the target inside the query wh
-		int q2,t2;
+		DNALength q2,t2;
 		q2 = qLen;
 		t2 = k - (qLen - tLen);
 		bool minScoreSet = false;

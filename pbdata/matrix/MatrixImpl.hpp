@@ -9,7 +9,7 @@
 #include "../Types.h"
 
 template<typename T>
-void CreateMatrix(int rows, int cols, std::vector<T*> matrix) {
+void CreateMatrix(VectorIndex rows, int cols, std::vector<T*> matrix) {
 	matrix.resize(rows);
     if (matrix[0]) {delete [] matrix[0]; matrix[0] = NULL;}
 	matrix[0] = ProtectedNew<T>(rows*cols);

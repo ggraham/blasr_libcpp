@@ -39,24 +39,40 @@ class IDSScoreFunction : public BaseScoreFunction {
 
 
         int Deletion(T_QuerySequence &seq, DNALength pos) {
+            PB_UNUSED(seq);
+            PB_UNUSED(pos);
             std::cout << "IDS. For now, deletion must be specialized with FASTQ or FASTA Sequences. " << std::endl;
             exit(1);
             return 0;
         }
         int Deletion(T_RefSequence &refSeq, DNALength refPos, T_QuerySequence &querySeq, DNALength queryPos) {
+            PB_UNUSED(refSeq);
+            PB_UNUSED(refPos);
+            PB_UNUSED(querySeq);
+            PB_UNUSED(queryPos);
             std::cout << "IDS. For now, this function must be specialized with either FASTQ or FASTA sequences"<<std::endl;
             exit(1);
         }
         int Match(T_RefSequence &ref, DNALength refPos, T_QuerySequence &query, DNALength queryPos) {
+            PB_UNUSED(ref);
+            PB_UNUSED(refPos);
+            PB_UNUSED(query);
+            PB_UNUSED(queryPos);
             std::cout << "IDS. For now, this function must be specialized with either FASTQ or FASTA sequences" << std::endl;
             return 0;
             exit(1);
         }
         int Insertion(T_RefSequence &refSeq, DNALength refPos, T_QuerySequence &querySeq, DNALength queryPos) {
+            PB_UNUSED(refSeq);
+            PB_UNUSED(refPos);
+            PB_UNUSED(querySeq);
+            PB_UNUSED(queryPos);
             std::cout << "IDS. For now, this function must be specialized with either FASTQ or FASTA sequences"<<std::endl;
             exit(1);
         }	
         int Insertion(T_QuerySequence &seq, DNALength pos) {
+            PB_UNUSED(seq);
+            PB_UNUSED(pos);
             std::cout << "IDS. For now, this function must be specialized with either FASTQ or FASTA sequences" << std::endl;
             return 0;
             exit(1);

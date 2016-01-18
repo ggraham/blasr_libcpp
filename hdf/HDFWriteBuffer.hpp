@@ -9,7 +9,7 @@ class HDFWriteBuffer {
 public:
     T         *writeBuffer;
     int       bufferIndex;
-    int       bufferSize;
+    DSLength       bufferSize;
 
     HDFWriteBuffer() {
         writeBuffer = NULL;
