@@ -101,7 +101,7 @@ def get_PBBAM(env, prefix):
     key = 'PBBAM'
     if key in env:
         return env[key]
-    cmd = 'cd $(THIRD_PARTY_PREFIX)/../staging/PostPrimary/pbbam 2>/dev/null && pwd || echo -n notfound' %(
+    cmd = 'cd $(THIRD_PARTY_PREFIX)/../lib/cpp/pbbam 2>/dev/null && pwd || echo -n notfound' %(
             THIRD_PARTY_PREFIX=prefix)
     return shell(cmd)
     """
@@ -110,7 +110,7 @@ def get_HTSLIB(env, prefix):
     key = 'HTSLIB'
     if key in env:
         return env[key]
-    cmd = 'cd $(THIRD_PARTY_PREFIX)/../staging/PostPrimary/htslib 2>/dev/null && pwd || echo -n notfound' %(
+    cmd = 'cd $(THIRD_PARTY_PREFIX)/../lib/cpp/htslib 2>/dev/null && pwd || echo -n notfound' %(
             THIRD_PARTY_PREFIX=prefix)
     return shell(cmd)
     """
