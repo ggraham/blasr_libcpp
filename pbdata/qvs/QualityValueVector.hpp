@@ -30,6 +30,14 @@ public:
 
     void Allocate(unsigned int length); 
 
+    /// Fill data with value.
+    void Fill(const T_QV & value);
+
+    /// Fill this->data[thisStart...thisStart+fillLength] with 
+    /// rhs->data[rhsStart...rhsStart+fillLength]
+    void Fill(const DNALength thisStart, const DNALength fillLength,
+              const QualityValueVector<T_QV> &rhs, const DNALength rhsStart);
+
     bool Empty() const; 
 
     void ShallowCopy(const QualityValueVector<T_QV> &ref, int pos, const DNALength & length); 
@@ -37,7 +45,7 @@ public:
     std::string ToString(void);
 
     // Returns data length 
-    DNALength Length(void);
+    DNALength Length(void) const;
 
 private:
     DNALength _length;

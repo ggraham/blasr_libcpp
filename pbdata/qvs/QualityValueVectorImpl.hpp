@@ -40,6 +40,9 @@ void QualityValueVector<T_QV>::Copy(const QualityValueVector<T_QV> &rhs, const D
     std::memcpy(data, rhs.data, length * sizeof(T_QV));
 }
 
+
+
+
 template<typename T_QV>
 void QualityValueVector<T_QV>::Copy(const std::string & rhs) {
 // Char to QualityValue
@@ -68,6 +71,19 @@ void QualityValueVector<T_QV>::Allocate(unsigned int length) {
 }
 
 template<typename T_QV>
+void QualityValueVector<T_QV>::Fill(const T_QV & value) {
+    memset(data, value, sizeof(T_QV) * _length);
+}
+
+template<typename T_QV>
+void QualityValueVector<T_QV>::Fill(const DNALength thisStart, const DNALength fillLength,
+          const QualityValueVector<T_QV> &rhs, const DNALength rhsStart) {
+    assert(this->_length >= thisStart + fillLength);
+    assert(rhs.Length() >= rhsStart + fillLength);
+    memcpy(&this->data[thisStart], &rhs.data[rhsStart], sizeof(T_QV) * fillLength);
+}
+
+template<typename T_QV>
 bool QualityValueVector<T_QV>::Empty() const {
     return data == NULL;
 }
@@ -91,7 +107,7 @@ std::string QualityValueVector<T_QV>::ToString(void) {
 }
 
 template<typename T_QV>
-DNALength QualityValueVector<T_QV>::Length(void) {
+DNALength QualityValueVector<T_QV>::Length(void) const {
     return _length;
 }
 
