@@ -54,12 +54,41 @@ void SMRTSequence::Allocate(DNALength length) {
     deleteOnExit  = true;
 }
 
+void SMRTSequence::CompactAllocate(const DNALength length,
+                                   const bool hasInsertionDeletionQVTag,
+                                   const bool hasSubstitutionQVTag) {
+    // Only allocate necessary QVs for computing alignments
+    // Insertion QV, Deletion QV and Deletion Tag must be either all exist or none exist
+    // Substitution QV and tag must be either both exist or non exist.
+    assert(seq == NULL && preBaseFrames == NULL &&
+           widthInFrames == NULL and pulseIndex == NULL);
+    seq           = ProtectedNew<Nucleotide>(length);
+    if (hasInsertionDeletionQVTag) {
+        this->AllocateInsertionQVSpace(length);
+        this->insertionQV.Fill(0);
+        this->AllocateDeletionQVSpace(length);
+        this->deletionQV.Fill(0);
+        this->AllocateDeletionTagSpace(length);
+        memset(this->deletionTag, 'N', sizeof(char) * length);
+    }
+
+    if (hasSubstitutionQVTag) {
+        this->AllocateSubstitutionQVSpace(length);
+        this->substitutionQV.Fill(0);
+        this->AllocateSubstitutionTagSpace(length);
+        memset(this->substitutionTag, 'N', sizeof(char) * length);
+    }
+    this->length  = length;
+    subreadEnd_   = length;
+    deleteOnExit  = true;
+}
+
 
 void SMRTSequence::SetSubreadTitle(SMRTSequence &subread, DNALength subreadStart, DNALength subreadEnd) {
     stringstream titleStream;
     titleStream << title << "/"<< subreadStart << "_" << subreadEnd;
     subread.CopyTitle(titleStream.str());
-}   
+}
 
 void SMRTSequence::SetSubreadBoundaries(SMRTSequence &subread, DNALength subreadStart, DNALength subreadEnd) {
     if (subreadEnd == static_cast<DNALength>(-1)) {

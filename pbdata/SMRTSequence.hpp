@@ -123,8 +123,19 @@ public:
     /// \{
     SMRTSequence & Clip(const DNALength subreadStart, const DNALength subreadEnd);
     /// \}
-
+ 
+    /// \name Allocate
+    /// \{
+    /// Allocate space for all possible QVs.
     void Allocate(DNALength length); 
+
+    /// Compact allocate space for QVs needed in order to compute alignment score.
+    /// \param[in] hasInsertionDeletionQVTag: insertionQV, deletionQV and deletionTag exist
+    /// \param[in] hasSubstitutionQVTag: substitutionQV and substitutionTag exist
+    void CompactAllocate(const DNALength length,
+                         const bool hasInsertionDeletionQVTag,
+                         const bool hasSubstitutionQVTag);
+    /// \}
 
     void SetSubreadTitle(SMRTSequence &subread, DNALength subreadStart, 
         DNALength subreadEnd); 
