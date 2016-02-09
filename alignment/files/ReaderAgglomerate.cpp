@@ -12,14 +12,20 @@ void ReaderAgglomerate::InitializeParameters() {
     useRegionTable = true;
     ignoreCCS = true;
     readType = ReadType::SUBREAD;
+    unrolled = false;  // indicate unrolled mode , needed by GetNext
 #ifdef USE_PBBAM
     dataSetPtr = nullptr;
     entireFileQueryPtr = nullptr;
     pbiFilterQueryPtr = nullptr;
     sequentialZmwQueryPtr = nullptr;
     pbiFilterZmwQueryPtr = nullptr;
+    // the following two for unrolling
+    VPReader = nullptr;     // for PBBAM
+    VPCReader = nullptr;    // for PBDATASET
 #endif
 }
+
+// Constructors
 
 ReaderAgglomerate::ReaderAgglomerate() {
     InitializeParameters();
@@ -40,6 +46,8 @@ ReaderAgglomerate::ReaderAgglomerate(int _start, int _stride) {
     start  = _start;
     stride = _stride;
 }
+
+// End of Constructors
 
 void ReaderAgglomerate::GetMovieName(string &movieName) {
     if (fileType == FileType::Fasta || fileType == FileType::Fastq) {
@@ -101,12 +109,8 @@ void ReaderAgglomerate::UseCCS() {
     hdfBasReader.SetReadBasesFromCCS();
 }
 
-int ReaderAgglomerate::Initialize(string &pFileName) {
-    if (DetermineFileTypeByExtension(pFileName, fileType)) {
-        fileName = pFileName;
-        return Initialize();
-    }
-    return false;
+void ReaderAgglomerate::SetScrapsFileName(string &pFileName) {
+    scrapsFileName = pFileName;
 }
 
 bool ReaderAgglomerate::SetReadFileName(string &pFileName) {
@@ -117,6 +121,14 @@ bool ReaderAgglomerate::SetReadFileName(string &pFileName) {
     else {
         return false;
     }
+}
+
+int ReaderAgglomerate::Initialize(string &pFileName) {
+    if (DetermineFileTypeByExtension(pFileName, fileType)) {
+        fileName = pFileName;
+        return Initialize();
+    }
+    return false;
 }
 
 int ReaderAgglomerate::Initialize(FileType &pFileType, string &pFileName) {
@@ -183,11 +195,12 @@ bool ReaderAgglomerate::HasRegionTable() {
     if (entireFileQueryPtr) {delete entireFileQueryPtr; entireFileQueryPtr = nullptr;} \
     if (pbiFilterQueryPtr) {delete pbiFilterQueryPtr; pbiFilterQueryPtr = nullptr;} \
     if (sequentialZmwQueryPtr) {delete sequentialZmwQueryPtr; sequentialZmwQueryPtr = nullptr;} \
-    if (pbiFilterZmwQueryPtr) {delete pbiFilterZmwQueryPtr; pbiFilterZmwQueryPtr = nullptr;}
-
+    if (pbiFilterZmwQueryPtr) {delete pbiFilterZmwQueryPtr; pbiFilterZmwQueryPtr = nullptr;} \
+    if (VPReader) { delete VPReader; VPReader = nullptr;} \
+    if (VPCReader) { delete VPCReader; VPCReader = nullptr;}
 #endif
 
-int ReaderAgglomerate::Initialize() {
+int ReaderAgglomerate::Initialize(bool unrolled_mode) {
     int init = 1;
     switch(fileType) {
         case FileType::Fasta:
@@ -228,6 +241,8 @@ int ReaderAgglomerate::Initialize() {
         case FileType::PBDATASET: 
 #ifdef USE_PBBAM
             RESET_PBBAM_PTRS();
+            unrolled = unrolled_mode; 
+            // create dataset , common for both unrolled and regular modes
             try {
                 dataSetPtr = new PacBio::BAM::DataSet(fileName);
             } catch (std::exception e) {
@@ -235,23 +250,40 @@ int ReaderAgglomerate::Initialize() {
                      << ": " << e.what() << endl;
                 return 0;
             }
-            if (fileType == FileType::PBBAM) {
-                entireFileQueryPtr = new PacBio::BAM::EntireFileQuery(*dataSetPtr);
-                assert(entireFileQueryPtr != nullptr);
-                entireFileIterator = entireFileQueryPtr->begin();
+            if (unrolled) {
+                if (fileType == FileType::PBBAM) {
+                    // Handle PBBAM here , use scrapFileName 
+                    VPReader = new PacBio::BAM::VirtualPolymeraseReader(fileName, scrapsFileName);
+                    assert(VPReader != nullptr);
+                    // 
+                } else if (fileType == FileType::PBDATASET) {
+                    dataSetPtr = new PacBio::BAM::DataSet(fileName);
+                    // No need in setting filters for PolymeraseReads
+                    // prefiltering, in a form it is currently implemented migght crate Polymerase reads
+                    // with skipped subreads, which defies the whole purpose of unrolled mode 
+		    VPCReader = new PacBio::BAM::VirtualPolymeraseCompositeReader(*dataSetPtr);
+                    assert(VPCReader != nullptr);
+                }
+            }
+            else {
+                if (fileType == FileType::PBBAM) {
+                    entireFileQueryPtr = new PacBio::BAM::EntireFileQuery(*dataSetPtr);
+                    assert(entireFileQueryPtr != nullptr);
+                    entireFileIterator = entireFileQueryPtr->begin();
 
-                sequentialZmwQueryPtr = new PacBio::BAM::SequentialZmwGroupQuery(*dataSetPtr);
-                assert(sequentialZmwQueryPtr != nullptr);
-                sequentialZmwIterator = sequentialZmwQueryPtr->begin();
-            } else if (fileType == FileType::PBDATASET) {
-                const PacBio::BAM::PbiFilter filter = PacBio::BAM::PbiFilter::FromDataSet(*dataSetPtr);
-                pbiFilterQueryPtr = new PacBio::BAM::PbiFilterQuery(filter, *dataSetPtr);
-                assert(pbiFilterQueryPtr != nullptr);
-                pbiFilterIterator = pbiFilterQueryPtr->begin();
+                    sequentialZmwQueryPtr = new PacBio::BAM::SequentialZmwGroupQuery(*dataSetPtr);
+                    assert(sequentialZmwQueryPtr != nullptr);
+                    sequentialZmwIterator = sequentialZmwQueryPtr->begin();
+                } else if (fileType == FileType::PBDATASET) {
+                    const PacBio::BAM::PbiFilter filter = PacBio::BAM::PbiFilter::FromDataSet(*dataSetPtr);
+                    pbiFilterQueryPtr = new PacBio::BAM::PbiFilterQuery(filter, *dataSetPtr);
+                    assert(pbiFilterQueryPtr != nullptr);
+                    pbiFilterIterator = pbiFilterQueryPtr->begin();
  
-                pbiFilterZmwQueryPtr = new PacBio::BAM::PbiFilterZmwGroupQuery(filter, *dataSetPtr);
-                assert(pbiFilterZmwQueryPtr != nullptr);
-                pbiFilterZmwIterator = pbiFilterZmwQueryPtr->begin();
+                    pbiFilterZmwQueryPtr = new PacBio::BAM::PbiFilterZmwGroupQuery(filter, *dataSetPtr);
+                    assert(pbiFilterZmwQueryPtr != nullptr);
+                    pbiFilterZmwIterator = pbiFilterZmwQueryPtr->begin();
+                }
             }
             break;
 #endif
@@ -287,6 +319,7 @@ bool ReaderAgglomerate::Subsample(float rate) {
     while( (rand() % 100 + 1) > (rate * 100) and (retVal = Advance(1)));
     return retVal;
 }
+
 
 int ReaderAgglomerate::GetNext(FASTASequence &seq) {
     int numRecords = 0;
@@ -378,6 +411,7 @@ int ReaderAgglomerate::GetNext(vector<SMRTSequence> & reads) {
     }
     if (fileType == FileType::PBBAM) {
 #ifdef USE_PBBAM
+        // no need to check for unrolled mode, vector of SMRTS is being received 
         while (sequentialZmwIterator != sequentialZmwQueryPtr->end()) {
             const vector<PacBio::BAM::BamRecord> & records = *sequentialZmwIterator;
             // bug 30566, short term solution, ignore bad record.
@@ -406,6 +440,7 @@ int ReaderAgglomerate::GetNext(vector<SMRTSequence> & reads) {
 #endif
     } else if (fileType == FileType::PBDATASET) {
 #ifdef USE_PBBAM
+        // no need to check for unrolled mode, vector of SMRTS is being received 
         while (pbiFilterZmwIterator != pbiFilterZmwQueryPtr->end()) {
             const vector<PacBio::BAM::BamRecord> & records = *pbiFilterZmwIterator;
             bool OK = true;
@@ -438,6 +473,7 @@ int ReaderAgglomerate::GetNext(vector<SMRTSequence> & reads) {
     return numRecords;
 }
 
+// for now the only one which might be in unrolled mode: obtains SMRTSequence scalar
 int ReaderAgglomerate::GetNext(SMRTSequence &seq) {
     int numRecords = 0;
 
@@ -466,12 +502,39 @@ int ReaderAgglomerate::GetNext(SMRTSequence &seq) {
             break;
         case FileType::PBDATASET:
 #ifdef USE_PBBAM
-            GET_NEXT_FROM_DATASET();
+            if (unrolled) {
+                if ( VPCReader->HasNext() ) {
+                    // TODO check for length mismatch (as temporary fix)
+
+                    PacBio::BAM::VirtualPolymeraseBamRecord record = VPCReader->Next();
+
+                    numRecords = 1;   // a single record only 
+                    seq.Copy(record); // need to copy into seq
+	            // denote, no iterator so no need to advance anything. HasNext advances to ath next VPBR
+                } 
+            }
+            else {
+                GET_NEXT_FROM_DATASET();
+            }
             break;
 #endif
         case FileType::PBBAM:
 #ifdef USE_PBBAM
-            GET_NEXT_FROM_BAM();
+            // TODO unrolled
+            if (unrolled) {
+                if ( VPReader->HasNext() ) {
+                    // TODO check for length mismatch (as temporary fix)
+
+                    PacBio::BAM::VirtualPolymeraseBamRecord record = VPReader->Next();
+
+                    numRecords = 1;   // a single record only 
+                    seq.Copy(record); // need to copy into seq
+	            // denote, no iterator so no need to advance anything. HasNext advances to ath next VPBR
+                } 
+            }
+            else {
+                GET_NEXT_FROM_BAM();
+            }
             break;
 #endif
         case FileType::Fourbit:
