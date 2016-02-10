@@ -334,6 +334,52 @@ SMRTSequence & SMRTSequence::HQRegionSnr(const char base, float v) {
     return *this;
 }
 
+void SMRTSequence::MadeFromSubreadsAsPolymerase(const std::vector<SMRTSequence> & subreads) {
+    assert(subreads.size() > 0);
+    DNALength hqStart = static_cast<DNALength>(-1), hqEnd = 0;
+    bool hasInsDel = true, hasSubstitution = true;
+    // Compute hqStart, hqEnd and which QVs to use over all subreads.
+    for(auto subread: subreads) {
+        hqStart = min(DNALength(subread.SubreadStart()), hqStart);
+        hqEnd   = max(DNALength(subread.SubreadEnd()),   hqEnd);
+        if (subread.insertionQV.Empty() or subread.deletionQV.Empty()
+            or subread.deletionTag == nullptr)
+        { hasInsDel = false; }
+        if (subread.substitutionTag == nullptr or subread.substitutionQV.Empty())
+        { hasSubstitution = false; }
+    }
+    this->Free();
+    // Compact allocate memory.
+    this->CompactAllocate(hqEnd, hasInsDel, hasSubstitution);
+    memset(seq, 'N', sizeof(char) * hqEnd);
+    this->lowQualityPrefix = hqStart;
+    this->lowQualitySuffix = this->length - hqEnd;
+    this->highQualityRegionScore = subreads[0].highQualityRegionScore;
+    this->HoleNumber(subreads[0].HoleNumber());
+    // Make title.
+    stringstream ss;
+    ss << SMRTTitle(subreads[0].GetTitle()).MovieName() << "/" << subreads[0].HoleNumber();
+    this->CopyTitle(ss.str());
+
+    // Copy subreads content to this polymerase read.
+    for (auto subread: subreads) {
+        memcpy(&this->seq[subread.SubreadStart()],
+               &subread.seq[0], sizeof(char) * subread.length);
+        if (hasInsDel) {
+            this->insertionQV.Fill(subread.SubreadStart(), subread.length, subread.insertionQV, 0);
+            this->deletionQV.Fill(subread.SubreadStart(), subread.length, subread.deletionQV, 0);
+            memcpy(&this->deletionTag[subread.SubreadStart()],
+                   &subread.deletionTag[0], sizeof(char) * subread.length);
+        }
+        if (hasSubstitution) {
+            this->substitutionQV.Fill(subread.SubreadStart(), subread.length, subread.substitutionQV, 0);
+            memcpy(&this->substitutionTag[subread.SubreadStart()],
+                   &subread.substitutionTag[0], sizeof(char) * subread.length);
+        }
+    }
+}
+
+
 #ifdef USE_PBBAM
 bool SMRTSequence::IsValid(const PacBio::BAM::BamRecord & record) {
     DNALength expectedLength = 0;

@@ -137,6 +137,13 @@ public:
                          const bool hasSubstitutionQVTag);
     /// \}
 
+    /// Reconstruct this as a polymerase read of a zmw given subreads of the zmw.
+    /// Copy only QVs necessary for computing alignment score, ignore irrelavent QVs.
+    /// Length of this polymerase read is max {subread.SubreadEnd()}.
+    /// Pad sequences and tags of scraps regions with 'N' and QVs of scraps regions with 0s.
+    /// \param[in] subreads: subreads of a zmw
+    void MadeFromSubreadsAsPolymerase(const std::vector<SMRTSequence> & subreads);
+
     void SetSubreadTitle(SMRTSequence &subread, DNALength subreadStart, 
         DNALength subreadEnd); 
 
