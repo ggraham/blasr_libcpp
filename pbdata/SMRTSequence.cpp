@@ -54,12 +54,41 @@ void SMRTSequence::Allocate(DNALength length) {
     deleteOnExit  = true;
 }
 
+void SMRTSequence::CompactAllocate(const DNALength length,
+                                   const bool hasInsertionDeletionQVTag,
+                                   const bool hasSubstitutionQVTag) {
+    // Only allocate necessary QVs for computing alignments
+    // Insertion QV, Deletion QV and Deletion Tag must be either all exist or none exist
+    // Substitution QV and tag must be either both exist or non exist.
+    assert(seq == NULL && preBaseFrames == NULL &&
+           widthInFrames == NULL and pulseIndex == NULL);
+    seq           = ProtectedNew<Nucleotide>(length);
+    if (hasInsertionDeletionQVTag) {
+        this->AllocateInsertionQVSpace(length);
+        this->insertionQV.Fill(0);
+        this->AllocateDeletionQVSpace(length);
+        this->deletionQV.Fill(0);
+        this->AllocateDeletionTagSpace(length);
+        memset(this->deletionTag, 'N', sizeof(char) * length);
+    }
+
+    if (hasSubstitutionQVTag) {
+        this->AllocateSubstitutionQVSpace(length);
+        this->substitutionQV.Fill(0);
+        this->AllocateSubstitutionTagSpace(length);
+        memset(this->substitutionTag, 'N', sizeof(char) * length);
+    }
+    this->length  = length;
+    subreadEnd_   = length;
+    deleteOnExit  = true;
+}
+
 
 void SMRTSequence::SetSubreadTitle(SMRTSequence &subread, DNALength subreadStart, DNALength subreadEnd) {
     stringstream titleStream;
     titleStream << title << "/"<< subreadStart << "_" << subreadEnd;
     subread.CopyTitle(titleStream.str());
-}   
+}
 
 void SMRTSequence::SetSubreadBoundaries(SMRTSequence &subread, DNALength subreadStart, DNALength subreadEnd) {
     if (subreadEnd == static_cast<DNALength>(-1)) {
@@ -304,6 +333,52 @@ SMRTSequence & SMRTSequence::HQRegionSnr(const char base, float v) {
     else assert("Base must be in A, C, G, T" == 0);
     return *this;
 }
+
+void SMRTSequence::MadeFromSubreadsAsPolymerase(const std::vector<SMRTSequence> & subreads) {
+    assert(subreads.size() > 0);
+    DNALength hqStart = static_cast<DNALength>(-1), hqEnd = 0;
+    bool hasInsDel = true, hasSubstitution = true;
+    // Compute hqStart, hqEnd and which QVs to use over all subreads.
+    for(auto subread: subreads) {
+        hqStart = min(DNALength(subread.SubreadStart()), hqStart);
+        hqEnd   = max(DNALength(subread.SubreadEnd()),   hqEnd);
+        if (subread.insertionQV.Empty() or subread.deletionQV.Empty()
+            or subread.deletionTag == nullptr)
+        { hasInsDel = false; }
+        if (subread.substitutionTag == nullptr or subread.substitutionQV.Empty())
+        { hasSubstitution = false; }
+    }
+    this->Free();
+    // Compact allocate memory.
+    this->CompactAllocate(hqEnd, hasInsDel, hasSubstitution);
+    memset(seq, 'N', sizeof(char) * hqEnd);
+    this->lowQualityPrefix = hqStart;
+    this->lowQualitySuffix = this->length - hqEnd;
+    this->highQualityRegionScore = subreads[0].highQualityRegionScore;
+    this->HoleNumber(subreads[0].HoleNumber());
+    // Make title.
+    stringstream ss;
+    ss << SMRTTitle(subreads[0].GetTitle()).MovieName() << "/" << subreads[0].HoleNumber();
+    this->CopyTitle(ss.str());
+
+    // Copy subreads content to this polymerase read.
+    for (auto subread: subreads) {
+        memcpy(&this->seq[subread.SubreadStart()],
+               &subread.seq[0], sizeof(char) * subread.length);
+        if (hasInsDel) {
+            this->insertionQV.Fill(subread.SubreadStart(), subread.length, subread.insertionQV, 0);
+            this->deletionQV.Fill(subread.SubreadStart(), subread.length, subread.deletionQV, 0);
+            memcpy(&this->deletionTag[subread.SubreadStart()],
+                   &subread.deletionTag[0], sizeof(char) * subread.length);
+        }
+        if (hasSubstitution) {
+            this->substitutionQV.Fill(subread.SubreadStart(), subread.length, subread.substitutionQV, 0);
+            memcpy(&this->substitutionTag[subread.SubreadStart()],
+                   &subread.substitutionTag[0], sizeof(char) * subread.length);
+        }
+    }
+}
+
 
 #ifdef USE_PBBAM
 bool SMRTSequence::IsValid(const PacBio::BAM::BamRecord & record) {

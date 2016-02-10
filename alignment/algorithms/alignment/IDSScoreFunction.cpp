@@ -38,7 +38,8 @@ int IDSScoreFunction<DNASequence,FASTQSequence>::Deletion(DNASequence &ref, DNAL
 
 template<>
 int IDSScoreFunction<DNASequence, FASTQSequence>::Deletion(FASTQSequence &query, DNALength queryPos) {
-    return query.deletionQV[queryPos];
+    if (not query.deletionQV.Empty()) return query.deletionQV[queryPos];
+    else return del;
 }
 
 
@@ -53,12 +54,14 @@ template<>
 int IDSScoreFunction<DNASequence, FASTQSequence>::Insertion(DNASequence &refSeq, DNALength refPos, 
         FASTQSequence &query, DNALength pos) {
     (void)(refSeq); (void)(refPos);
-    return query.insertionQV[pos] ;
+    if (not query.insertionQV.Empty()) return query.insertionQV[pos] ;
+    return ins;
 }
 
 template<>
 int IDSScoreFunction<DNASequence, FASTQSequence>::Insertion(FASTQSequence &query, DNALength pos) {
-    return query.insertionQV[pos];
+    if (not query.insertionQV.Empty()) return query.insertionQV[pos] ;
+    return ins;
 }
 
 template<>
@@ -69,7 +72,8 @@ int IDSScoreFunction<DNASequence, FASTQSequence>::Match(DNASequence &ref, DNALen
         return 0;
     } else if (query.substitutionTag != NULL) {
         if (query.substitutionTag[queryPos] == ref.seq[refPos]) {
-            return query.substitutionQV[queryPos];
+            if (not query.substitutionQV.Empty()) 
+                return query.substitutionQV[queryPos];
         }
     }
     return substitutionPrior;
