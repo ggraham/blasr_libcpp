@@ -368,7 +368,18 @@ SAMHeaderRGs SAMHeaderPrinter::MakeRGs(const std::vector<std::string> & readsFil
             for (auto xmlfn: readsFiles) {
                 for (auto bamFile: PacBio::BAM::DataSet(xmlfn).BamFiles()) {
                     for (auto rg: bamFile.Header().ReadGroups())
-                        rgs.Add(SAMHeaderRG(rg.ToSam()));
+                    {
+                        if (readType == ReadType::POLYMERASE) {
+                            // fix for 27505
+                            rg.ReadType("POLYMERASE");
+                            rg.Id(rg.MovieName(),rg.ReadType());
+                            rgs.Add(SAMHeaderRG(rg.ToSam()));
+                        }
+                        else {
+                            // For later, Investigate why no ReadType is used for REG and CCS
+                            rgs.Add(SAMHeaderRG(rg.ToSam()));
+                        }
+                    }
                 }
             }
         }
