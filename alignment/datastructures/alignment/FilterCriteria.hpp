@@ -160,6 +160,7 @@ bool FilterCriteria::Satisfy(AlignmentCandidate<T_TSequence, T_QSequence> * a) c
     float pctAccuracy = 100 * a->nMatch / static_cast<float>(a->nMismatch
             + a->nMatch + a->nIns + a->nDel);
     Score s(a->score, _scoreCutoff.Sign());
-    return Satisfy(a->qAlignedSeqLength, a->pctSimilarity, pctAccuracy, s);
+    // use Alignment Length which is sum of Matches, Mismatches,Insertions and Deletions for minAlignLength filter
+    return Satisfy(a->nMatch + a->nMismatch + a->nIns + a->nDel, a->pctSimilarity, pctAccuracy, s);
 }
 #endif //_BLASR_FILTER_CRITERIA_HPP_
