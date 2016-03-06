@@ -278,7 +278,7 @@ void SAMHeaderGroups<T>::Add(const T & group) {
 
 template<class T>
 void SAMHeaderGroups<T>::Append(const std::vector<T> & groups) {
-    for(int i = 0; i < groups.size(); i++) {
+    for(int i = 0; i < int(groups.size()); i++) {
         this->Add(groups[i]);
     }
 }
