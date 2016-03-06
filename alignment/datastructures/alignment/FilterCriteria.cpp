@@ -280,12 +280,12 @@ const std::string FilterCriteria::MinAlnLengthHelp() {
 
 const std::string FilterCriteria::MinPctSimilarityHelp() {
     return std::string("(") + std::to_string(static_cast<int>(_minPctSimilarity)) + ") " +
-           "Report alignments only if their percentage similairty is greater than minPctSimilarity.";
+           "Report alignments only if their percentage similarity is greater than minPctSimilarity.";
 }
 
 const std::string FilterCriteria::MinPctAccuracyHelp() {
     return std::string("(") + std::to_string(static_cast<int>(_minPctAccuracy)) + ") " + 
-           "Report alignments only if their percentage accuray is greater than minAccuracy.";
+           "Report alignments only if their percentage accuracy is greater than minAccuracy.";
 }
 
 const std::string FilterCriteria::ScoreSignHelp() {
