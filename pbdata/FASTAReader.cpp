@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <sys/mman.h>
 #include <sys/fcntl.h>
+#include <sys/stat.h>
 
 #include "Enumerations.h"
 #include "NucConversion.hpp"
@@ -68,6 +69,18 @@ int FASTAReader::Initialize(string &seqInName) {
 }
 
 int FASTAReader::Init(string &seqInName, int passive) {
+
+    // Check if file is exist and not empty (length of the file is non-zero)
+    struct stat st;
+    if(stat(seqInName.c_str(), &st) != 0) {
+        cerr << "FASTA file " << seqInName << " doesn't exist" << endl;
+        exit(1);
+    }
+    if (st.st_size == 0) {
+        cerr << "FASTA file " << seqInName << " is empty" << endl;
+        exit(1);
+    }
+
     fileDes = open(seqInName.c_str(), O_RDONLY);
     padding = 0;
     if (fileDes == -1) {
