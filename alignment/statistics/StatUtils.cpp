@@ -1,4 +1,7 @@
 #include "StatUtils.hpp" 
+#ifndef __WORDSIZE
+#  include <bits/user.h>
+#endif
 
 void InitializeRandomGenerator(int value) {
   srandom((unsigned) value);
