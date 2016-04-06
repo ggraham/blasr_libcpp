@@ -3,6 +3,7 @@
 
 #define rc2index(r, c, rowSize) ( (r) * (rowSize) + c)
 #include "../Types.h" // UInt
+#include <iosfwd>
 
 template<typename T>
 void CreateFlatMatrix(int rows, int cols, std::vector<T> &matrix); 
