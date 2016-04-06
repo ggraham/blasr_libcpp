@@ -1,6 +1,6 @@
 #ifndef _BLASR_EXTEND_ALIGN_HPP_
 #define _BLASR_EXTEND_ALIGN_HPP_
-
+#include <iosfwd>
 #include <vector>
 #include <algorithm>
 // pbdata
