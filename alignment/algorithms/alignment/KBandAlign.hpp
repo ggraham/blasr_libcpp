@@ -1,6 +1,6 @@
 #ifndef _BLASR_K_BAND_ALIGN_HPP_
 #define _BLASR_K_BAND_ALIGN_HPP_
-
+#include <iosfwd>
 #include <algorithm>
 #include <vector>
 #include <limits.h>
