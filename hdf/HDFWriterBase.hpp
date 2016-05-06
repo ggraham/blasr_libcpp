@@ -6,10 +6,12 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include "HDFFile.hpp"
 #include "HDFGroup.hpp"
 #include "HDFAtom.hpp"
 #include "BufferedHDFArray.hpp"
 #include "BufferedHDF2DArray.hpp"
+#include "HDFScanDataWriter.hpp"
 
 class HDFWriterBase {
 public:
@@ -25,6 +27,12 @@ public:
 
     std::vector<std::string> Errors(void) const;
 
+    /// Copy the given group and write to the output
+    /// \returns Object that was copied
+    void CopyObject(HDFFile& src, const char* path); 
+
+    void WriteScanData(const ScanData& scanData);
+   
 protected:
     std::string filename_;
     std::vector<std::string> errors_; 
@@ -51,6 +59,13 @@ protected:
                       const std::string & attributeName, 
                       const T & attributeValue);
 
+    /// \brief Checks whether chemistry triple, including
+    ///        binding kit, sequencing kit and base caller version
+    ///        are set. 
+    ///        If not, add error messages.
+    void SanityCheckChemistry(const std::string & bindingKit,
+                              const std::string & sequencingKit);
+
     void AddErrorMessage(const std::string & errmsg);
 
     void FAILED_TO_CREATE_GROUP_ERROR(const std::string & groupName);
@@ -60,6 +75,9 @@ protected:
     void PARENT_GROUP_NOT_INITIALIZED_ERROR(const std::string & groupName);
 
     virtual void Close(void) = 0;
+
+	HDFFile outfile_;  ///< HDFFile file handler
+
 };
 
 
