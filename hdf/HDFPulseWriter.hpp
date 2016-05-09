@@ -68,6 +68,9 @@ public:
     /// \returns all errors from all writers.
     std::vector<std::string> Errors(void);
 
+    /// Pass-through method for setting the inverse gain to PulseCallsWriter
+    void SetInverseGain(float igain);
+
     /// \}
 
 private:

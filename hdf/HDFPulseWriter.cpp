@@ -70,6 +70,10 @@ std::vector<std::string> HDFPulseWriter::Errors(void) {
     return errors;
 }
 
+void HDFPulseWriter::SetInverseGain(float igain) {
+    pulsecallsWriter_->SetInverseGain(igain);
+}
+
 void HDFPulseWriter::Close(void) {
     if (basecallsWriter_) basecallsWriter_.reset();
     if (pulsecallsWriter_) pulsecallsWriter_.reset();

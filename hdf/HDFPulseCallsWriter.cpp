@@ -73,6 +73,8 @@ HDFPulseCallsWriter::HDFPulseCallsWriter(const std::string & filename,
     // Create a zmwWriter.
     zmwWriter_.reset(new HDFZMWWriter(Filename(), pulsecallsGroup_, true, baseMap));
 
+    inverseGain_ = 1.0f;
+
     // Note: ignore /PulseCalls/ZMWMetrics none of its metrics exist in BAM.
 }
 
@@ -172,6 +174,10 @@ void HDFPulseCallsWriter::Content(std::vector<std::string> & names,
         names.push_back(PacBio::GroupNames::widthinframes);
         types.push_back(widthinframestype);
     }
+}
+
+void HDFPulseCallsWriter::SetInverseGain(const float igain) {
+    inverseGain_ = igain;
 }
 
 bool HDFPulseCallsWriter::_WriteAttributes(void) {
