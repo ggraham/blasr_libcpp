@@ -21,6 +21,16 @@ void HDFWriterBase::WriteScanData(const ScanData& scanData) {
     writer.Write(scanData);
 }
 
+bool HDFWriterBase::WriteFakeDataSets() { return true; }
+
+void HDFWriterBase::Flush() { }
+
+bool HDFWriterBase::WriteOneZmw(const SMRTSequence & seq,
+                               const std::vector<RegionAnnotation> & regions) {
+    // XXX: unused variables
+    return true;
+}
+
 bool HDFWriterBase::AddChildGroup(HDFGroup & parentGroup, 
                                   HDFGroup & childGroup,
                                   const std::string & childGroupName) {

@@ -6,6 +6,8 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include "pbdata/SMRTSequence.hpp"
+#include "pbdata/reads/RegionAnnotation.hpp"
 #include "HDFFile.hpp"
 #include "HDFGroup.hpp"
 #include "HDFAtom.hpp"
@@ -32,6 +34,13 @@ public:
     void CopyObject(HDFFile& src, const char* path); 
 
     void WriteScanData(const ScanData& scanData);
+
+    virtual bool WriteFakeDataSets();
+
+    virtual void Flush();
+
+    virtual bool WriteOneZmw(const SMRTSequence& seq,
+                             const std::vector<RegionAnnotation>& regions);
    
 protected:
     std::string filename_;
