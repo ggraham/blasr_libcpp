@@ -6,8 +6,8 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include "pbdata/SMRTSequence.hpp"
-#include "pbdata/reads/RegionAnnotation.hpp"
+#include "../pbdata/SMRTSequence.hpp"
+#include "../pbdata/reads/RegionAnnotation.hpp"
 #include "HDFFile.hpp"
 #include "HDFGroup.hpp"
 #include "HDFAtom.hpp"
