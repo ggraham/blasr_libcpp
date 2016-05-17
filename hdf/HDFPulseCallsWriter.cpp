@@ -363,7 +363,7 @@ bool HDFPulseCallsWriter::_WritePkmean(const PacBio::BAM::BamRecord & read) {
             std::vector<float> pkmids = read.Pkmean();
 
             // convert from photoE to counts
-            std::for_each(pkmids.begin(), pkmids.end(), [&](float& x){x*=inverseGain_;});
+            std::for_each(pkmids.begin(), pkmids.end(), [&](float& x){x/=inverseGain_;});
 
             // down-convert to ushorts (required by pulse file specification)
             std::vector<uint16_t> data(pkmids.begin(), pkmids.end());
@@ -401,7 +401,7 @@ bool HDFPulseCallsWriter::_WritePkmid(const PacBio::BAM::BamRecord & read) {
             std::vector<float> pkmids = read.Pkmid();
 
             // convert from photoE to counts
-            std::for_each(pkmids.begin(), pkmids.end(), [&](float& x){x*=inverseGain_;});
+            std::for_each(pkmids.begin(), pkmids.end(), [&](float& x){x/=inverseGain_;});
 
             // down-convert to ushorts (required by pulse file specification)
             std::vector<uint16_t> data(pkmids.begin(), pkmids.end());
