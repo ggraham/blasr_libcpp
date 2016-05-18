@@ -244,7 +244,7 @@ ParseCommandLine(int argc, char* argv[],
             PrintUsage();
             exit(0);
         }
-        else if (strcmp(argv[i], "-version") == 0 and specialVersionFlag) {
+        else if (strcmp(argv[i], "--version") == 0 and specialVersionFlag) {
             //
             // Using -version is an early exit since programs will print the 
             // version and then return.
