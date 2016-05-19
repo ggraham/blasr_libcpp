@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <sstream>
 #include <algorithm>
+#include <cmath>
 #include "HDFPulseCallsWriter.hpp"
 #include "../pbdata/utils/TimeUtils.hpp"
 
@@ -363,7 +364,7 @@ bool HDFPulseCallsWriter::_WritePkmean(const PacBio::BAM::BamRecord & read) {
             std::vector<float> pkmids = read.Pkmean();
 
             // convert from photoE to counts
-            std::for_each(pkmids.begin(), pkmids.end(), [&](float& x){x/=inverseGain_;});
+            std::for_each(pkmids.begin(), pkmids.end(), [&](float& x){x=std::round(x/inverseGain_);});
 
             // down-convert to ushorts (required by pulse file specification)
             std::vector<uint16_t> data(pkmids.begin(), pkmids.end());
@@ -401,7 +402,7 @@ bool HDFPulseCallsWriter::_WritePkmid(const PacBio::BAM::BamRecord & read) {
             std::vector<float> pkmids = read.Pkmid();
 
             // convert from photoE to counts
-            std::for_each(pkmids.begin(), pkmids.end(), [&](float& x){x/=inverseGain_;});
+            std::for_each(pkmids.begin(), pkmids.end(), [&](float& x){x=std::round(x/inverseGain_);});
 
             // down-convert to ushorts (required by pulse file specification)
             std::vector<uint16_t> data(pkmids.begin(), pkmids.end());
