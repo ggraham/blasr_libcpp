@@ -163,6 +163,7 @@ HitPolicy::Apply(const std::vector<T_AlignmentCandidate*> alnPtrs,
     } else {
         assert("Unsupported hit policy" == 0);
     }
+    abort();
 }
 
 /*
