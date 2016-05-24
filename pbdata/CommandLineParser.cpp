@@ -4,7 +4,7 @@ CommandLineParser::
 CommandLineParser() {
     lineLength = 80;
     numUnnamedOptions = 0;
-    specialVersionFlag = false;
+    specialVersionFlag = true;
 }
 
 void CommandLineParser::
