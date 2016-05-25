@@ -361,7 +361,10 @@ bool HDFPulseCallsWriter::_WriteLabelQV(const PacBio::BAM::BamRecord & read) {
 bool HDFPulseCallsWriter::_WritePkmean(const PacBio::BAM::BamRecord & read) {
     if (HasPkmean()) {
         if (read.HasPkmean()) {
-            std::vector<float> pkmids = read.Pkmean();
+            //std::vector<float> pkmids = read.Pkmean();
+            const PacBio::BAM::Tag & tag = read.Impl().TagValue("pa");
+            std::vector<uint16_t> _data = tag.ToUInt16Array();
+            std::vector<float> pkmids(_data.begin(), _data.end());
 
             // convert from photoE to counts
             std::for_each(pkmids.begin(), pkmids.end(), [&](float& x){x=std::round(x/inverseGain_);});
@@ -399,8 +402,10 @@ bool HDFPulseCallsWriter::_WritePulseMergeQV(const PacBio::BAM::BamRecord & read
 bool HDFPulseCallsWriter::_WritePkmid(const PacBio::BAM::BamRecord & read) {
     if (HasPkmid()) {
         if (read.HasPkmid()) {
-            std::vector<float> pkmids = read.Pkmid();
-
+            //std::vector<float> pkmids = read.Pkmid();
+            const PacBio::BAM::Tag & tag = read.Impl().TagValue("pm");
+            std::vector<uint16_t> _data = tag.ToUInt16Array();
+            std::vector<float> pkmids(_data.begin(), _data.end());
             // convert from photoE to counts
             std::for_each(pkmids.begin(), pkmids.end(), [&](float& x){x=std::round(x/inverseGain_);});
 
