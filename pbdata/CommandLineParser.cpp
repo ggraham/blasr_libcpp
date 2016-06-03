@@ -290,7 +290,7 @@ ParseCommandLine(int argc, char* argv[],
             }
             if (ev != CLGood) {
                 PrintUsage();
-                PrintErrorMessage(ev, &argv[argi][1]);
+                PrintErrorMessage(ev, &argv[argi][0]);
                 exit(1);
             }
         }
@@ -310,7 +310,7 @@ ParseCommandLine(int argc, char* argv[],
     ev = PrintErrorOnMissingOptions();
     if (ev != CLGood) {
         PrintUsage();
-        PrintErrorMessage(ev, &argv[argi][1]);
+        PrintErrorMessage(ev, &argv[argi][0]);
         exit(1);
     }
     return 1;
