@@ -25,8 +25,8 @@ bool HDFWriterBase::WriteFakeDataSets() { return true; }
 
 void HDFWriterBase::Flush() { }
 
-bool HDFWriterBase::WriteOneZmw(const SMRTSequence & seq,
-                               const std::vector<RegionAnnotation> & regions) {
+bool HDFWriterBase::WriteOneZmw(const SMRTSequence &,
+                                const std::vector<RegionAnnotation> &) {
     // XXX: unused variables
     return true;
 }
