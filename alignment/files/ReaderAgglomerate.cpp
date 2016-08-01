@@ -253,7 +253,7 @@ int ReaderAgglomerate::Initialize(bool unrolled_mode) {
             if (unrolled) {
                 if (fileType == FileType::PBBAM) {
                     // Handle PBBAM here , use scrapFileName 
-                    VPReader = new PacBio::BAM::VirtualPolymeraseReader(fileName, scrapsFileName);
+                    VPReader = new PacBio::BAM::ZmwReadStitcher(fileName, scrapsFileName);
                     assert(VPReader != nullptr);
                     // 
                 } else if (fileType == FileType::PBDATASET) {
@@ -261,7 +261,7 @@ int ReaderAgglomerate::Initialize(bool unrolled_mode) {
                     // No need in setting filters for PolymeraseReads
                     // prefiltering, in a form it is currently implemented migght crate Polymerase reads
                     // with skipped subreads, which defies the whole purpose of unrolled mode 
-		    VPCReader = new PacBio::BAM::VirtualPolymeraseCompositeReader(*dataSetPtr);
+		    VPCReader = new PacBio::BAM::ZmwReadStitcher(*dataSetPtr);
                     assert(VPCReader != nullptr);
                 }
             }
@@ -506,7 +506,7 @@ int ReaderAgglomerate::GetNext(SMRTSequence &seq) {
                 if ( VPCReader->HasNext() ) {
                     // TODO check for length mismatch (as temporary fix)
 
-                    PacBio::BAM::VirtualPolymeraseBamRecord record = VPCReader->Next();
+                    PacBio::BAM::VirtualZmwBamRecord record = VPCReader->Next();
 
                     numRecords = 1;   // a single record only 
                     seq.Copy(record); // need to copy into seq
@@ -525,7 +525,7 @@ int ReaderAgglomerate::GetNext(SMRTSequence &seq) {
                 if ( VPReader->HasNext() ) {
                     // TODO check for length mismatch (as temporary fix)
 
-                    PacBio::BAM::VirtualPolymeraseBamRecord record = VPReader->Next();
+                    PacBio::BAM::VirtualZmwBamRecord record = VPReader->Next();
 
                     numRecords = 1;   // a single record only 
                     seq.Copy(record); // need to copy into seq

@@ -24,8 +24,7 @@
 #include "../query/PbiFilterZmwGroupQuery.h"
 #include <pbbam/BamRecord.h>
 // the following added to support Polymerase read for unrolled mode
-#include <pbbam/virtual/VirtualPolymeraseCompositeReader.h>
-#include <pbbam/virtual/VirtualPolymeraseReader.h>
+#include <pbbam/virtual/ZmwReadStitcher.h>                     // new interface
 #endif
 
 class ReaderAgglomerate : public BaseSequenceIO {
@@ -139,8 +138,8 @@ public:
   PacBio::BAM::PbiFilterZmwGroupQuery * pbiFilterZmwQueryPtr;
   PacBio::BAM::PbiFilterZmwGroupQuery::iterator pbiFilterZmwIterator;
   // the following to added to support Polymerase reads in unrolled mode
-  PacBio::BAM::VirtualPolymeraseReader * VPReader;
-  PacBio::BAM::VirtualPolymeraseCompositeReader * VPCReader;
+  PacBio::BAM::ZmwReadStitcher            * VPReader;           // new interface
+  PacBio::BAM::ZmwReadStitcher            * VPCReader;          // new interface
 #endif
 };
 
