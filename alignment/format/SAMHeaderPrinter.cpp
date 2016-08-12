@@ -346,41 +346,50 @@ SAMHeaderRGs SAMHeaderPrinter::MakeRGs(const std::vector<std::string> & readsFil
     } else {
 #ifdef USE_PBBAM
         if (fileType == FileType::PBBAM) {
-        // TODO: use Derek's API to merge bamHeaders from different files when 
-        // it is in place. Use the following code for now. 
-        std::vector<std::string>::const_iterator rfit;
-        for(rfit = readsFiles.begin(); rfit != readsFiles.end(); rfit++) {
-            try {
-                PacBio::BAM::BamFile bamFile(*rfit);
-                PacBio::BAM::BamHeader header = bamFile.Header();
-                // Get read groups from bam header.
-                std::vector<PacBio::BAM::ReadGroupInfo> vrgs = header.ReadGroups();
-                std::vector<PacBio::BAM::ReadGroupInfo>::iterator rgit;
-                for (rgit = vrgs.begin(); rgit != vrgs.end(); rgit++) {
-                    rgs.Add(SAMHeaderRG((*rgit).ToSam()));
+            // TODO: use Derek's API to merge bamHeaders from different files when
+            // it is in place. Use the following code for now.
+            std::vector<std::string>::const_iterator rfit;
+            for(rfit = readsFiles.begin(); rfit != readsFiles.end(); rfit++) {
+                try {
+                    PacBio::BAM::BamFile bamFile(*rfit);
+                    PacBio::BAM::BamHeader header = bamFile.Header();
+                    // Get read groups from bam header.
+                    std::vector<PacBio::BAM::ReadGroupInfo> vrgs = header.ReadGroups();
+                    std::vector<PacBio::BAM::ReadGroupInfo>::iterator rgit;
+                    for (rgit = vrgs.begin(); rgit != vrgs.end(); rgit++) {
+                        rgs.Add(SAMHeaderRG((*rgit).ToSam()));
+                    }
+                } catch (std::exception e) {
+                    cout << "ERROR, unable to open bam file " << (*rfit) << endl;
+                    exit(1);
                 }
-            } catch (std::exception e) {
-                cout << "ERROR, unable to open bam file " << (*rfit) << endl;
-                exit(1);
             }
-        }
         } else if (fileType == FileType::PBDATASET) {
+            // use + operator to merge headers
+            bool first = true;
+            PacBio::BAM::BamHeader mergedHeader;
+            //
+            // First stage : merge headers - loop thru all file headers and create a merged header
+            //
             for (auto xmlfn: readsFiles) {
                 for (auto bamFile: PacBio::BAM::DataSet(xmlfn).BamFiles()) {
-                    for (auto rg: bamFile.Header().ReadGroups())
-                    {
-                        if (readType == ReadType::POLYMERASE) {
-                            // fix for 27505
-                            rg.ReadType("POLYMERASE");
-                            rg.Id(rg.MovieName(),rg.ReadType());
-                            rgs.Add(SAMHeaderRG(rg.ToSam()));
-                        }
-                        else {
-                            // For later, Investigate why no ReadType is used for REG and CCS
-                            rgs.Add(SAMHeaderRG(rg.ToSam()));
-                        }
-                    }
+                    if (first) {
+                        mergedHeader = bamFile.Header();   // assign first header to mergedHeader
+                        first = false;
+                    } else
+                        mergedHeader += bamFile.Header();  // add subsequent headers and to mergedHeader
                 }
+            }
+
+            //
+            // Second stage : Loop thru all read groups, must modify ReadType if POLYMERASE
+            //
+            for (PacBio::BAM::ReadGroupInfo rg : mergedHeader.ReadGroups()) {
+                if (readType == ReadType::POLYMERASE) {
+                    rg.ReadType("POLYMERASE");
+                    rg.Id(rg.MovieName(), rg.ReadType());
+                }
+                rgs.Add(SAMHeaderRG(rg.ToSam()));
             }
         }
 #else
