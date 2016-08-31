@@ -68,8 +68,8 @@ bool HDFZMWWriter::WriteOneZmw(const PacBio::BAM::BamRecord & read) {
 
     uint32_t hn_ = read.HoleNumber();
     _WriteHoleNumber(hn_);
-    _WriteHoleXY(static_cast<int16_t>(hn_ & 0x0000FFFF), 
-                 static_cast<int16_t>(hn_ >> 16));
+    _WriteHoleXY(static_cast<int16_t>(hn_ >> 16), 
+                 static_cast<int16_t>(hn_ & 0x0000FFFF));
     _WriteHoleStatus(PacBio::AttributeValues::ZMW::HoleStatus::sequencingzmw);
     _WriteBaseLineSigma(read);
     return Errors().empty();
