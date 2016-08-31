@@ -467,7 +467,7 @@ void SMRTSequence::Copy(const PacBio::BAM::BamRecord & record,
     this->HoleNumber(hn).
     // Assumption: holeStatus of a bam record must be 'SEQUENCING'
           HoleStatus(static_cast<unsigned char> (PacBio::AttributeValues::ZMW::HoleStatus::sequencingzmw)).
-    // x = lower 16 bit, y = upper 16 bit
+    // x = upper 16 bit, y = lower 16 bit
           HoleXY(hn >> 16, hn & 0x0000FFFF);
 
     // Set hq region read score
