@@ -21,7 +21,7 @@ namespace BAMOutput {
 template<typename T_Sequence>
 void PrintAlignment(T_AlignmentCandidate &alignment, T_Sequence &read,
         T_Sequence & subread,
-        PacBio::BAM::BamWriter &bamWriter, AlignmentContext &context, 
+        PacBio::BAM::IRecordWriter &bamWriter, AlignmentContext &context, 
         SupplementalQVList & qvList, Clipping clipping, 
         bool cigarUseSeqMatch=false, const bool allowAdjacentIndels=true);
 }

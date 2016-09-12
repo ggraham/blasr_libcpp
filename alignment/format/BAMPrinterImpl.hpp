@@ -156,7 +156,7 @@ void AlignmentToBamRecord(T_AlignmentCandidate & alignment,
 
 template<typename T_Sequence>
 void BAMOutput::PrintAlignment(T_AlignmentCandidate &alignment, T_Sequence &read, T_Sequence & subread,
-        PacBio::BAM::BamWriter &bamWriter, AlignmentContext &context, 
+        PacBio::BAM::IRecordWriter &bamWriter, AlignmentContext &context, 
         SupplementalQVList & qvList, Clipping clipping,
         bool cigarUseSeqMatch, const bool allowAdjacentIndels) {
 
