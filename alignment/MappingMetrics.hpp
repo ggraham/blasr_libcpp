@@ -12,7 +12,7 @@
 #include <mach/mach_time.h>
 #include <errno.h>
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_12
+#if MAC_OS_X_VERSION_MIN_REQUIRED < 101200
 typedef enum {
     CLOCK_REALTIME,
     CLOCK_MONOTONIC,
