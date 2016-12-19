@@ -286,7 +286,7 @@ bool LightweightSuffixSort(unsigned char text[], UInt textLength, UInt *index, i
         }
     }
     UInt dSetSize = dIndex;
-    std::cerr << "Sorting " << diffCoverSize << "-prefixes of the genome." << std::endl;
+    std::cout << "Sorting " << diffCoverSize << "-prefixes of the genome." << std::endl;
     MediankeyBoundedQuicksort(text, index, dIndex, 0, dSetSize, 0, diffCoverSize);
     UInt i;
 
@@ -300,7 +300,7 @@ bool LightweightSuffixSort(unsigned char text[], UInt textLength, UInt *index, i
     DiffCoverMu mu;
     mu.Initialize(diffCover, diffCoverLength, diffCoverSize, textLength);
     UInt largestLexName;
-    std::cerr << "Enumerating " << diffCoverSize << "-prefixes." << std::endl;
+    std::cout << "Enumerating " << diffCoverSize << "-prefixes." << std::endl;
     largestLexName = DiffCoverBuildLexNaming(text, textLength,
             index, dSetSize, diffCoverLength, diffCoverSize, 
             mu.diffCoverReverseLookup, lexVNaming);
@@ -348,7 +348,7 @@ bool LightweightSuffixSort(unsigned char text[], UInt textLength, UInt *index, i
     // [0,n-v], the relative order of the suffixes starting at
     // i+\delta(,j) and j+\delta(i,j) is already known.
     //
-    std::cerr << "Sorting suffices." << std::endl;
+    std::cout << "Sorting suffices." << std::endl;
     // Step 2.1 v-order suffices using multikey quicksort
     for (i = 0; i < textLength; i++ ){
         index[i] = i;
@@ -369,14 +369,14 @@ bool LightweightSuffixSort(unsigned char text[], UInt textLength, UInt *index, i
     lOrderComparator.diffCoverReverseLookup = mu.diffCoverReverseLookup;
     UInt setBegin, setEnd;
     setBegin = setEnd = 0;
-    std::cerr << "Sorting buckets." << std::endl;
+    std::cout << "Sorting buckets." << std::endl;
     int percentDone = 0;
     int curPercentage = 0;
     while(setBegin < textLength) {
         setEnd = setBegin;
         percentDone = (int)(((1.0*setBegin) / textLength) * 100);
         if ( percentDone > curPercentage) {
-            std::cerr << " " << percentDone << "% of buckets sorted."  << std::endl;
+            std::cout << " " << percentDone << "% of buckets sorted."  << std::endl;
             curPercentage = percentDone;
         }
         while(setEnd < textLength and
