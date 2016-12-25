@@ -7,22 +7,23 @@
 #include <vector>
 //In order to use clock_gettime in LINUX, add -lrt 
 #ifdef __APPLE__
-#include <mach/mach.h>
-#include <mach/clock.h>
-#include <mach/mach_time.h>
-#include <errno.h>
+#  include <AvailabilityMacros.h>
+#  if MAC_OS_X_VERSION_MAX_ALLOWED < 101200
+#    include <mach/mach.h>
+#    include <mach/clock.h>
+#    include <mach/mach_time.h>
+#    include <errno.h>
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED < 101200
 typedef enum {
     CLOCK_REALTIME,
     CLOCK_MONOTONIC,
     CLOCK_PROCESS_CPUTIME_ID,
     CLOCK_THREAD_CPUTIME_ID
 } clockid_t;
-#endif
 static mach_timebase_info_data_t __clock_gettime_inf;
 
-int clock_gettime(clockid_t clk_id, struct timespec *tp); 
+int my_clock_gettime_(clockid_t clk_id, struct timespec *tp); 
+#  endif // MAC_OS_X_VERSION_MAX_ALLOWED < 101200
 #endif // __APPLE__
 
 class Timer {

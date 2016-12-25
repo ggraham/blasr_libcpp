@@ -4,8 +4,8 @@
 //In order to use clock_gettime in LINUX, add -lrt 
 
 #ifdef __APPLE__
-#pragma weak clock_gettime
-int clock_gettime(clockid_t clk_id, struct timespec *tp) {
+#    if MAC_OS_X_VERSION_MAX_ALLOWED < 101200
+int my_clock_gettime_(clockid_t clk_id, struct timespec *tp) {
     kern_return_t   ret;
     clock_serv_t    clk;
     clock_id_t clk_serv_id;
@@ -58,6 +58,8 @@ int clock_gettime(clockid_t clk_id, struct timespec *tp) {
     }
     return retval;
 }
+#        define clock_gettime my_clock_gettime_
+#    endif // MAC_OS_X_VERSION_MAX_ALLOWED < 101200
 #endif // __APPLE__
 
 Timer::Timer(std::string _header) {
