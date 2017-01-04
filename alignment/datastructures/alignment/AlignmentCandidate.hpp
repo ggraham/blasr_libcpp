@@ -48,10 +48,14 @@ private:
 
 
 public:
-    T_TSequence tAlignedSeq;
-    T_QSequence qAlignedSeq;
+    T_TSequence tAlignedSeq; // usually a reference substring of the full target sequence
+    T_QSequence qAlignedSeq; // usually a referenced substring of the full query sequence
     std::string insertionQV, deletionQV, mergeQV, substitutionQV, deletionTag, substitutionTag;
     std::vector<std::string> optionalQVNames;
+    // qAlignedSeqPos is pos of the first base of qAlignedSeq (i.e., qAlignedSeq[0])
+    // in coordinate of the full query sequence. Note that qAlignedSeq[0]) is **NOT**
+    // always aligned.
+    // qPos is pos of the first *ALIGNED* base in coordinate of qAlignedSeq.
     DNALength   tAlignedSeqPos, qAlignedSeqPos;
     DNALength   tAlignedSeqLength, qAlignedSeqLength;
     float       pvalVariance, weightVariance, pvalNStdDev, weightNStdDev;
@@ -132,7 +136,7 @@ public:
     void Print(std::ostream & out = std::cout) {
         out << "An AlignmentCandidate object (mapQV " 
             << mapQV << ", clusterscore " << clusterScore 
-            << ", tTitle: " << tTitle << ", qTitle: " << qTitle 
+            << ", tTitle: " << tTitle << ", qTitle: " << qTitle
             << ")." << std::endl;
         out << "  query: " << qTitle << ", "  
             << "qName: " << qName << ","
@@ -148,7 +152,7 @@ public:
             << "tPos: " << tPos << ", "
             << "tLen: " << tLength << ", "
             << "tAlignLength: " << tAlignLength << ", "
-            << "tAlignedSeqPos:" << tAlignedSeqPos << ", " 
+            << "tAlignedSeqPos:" << tAlignedSeqPos << ", "
             << "tAlignedSeqLen:" << tAlignedSeqLength << std::endl;
         tAlignedSeq.Print(out);
     }
@@ -343,6 +347,105 @@ public:
         void ReassignQSequence(T_Sequence &newSeq) {
             ReassignSequence(qAlignedSeq, qIsSubstring, newSeq);
         }
+
+    // This function forces query strand to be Forward.
+    //
+    // Note that historically, query sequence in Alignment is always forward
+    // (i.e., qStrand == Forward), while target strand can be Reverse.
+    // This has been changed to place gaps consistently (SAT-59),
+    // query in Alignment may also be Reverse, while target strand is Forward.
+    //
+    // When query is Reverse, this function will reverse complement both query
+    // and target sequences such that qStrand is Forward, and tStrand is Reverse.
+    // Also need to recompute all query and target positions in coordinate of
+    // rc query and rc target, recompute blocks, gaps, and reverse quality values.
+    void MakeQueryForward(void) {
+        if (qStrand == Forward) return;
+
+        // Assert not both query and target are in Reverse strands.
+        assert(qStrand == Reverse and tStrand == Forward);
+
+        // Reverse query and target strands, make query strand forward.
+        qStrand = Forward;
+        tStrand = Reverse;
+ 
+        // tAlignedSeqLength and qAlignedSeqLength should remain the same
+        // tLength and qLength should remain the same
+        //
+        // Recompute tPos and qPos in coordinate of rc sequences.
+        // Note that qPos and tPos in a block is relative to the beginning
+        // of the alignment rather than the target or query.
+        //
+        // Below is an example. 
+        //            012345 678901234567
+        // rc Query   NXXAAA-AAACCXXXNNNN
+        //               |||x|||x|
+        // fw Target     AAATAAAGC
+        //               012345678
+        //
+        // * the full query sequence is 'NXXAAAAAACCXXXNNNN', qLength = 18
+        // * qAligneSeqPos = 1, qAlignedSeq.length = 13, qAlignedSeq is 'XXAAAAAACCXXX',
+        // * qPos = 2, the first aligned base is 'A', 
+        // * blocks: [(0, 0, 3), (3, 4, 3), (7, 8, 1)]
+        //
+        // After reversing both query and target sequences,
+        //            012345678901 234567
+        // fw Query   NNNNXXXGGTTT-TTTXXN
+        //                   |x|||x|||
+        // rc Target         GCTTTATTT
+        //                   012345678
+        // * Length of full rc query is unchanged, qLength = 18
+        // * qAlignedSeqPos = 4, qAlignedSeq.length = 13 (unchanged), qAlignedSeq is 'XXXGGTTTTTTXX',
+        // * qPos = 3, the first aligned base is 'T',
+        // * blocks: [(0, 0, 1), (2, 2, 3), (5, 6, 3)]
+        const DNALength _qPos = qAlignedSeq.length - (qPos + blocks[blocks.size()-1].QEnd());
+        const DNALength _tPos = tAlignedSeq.length - (tPos + blocks[blocks.size()-1].TEnd());
+        
+        // Recompute tAlignedSeqPos, qAlignedSeqPos in coordinate of rc full query.
+        const DNALength _qAlignedSeqPos = qLength - (qAlignedSeqPos + qAlignedSeq.length);
+        const DNALength _tAlignedSeqPos = tLength - (tAlignedSeqPos + tAlignedSeq.length);
+        
+        std::vector<blasr::Block> _blocks;
+        for(const blasr::Block & b: blocks) {
+            // b.QEnd is an exclusive end point, get rc pos of the inclusive end point
+            DNALength _rcQPos = qAlignedSeq.MakeRCCoordinate(qPos + b.QEnd()-1);
+            DNALength _rcTPos = tAlignedSeq.MakeRCCoordinate(tPos + b.TEnd()-1);
+            _blocks.push_back(blasr::Block(_rcQPos, _rcTPos, b.length));
+        }
+        std::reverse(_blocks.begin(), _blocks.end());
+
+        // reverse GapList.
+        std::reverse(gaps.begin(), gaps.end());
+
+        // Reverse quality values.
+        std::reverse(insertionQV.begin(), insertionQV.end());
+        std::reverse(deletionQV.begin(), deletionQV.end());
+        std::reverse(mergeQV.begin(), mergeQV.end());
+        std::reverse(substitutionQV.begin(), substitutionQV.end());
+        std::reverse(deletionTag.begin(), deletionTag.end());
+        std::reverse(substitutionTag.begin(), substitutionTag.end());
+
+        // Assign new values
+        blocks.clear();
+        std::move(_blocks.begin(), _blocks.end(), std::back_inserter(blocks));
+        _blocks.clear();
+
+        qPos = _qPos;
+        tPos = _tPos;
+        qAlignedSeqPos = _qAlignedSeqPos;
+        tAlignedSeqPos = _tAlignedSeqPos;
+
+        // Replace the original qAlignedSeq and tAlignedSeq with rc sequences.
+        // Make reverse complementary sequences of qAlignedSeq and tAlignedSeq
+        qAlignedSeq.ReverseComplementSelf();
+        tAlignedSeq.ReverseComplementSelf();
+
+        FreeSubsequences();
+        tIsSubstring = qIsSubstring = false;
+
+        // Remove end gaps in the end
+        RemoveEndGaps();
+    }
 
     ~AlignmentCandidate() {
         qAlignedSeq.Free();
