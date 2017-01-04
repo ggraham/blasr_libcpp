@@ -406,7 +406,7 @@ public:
         //                   012345678
         // * Length of full rc query is unchanged, qLength = 18
         // * qAlignedSeqPos = 4, qAlignedSeq.length = 13 (unchanged), qAlignedSeq is 'XXXGGTTTTTTXX',
-        // * qPos = 3, the first aligned base is 'T',
+        // * qPos = 3, the first aligned base is 'G',
         // * blocks: [(0, 0, 1), (2, 2, 3), (5, 6, 3)]
         const DNALength _qPos = qAlignedSeq.length - (qPos + blocks[blocks.size()-1].QEnd());
         const DNALength _tPos = tAlignedSeq.length - (tPos + blocks[blocks.size()-1].TEnd());
@@ -414,12 +414,12 @@ public:
         // Recompute tAlignedSeqPos, qAlignedSeqPos in coordinate of rc full query.
         const DNALength _qAlignedSeqPos = qLength - (qAlignedSeqPos + qAlignedSeq.length);
         const DNALength _tAlignedSeqPos = tLength - (tAlignedSeqPos + tAlignedSeq.length);
-        
+       
         std::vector<blasr::Block> _blocks;
         for(const blasr::Block & b: blocks) {
             // b.QEnd is an exclusive end point, get rc pos of the inclusive end point
-            DNALength _rcQPos = qAlignedSeq.MakeRCCoordinate(qPos + b.QEnd()-1);
-            DNALength _rcTPos = tAlignedSeq.MakeRCCoordinate(tPos + b.TEnd()-1);
+            DNALength _rcQPos = qAlignedSeq.MakeRCCoordinate(qPos + b.QEnd()-1) - _qPos;
+            DNALength _rcTPos = tAlignedSeq.MakeRCCoordinate(tPos + b.TEnd()-1) - _tPos;
             _blocks.push_back(blasr::Block(_rcQPos, _rcTPos, b.length));
         }
         std::reverse(_blocks.begin(), _blocks.end());
