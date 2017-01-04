@@ -46,10 +46,11 @@ public:
     int operator<(const WeightedInterval &intv) const;
     int operator==(const WeightedInterval &intv) const;
 
-    friend std::ostream & operator << (std::ostream & out, WeightedInterval & wi) {
-        out << wi.size << " " << wi.start << " " << wi.end
-            << " " << wi.qStart << " " << wi.qEnd << " " << wi.readIndex
-            << " " << wi.pValue ;
+    friend std::ostream & operator << (std::ostream & out, const WeightedInterval & wi) {
+        out << "[WeightedInterval size=" << wi.size
+            << " start=" << wi.start << " end=" << wi.end
+            << " qstart=" << wi.qStart << " qend=" << wi.qEnd 
+            << " strand=" << wi.readIndex << " pval=" << wi.pValue << "]";
         return out;
     }
 
@@ -73,7 +74,7 @@ public:
     WeightedIntervalSet();
     WeightedIntervalSet(const size_t maxSizeP);
     bool insert(WeightedInterval &intv);
-    friend std::ostream & operator << (std::ostream & out, WeightedIntervalSet & wis) {
+    friend std::ostream & operator << (std::ostream & out, const WeightedIntervalSet & wis) {
         WeightedIntervalSet::iterator it;
         for (it = wis.begin(); it != wis.end(); it++) {
             out << *((WeightedInterval*)&(*it)) << std::endl;
