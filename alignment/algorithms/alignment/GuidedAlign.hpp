@@ -79,6 +79,9 @@ int GuidedAlign(QSequence &origQSeq, TSequence &origTSeq,  blasr::Alignment &gui
         std::vector<float>  &lnMatchPValueVect,
         AlignmentType alignType=Global, 
         bool computeProb=false) {
+    // alignment should have the same direction as guidedAlignment, copy tStrand and qStrand
+    alignment.qStrand = guideAlignment.qStrand;
+    alignment.tStrand = guideAlignment.tStrand;
 
     Guide guide;
     AlignmentToGuide(guideAlignment, guide, bandSize);
