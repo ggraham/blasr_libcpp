@@ -16,16 +16,27 @@ public:
     // target or query.
     //
     DNALength qPos, tPos, length;
+
+    Block();
+
+    Block(const DNALength & queryPos, const DNALength & targetPos,
+          const DNALength & blockLength);
+    
+    Block& operator=(const Block &rhs);
+
     friend std::ostream &operator<<(std::ostream &out, const Block &b);
+
+    std::string ToString() const;
 
     Block& Assign(Block &rhs);
 
-    DNALength QEnd(); 
+    DNALength QEnd() const; 
 
-    DNALength TEnd();
+    DNALength TEnd() const;
 
     void Clear(); 
 };
+
 
 class Gap {
 public:
@@ -34,6 +45,7 @@ public:
     int length;
     Gap();
     Gap(GapSeq seqP, int lengthP); 
+    std::string ToString() const;
 };
 
 typedef std::vector<Gap> GapList;
@@ -44,12 +56,21 @@ public:
     std::string qName, tName;
 
     // Strands represented in the alignment, 0=forward, 1=reverse
+    //
+    // Historically, query sequence in this class is always forward (i.e.,
+    // qStrand == Forward). Even when reverse complementary query aligns to target,
+    // query sequence saved in this class is forward strand while target
+    // sequence is reverse complemented.
+    //
+    // This has been changed to fix SAT-59, to place gaps consistently.
+    // That is when rc query aligns to target, we save rc query sequence in this
+    // class (i.e., qStrand to Reverse), while keep forward target sequence.
     int qStrand, tStrand;
-
+   
     // The starting pos in the text and query of the start of the 
     // alignment, in the window that is matched.
     DNALength qPos, tPos;
-    DNALength  qAlignLength;
+    DNALength qAlignLength;
     DNALength tAlignLength;
     DNALength qLength;
     DNALength tLength;
@@ -89,6 +110,13 @@ public:
 
     void AppendAlignment(Alignment &next); 
 
+    // Return blocks as a string for debugging.
+    // Ideally, blocks and gaps should be implemented as a class.
+    std::string BlocksToString(void) const;
+
+    // Return gaps as a string.
+    std::string GapsToString(void) const;
+
     /*
        Transform the series of operations in an optimal dynamic
        programming path to a block representation of the alignment.
@@ -117,16 +145,16 @@ public:
     //
     // The length of the aligned sequence in the query.
     //
-    DNALength QEnd(); 
+    DNALength QEnd() const; 
 
     //
     // The lenght of the aligned sequence in the target.
     //
-    DNALength TEnd(); 
+    DNALength TEnd() const; 
 
-    DNALength GenomicTBegin(); 
+    DNALength GenomicTBegin() const; 
 
-    DNALength GenomicTEnd(); 
+    DNALength GenomicTEnd() const; 
 
     //
     // Some programs do not accept alignments that have gaps at their
