@@ -155,6 +155,23 @@ void DNASequence::Print(std::ostream &out, int lineLength) const {
     PrintSeq(out, lineLength);
 }
 
+std::string DNASequence::ToString(const int lineLength) const {
+    std::string line;
+    if (lineLength == 0) {
+        line.assign((char*)seq, length);
+    } else {
+        assert(lineLength > 0);
+        const char sep = '\n';
+        for (size_t pos = 0; pos < length; pos++) {
+            line.push_back(seq[pos]);
+            if (pos != length -1 and (pos + 1) % lineLength == 0) {
+                line.push_back(sep);
+            }
+        }
+    }
+    return line;
+}
+
 void DNASequence::PrintSeq(std::ostream &out, int lineLength) const {
     if (lineLength == 0) {
         std::string line;

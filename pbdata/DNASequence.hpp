@@ -48,6 +48,10 @@ public:
 
     DNASequence &operator=(const std::string &rhs);
 
+    // Return its sequence as std::string.
+    // If lineLength is 0, return the sequence in one line.
+    std::string ToString(const int lineLength = 50) const;
+
     void Print(std::ostream &out, int lineLength = 50) const;
 
     void PrintSeq(std::ostream &out, int lineLength = 50) const;

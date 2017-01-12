@@ -259,6 +259,24 @@ TEST_F(DNASequenceTest, ReferenceSubstring) {
 //    EXPECT_DEATH_IF_SUPPORTED(dnaTwo.ReferenceSubstring(dnaOne, 100), "");
     delete [] dnaOne.seq;
 }
+
+//Test DNASequence ToString()
+TEST_F(DNASequenceTest, ToString) {
+    DNALength oneLen = 10;
+    dnaOne.seq = new Nucleotide[oneLen];
+    dnaOne.length = oneLen;
+
+    string As("AGAAAAACAA");
+    for (int i = 0; i < oneLen; i++) {
+        dnaOne.seq[i] = As[i];
+    }
+
+    EXPECT_EQ(dnaOne.ToString(), As);
+    EXPECT_EQ(dnaOne.ToString(2), string("AG\nAA\nAA\nAC\nAA"));
+    EXPECT_EQ(dnaOne.ToString(3), string("AGA\nAAA\nACA\nA"));
+}
+
+
 /*
 TEST_F(DNASequenceTest, CopyFromString) {
     // Test Copy(const std::string &)
