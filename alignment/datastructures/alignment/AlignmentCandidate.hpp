@@ -133,29 +133,38 @@ public:
         weightVariance = weightNStdDev = 0;
     }
 
-    void Print(std::ostream & out = std::cout) {
-        out << "An AlignmentCandidate object (mapQV " 
-            << mapQV << ", clusterscore " << clusterScore 
-            << ", tTitle: " << tTitle << ", qTitle: " << qTitle
-            << ")." << std::endl;
-        out << "  query: " << qTitle << ", "  
-            << "qName: " << qName << ","
-            << "qStrand: " << qStrand << ", " 
-            << "qPos: " << qPos << ", "
-            << "qLen: " << qLength << ", "
-            << "qAlignLength: " << qAlignLength << ", "
-            << "qAlignedSeqPos:" << qAlignedSeqPos << ", "
-            << "qAlignedSeqLen:" << qAlignedSeqLength << std::endl
-            << "  target: " << tTitle << ", "  
-            << "tName: " << tName << ","
-            << "tStrand: " << tStrand << ", " 
-            << "tPos: " << tPos << ", "
-            << "tLen: " << tLength << ", "
-            << "tAlignLength: " << tAlignLength << ", "
-            << "tAlignedSeqPos:" << tAlignedSeqPos << ", "
-            << "tAlignedSeqLen:" << tAlignedSeqLength << std::endl;
-        tAlignedSeq.Print(out);
+    std::string ToString(const bool showSeq = false,
+                         const bool showBlocks = false) {
+        std::stringstream ss;
+        std::string sep = "\n";
+        ss << "AlignmentCandidate object "
+           << "(mapQV " << mapQV << ", clusterscore " << clusterScore << ")" << sep
+           << "qTitle: " << qTitle << ", tTitle: " << tTitle << sep
+           << "qName: " << qName << ", qStrand: " << qStrand << sep
+           << "tName: " << tName << ", tStrand: " << tStrand << sep
+           << "qPos: " << qPos << ", qAlignedPos: " << qAlignedSeqPos
+           << ", qAlignedSeqLength: " << qAlignedSeqLength
+           << ", qAlignedSeq.length: " << qAlignedSeq.length
+           << ", qLength: " << qLength << sep
+           << "tPos: " << tPos << ", tAlignedPos: " << tAlignedSeqPos
+           << ", tAlignedSeqLength: " << tAlignedSeqLength
+           << ", tAlignedSeq.length: " << tAlignedSeq.length
+           << ", tLength: " << tLength << sep;
+        if (showSeq) {
+            ss << "qAlignedSeq: " << qAlignedSeq.ToString() << sep
+               << "tAlignedSeq: " << tAlignedSeq.ToString() << sep;
+        }
+        if (showBlocks) {
+           ss << "Blocks: " << BlocksToString() << sep
+              << "Gaps: " << GapsToString() << sep;
+        }
+        return ss.str();
     }
+
+    void Print(std::ostream & out = std::cout,
+               const bool showSeq = false,
+               const bool showBlocks = false)
+    { out << ToString(showSeq, showBlocks); }
 
     AlignmentCandidate(const AlignmentCandidate &rhs) {
         *this = rhs;
