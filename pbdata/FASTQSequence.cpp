@@ -571,6 +571,15 @@ void FASTQSequence::Free() {
             delete[] substitutionTag;
         }
     }
+    else { // reset shallow QVs if not under control
+        qual.ResetShallowData();
+        deletionQV.ResetShallowData();
+        preBaseDeletionQV.ResetShallowData();
+        insertionQV.ResetShallowData();
+        substitutionQV.ResetShallowData();
+        mergeQV.ResetShallowData();
+    }
+
     //Reset deletionTag and substitionTag anyway
     deletionTag = NULL;
     substitutionTag = NULL;
