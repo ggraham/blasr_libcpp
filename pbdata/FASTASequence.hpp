@@ -55,7 +55,8 @@ public:
 
     void MakeRC(FASTASequence &rhs, DNALength rhsPos=0, DNALength rhsLength=0); 
 
-    void ReverseComplementSelf(); 
+    // Reverse complement sequence, and leave title as is.
+    FASTASequence & ReverseComplementSelf(void);
 
     void operator=(const FASTASequence &rhs); 
 

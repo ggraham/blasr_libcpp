@@ -642,3 +642,11 @@ void FASTQSequence::Copy(const PacBio::BAM::BamRecord & record) {
     }
 }
 #endif
+
+
+FASTQSequence& FASTQSequence::ReverseComplementSelf(void) {
+    FASTQSequence rc;
+    MakeRC(rc);
+    FASTQSequence::Copy(rc);
+    return *this;
+}

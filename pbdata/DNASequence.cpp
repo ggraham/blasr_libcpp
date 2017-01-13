@@ -172,6 +172,27 @@ std::string DNASequence::ToString(const int lineLength) const {
     return line;
 }
 
+DNASequence & DNASequence::ReverseComplementSelf(void) {
+    if (deleteOnExit) {
+        for (DNALength i = 0; i < length/2 + length % 2; i++) {
+            char c = seq[i];
+            seq[i] = ReverseComplementNuc[seq[length - i - 1]];
+            seq[length - i - 1] = ReverseComplementNuc[static_cast<int>(c)];
+        }
+    } else {
+        const DNALength l = length;
+        Nucleotide * newSeq = ProtectedNew<Nucleotide>(l);
+        for (DNALength i = 0; i < l; i++) {
+            newSeq[i] = ReverseComplementNuc[seq[length - i - 1]];
+        }
+        seq = newSeq;
+        length = l;
+        newSeq = nullptr;
+        deleteOnExit = true;
+    }
+    return *this;
+}
+
 void DNASequence::PrintSeq(std::ostream &out, int lineLength) const {
     if (lineLength == 0) {
         std::string line;

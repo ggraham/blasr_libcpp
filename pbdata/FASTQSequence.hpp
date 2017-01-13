@@ -83,6 +83,9 @@ public:
 
     void Copy(const FASTQSequence &rhs); 
 
+    // Reverse complement its sequence, reverse quality values. 
+    FASTQSequence & ReverseComplementSelf(void);
+
     FASTQSequence& operator=(const FASTQSequence &rhs); 
 
     FASTQSequence(const FASTQSequence &rhs); 

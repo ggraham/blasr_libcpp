@@ -159,13 +159,12 @@ void FASTASequence::MakeRC(FASTASequence &rhs, DNALength rhsPos, DNALength rhsLe
     }
 }
 
-void FASTASequence::ReverseComplementSelf() {
-    DNALength i;
-    for (i = 0; i < length/2 + length % 2; i++) {
-        char c = seq[i];
-        seq[i] = ReverseComplementNuc[seq[length - i - 1]];
-        seq[length - i - 1] = ReverseComplementNuc[static_cast<int>(c)];
-    }
+// Reverse complement sequence, don't change the title
+FASTASequence & FASTASequence::ReverseComplementSelf(void) {
+    FASTASequence rc;
+    MakeRC(rc);
+    Copy(rc);
+    return *this;
 }
 
 void FASTASequence::operator=(const FASTASequence &rhs) {

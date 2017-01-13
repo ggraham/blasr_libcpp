@@ -48,6 +48,9 @@ public:
 
     DNASequence &operator=(const std::string &rhs);
 
+    // Reverse complement sequence in itself.
+    DNASequence &ReverseComplementSelf(void);
+
     // Return its sequence as std::string.
     // If lineLength is 0, return the sequence in one line.
     std::string ToString(const int lineLength = 50) const;
