@@ -96,6 +96,13 @@ void QualityValueVector<T_QV>::ShallowCopy(const QualityValueVector<T_QV> &ref, 
 }
 
 template<typename T_QV>
+void QualityValueVector<T_QV>::ResetShallowData(void) {
+    data = NULL;
+    qvScale = PHRED;
+    _length = 0;
+}
+
+template<typename T_QV>
 std::string QualityValueVector<T_QV>::ToString(void) {
     if (data == NULL) { return "";}
 

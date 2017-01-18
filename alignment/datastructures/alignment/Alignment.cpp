@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <vector>
 #include <string>
+#include <sstream>
 #include <stdlib.h>
 #include <iostream>
 #include <ostream>
@@ -146,6 +147,29 @@ void Alignment::AppendAlignment(Alignment &next) {
     int qOffset = next.qPos - qPos;
     int tOffset = next.tPos - tPos;
     AppendAlignmentBlocks(next, qOffset, tOffset);
+}
+
+std::string Alignment::BlocksToString(void) const {
+    std::string ret;
+    for (size_t i = 0; i < blocks.size(); i++) {
+        ret += blocks[i].ToString();
+        if (i != blocks.size() - 1) { ret += "; "; }
+    }
+    return ret;
+}
+
+std::string Alignment::GapsToString(void) const {
+    std::string ret;
+    for (size_t i = 0; i < gaps.size(); i++) {
+        ret += "GapList[";
+        for (size_t j = 0; j < gaps[i].size(); j++) {
+            ret += gaps[i][j].ToString();
+            if (j != gaps[i].size() - 1) { ret += ", "; }
+        }
+        ret += "]";
+        if (i != gaps.size() - 1) { ret += "; "; }
+    }
+    return ret;
 }
 
 /*
@@ -404,7 +428,7 @@ Alignment::LongGapArrowPathToAlignment(
 //
 // The length of the aligned sequence in the query.
 //
-DNALength Alignment::QEnd() {
+DNALength Alignment::QEnd() const {
     if (blocks.size() > 0) {
         return blocks[blocks.size()-1].QEnd();
     }
@@ -414,18 +438,18 @@ DNALength Alignment::QEnd() {
 //
 // The lenght of the aligned sequence in the target.
 //
-DNALength Alignment::TEnd() {
+DNALength Alignment::TEnd() const {
     if (blocks.size() > 0) {
         return blocks[blocks.size()-1].TEnd();
     }
     else { return 0; }
 }
 
-DNALength Alignment::GenomicTBegin() {
+DNALength Alignment::GenomicTBegin() const {
     return tPos;
 }
 
-DNALength Alignment::GenomicTEnd() {
+DNALength Alignment::GenomicTEnd() const {
     return tPos + TEnd();
 }
 
@@ -467,9 +491,32 @@ MatchedAlignment& MatchedAlignment::Assign(MatchedAlignment &rhs) {
     return *this;
 }
 
+Block::Block() : qPos(0), tPos(0), length(0)
+{ }
+
+Block::Block(const DNALength & queryPos,
+             const DNALength & targetPos,
+             const DNALength & blockLength)
+    : qPos(queryPos)
+    , tPos(targetPos)
+    , length(blockLength)
+{ }
+
+Block& Block::operator=(const Block &rhs) {
+    qPos = rhs.qPos;
+    tPos = rhs.tPos;
+    length = rhs.length;
+    return *this;
+}
+
+std::string Block::ToString() const {
+    std::stringstream ss;
+    ss << "Block(" << qPos << ", " << tPos << ", " << length << ")";
+    return ss.str();
+}
+
 std::ostream& operator<<(std::ostream &out, const Block &b) {
-    out << " q: " << b.qPos << " t: " << b.tPos << " len: " << b.length;
-    return out;
+    return out << b.ToString();
 }
 
 Block& Block::Assign(Block &rhs) {
@@ -479,11 +526,11 @@ Block& Block::Assign(Block &rhs) {
     return *this;
 }
 
-DNALength Block::QEnd() {
+DNALength Block::QEnd() const {
     return qPos + length;
 }
 
-DNALength Block::TEnd() {
+DNALength Block::TEnd() const {
     return tPos + length;
 }
 
@@ -499,4 +546,16 @@ Gap::Gap() {
 Gap::Gap(GapSeq seqP, int lengthP) {
     seq = seqP;
     length = lengthP;
+}
+
+std::string Gap::ToString() const {
+    std::stringstream ss;
+    if (seq == Gap::GapSeq::Query) {
+        ss << "Gap(Q, " << length << ")";
+    } else if (seq == Gap::GapSeq::Target) {
+        ss << "Gap(T, " << length << ")";
+    } else {
+        assert(false);
+    }
+    return ss.str();
 }

@@ -141,3 +141,26 @@ TEST_F(FASTASequenceTest, CopyFromString) {
         EXPECT_EQ(fastaOne.seq[i], seq2[i]);
     }
 }
+
+TEST_F(FASTASequenceTest, ReverseComplementSelf) {
+    const std::string name = "fasta-seq-name";
+    const std::string s = "TTAAGG";
+    const std::string r = "CCTTAA";
+    fastaOne.Copy(name, s);
+
+    EXPECT_EQ(fastaOne.title, name);
+    EXPECT_EQ(fastaOne.ReverseComplementSelf().ToString(), r);
+    EXPECT_EQ(fastaOne.title, name);
+    EXPECT_EQ(fastaOne.ReverseComplementSelf().ToString(), s);
+
+    FASTASequence fastaTwo;
+    fastaTwo.ReferenceSubstring(fastaOne, 1, 3);
+    fastaTwo.CopyTitle(fastaOne.title);
+
+    EXPECT_EQ(fastaTwo.deleteOnExit, false);
+    EXPECT_EQ(fastaTwo.title, name);
+    EXPECT_EQ(fastaTwo.ToString(), "TAA");
+    EXPECT_EQ(fastaTwo.ReverseComplementSelf().ToString(), "TTA");
+    EXPECT_EQ(fastaTwo.title, name);
+    EXPECT_EQ(fastaTwo.deleteOnExit, true);
+}

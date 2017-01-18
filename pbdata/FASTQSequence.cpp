@@ -571,6 +571,15 @@ void FASTQSequence::Free() {
             delete[] substitutionTag;
         }
     }
+    else { // reset shallow QVs if not under control
+        qual.ResetShallowData();
+        deletionQV.ResetShallowData();
+        preBaseDeletionQV.ResetShallowData();
+        insertionQV.ResetShallowData();
+        substitutionQV.ResetShallowData();
+        mergeQV.ResetShallowData();
+    }
+
     //Reset deletionTag and substitionTag anyway
     deletionTag = NULL;
     substitutionTag = NULL;
@@ -642,3 +651,11 @@ void FASTQSequence::Copy(const PacBio::BAM::BamRecord & record) {
     }
 }
 #endif
+
+
+FASTQSequence& FASTQSequence::ReverseComplementSelf(void) {
+    FASTQSequence rc;
+    MakeRC(rc);
+    FASTQSequence::Copy(rc);
+    return *this;
+}

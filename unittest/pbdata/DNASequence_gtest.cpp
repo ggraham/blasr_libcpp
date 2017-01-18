@@ -259,10 +259,50 @@ TEST_F(DNASequenceTest, ReferenceSubstring) {
 //    EXPECT_DEATH_IF_SUPPORTED(dnaTwo.ReferenceSubstring(dnaOne, 100), "");
     delete [] dnaOne.seq;
 }
-/*
+
+//Test DNASequence ToString()
+TEST_F(DNASequenceTest, ToString) {
+    DNALength oneLen = 10;
+    dnaOne.seq = new Nucleotide[oneLen];
+    dnaOne.length = oneLen;
+
+    string As("AGAAAAACAA");
+    for (int i = 0; i < oneLen; i++) {
+        dnaOne.seq[i] = As[i];
+    }
+
+    EXPECT_EQ(dnaOne.ToString(), As);
+    EXPECT_EQ(dnaOne.ToString(2), string("AG\nAA\nAA\nAC\nAA"));
+    EXPECT_EQ(dnaOne.ToString(3), string("AGA\nAAA\nACA\nA"));
+}
+
+
+//Test DNASequence ReverseComplementSelf()
+TEST_F(DNASequenceTest, ReverseComplementSelf) {
+    const std::string s("AGAATTCG");
+    const std::string r("CGAATTCT");
+    dnaOne.Copy(s);
+
+    EXPECT_EQ(dnaOne.ReverseComplementSelf().ToString(), r);
+    EXPECT_EQ(dnaOne.length, r.size());
+
+    DNASequence dnaTwo;
+    dnaTwo.ReferenceSubstring(dnaOne, 1, 3);
+    EXPECT_EQ(dnaTwo.ToString(), "GAA");
+    EXPECT_EQ(dnaTwo.ReverseComplementSelf().ToString(), "TTC");
+    EXPECT_EQ(dnaTwo.length, 3);
+}
+
+
+// Test DNASequence Copy from string
 TEST_F(DNASequenceTest, CopyFromString) {
-    // Test Copy(const std::string &)
-    string str = "ATGCGGGCCTCGCCG";
+    const std::string s("AGAATTCG");
+    dnaOne.Copy(s);
+    EXPECT_EQ(dnaOne.ToString(), s);
+    EXPECT_EQ(dnaOne.length, s.size());
+    dnaOne.Free();
+
+    const std::string str = "ATGCGGGCCTCGCCG";
     dnaOne.Copy(str);
 
     for (int i = 0; i < str.size(); i++) {
@@ -276,4 +316,3 @@ TEST_F(DNASequenceTest, CopyFromString) {
        EXPECT_EQ(dnaOne.seq[i], str[i]);
     }
 }
-*/

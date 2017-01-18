@@ -155,6 +155,44 @@ void DNASequence::Print(std::ostream &out, int lineLength) const {
     PrintSeq(out, lineLength);
 }
 
+std::string DNASequence::ToString(const int lineLength) const {
+    std::string line;
+    if (lineLength == 0) {
+        line.assign((char*)seq, length);
+    } else {
+        assert(lineLength > 0);
+        const char sep = '\n';
+        for (size_t pos = 0; pos < length; pos++) {
+            line.push_back(seq[pos]);
+            if (pos != length -1 and (pos + 1) % lineLength == 0) {
+                line.push_back(sep);
+            }
+        }
+    }
+    return line;
+}
+
+DNASequence & DNASequence::ReverseComplementSelf(void) {
+    if (deleteOnExit) {
+        for (DNALength i = 0; i < length/2 + length % 2; i++) {
+            char c = seq[i];
+            seq[i] = ReverseComplementNuc[seq[length - i - 1]];
+            seq[length - i - 1] = ReverseComplementNuc[static_cast<int>(c)];
+        }
+    } else {
+        const DNALength l = length;
+        Nucleotide * newSeq = ProtectedNew<Nucleotide>(l);
+        for (DNALength i = 0; i < l; i++) {
+            newSeq[i] = ReverseComplementNuc[seq[length - i - 1]];
+        }
+        seq = newSeq;
+        length = l;
+        newSeq = nullptr;
+        deleteOnExit = true;
+    }
+    return *this;
+}
+
 void DNASequence::PrintSeq(std::ostream &out, int lineLength) const {
     if (lineLength == 0) {
         std::string line;

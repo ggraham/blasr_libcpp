@@ -42,6 +42,10 @@ public:
 
     void ShallowCopy(const QualityValueVector<T_QV> &ref, int pos, const DNALength & length); 
 
+    // Reset data pointer to NULL, don't free memory.
+    // This should be paired with ShallowCopy.
+    void ResetShallowData(void);
+
     std::string ToString(void);
 
     // Returns data length 
