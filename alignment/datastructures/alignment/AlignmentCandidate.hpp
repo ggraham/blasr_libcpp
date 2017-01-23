@@ -1,6 +1,7 @@
 #ifndef _ALIGNMENT_ALIGNMENT_CANDIDATE_HPP_
 #define _ALIGNMENT_ALIGNMENT_CANDIDATE_HPP_
 
+#include <algorithm>
 #include "Alignment.hpp"
 // pbdata
 #include "../../../pbdata/DNASequence.hpp"
