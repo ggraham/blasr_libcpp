@@ -6,14 +6,15 @@
 // pbdata/
 #include "../pbdata/Enumerations.h"
 #include "../pbdata/reads/ScanData.hpp"
-#include "HDFGroup.hpp"
-#include "HDFFile.hpp"
 #include "HDFAtom.hpp"
+#include "HDFFile.hpp"
+#include "HDFGroup.hpp"
 
 //
-// The SanDataReader cannot live outside 
+// The SanDataReader cannot live outside
 
-class HDFScanDataReader {
+class HDFScanDataReader
+{
 public:
     bool fileHasScanData, useRunCode;
     HDFGroup scanDataGroup;
@@ -37,41 +38,41 @@ public:
     // loaded once upon initialization, and may be fetched when loading
     // reads one at a time.
     //
-    bool   useMovieName;
+    bool useMovieName;
     std::string movieName, runCode;
     PlatformId platformId;
 
-    HDFScanDataReader(); 
+    HDFScanDataReader();
 
     void Reset();
 
-    int InitializeAcqParamsAtoms(); 
+    int InitializeAcqParamsAtoms();
 
     //
     // This is created on top of a file that is already opened, so
     // instead of initializing by opening a file, it is initialized by
-    // passing the root group that should contain the ScanData group.  
+    // passing the root group that should contain the ScanData group.
     // When shutting down, no file handle needs to be closed.
     //
-    int Initialize(HDFGroup *pulseDataGroup); 
+    int Initialize(HDFGroup *pulseDataGroup);
 
-    std::string GetMovieName(); 
-    
-    // Given a PacBio (pls/plx/bas/bax/ccs/rgn).h5 file, which contains its movie 
+    std::string GetMovieName();
+
+    // Given a PacBio (pls/plx/bas/bax/ccs/rgn).h5 file, which contains its movie
     // name in group /ScanData/RunInfo attribute MovieName, open the file, return
-    // its movie name and finally close the file. Return "" if the movie name 
+    // its movie name and finally close the file. Return "" if the movie name
     // does not exist. This is a short path to get movie name.
-    std::string GetMovieName_and_Close(std::string & fileName);
+    std::string GetMovieName_and_Close(std::string &fileName);
 
-    std::string GetRunCode(); 
+    std::string GetRunCode();
 
-    int Read(ScanData &scanData); 
+    int Read(ScanData &scanData);
 
-    void ReadWhenStarted(std::string &whenStarted); 
+    void ReadWhenStarted(std::string &whenStarted);
 
-    PlatformId GetPlatformId(); 
+    PlatformId GetPlatformId();
 
-    int ReadPlatformId(PlatformId &pid); 
+    int ReadPlatformId(PlatformId &pid);
 
     /// Reads value of Attribute /ScanData/RunInfo/BindingKit
     int ReadBindingKit(std::string &bindingKit);
@@ -79,13 +80,13 @@ public:
     /// Reads value of Attribute /ScanData/RunInfo/SequencingKit
     int ReadSequencingKit(std::string &sequencingKit);
 
-    int LoadMovieName(std::string &movieName); 
+    int LoadMovieName(std::string &movieName);
 
-    int LoadBaseMap(map<char, size_t> & baseMap); 
+    int LoadBaseMap(map<char, size_t> &baseMap);
 
-    std::map<char, size_t> BaseMap(void) const {return baseMap_;} 
+    std::map<char, size_t> BaseMap(void) const { return baseMap_; }
 
-    void Close(); 
+    void Close();
 
 private:
     std::map<char, size_t> baseMap_;
@@ -96,10 +97,8 @@ private:
     /// \param[in] attributeName, name of the string attribute.
     /// \param[in] group, HDFGroup of the string attribute .
     /// \param[in] atom, initialized HDFAtom obj for reading attribute .
-    int ReadStringAttribute(std::string & attributeValue, 
-                            const std::string & attributeName, 
-                            HDFGroup & group, HDFAtom<std::string> & atom); 
-
+    int ReadStringAttribute(std::string &attributeValue, const std::string &attributeName,
+                            HDFGroup &group, HDFAtom<std::string> &atom);
 };
 
 #endif

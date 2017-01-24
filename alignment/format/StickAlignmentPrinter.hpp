@@ -1,18 +1,17 @@
 #ifndef _BLASR_STICK_ALIGNMENT_PRINTER_HPP_
 #define _BLASR_STICK_ALIGNMENT_PRINTER_HPP_
 
-#include <string>
-#include <iostream>
 #include <fstream>
-#include "../datastructures/alignment/Alignment.hpp"
+#include <iostream>
+#include <string>
 #include "../algorithms/alignment/AlignmentUtils.hpp"
+#include "../datastructures/alignment/Alignment.hpp"
 
-template<typename T_Alignment, typename T_QuerySequence, typename T_TargetSequence>
-void StickPrintAlignment(T_Alignment &alignment, 
-        T_QuerySequence &query, T_TargetSequence &text, std::ostream &out,
-        unsigned int qPrintStart = 0,
-        unsigned int tPrintStart = 0,
-        int maxPrintLength = 50) {
+template <typename T_Alignment, typename T_QuerySequence, typename T_TargetSequence>
+void StickPrintAlignment(T_Alignment &alignment, T_QuerySequence &query, T_TargetSequence &text,
+                         std::ostream &out, unsigned int qPrintStart = 0,
+                         unsigned int tPrintStart = 0, int maxPrintLength = 50)
+{
     //
     // Eventually hack to add options for alignment format.
     //
@@ -27,48 +26,46 @@ void StickPrintAlignment(T_Alignment &alignment,
     //
     out << "         Query: " << alignment.qName << endl;
     out << "        Target: " << alignment.tName << endl;
-    out << "         Model: a hybrid of global/local non-affine alignment" <<endl;
+    out << "         Model: a hybrid of global/local non-affine alignment" << endl;
     out << "     Raw score: " << alignment.score << endl;
     out << "        Map QV: " << alignment.mapQV << endl;
     out << "  Query strand: " << alignment.qStrand << endl;
     out << " Target strand: " << alignment.tStrand << endl;
     if (alignment.blocks.size() > 0) {
-        out << "   QueryRange: " << qPrintStart + alignment.qPos //alignment.blocks[0].qPos 
-            << " -> " 
-            << (qPrintStart + alignment.qPos + 
-                    + alignment.blocks[alignment.blocks.size() - 1 ].qPos
-                    + alignment.blocks[alignment.blocks.size() - 1 ].length) << " of " << alignment.qLength << endl;
-        out << "  TargetRange: " << tPrintStart + alignment.tPos //alignment.blocks[0].tPos 
-            << " -> " 
+        out << "   QueryRange: " << qPrintStart + alignment.qPos  //alignment.blocks[0].qPos
+            << " -> "
+            << (qPrintStart + alignment.qPos + +alignment.blocks[alignment.blocks.size() - 1].qPos +
+                alignment.blocks[alignment.blocks.size() - 1].length)
+            << " of " << alignment.qLength << endl;
+        out << "  TargetRange: " << tPrintStart + alignment.tPos  //alignment.blocks[0].tPos
+            << " -> "
             //				<< (tPrintStart + alignment.blocks[alignment.blocks.size() - 1].tPos +
-            << (tPrintStart + alignment.tPos +
-                    alignment.blocks[alignment.blocks.size() - 1 ].tPos + 
-                    alignment.blocks[alignment.blocks.size() - 1].length) << " of " << alignment.tLength << endl;
-    }
-    else {
+            << (tPrintStart + alignment.tPos + alignment.blocks[alignment.blocks.size() - 1].tPos +
+                alignment.blocks[alignment.blocks.size() - 1].length)
+            << " of " << alignment.tLength << endl;
+    } else {
         out << "   QueryRange: NONE " << endl;
         out << "  TargetRange: NONE " << endl;
     }
 
-    if (alignment.blocks.size() == 0) 
-        return;
-    CreateAlignmentStrings(alignment, query.seq, text.seq, textStr, alignStr, queryStr, query.length, text.length);
+    if (alignment.blocks.size() == 0) return;
+    CreateAlignmentStrings(alignment, query.seq, text.seq, textStr, alignStr, queryStr,
+                           query.length, text.length);
 
     //
-    // Process any gaps at the beginning of 
+    // Process any gaps at the beginning of
     // the alignment.
     //
 
     DNALength qPos, tPos;
 
-    int coordsPrintWidth = MAX(GetNumberWidth(alignment.qPos + qPrintStart + query.length), 
-            GetNumberWidth(alignment.tPos + tPrintStart + query.length));
+    int coordsPrintWidth = MAX(GetNumberWidth(alignment.qPos + qPrintStart + query.length),
+                               GetNumberWidth(alignment.tPos + tPrintStart + query.length));
 
-    // 
+    //
     // Now print the alignment
     VectorIndex lineLength = maxPrintLength;
-    if (lineLength > textStr.size())
-        lineLength = textStr.size();
+    if (lineLength > textStr.size()) lineLength = textStr.size();
 
     std::string textLine, queryLine, alignLine;
     DNALength pos = 0;
@@ -86,11 +83,11 @@ void StickPrintAlignment(T_Alignment &alignment,
         out << qPrintStart + qPos;
         out.width(0);
         out << coordPadding << queryLine << endl;
-        out << alignStrPadding <<  alignLine << endl;
+        out << alignStrPadding << alignLine << endl;
         out.width(coordsPrintWidth);
-        out << tPrintStart + tPos ;
+        out << tPrintStart + tPos;
         out.width(0);
-        out << coordPadding << textLine  << endl;
+        out << coordPadding << textLine << endl;
         out << endl;
 
         pos += lineLength;
@@ -101,23 +98,20 @@ void StickPrintAlignment(T_Alignment &alignment,
         //
         VectorIndex p;
         for (p = 0; p < textLine.size(); p++) {
-            if (textLine[p] == gapChar)
-                tPos--;
+            if (textLine[p] == gapChar) tPos--;
         }
         for (p = 0; p < queryLine.size(); p++) {
-            if (queryLine[p] == gapChar)
-                qPos--;
+            if (queryLine[p] == gapChar) qPos--;
         }
 
         lineLength = maxPrintLength;
-        if (textStr.size() < (pos +lineLength)) {
+        if (textStr.size() < (pos + lineLength)) {
             // sets lineLength to 0 on the last iteration
             lineLength = textStr.size() - pos;
-        }
-        else {
+        } else {
             lineLength = maxPrintLength;
         }
     }
 }
 
-#endif // _BLASR_STICK_ALIGNMENT_PRINTER_HPP_
+#endif  // _BLASR_STICK_ALIGNMENT_PRINTER_HPP_

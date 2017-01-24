@@ -17,12 +17,12 @@
  */
 #include <string>
 #include "H5Cpp.h"
+#include "HDF2DArray.hpp"
 #include "HDFArray.hpp"
 #include "HDFGroup.hpp"
-#include "HDF2DArray.hpp"
-#include "reads/HoleXY.hpp"
-#include "pbdata/testdata.h"
 #include "gtest/gtest.h"
+#include "pbdata/testdata.h"
+#include "reads/HoleXY.hpp"
 
 using namespace std;
 using namespace H5;
@@ -43,16 +43,17 @@ TEST_F(HDF2DArrayTest, x) {
 }
 */
 
-class HDF2DArrayTest : public ::testing::Test {
+class HDF2DArrayTest : public ::testing::Test
+{
 public:
-    virtual void SetUp() {
+    virtual void SetUp()
+    {
         fileName = baxFile2;  // Defined in testdata.h
         try {
             FileAccPropList propList;
             pbihdfFile.openFile(fileName.c_str(), H5F_ACC_RDONLY, propList);
         } catch (Exception &e) {
-            cout << "ERROR, could not open hdf file" << fileName
-                << ", exiting." << endl;
+            cout << "ERROR, could not open hdf file" << fileName << ", exiting." << endl;
             exit(1);
         }
 
@@ -62,7 +63,8 @@ public:
         ASSERT_NE(zmwGroup.Initialize(baseCallsGroup, "ZMW"), 0);
     }
 
-    virtual void TearDown() {
+    virtual void TearDown()
+    {
         rootGroup.Close();
         pulseDataGroup.Close();
         baseCallsGroup.Close();
@@ -75,21 +77,22 @@ public:
     HDFGroup rootGroup, pulseDataGroup, baseCallsGroup, zmwGroup;
 };
 
-//Test HDF2DArray, int16 
-TEST_F(HDF2DArrayTest, int16) {
+//Test HDF2DArray, int16
+TEST_F(HDF2DArrayTest, int16)
+{
     HDF2DArray<int16_t> xyArray;
     xyArray.Initialize(zmwGroup, "HoleXY");
     vector<HoleXY> xys;
     xys.resize(10);
-    for(int i = 0; i < 10; i++){
-        xyArray.Read(i, i+1, xys[i].xy);
+    for (int i = 0; i < 10; i++) {
+        xyArray.Read(i, i + 1, xys[i].xy);
         ASSERT_EQ(xys[i].xy[0], 43);
         ASSERT_EQ(xys[i].xy[1], 44 + i);
     }
 
     int last = 54493;
 
-    xyArray.Read(last, last+1, xys[0].xy);
+    xyArray.Read(last, last + 1, xys[0].xy);
     ASSERT_EQ(xys[0].xy[0], -43);
     ASSERT_EQ(xys[0].xy[1], -44);
     xyArray.Close();

@@ -1,80 +1,87 @@
-#include "../../../pbdata/utils.hpp"
 #include "LightweightSuffixArray.hpp"
+#include "../../../pbdata/utils.hpp"
 
-UInt DiffMod(UInt a, UInt b, UInt d) {
+UInt DiffMod(UInt a, UInt b, UInt d)
+{
     if (b > a) {
-        return (d - ((b - a) % d))%d;
-    }
-    else {
+        return (d - ((b - a) % d)) % d;
+    } else {
         return (a - b) % d;
     }
 }
 
 void BuildDiffCoverReverseLookup(UInt diffCover[], UInt diffCoverLength,
-        UInt reverseDiffCover[] // of size diffCoverSize
-        ){
+                                 UInt reverseDiffCover[]  // of size diffCoverSize
+                                 )
+{
     UInt i;
-    for (i = 0; i < diffCoverLength; i++ ){
+    for (i = 0; i < diffCoverLength; i++) {
         reverseDiffCover[diffCover[i]] = i;
     }
 }
 
-UInt DiffCoverFindH(UInt diffCover[], UInt diffCoverLength, UInt diffCoverSize, UInt textSize) {
+UInt DiffCoverFindH(UInt diffCover[], UInt diffCoverLength, UInt diffCoverSize, UInt textSize)
+{
     (void)(diffCoverLength);
     UInt h;
     for (h = 0; h < diffCoverSize; h++) {
-        UInt rem = textSize % diffCoverSize ;
+        UInt rem = textSize % diffCoverSize;
         if (rem == 0) return 0;
-        if ((h < diffCoverSize -1 and (diffCover[h] <= rem and rem < diffCover[h+1])) or
-                (h == diffCoverSize-1 and (diffCover[h] <= rem and rem < diffCoverSize))) {
+        if ((h < diffCoverSize - 1 and (diffCover[h] <= rem and rem < diffCover[h + 1])) or
+            (h == diffCoverSize - 1 and (diffCover[h] <= rem and rem < diffCoverSize))) {
             return h;
         }
     }
     return h;
 }
 
-
-UInt DiffCoverMu::compute(UInt i, UInt j) {
-    return textSize/diffCoverSize * i + std::min(i,h+1) + j;
+UInt DiffCoverMu::compute(UInt i, UInt j)
+{
+    return textSize / diffCoverSize * i + std::min(i, h + 1) + j;
 }
-UInt DiffCoverMu::operator()(const UInt k) {
+UInt DiffCoverMu::operator()(const UInt k)
+{
     //
     // k is from 0 .. n (size of string)
     //
     UInt di = k % diffCoverSize;
-    UInt j  = k / diffCoverSize;
-    UInt i  = diffCoverReverseLookup[di];
+    UInt j = k / diffCoverSize;
+    UInt i = diffCoverReverseLookup[di];
     //		return (textSize/diffCoverSize)*i + min(i,h) + j;
     //		return (textSize/diffCoverSize)*i + i + j;
     //		return min(i,h)*(1 + textSize / diffCoverSize) + (i > h ? i - h : 0)*(textSize/diffCoverSize) + j;
-    return (textSize/diffCoverSize) * i + std::min(i,h+1) + j;
+    return (textSize / diffCoverSize) * i + std::min(i, h + 1) + j;
 }
 
-DiffCoverMu::DiffCoverMu() {
+DiffCoverMu::DiffCoverMu()
+{
     diffCoverLength = diffCoverSize = textSize = h = 0;
     diffCoverReverseLookup = diffCover = NULL;
 }
 
-DiffCoverMu::~DiffCoverMu() {
-    if (diffCoverReverseLookup !=NULL) 
-        delete[] diffCoverReverseLookup;
+DiffCoverMu::~DiffCoverMu()
+{
+    if (diffCoverReverseLookup != NULL) delete[] diffCoverReverseLookup;
 }
 
-void DiffCoverMu::Initialize(UInt diffCoverP[], UInt diffCoverLengthP, UInt diffCoverSizeP, UInt textSizeP) {
+void DiffCoverMu::Initialize(UInt diffCoverP[], UInt diffCoverLengthP, UInt diffCoverSizeP,
+                             UInt textSizeP)
+{
     diffCoverReverseLookup = ProtectedNew<UInt>(diffCoverSizeP);
     diffCoverLength = diffCoverLengthP;
-    textSize        = textSizeP;
-    diffCoverSize   = diffCoverSizeP;
-    diffCover       = diffCoverP;
+    textSize = textSizeP;
+    diffCoverSize = diffCoverSizeP;
+    diffCover = diffCoverP;
     UInt i;
-    for (i = 0; i < diffCoverSize; i++ ) {
+    for (i = 0; i < diffCoverSize; i++) {
         diffCoverReverseLookup[i] = 9999999;
     }
     BuildDiffCoverReverseLookup(diffCoverP, diffCoverLength, diffCoverReverseLookup);
-    h               = DiffCoverFindH(diffCoverP, diffCoverLength, diffCoverSize, textSize);
+    h = DiffCoverFindH(diffCoverP, diffCoverLength, diffCoverSize, textSize);
 }
 
-void BuildDiffCoverLookup(UInt diffCover[], UInt diffCoverLength, UInt v, UInt diffCoverLookup[]) {
+void BuildDiffCoverLookup(UInt diffCover[], UInt diffCoverLength, UInt v, UInt diffCoverLookup[])
+{
     UInt h;
     // Initialize with sentinal that shows a value has not been set (for small problems);
     for (h = 0; h < v; h++) {
@@ -86,11 +93,10 @@ void BuildDiffCoverLookup(UInt diffCover[], UInt diffCoverLength, UInt v, UInt d
         //
         UInt hd;
         for (hd = 0; hd < diffCoverLength; hd++) {
-            UInt dcm = (diffCover[hd] + h ) % v;
+            UInt dcm = (diffCover[hd] + h) % v;
             UInt hdi;
-            for (hdi = 0; hdi < diffCoverLength; hdi++ ){
-                if (dcm == diffCover[hdi])
-                    break;
+            for (hdi = 0; hdi < diffCoverLength; hdi++) {
+                if (dcm == diffCover[hdi]) break;
             }
             if (hdi < diffCoverLength) {
                 diffCoverLookup[h] = diffCover[hd];
@@ -100,39 +106,44 @@ void BuildDiffCoverLookup(UInt diffCover[], UInt diffCoverLength, UInt v, UInt d
     }
 }
 
-void DiffCoverDelta::Initialize(UInt diffCoverP[], UInt diffCoverLengthP, UInt diffCoverSizeP) {
+void DiffCoverDelta::Initialize(UInt diffCoverP[], UInt diffCoverLengthP, UInt diffCoverSizeP)
+{
     diffCoverLookup = ProtectedNew<UInt>(diffCoverSizeP);
-    diffCoverSize   = diffCoverSizeP;
+    diffCoverSize = diffCoverSizeP;
     BuildDiffCoverLookup(diffCoverP, diffCoverLengthP, diffCoverSizeP, diffCoverLookup);
 }
 
-UInt DiffCoverDelta::operator()(UInt i, UInt j) {
-    return DiffMod(diffCoverLookup[DiffMod(j,i,diffCoverSize)],i,diffCoverSize);
+UInt DiffCoverDelta::operator()(UInt i, UInt j)
+{
+    return DiffMod(diffCoverLookup[DiffMod(j, i, diffCoverSize)], i, diffCoverSize);
 }
 
-DiffCoverDelta::~DiffCoverDelta() {
+DiffCoverDelta::~DiffCoverDelta()
+{
     if (diffCoverLookup) {
-        delete [] diffCoverLookup; 
+        delete[] diffCoverLookup;
         diffCoverLookup = NULL;
     }
 }
 
-
-UInt NCompareSuffices(unsigned char text[], UInt a, UInt b, UInt n) {
+UInt NCompareSuffices(unsigned char text[], UInt a, UInt b, UInt n)
+{
     // not sure how to make lower amortized cost of the comparison.
-    return(strncmp((const char*) &text[a], (const char*)&text[b], n));
+    return (strncmp((const char *)&text[a], (const char *)&text[b], n));
 }
 
-UInt ComputeDSetSize(UInt diffCover, UInt diffCoverLength, UInt diffCoverSize, UInt textSize) {
-    (void)(diffCover); (void)(diffCoverLength);
+UInt ComputeDSetSize(UInt diffCover, UInt diffCoverLength, UInt diffCoverSize, UInt textSize)
+{
+    (void)(diffCover);
+    (void)(diffCoverLength);
     UInt div = textSize / diffCoverSize + 1;
     UInt rem = textSize % diffCoverSize;
-    return div*diffCoverSize + rem;
+    return div * diffCoverSize + rem;
 }
 
-void ComputeSufVNaming(UInt diffCover[], UInt diffCoverLength, UInt diffCoverN, UInt textSize, UInt lexNaming[], 
-        DiffCoverMu &mu,
-        UInt sufVNaming[]) {
+void ComputeSufVNaming(UInt diffCover[], UInt diffCoverLength, UInt diffCoverN, UInt textSize,
+                       UInt lexNaming[], DiffCoverMu &mu, UInt sufVNaming[])
+{
     UInt nDiffCover = textSize / diffCoverN + 1;
     UInt cover;
     UInt d;
@@ -147,31 +158,34 @@ void ComputeSufVNaming(UInt diffCover[], UInt diffCoverLength, UInt diffCoverN, 
     }
 }
 
-UInt IndexToDiffCoverIndex(UInt index, UInt diffCoverlookup[], UInt diffCoverSize, UInt diffCoverLength ){
+UInt IndexToDiffCoverIndex(UInt index, UInt diffCoverlookup[], UInt diffCoverSize,
+                           UInt diffCoverLength)
+{
     UInt diff = index / diffCoverSize;
     UInt offset = index % diffCoverSize;
-    return diff*diffCoverLength + diffCoverlookup[offset];
+    return diff * diffCoverLength + diffCoverlookup[offset];
 }
 
-void DiffCoverComputeLOrder(UInt sufVNaming[], UInt sufVNamingLength, UInt maxVNaming, UInt textLength,
-        DiffCoverMu &mu,
-        UInt lOrder[]) {
+void DiffCoverComputeLOrder(UInt sufVNaming[], UInt sufVNamingLength, UInt maxVNaming,
+                            UInt textLength, DiffCoverMu &mu, UInt lOrder[])
+{
     //
-    // the sufvnaming now contains the 
+    // the sufvnaming now contains the
     UInt i, di;
     UInt nDiffCover = textLength / mu.diffCoverSize + 1;
     UInt dci;
-    for (i = 0; i < sufVNamingLength; i++ ) {
+    for (i = 0; i < sufVNamingLength; i++) {
         lOrder[i] = 0;
     }
 
-    for (dci = 0; dci < nDiffCover; dci++ ) {
-        for (di = 0; di < mu.diffCoverLength; di++ ){
-            i = dci*mu.diffCoverSize + mu.diffCover[di];
+    for (dci = 0; dci < nDiffCover; dci++) {
+        for (di = 0; di < mu.diffCoverLength; di++) {
+            i = dci * mu.diffCoverSize + mu.diffCover[di];
             if (i >= textLength) {
                 break;
             }
-            UInt dsetIndex = IndexToDiffCoverIndex(i, mu.diffCoverReverseLookup, mu.diffCoverSize, mu.diffCoverLength);
+            UInt dsetIndex = IndexToDiffCoverIndex(i, mu.diffCoverReverseLookup, mu.diffCoverSize,
+                                                   mu.diffCoverLength);
             UInt mui = mu(i);
             lOrder[mui] = sufVNaming[dsetIndex] + 1;
         }
@@ -184,14 +198,12 @@ void DiffCoverComputeLOrder(UInt sufVNaming[], UInt sufVNamingLength, UInt maxVN
 
     LarssonSuffixSort<UInt> sufsorter;
     sufsorter.INDEX_MAX = maxVNaming + 2;
-    sufsorter(lOrder, sufVNaming, sufVNamingLength, maxVNaming+2, 0);
+    sufsorter(lOrder, sufVNaming, sufVNamingLength, maxVNaming + 2, 0);
     for (i = 0; i < sufVNamingLength; i++) {
         assert(lOrder[i] > 0);
         lOrder[i]--;
     }
 }
-
-
 
 /*
  * Build the lex naming of the v-ordered suffices.  
@@ -204,41 +216,44 @@ void DiffCoverComputeLOrder(UInt sufVNaming[], UInt sufVNamingLength, UInt maxVN
  *        names are implemented as unsigned integers. 
  * Returns: the largest value of the lex-ordering.
  */
-UInt DiffCoverBuildLexNaming( unsigned char text[], UInt textSize,
-        UInt textVOrder[],
-        UInt dSetSize, UInt diffCoverLength, UInt diffCoverSize, 
-        UInt diffCoverLookup[],
-        UInt lexNaming[]) {
+UInt DiffCoverBuildLexNaming(unsigned char text[], UInt textSize, UInt textVOrder[], UInt dSetSize,
+                             UInt diffCoverLength, UInt diffCoverSize, UInt diffCoverLookup[],
+                             UInt lexNaming[])
+{
     (void)(textSize);
     UInt d;
     UInt lexOrder = 0;
     //
     // Make sure there is something to do here.
     //
-    if (dSetSize == 0) 
-        return 0;
+    if (dSetSize == 0) return 0;
     UInt dcindex;
     dcindex = IndexToDiffCoverIndex(textVOrder[0], diffCoverLookup, diffCoverSize, diffCoverLength);
     lexNaming[dcindex] = 0;
     for (d = 1; d < dSetSize; d++) {
-        if (NCompareSuffices(text, textVOrder[d-1], textVOrder[d], diffCoverSize) != 0) {
+        if (NCompareSuffices(text, textVOrder[d - 1], textVOrder[d], diffCoverSize) != 0) {
             lexOrder++;
         }
-        dcindex = IndexToDiffCoverIndex(textVOrder[d], diffCoverLookup, diffCoverSize, diffCoverLength);
-        lexNaming[dcindex]  = lexOrder;
+        dcindex =
+            IndexToDiffCoverIndex(textVOrder[d], diffCoverLookup, diffCoverSize, diffCoverLength);
+        lexNaming[dcindex] = lexOrder;
     }
     return lexOrder;
 }
 
-int DiffCoverCompareSuffices::operator()(UInt a, UInt b) {
+int DiffCoverCompareSuffices::operator()(UInt a, UInt b)
+{
     UInt aDCIndex, bDCIndex;
-    UInt dab = (*delta)(a,b);
-    aDCIndex = IndexToDiffCoverIndex(a + dab, diffCoverReverseLookup, diffCoverSize, diffCoverLength);
-    bDCIndex = IndexToDiffCoverIndex(b + dab, diffCoverReverseLookup, diffCoverSize, diffCoverLength);
+    UInt dab = (*delta)(a, b);
+    aDCIndex =
+        IndexToDiffCoverIndex(a + dab, diffCoverReverseLookup, diffCoverSize, diffCoverLength);
+    bDCIndex =
+        IndexToDiffCoverIndex(b + dab, diffCoverReverseLookup, diffCoverSize, diffCoverLength);
     return (lOrder[aDCIndex] < lOrder[bDCIndex]);
 }
 
-bool LightweightSuffixSort(unsigned char text[], UInt textLength, UInt *index, int diffCoverSize) {
+bool LightweightSuffixSort(unsigned char text[], UInt textLength, UInt *index, int diffCoverSize)
+{
     //
     // index is an array of length textLength that contains all
     // suffices.
@@ -252,7 +267,8 @@ bool LightweightSuffixSort(unsigned char text[], UInt textLength, UInt *index, i
     UInt *diffCover;
     UInt diffCoverLength;
     if (InitializeDifferenceCover(diffCoverSize, diffCoverLength, diffCover) == 0) {
-        std::cout << "ERROR! There is no difference cover of size " << diffCoverSize << " that is precomputed." << std::endl;
+        std::cout << "ERROR! There is no difference cover of size " << diffCoverSize
+                  << " that is precomputed." << std::endl;
         exit(1);
     }
 
@@ -264,10 +280,10 @@ bool LightweightSuffixSort(unsigned char text[], UInt textLength, UInt *index, i
     // Phase 1. Sort suffices whose starting position modulo v is in D.
     //
 
-    // The set d is given by 
+    // The set d is given by
     // Step 1.1 v-sort D-sample suffices
-    UInt dIndex = 0; // index in D-sample
-    UInt tIndex = 0; // index in text
+    UInt dIndex = 0;  // index in D-sample
+    UInt tIndex = 0;  // index in text
     UInt nDiffCover;
     nDiffCover = textLength / diffCoverSize + 1;
     UInt coverIndex;
@@ -296,14 +312,13 @@ bool LightweightSuffixSort(unsigned char text[], UInt textLength, UInt *index, i
     // by setting s^\prime[\mu(i)] = l^v(i)
     //
     UInt *lexVNaming;
-    lexVNaming = ProtectedNew<UInt>(dSetSize+1);
+    lexVNaming = ProtectedNew<UInt>(dSetSize + 1);
     DiffCoverMu mu;
     mu.Initialize(diffCover, diffCoverLength, diffCoverSize, textLength);
     UInt largestLexName;
     std::cout << "Enumerating " << diffCoverSize << "-prefixes." << std::endl;
-    largestLexName = DiffCoverBuildLexNaming(text, textLength,
-            index, dSetSize, diffCoverLength, diffCoverSize, 
-            mu.diffCoverReverseLookup, lexVNaming);
+    largestLexName = DiffCoverBuildLexNaming(text, textLength, index, dSetSize, diffCoverLength,
+                                             diffCoverSize, mu.diffCoverReverseLookup, lexVNaming);
     //
     // Step 1.3 Compute ISA' of lex-order.
     //
@@ -314,10 +329,10 @@ bool LightweightSuffixSort(unsigned char text[], UInt textLength, UInt *index, i
     // auxiliary array.  Since the index is not being used right now,
     // use that as the extra space.
     //
-    UInt dci,di;	
+    UInt dci, di;
     for (dci = 0; dci < nDiffCover; dci++) {
-        for (di = 0 ; di < diffCoverLength; di++) {
-            i = dci*diffCoverSize + diffCover[di];
+        for (di = 0; di < diffCoverLength; di++) {
+            i = dci * diffCoverSize + diffCover[di];
             if (i > textLength) {
                 break;
             }
@@ -325,20 +340,21 @@ bool LightweightSuffixSort(unsigned char text[], UInt textLength, UInt *index, i
         }
     }
 
-    UInt *tmpLexOrder = index; 
-    DiffCoverComputeLOrder(lexVNaming, dSetSize, largestLexName, textLength, mu, tmpLexOrder); 	
+    UInt *tmpLexOrder = index;
+    DiffCoverComputeLOrder(lexVNaming, dSetSize, largestLexName, textLength, mu, tmpLexOrder);
     lexOrder = lexVNaming;
 
     nDiffCover = textLength / diffCoverSize + 1;
 
     for (dci = 0; dci < nDiffCover; dci++) {
-        for (di = 0 ; di < diffCoverLength; di++) {
-            i = dci*diffCoverSize + diffCover[di];
+        for (di = 0; di < diffCoverLength; di++) {
+            i = dci * diffCoverSize + diffCover[di];
             if (i >= textLength) {
                 break;
             }
             UInt lexOrderIndex = mu(i);
-            UInt diffCoverIndex = IndexToDiffCoverIndex(i, mu.diffCoverReverseLookup, diffCoverSize, diffCoverLength);
+            UInt diffCoverIndex =
+                IndexToDiffCoverIndex(i, mu.diffCoverReverseLookup, diffCoverSize, diffCoverLength);
             lexOrder[diffCoverIndex] = tmpLexOrder[lexOrderIndex];
         }
     }
@@ -350,7 +366,7 @@ bool LightweightSuffixSort(unsigned char text[], UInt textLength, UInt *index, i
     //
     std::cout << "Sorting suffices." << std::endl;
     // Step 2.1 v-order suffices using multikey quicksort
-    for (i = 0; i < textLength; i++ ){
+    for (i = 0; i < textLength; i++) {
         index[i] = i;
     }
     MediankeyBoundedQuicksort(text, index, textLength, 0, textLength, 0, diffCoverSize);
@@ -363,35 +379,40 @@ bool LightweightSuffixSort(unsigned char text[], UInt textLength, UInt *index, i
     //
     DiffCoverCompareSuffices lOrderComparator;
     lOrderComparator.lOrder = lexOrder;
-    lOrderComparator.delta  = &delta;
+    lOrderComparator.delta = &delta;
     lOrderComparator.diffCoverSize = diffCoverSize;
-    lOrderComparator.diffCoverLength=diffCoverLength;
+    lOrderComparator.diffCoverLength = diffCoverLength;
     lOrderComparator.diffCoverReverseLookup = mu.diffCoverReverseLookup;
     UInt setBegin, setEnd;
     setBegin = setEnd = 0;
     std::cout << "Sorting buckets." << std::endl;
     int percentDone = 0;
     int curPercentage = 0;
-    while(setBegin < textLength) {
+    while (setBegin < textLength) {
         setEnd = setBegin;
-        percentDone = (int)(((1.0*setBegin) / textLength) * 100);
-        if ( percentDone > curPercentage) {
-            std::cout << " " << percentDone << "% of buckets sorted."  << std::endl;
+        percentDone = (int)(((1.0 * setBegin) / textLength) * 100);
+        if (percentDone > curPercentage) {
+            std::cout << " " << percentDone << "% of buckets sorted." << std::endl;
             curPercentage = percentDone;
         }
-        while(setEnd < textLength and
-                NCompareSuffices(text, index[setBegin], index[setEnd], diffCoverSize) == 0) {
+        while (setEnd < textLength and
+               NCompareSuffices(text, index[setBegin], index[setEnd], diffCoverSize) == 0) {
             setEnd++;
         }
         std::sort(&index[setBegin], &index[setEnd], lOrderComparator);
         setBegin = setEnd;
     }
 
-    // diffCover was allocated in DifferenceCovers.cpp -> 
-    // InitializeDifferenceCover(...). Deallocate it. 
-    if (diffCover) {delete [] diffCover; diffCover = NULL;}
-    if (lexVNaming) {delete [] lexVNaming; lexVNaming = NULL;}
+    // diffCover was allocated in DifferenceCovers.cpp ->
+    // InitializeDifferenceCover(...). Deallocate it.
+    if (diffCover) {
+        delete[] diffCover;
+        diffCover = NULL;
+    }
+    if (lexVNaming) {
+        delete[] lexVNaming;
+        lexVNaming = NULL;
+    }
     return true;
     // DONE!!!!!
-
 }

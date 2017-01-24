@@ -13,17 +13,17 @@ typedef uint64_t GenomeLength;
 // Add definitions to handle 64/32 bit computing environments
 //
 // H5 Dataset length (e.g., total number of pulses in a pls.h5 file.)
-typedef uint64_t DSLength; 
+typedef uint64_t DSLength;
 // used in alignment/tuple/BaseTuple class
 typedef uint64_t TupleData;
 
 typedef uint32_t VectorIndex;
 typedef uint32_t UInt;
-typedef uint8_t  Byte;
-typedef uint8_t  UChar;
+typedef uint8_t Byte;
+typedef uint8_t UChar;
 typedef uint16_t HalfWord;
 typedef float MatchWeight;
 
 #define PB_UNUSED(VAR) (void)(VAR)
 
-#endif // _BLASR_TYPES_H_
+#endif  // _BLASR_TYPES_H_

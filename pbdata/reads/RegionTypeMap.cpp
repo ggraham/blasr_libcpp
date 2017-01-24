@@ -2,12 +2,14 @@
 
 #include "RegionTypeMap.hpp"
 
-std::string RegionTypeMap::ToString(RegionType rt) {
+std::string RegionTypeMap::ToString(RegionType rt)
+{
     assert(RegionTypeToString.find(rt) != RegionTypeToString.end());
     return RegionTypeToString.find(rt)->second;
 }
 
-RegionType RegionTypeMap::ToRegionType(const std::string & str) {
+RegionType RegionTypeMap::ToRegionType(const std::string& str)
+{
     if (StringToRegionType.find(str) == StringToRegionType.end()) {
         std::cout << "Unsupported RegionType " << str << std::endl;
         assert(false);
@@ -15,7 +17,8 @@ RegionType RegionTypeMap::ToRegionType(const std::string & str) {
     return StringToRegionType.find(str)->second;
 }
 
-int RegionTypeMap::ToIndex(const std::string & typeStr, const std::vector<std::string> & typeStrs) {
+int RegionTypeMap::ToIndex(const std::string& typeStr, const std::vector<std::string>& typeStrs)
+{
     auto it = std::find(typeStrs.begin(), typeStrs.end(), typeStr);
     if (it == typeStrs.end()) {
         std::cout << "Could not find RegionType " << typeStr << std::endl;
@@ -25,11 +28,13 @@ int RegionTypeMap::ToIndex(const std::string & typeStr, const std::vector<std::s
     }
 }
 
-int RegionTypeMap::ToIndex(RegionType rt, const std::vector<std::string> & typeStrs) {
+int RegionTypeMap::ToIndex(RegionType rt, const std::vector<std::string>& typeStrs)
+{
     return RegionTypeMap::ToIndex(RegionTypeMap::ToString(rt), typeStrs);
 }
 
-int RegionTypeMap::ToIndex(RegionType rt, const std::vector<RegionType> & regionTypes) {
+int RegionTypeMap::ToIndex(RegionType rt, const std::vector<RegionType>& regionTypes)
+{
     auto it = std::find(regionTypes.begin(), regionTypes.end(), rt);
     if (it == regionTypes.end()) {
         std::cout << "Could not find RegionType " << RegionTypeMap::ToString(rt) << std::endl;
@@ -40,15 +45,8 @@ int RegionTypeMap::ToIndex(RegionType rt, const std::vector<RegionType> & region
 }
 
 const std::map<RegionType, std::string> RegionTypeMap::RegionTypeToString = {
-    {Adapter,  "Adapter"},
-    {Insert,   "Insert"},
-    {HQRegion, "HQRegion"},
-    {BarCode,  "Barcode"}
-};
+    {Adapter, "Adapter"}, {Insert, "Insert"}, {HQRegion, "HQRegion"}, {BarCode, "Barcode"}};
 
 const std::map<std::string, RegionType> RegionTypeMap::StringToRegionType = {
-    {"Adapter",  Adapter},
-    {"Insert",   Insert},
-    {"HQRegion", HQRegion},
-    {"Barcode",  BarCode},
+    {"Adapter", Adapter}, {"Insert", Insert}, {"HQRegion", HQRegion}, {"Barcode", BarCode},
 };

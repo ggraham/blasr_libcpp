@@ -16,22 +16,25 @@
  * =====================================================================================
  */
 
-#include "gtest/gtest.h"
 #include "defs.h"
+#include "gtest/gtest.h"
 
-TEST(DefsTest, MIN) {
-    EXPECT_EQ(MIN(1,10000), 1);
-    EXPECT_EQ(MIN(-1,10000), -1);
-    EXPECT_EQ(MIN(-1,-2), -2);
+TEST(DefsTest, MIN)
+{
+    EXPECT_EQ(MIN(1, 10000), 1);
+    EXPECT_EQ(MIN(-1, 10000), -1);
+    EXPECT_EQ(MIN(-1, -2), -2);
 }
 
-TEST(DefsTest, MAX) {
-    EXPECT_EQ(MAX(1,10000), 10000);
-    EXPECT_EQ(MAX(-1,10000), 10000);
-    EXPECT_EQ(MAX(-1,-2), -1);
+TEST(DefsTest, MAX)
+{
+    EXPECT_EQ(MAX(1, 10000), 10000);
+    EXPECT_EQ(MAX(-1, 10000), 10000);
+    EXPECT_EQ(MAX(-1, -2), -1);
 }
 
-TEST(DefsTest, SWAP) {
+TEST(DefsTest, SWAP)
+{
     int x = 10;
     int y = 100;
     SWAP(x, y);
@@ -39,6 +42,3 @@ TEST(DefsTest, SWAP) {
     EXPECT_EQ(x, 100);
     EXPECT_EQ(y, 10);
 }
-
-
-

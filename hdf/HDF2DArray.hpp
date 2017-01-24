@@ -3,14 +3,15 @@
 
 #include "BufferedHDF2DArray.hpp"
 
-template<typename T>
-class HDF2DArray : public BufferedHDF2DArray<T> {
+template <typename T>
+class HDF2DArray : public BufferedHDF2DArray<T>
+{
 public:
-
-    void WriteRow(const T*data, int dataLength, int destRow=-1) {
-        this->writeBuffer = (T*) data;
+    void WriteRow(const T* data, int dataLength, int destRow = -1)
+    {
+        this->writeBuffer = (T*)data;
         this->bufferIndex = dataLength;
-        this->bufferSize  = dataLength;
+        this->bufferSize = dataLength;
         this->Flush(destRow);
         //
         // Reset status of buffer so that no methods are tricked into
@@ -18,7 +19,7 @@ public:
         //
         this->writeBuffer = NULL;
         this->bufferIndex = 0;
-        this->bufferSize  = 0;
+        this->bufferSize = 0;
     }
 };
 

@@ -1,7 +1,8 @@
 #include "BaseScoreFunction.hpp"
 
-BaseScoreFunction::BaseScoreFunction(int insP, int delP, int subPriorP, 
-        int delPriorP, int affineExtensionP, int affineOpenP)  {
+BaseScoreFunction::BaseScoreFunction(int insP, int delP, int subPriorP, int delPriorP,
+                                     int affineExtensionP, int affineOpenP)
+{
     ins = insP;
     del = delP;
     substitutionPrior = subPriorP;

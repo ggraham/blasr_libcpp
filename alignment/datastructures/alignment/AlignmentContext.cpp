@@ -1,9 +1,10 @@
 #include "AlignmentContext.hpp"
 
-AlignmentContext::AlignmentContext() {
+AlignmentContext::AlignmentContext()
+{
     isPrimary = true;
     subreadIndex = 0;
-    isFinal   = true;
+    isFinal = true;
     nextSubreadPos = 0;
     hasNextSubreadPos = false;
     numProperlyAlignedSubreads = 0;
@@ -17,19 +18,15 @@ AlignmentContext::AlignmentContext() {
     editDist = 0;
 }
 
-bool AlignmentContext::IsFirst() {
-    return subreadIndex == 0;
-}
+bool AlignmentContext::IsFirst() { return subreadIndex == 0; }
 
-bool AlignmentContext::IsLast() {
-    return subreadIndex == nSubreads-1;
-}
+bool AlignmentContext::IsLast() { return subreadIndex == nSubreads - 1; }
 
-bool AlignmentContext::AllSubreadsAligned() {
+bool AlignmentContext::AllSubreadsAligned()
+{
     if (numProperlyAlignedSubreads == nSubreads) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }

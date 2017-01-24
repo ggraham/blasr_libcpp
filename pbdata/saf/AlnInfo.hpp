@@ -6,12 +6,12 @@
 #include "../Types.h"
 #include "../alignment/CmpAlignment.hpp"
 
-class AlnInfo {
+class AlnInfo
+{
 public:
     std::vector<CmpAlignment> alignments;
     UInt nAlignments;
     uint64_t lastRow;
 };
-
 
 #endif

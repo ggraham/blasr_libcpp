@@ -3,30 +3,32 @@
 #ifndef DATASTRUCTURES_READS_SCAN_DATA_H_
 #define DATASTRUCTURES_READS_SCAN_DATA_H_
 
-#include <string>
 #include <map>
-#include "AcqParams.hpp"
+#include <string>
 #include "../Enumerations.h"
 #include "../PacBioDefs.h"
+#include "AcqParams.hpp"
 
 class HDFScanDataReader;
 class HDFScanDataWriter;
 
-class ScanData {
-friend class HDFScanDataReader;
-friend class HDFScanDataWriter;
+class ScanData
+{
+    friend class HDFScanDataReader;
+    friend class HDFScanDataWriter;
+
 public:
-    // Convert base map from a map<char, size_t> to a string. 
+    // Convert base map from a map<char, size_t> to a string.
     // e.g., {{'A', 2}, {'C', 1}, {'T', 0}, {'G', 3}} --> TCAG
-    static std::string BaseMapToStr(const std::map<char, size_t> & baseMap);
+    static std::string BaseMapToStr(const std::map<char, size_t>& baseMap);
 
     // Convert base map from a string to a map<char, size_t>.
-    // e.g., TCAG --> {{'A', 2}, {'C', 1}, {'T', 0}, {'G', 3}} 
-    static std::map<char, size_t> StrToBaseMap(const std::string & baseMapStr);
+    // e.g., TCAG --> {{'A', 2}, {'C', 1}, {'T', 0}, {'G', 3}}
+    static std::map<char, size_t> StrToBaseMap(const std::string& baseMapStr);
 
-    // A baseMap must contain maps from bases (e.g., ACGT) to indices (e.g., 0, 1, 2, 3). 
-    static bool IsValidBaseMap(const std::map<char, size_t> & baseMap);
-    
+    // A baseMap must contain maps from bases (e.g., ACGT) to indices (e.g., 0, 1, 2, 3).
+    static bool IsValidBaseMap(const std::map<char, size_t>& baseMap);
+
 public:
     PlatformId platformId;
     float frameRate;
@@ -35,20 +37,20 @@ public:
     std::string whenStarted;
     std::map<char, size_t> baseMap;
 
-    ScanData(const AcqParams & acqParams = AcqParams());
-    std::string GetMovieName(); 
+    ScanData(const AcqParams& acqParams = AcqParams());
+    std::string GetMovieName();
 
-    ScanData & PlatformID(const PlatformId & id);
-    ScanData & FrameRate(const float & rate);
-    ScanData & NumFrames(const unsigned int & num);
-    ScanData & MovieName(const std::string & name);
-    ScanData & RunCode(const std::string & code);
-    ScanData & WhenStarted(const std::string & when);
-    ScanData & BaseMap(const std::map<char, size_t> & bmp);
-    ScanData & BaseMap(const std::string & baseMapStr); 
-    ScanData & SequencingKit(const std::string sequencingKit);
-    ScanData & BindingKit(const std::string bindingKit);
-    ScanData & SetAcqParams(const AcqParams & acqParams);
+    ScanData& PlatformID(const PlatformId& id);
+    ScanData& FrameRate(const float& rate);
+    ScanData& NumFrames(const unsigned int& num);
+    ScanData& MovieName(const std::string& name);
+    ScanData& RunCode(const std::string& code);
+    ScanData& WhenStarted(const std::string& when);
+    ScanData& BaseMap(const std::map<char, size_t>& bmp);
+    ScanData& BaseMap(const std::string& baseMapStr);
+    ScanData& SequencingKit(const std::string sequencingKit);
+    ScanData& BindingKit(const std::string bindingKit);
+    ScanData& SetAcqParams(const AcqParams& acqParams);
 
     PlatformId PlatformID(void) const;
     float FrameRate(void) const;
@@ -61,7 +63,7 @@ public:
     std::string SequencingKit(void) const;
     std::string BindingKit(void) const;
     AcqParams GetAcqParams(void) const;
- 
+
 private:
     std::string sequencingKit_;
     std::string bindingKit_;

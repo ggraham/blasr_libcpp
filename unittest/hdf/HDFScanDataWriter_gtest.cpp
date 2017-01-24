@@ -18,11 +18,12 @@
 
 #include "gtest/gtest.h"
 #define private public
-#include "HDFScanDataWriter.hpp"
 #include "HDFFile.hpp"
+#include "HDFScanDataWriter.hpp"
 #include "reads/ScanData.hpp"
 
-TEST(HDFScanDataWriter, Write) {
+TEST(HDFScanDataWriter, Write)
+{
     ScanData sd;
     sd.frameRate = 100;
     sd.BaseMap("ATGC");

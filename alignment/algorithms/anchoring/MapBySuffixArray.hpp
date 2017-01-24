@@ -2,11 +2,11 @@
 #define _BLASR_MAP_BY_SUFFIX_ARRAY_HPP_
 
 #include <algorithm>
-#include "../../suffixarray/SuffixArray.hpp"
-#include "../../datastructures/anchoring/MatchPos.hpp"
-#include "../../datastructures/anchoring/AnchorParameters.hpp"
 #include "../../algorithms/alignment/SWAlign.hpp"
 #include "../../algorithms/alignment/ScoreMatrices.hpp"
+#include "../../datastructures/anchoring/AnchorParameters.hpp"
+#include "../../datastructures/anchoring/MatchPos.hpp"
+#include "../../suffixarray/SuffixArray.hpp"
 
 /*
  * Parameters:
@@ -22,23 +22,17 @@
  *   matchHigh -The same array but for the upper bound.
  *   saMatchLength - The length of the lcp.
  */
-template<typename T_SuffixArray, 
-         typename T_RefSequence, 
-         typename T_Sequence>
-int LocateAnchorBoundsInSuffixArray(T_RefSequence &reference,
-	T_SuffixArray &sa, T_Sequence &read, unsigned int minPrefixMatchLength,
-	std::vector<DNALength> &matchLow, std::vector<DNALength> &matchHigh,
-	std::vector<DNALength> &matchLength, AnchorParameters &params);
+template <typename T_SuffixArray, typename T_RefSequence, typename T_Sequence>
+int LocateAnchorBoundsInSuffixArray(T_RefSequence &reference, T_SuffixArray &sa, T_Sequence &read,
+                                    unsigned int minPrefixMatchLength,
+                                    std::vector<DNALength> &matchLow,
+                                    std::vector<DNALength> &matchHigh,
+                                    std::vector<DNALength> &matchLength, AnchorParameters &params);
 
-template<typename T_SuffixArray, 
-         typename T_RefSequence, 
-         typename T_Sequence, 
-         typename T_MatchPos>
-int MapReadToGenome(T_RefSequence &reference,
-	T_SuffixArray &sa, T_Sequence &read, 
-	unsigned int minPrefixMatchLength,
-	vector<T_MatchPos> &matchPosList,
-	AnchorParameters &anchorParameters);
+template <typename T_SuffixArray, typename T_RefSequence, typename T_Sequence, typename T_MatchPos>
+int MapReadToGenome(T_RefSequence &reference, T_SuffixArray &sa, T_Sequence &read,
+                    unsigned int minPrefixMatchLength, vector<T_MatchPos> &matchPosList,
+                    AnchorParameters &anchorParameters);
 
 #include "MapBySuffixArrayImpl.hpp"
 #endif

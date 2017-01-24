@@ -2,38 +2,42 @@
 
 using namespace std;
 
-DSLength HDFPulseDataFile::GetAllReadLengths(vector<DNALength> &readLengths) {
+DSLength HDFPulseDataFile::GetAllReadLengths(vector<DNALength> &readLengths)
+{
     nReads = static_cast<UInt>(zmwReader.numEventArray.arrayLength);
     readLengths.resize(nReads);
     zmwReader.numEventArray.Read(0, nReads, &readLengths[0]);
     return readLengths.size();
 }
 
-void HDFPulseDataFile::CheckMemoryAllocation(long allocSize, long allocLimit, const char *fieldName) {
+void HDFPulseDataFile::CheckMemoryAllocation(long allocSize, long allocLimit, const char *fieldName)
+{
     if (allocSize > allocLimit) {
         if (fieldName == NULL) {
             cout << "Allocating too large of memory" << endl;
-        }
-        else {
+        } else {
             cout << "Allocate size " << allocSize << " > allocate limit " << allocLimit << endl;
-            cout << "ERROR! Reading the dataset " << fieldName << " will use too much memory." << endl;
+            cout << "ERROR! Reading the dataset " << fieldName << " will use too much memory."
+                 << endl;
             cout << "The pls/bas file is too large, exiting." << endl;
         }
         exit(1);
     }
 }
 
-HDFPulseDataFile::HDFPulseDataFile() {
+HDFPulseDataFile::HDFPulseDataFile()
+{
     pulseDataGroupName = "PulseData";
-    nReads             = 0;
-    useScanData        = false;
-    closeFileOnExit    = false;
-    maxAllocNElements  = INT_MAX;
+    nReads = 0;
+    useScanData = false;
+    closeFileOnExit = false;
+    maxAllocNElements = INT_MAX;
     preparedForRandomAccess = false;
-    rootGroupPtr       = NULL;
+    rootGroupPtr = NULL;
 }
 
-void HDFPulseDataFile::PrepareForRandomAccess() {
+void HDFPulseDataFile::PrepareForRandomAccess()
+{
     std::vector<DNALength> offset_;
     GetAllReadLengths(offset_);
     // type of read length of a single read : DNALength
@@ -49,16 +53,14 @@ void HDFPulseDataFile::PrepareForRandomAccess() {
     preparedForRandomAccess = true;
 }
 
-
-int HDFPulseDataFile::OpenHDFFile(string fileName, 
-    const H5::FileAccPropList & fileAccPropList) {
+int HDFPulseDataFile::OpenHDFFile(string fileName, const H5::FileAccPropList &fileAccPropList)
+{
 
     try {
         H5::FileAccPropList propList = fileAccPropList;
         H5::Exception::dontPrint();
-        hdfBasFile.openFile(fileName.c_str(), H5F_ACC_RDONLY, propList);	
-    }
-    catch (H5::Exception &e) {
+        hdfBasFile.openFile(fileName.c_str(), H5F_ACC_RDONLY, propList);
+    } catch (H5::Exception &e) {
         cout << "ERROR, could not open hdf file" << fileName << ", exiting." << endl;
         exit(1);
     }
@@ -68,17 +70,18 @@ int HDFPulseDataFile::OpenHDFFile(string fileName,
 
 //
 // All pulse data files contain the "PulseData" group name.
-// 
 //
-int HDFPulseDataFile::InitializePulseDataFile(string fileName, 
-    const H5::FileAccPropList & fileAccPropList) {
+//
+int HDFPulseDataFile::InitializePulseDataFile(string fileName,
+                                              const H5::FileAccPropList &fileAccPropList)
+{
 
     if (OpenHDFFile(fileName, fileAccPropList) == 0) return 0;
     return 1;
 }
 
-int HDFPulseDataFile::Initialize(string fileName, 
-    const H5::FileAccPropList & fileAccPropList) {
+int HDFPulseDataFile::Initialize(string fileName, const H5::FileAccPropList &fileAccPropList)
+{
 
     if (InitializePulseDataFile(fileName, fileAccPropList) == 0) {
         return 0;
@@ -96,41 +99,46 @@ int HDFPulseDataFile::Initialize(string fileName,
 //
 // Initialize inside another open group.
 //
-int HDFPulseDataFile::Initialize(HDFGroup *rootGroupP) {
+int HDFPulseDataFile::Initialize(HDFGroup *rootGroupP)
+{
     rootGroupPtr = rootGroupP;
     return Initialize();
 }
 
 //
-// Initialize all fields 
+// Initialize all fields
 //
-int HDFPulseDataFile::Initialize() {
-    preparedForRandomAccess = false;		
+int HDFPulseDataFile::Initialize()
+{
+    preparedForRandomAccess = false;
     if (InitializePulseGroup() == 0) return 0;
     if (rootGroupPtr->ContainsObject("ScanData")) {
         if (scanDataReader.Initialize(rootGroupPtr) == 0) {
             return 0;
-        }
-        else {
+        } else {
             useScanData = true;
         }
     }
     return 1;
 }
 
-int HDFPulseDataFile::InitializePulseGroup() {
+int HDFPulseDataFile::InitializePulseGroup()
+{
     if (pulseDataGroup.Initialize(rootGroupPtr->group, pulseDataGroupName) == 0) return 0;
     return 1;
 }
 
-size_t HDFPulseDataFile::GetAllHoleNumbers(vector<unsigned int> &holeNumbers) {
-    CheckMemoryAllocation(zmwReader.holeNumberArray.arrayLength, maxAllocNElements, "HoleNumbers (base)");
+size_t HDFPulseDataFile::GetAllHoleNumbers(vector<unsigned int> &holeNumbers)
+{
+    CheckMemoryAllocation(zmwReader.holeNumberArray.arrayLength, maxAllocNElements,
+                          "HoleNumbers (base)");
     holeNumbers.resize(nReads);
     zmwReader.holeNumberArray.Read(0, nReads, &holeNumbers[0]);
     return holeNumbers.size();
-}	
+}
 
-void HDFPulseDataFile::Close() {
+void HDFPulseDataFile::Close()
+{
     if (useScanData) {
         scanDataReader.Close();
     }
@@ -149,6 +157,4 @@ void HDFPulseDataFile::Close() {
     if (closeFileOnExit) {
         hdfBasFile.close();
     }
-
-
 }

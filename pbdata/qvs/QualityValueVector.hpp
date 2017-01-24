@@ -2,45 +2,46 @@
 #define _BLASR_QUALITY_VALUE_VECTOR_HPP_
 #include <stdint.h>
 #include <cstddef>
-#include <ostream>
 #include <cstring>
+#include <ostream>
 #include "../Types.h"
 #include "../utils.hpp"
 #include "QualityValue.hpp"
 
-template<typename T_QV>
-class QualityValueVector {
+template <typename T_QV>
+class QualityValueVector
+{
 public:
-    T_QV   *data;
+    T_QV *data;
     QVScale qvScale;
 
-    T_QV &operator[](unsigned int pos) const; 
+    T_QV &operator[](unsigned int pos) const;
 
-    QualityValueVector(); 
+    QualityValueVector();
 
-    QualityProbability ToProbability(unsigned int pos); 
+    QualityProbability ToProbability(unsigned int pos);
 
-    T_QV ToPhred(unsigned int pos); 
+    T_QV ToPhred(unsigned int pos);
 
-    void Copy(const QualityValueVector<T_QV> &rhs, const DNALength length); 
+    void Copy(const QualityValueVector<T_QV> &rhs, const DNALength length);
 
-    void Copy(const std::string & rhs);
+    void Copy(const std::string &rhs);
 
-    void Free(); 
+    void Free();
 
-    void Allocate(unsigned int length); 
+    void Allocate(unsigned int length);
 
     /// Fill data with value.
-    void Fill(const T_QV & value);
+    void Fill(const T_QV &value);
 
-    /// Fill this->data[thisStart...thisStart+fillLength] with 
+    /// Fill this->data[thisStart...thisStart+fillLength] with
     /// rhs->data[rhsStart...rhsStart+fillLength]
     void Fill(const DNALength thisStart, const DNALength fillLength,
               const QualityValueVector<T_QV> &rhs, const DNALength rhsStart);
 
-    bool Empty() const; 
+    bool Empty() const;
 
-    void ShallowCopy(const QualityValueVector<T_QV> &ref, int pos, const DNALength & length); 
+    void ShallowCopy(const QualityValueVector<T_QV> &ref, int pos, const DNALength &length);
 
     // Reset data pointer to NULL, don't free memory.
     // This should be paired with ShallowCopy.
@@ -48,7 +49,7 @@ public:
 
     std::string ToString(void);
 
-    // Returns data length 
+    // Returns data length
     DNALength Length(void) const;
 
 private:
@@ -56,4 +57,4 @@ private:
 };
 
 #include "QualityValueVectorImpl.hpp"
-#endif // _BLASR_QUALITY_VALUE_VECTOR_HPP_
+#endif  // _BLASR_QUALITY_VALUE_VECTOR_HPP_

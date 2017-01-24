@@ -16,22 +16,23 @@
  * =====================================================================================
  */
 
-#include <algorithm>
+#include <gtest/gtest.h>
 #include <stdio.h>
 #include <string.h>
-#include "files/FragmentCCSIterator.hpp"
-#include "reads/RegionTable.hpp"
+#include <algorithm>
 #include "HDFRegionTableReader.hpp"
+#include "files/FragmentCCSIterator.hpp"
 #include "pbdata/testdata.h"
-#include <gtest/gtest.h>
+#include "reads/RegionTable.hpp"
 using namespace std;
 
-class FragmentCCSIteratorTestFixture: public testing::Test {
+class FragmentCCSIteratorTestFixture : public testing::Test
+{
 public:
-    FragmentCCSIteratorTestFixture() {
-    }
+    FragmentCCSIteratorTestFixture() {}
 
-    void SetUp() {
+    void SetUp()
+    {
         fileName = baxFile1;
         reader = new HDFRegionTableReader();
         ccs = new CCSSequence();
@@ -43,24 +44,24 @@ public:
         reader->Close();
     }
 
-    void TearDown() {
+    void TearDown()
+    {
         if (reader) delete reader;
         if (ccs) delete ccs;
         if (rgn) delete rgn;
     }
 
-    ~FragmentCCSIteratorTestFixture() {
-    }
+    ~FragmentCCSIteratorTestFixture() {}
 
     string fileName;
-    HDFRegionTableReader * reader;
-    CCSSequence * ccs;
-    RegionTable * rgn;
+    HDFRegionTableReader* reader;
+    CCSSequence* ccs;
+    RegionTable* rgn;
     FragmentCCSIterator it;
 };
 
-
-TEST_F(FragmentCCSIteratorTestFixture, Initialize) {
+TEST_F(FragmentCCSIteratorTestFixture, Initialize)
+{
     // void Initialize(CCSSequence *_seqPtr, RegionTable *_regionTablePtr) {
     ccs->HoleNumber(10);
     ccs->unrolledRead.Allocate(7000);
@@ -68,7 +69,7 @@ TEST_F(FragmentCCSIteratorTestFixture, Initialize) {
 
     int numPasses = it.GetNumPasses();
     EXPECT_EQ(numPasses, 7);
-/*
+    /*
  * The region table of zmw 10 is:
  *
     (52,0): 10, 1, 0, 443, -1,
@@ -91,10 +92,10 @@ TEST_F(FragmentCCSIteratorTestFixture, Initialize) {
  */
     int exp_directions[7] = {0, 1, 0, 1, 0, 1, 0};
     int exp_starts[7] = {0, 487, 1213, 1956, 2668, 3474, 4256};
-    int exp_ends[7]  = {443, 1168, 1907, 2619, 3423, 4205, 4920};
+    int exp_ends[7] = {443, 1168, 1907, 2619, 3423, 4205, 4920};
 
     int passDirection, start, numBases;
-    for(int i=0; i < numPasses; i++) {
+    for (int i = 0; i < numPasses; i++) {
         it.GetNext(passDirection, start, numBases);
         EXPECT_EQ(passDirection, exp_directions[i]);
         EXPECT_EQ(start, exp_starts[i]);

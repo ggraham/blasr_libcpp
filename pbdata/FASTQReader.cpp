@@ -1,27 +1,26 @@
-#include <cstdio>
+#include "FASTQReader.hpp"
 #include <climits>
 #include <cmath>
-#include "FASTQReader.hpp"
+#include <cstdio>
 
-FASTQReader::FASTQReader() : FASTAReader() {
-    endOfReadDelim = '\n';
-}
+FASTQReader::FASTQReader() : FASTAReader() { endOfReadDelim = '\n'; }
 
-int FASTQReader::GetNext(FASTASequence &seq) {
-    return ((FASTAReader*)this)->GetNext(seq);
-}
+int FASTQReader::GetNext(FASTASequence &seq) { return ((FASTAReader *)this)->GetNext(seq); }
 
-unsigned char FASTQReader::phredQVtoPacbioQV(unsigned char phredQV){
-    int qual = floor(100.0 * log10(pow(10.0, phredQV/10.0) - 1.0) + 0.5); 
+unsigned char FASTQReader::phredQVtoPacbioQV(unsigned char phredQV)
+{
+    int qual = floor(100.0 * log10(pow(10.0, phredQV / 10.0) - 1.0) + 0.5);
     qual = qual > 250 ? 250 : qual;
-    qual = qual < 1   ? 1   : qual;
-    return (unsigned char) qual;
+    qual = qual < 1 ? 1 : qual;
+    return (unsigned char)qual;
 }
 
-int FASTQReader::GetNext(FASTQSequence &seq) {
-    seq.Free(); // Free seq before being reused. 
+int FASTQReader::GetNext(FASTQSequence &seq)
+{
+    seq.Free();  // Free seq before being reused.
     char c;
-    while( curPos < fileSize and ( (c = filePtr[curPos]) == ' ' or c == '\t' or c == '\n' or c == '\r') ) {
+    while (curPos < fileSize and
+           ((c = filePtr[curPos]) == ' ' or c == '\t' or c == '\n' or c == '\r')) {
         curPos++;
     }
 
@@ -30,15 +29,18 @@ int FASTQReader::GetNext(FASTQSequence &seq) {
     }
     GenomeLength p = curPos;
     AdvanceToTitleStart(p, '@');
-    CheckValidTitleStart(p,'@');
+    CheckValidTitleStart(p, '@');
     ReadTitle(p, seq);
     // Title ends on '\n', consume that;
     p++;
     GenomeLength p2;
     p2 = p;
-    while(p2 < fileSize and filePtr[p2] != '\n') { p2++;}
+    while (p2 < fileSize and filePtr[p2] != '\n') {
+        p2++;
+    }
     if (p2 - p > UINT_MAX) {
-        cout << "ERROR! Reading sequences stored in more than 4Gbytes of space is not supported." << endl;
+        cout << "ERROR! Reading sequences stored in more than 4Gbytes of space is not supported."
+             << endl;
         exit(1);
     }
 
@@ -48,30 +50,37 @@ int FASTQReader::GetNext(FASTQSequence &seq) {
         seq.seq = ProtectedNew<Nucleotide>(seq.length);
         p2 = p;
         seqPos = 0;
-        while(p2 < fileSize and filePtr[p2] != '\n') { seq.seq[seqPos] = filePtr[p2]; p2++; seqPos++;}
-    }
-    else {
+        while (p2 < fileSize and filePtr[p2] != '\n') {
+            seq.seq[seqPos] = filePtr[p2];
+            p2++;
+            seqPos++;
+        }
+    } else {
         seq.seq = 0;
     }
     p = p2;
 
-    AdvanceToTitleStart(p,'+');
-    CheckValidTitleStart(p,'+');
-    while(p < fileSize and filePtr[p] != '\n') { p++;}
-    p++; // skip '\n'
+    AdvanceToTitleStart(p, '+');
+    CheckValidTitleStart(p, '+');
+    while (p < fileSize and filePtr[p] != '\n') {
+        p++;
+    }
+    p++;  // skip '\n'
     p2 = p;
-    while(p2 < fileSize and filePtr[p2] != '\n') { p2++;}
+    while (p2 < fileSize and filePtr[p2] != '\n') {
+        p2++;
+    }
     seq.length = p2 - p;
     if (seq.length > 0) {
         seq.qual.Allocate(seq.length);
         p2 = p;
         GenomeLength seqPos = 0;
-        while(p2 < fileSize and filePtr[p2] != '\n') { 
+        while (p2 < fileSize and filePtr[p2] != '\n') {
             seq.qual[seqPos] = filePtr[p2] - FASTQSequence::charToQuality;
-            p2++; seqPos++;
+            p2++;
+            seqPos++;
         }
-    }
-    else {
+    } else {
         seq.qual.data = NULL;
     }
     curPos = p2;
@@ -79,11 +88,10 @@ int FASTQReader::GetNext(FASTQSequence &seq) {
     return 1;
 }
 
-
-
-int FASTQReader::Advance(int nSteps) {
+int FASTQReader::Advance(int nSteps)
+{
     // An advance of a FASTQ file is simply twice the number of
     // advances of FASTA, since each nucleotide sequence has a quality
-    // sequence. 
-    return ((FASTAReader*)this)->Advance(nSteps*2);
+    // sequence.
+    return ((FASTAReader *)this)->Advance(nSteps * 2);
 }

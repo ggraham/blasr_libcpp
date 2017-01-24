@@ -20,42 +20,44 @@
 
 using namespace std;
 
-
 // Adater - 0, Insert - 1, HQRegion - 2
 const vector<RegionType> TYPES = {Adapter, Insert, HQRegion};
 
-TEST(RegionTypeMapTest, ToString) {
-    EXPECT_EQ(RegionTypeMap::ToString(Adapter),  "Adapter");
+TEST(RegionTypeMapTest, ToString)
+{
+    EXPECT_EQ(RegionTypeMap::ToString(Adapter), "Adapter");
     EXPECT_EQ(RegionTypeMap::ToString(HQRegion), "HQRegion");
-    EXPECT_EQ(RegionTypeMap::ToString(Insert),   "Insert");
+    EXPECT_EQ(RegionTypeMap::ToString(Insert), "Insert");
 }
 
-TEST(RegionTypeMapTest, ToRegionType) {
-    EXPECT_EQ(RegionTypeMap::ToRegionType("Adapter"),  Adapter);
+TEST(RegionTypeMapTest, ToRegionType)
+{
+    EXPECT_EQ(RegionTypeMap::ToRegionType("Adapter"), Adapter);
     EXPECT_EQ(RegionTypeMap::ToRegionType("HQRegion"), HQRegion);
-    EXPECT_EQ(RegionTypeMap::ToRegionType("Insert"),   Insert);
+    EXPECT_EQ(RegionTypeMap::ToRegionType("Insert"), Insert);
 }
 
-TEST(RegionTypeMapTest, ToIndex) {
+TEST(RegionTypeMapTest, ToIndex)
+{
     // In most bas.h5 files, order of region types:
     std::vector<std::string> typeStrs = {"Insert", "Adapter", "HQRegion"};
 
-    EXPECT_EQ(RegionTypeMap::ToIndex(Insert,   typeStrs), 0);
-    EXPECT_EQ(RegionTypeMap::ToIndex(Adapter,  typeStrs), 1);
+    EXPECT_EQ(RegionTypeMap::ToIndex(Insert, typeStrs), 0);
+    EXPECT_EQ(RegionTypeMap::ToIndex(Adapter, typeStrs), 1);
     EXPECT_EQ(RegionTypeMap::ToIndex(HQRegion, typeStrs), 2);
 
-    EXPECT_EQ(RegionTypeMap::ToIndex("Insert",   typeStrs), 0);
-    EXPECT_EQ(RegionTypeMap::ToIndex("Adapter",  typeStrs), 1);
+    EXPECT_EQ(RegionTypeMap::ToIndex("Insert", typeStrs), 0);
+    EXPECT_EQ(RegionTypeMap::ToIndex("Adapter", typeStrs), 1);
     EXPECT_EQ(RegionTypeMap::ToIndex("HQRegion", typeStrs), 2);
 
     // Test given a different region type order.
     typeStrs = {"Insert", "HQRegion", "Adapter", "BarCode"};
 
-    EXPECT_EQ(RegionTypeMap::ToIndex(Insert,   typeStrs), 0);
+    EXPECT_EQ(RegionTypeMap::ToIndex(Insert, typeStrs), 0);
     EXPECT_EQ(RegionTypeMap::ToIndex(HQRegion, typeStrs), 1);
-    EXPECT_EQ(RegionTypeMap::ToIndex(Adapter,  typeStrs), 2);
+    EXPECT_EQ(RegionTypeMap::ToIndex(Adapter, typeStrs), 2);
 
-    EXPECT_EQ(RegionTypeMap::ToIndex("Insert",   typeStrs), 0);
+    EXPECT_EQ(RegionTypeMap::ToIndex("Insert", typeStrs), 0);
     EXPECT_EQ(RegionTypeMap::ToIndex("HQRegion", typeStrs), 1);
-    EXPECT_EQ(RegionTypeMap::ToIndex("Adapter",  typeStrs), 2);
+    EXPECT_EQ(RegionTypeMap::ToIndex("Adapter", typeStrs), 2);
 }

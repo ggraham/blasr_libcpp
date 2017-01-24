@@ -1,21 +1,17 @@
 #include "SDPFragment.hpp"
 
-int Fragment::operator>(const Fragment &f) const {
-    return (!(*this < f) &&  !(*this == f));
-}
-int Fragment::GetLength() {
-    return length;
-}
-void Fragment::SetLength(int _length) {
-    length = _length;
-}
+int Fragment::operator>(const Fragment &f) const { return (!(*this < f) && !(*this == f)); }
+int Fragment::GetLength() { return length; }
+void Fragment::SetLength(int _length) { length = _length; }
 
-bool Fragment::SetAbove(int a) {
+bool Fragment::SetAbove(int a)
+{
     above = a;
     return true;
 }
 
-bool Fragment::GetAbove(int & a) {
+bool Fragment::GetAbove(int &a)
+{
     if (above >= 0) {
         a = above;
         return true;
@@ -24,4 +20,3 @@ bool Fragment::GetAbove(int & a) {
         return false;
     }
 }
-

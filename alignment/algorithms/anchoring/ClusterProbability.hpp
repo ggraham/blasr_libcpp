@@ -3,8 +3,7 @@
 
 float ComputeAnchorProbability(float pMatch, int minAnchorLength);
 
-float ComputeExpectedAnchorLength(float pMatch, int minAnchorLength, 
-    float pAnchor);
+float ComputeExpectedAnchorLength(float pMatch, int minAnchorLength, float pAnchor);
 
 float AnchorBasesPerRead(int readLength, float pAnchor);
 

@@ -28,8 +28,8 @@ private:
     std::unique_ptr<SequentialZmwGroupQueryPrivate> d_;
 };
 
-} // namespace BAM
-} // namespace PacBio
+}  // namespace BAM
+}  // namespace PacBio
 
-#endif // SEQUENTIAL_ZMWGROUPQUERY_H
+#endif  // SEQUENTIAL_ZMWGROUPQUERY_H
 #endif

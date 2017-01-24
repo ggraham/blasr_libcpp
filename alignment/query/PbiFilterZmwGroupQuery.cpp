@@ -1,9 +1,9 @@
 #include "../../pbdata/libconfig.h"
 #ifdef USE_PBBAM
-#include "PbiFilterZmwGroupQuery.h"
 #include <pbbam/CompositeBamReader.h>
 #include <boost/optional.hpp>
 #include <cassert>
+#include "PbiFilterZmwGroupQuery.h"
 using namespace PacBio;
 using namespace PacBio::BAM;
 using namespace PacBio::BAM::internal;
@@ -11,13 +11,14 @@ using namespace std;
 
 struct PbiFilterZmwGroupQuery::PbiFilterZmwGroupQueryPrivate
 {
-    /// TODO: To ensure that BamRecords of a zmw are always stored 
+    /// TODO: To ensure that BamRecords of a zmw are always stored
     /// sequentially in bam files, such as in movie.subreads.bam.
 public:
     PbiFilterZmwGroupQueryPrivate(const PbiFilter& filter, const DataSet& dataset)
         : reader_(new PbiFilterCompositeBamReader<Compare::None>(filter, dataset))
         , nextRecord_(boost::none)
-    { }
+    {
+    }
 
     bool GetNext(vector<BamRecord>& records)
     {
@@ -40,8 +41,7 @@ public:
                 movieName = record.MovieName();
                 holeNumber = record.HoleNumber();
                 records.push_back(record);
-            }
-            else {
+            } else {
                 assert(!records.empty());
                 if (record.MovieName() == movieName and record.HoleNumber() == holeNumber)
                     records.push_back(record);
@@ -62,16 +62,16 @@ public:
 
 PbiFilterZmwGroupQuery::PbiFilterZmwGroupQuery(const DataSet& dataset)
     : internal::IGroupQuery()
-    , d_(new PbiFilterZmwGroupQueryPrivate(PbiFilter::FromDataSet(dataset),dataset)) 
-{ }
+    , d_(new PbiFilterZmwGroupQueryPrivate(PbiFilter::FromDataSet(dataset), dataset))
+{
+}
 
 PbiFilterZmwGroupQuery::PbiFilterZmwGroupQuery(const PbiFilter& filter, const DataSet& dataset)
-    : internal::IGroupQuery()
-    , d_(new PbiFilterZmwGroupQueryPrivate(filter, dataset))
-{ }
+    : internal::IGroupQuery(), d_(new PbiFilterZmwGroupQueryPrivate(filter, dataset))
+{
+}
 
-PbiFilterZmwGroupQuery::~PbiFilterZmwGroupQuery(void) { }
+PbiFilterZmwGroupQuery::~PbiFilterZmwGroupQuery(void) {}
 
-bool PbiFilterZmwGroupQuery::GetNext(vector<BamRecord>& records)
-{ return d_->GetNext(records); }
+bool PbiFilterZmwGroupQuery::GetNext(vector<BamRecord>& records) { return d_->GetNext(records); }
 #endif

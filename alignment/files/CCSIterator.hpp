@@ -3,17 +3,18 @@
 
 #include "../../pbdata/CCSSequence.hpp"
 
-class CCSIterator {
+class CCSIterator
+{
 public:
     CCSSequence *seqPtr;
     int curPass;
     int numPasses;
-  
-	virtual void Initialize(CCSSequence *_seqPtr);
 
-	virtual int GetNext(int &direction, int &startBase, int &numBases);
+    virtual void Initialize(CCSSequence *_seqPtr);
 
-   	void Reset();
+    virtual int GetNext(int &direction, int &startBase, int &numBases);
+
+    void Reset();
 
     int GetNumPasses();
 };

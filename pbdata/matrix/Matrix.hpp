@@ -4,16 +4,17 @@
 #include <vector>
 #include "../Types.h"
 
-template<typename T>
-void CreateMatrix(int rows, int cols, std::vector<T*> matrix); 
+template <typename T>
+void CreateMatrix(int rows, int cols, std::vector<T*> matrix);
 
 /*
  *	Implement a matrix as an array into a large allocated buffer of size
  *	nRows * nCols.
  */
 
-template<typename T>
-class Matrix {
+template <typename T>
+class Matrix
+{
 private:
     VectorIndex nRows;
     VectorIndex nCols;
@@ -21,30 +22,31 @@ private:
     VectorIndex matrixBufferSize;
     VectorIndex matrixSize;
     VectorIndex rowsBufferSize;
+
 public:
-    Matrix(); 
+    Matrix();
 
-    unsigned int size(); 
+    unsigned int size();
 
-    unsigned int GetNCols(); 
+    unsigned int GetNCols();
 
-    unsigned int GetNRows(); 
+    unsigned int GetNRows();
 
-    void Resize(VectorIndex nRowsP, VectorIndex nColsP); 
+    void Resize(VectorIndex nRowsP, VectorIndex nColsP);
 
-    Matrix(VectorIndex nRowsP, VectorIndex nColsP); 
+    Matrix(VectorIndex nRowsP, VectorIndex nColsP);
 
-    void Reference(Matrix<T> &rhs); 
+    void Reference(Matrix<T>& rhs);
 
-    void Initialize(T value); 
+    void Initialize(T value);
 
-    T* operator[](VectorIndex rowIndex); 
+    T* operator[](VectorIndex rowIndex);
 
-    void Free(); 
+    void Free();
 
-    void Print(std::ofstream &out); 
+    void Print(std::ofstream& out);
 };
 
 #include "MatrixImpl.hpp"
-	
-#endif // _BLASR_MATRIX_HPP_
+
+#endif  // _BLASR_MATRIX_HPP_

@@ -1,12 +1,14 @@
 #ifndef _BLASR_SAM_CIGAR_STRING_HPP_
 #define _BLASR_SAM_CIGAR_STRING_HPP_
 
-#include <string>
 #include <sstream>
+#include <string>
 
-class CigarString : public std::string {
+class CigarString : public std::string
+{
 public:
-    void Vectorize(std::vector<int> &lengths, std::vector<char> &operations) {
+    void Vectorize(std::vector<int> &lengths, std::vector<char> &operations)
+    {
         std::stringstream strm;
         strm.str(*this);
         while (strm) {

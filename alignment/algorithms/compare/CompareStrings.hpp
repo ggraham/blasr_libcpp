@@ -1,15 +1,14 @@
 #ifndef _BLASR_COMPARE_STRINGS_HPP_
 #define _BLASR_COMPARE_STRINGS_HPP_
 
-template<typename T>
-class DefaultCompareStrings {
+template <typename T>
+class DefaultCompareStrings
+{
 public:
+    static int Compare(T lhs, T rhs) { return ThreeBit[lhs] - ThreeBit[rhs]; }
 
-    static int Compare(T lhs, T rhs) {
-        return ThreeBit[lhs] - ThreeBit[rhs];
-    }
-
-    static int Compare(T *lhs, T *rhs, int length) {
+    static int Compare(T *lhs, T *rhs, int length)
+    {
         int i;
         int res;
         i = 0;
@@ -27,55 +26,51 @@ public:
         return res;
     }
 
-    static int Equal(T a, T b) {
+    static int Equal(T a, T b)
+    {
         //
         // Compare single characters.
         //
         return a == b;
     }
-    static int LessThan(T *a, int aLen, T *b, int bLen) {
+    static int LessThan(T *a, int aLen, T *b, int bLen)
+    {
         int minabLen = MIN(aLen, bLen);
-        if (minabLen <= 0)
-            return 0;
+        if (minabLen <= 0) return 0;
 
-        int cmpRes = memcmp((void*) a, (void*) b, minabLen);
+        int cmpRes = memcmp((void *)a, (void *)b, minabLen);
         if (cmpRes < 0) {
             return 1;
-        }
-        else {
+        } else {
             return 0;
         }
     }
 
-    static int LessThanEqual(T *a, int aLen, T *b, int bLen) {
+    static int LessThanEqual(T *a, int aLen, T *b, int bLen)
+    {
         int minabLen = MIN(aLen, bLen);
-        if (minabLen <= 0)
-            return 1;
-        int cmpRes = memcmp((void*) a, (void*)b, minabLen);
+        if (minabLen <= 0) return 1;
+        int cmpRes = memcmp((void *)a, (void *)b, minabLen);
         if (cmpRes <= 0) {
             return 1;
-        }
-        else {
+        } else {
             return 0;
         }
     }
 
-    static int Equal(T* a, int aLen, T *b, int bLen) {
+    static int Equal(T *a, int aLen, T *b, int bLen)
+    {
         int minabLen = MIN(aLen, bLen);
-        if (minabLen < 0)
-            return 0;
-        if (minabLen == 0)
-            return 1;
+        if (minabLen < 0) return 0;
+        if (minabLen == 0) return 1;
 
-        int cmpRes = memcmp((void*) a, (void*)b, minabLen);
+        int cmpRes = memcmp((void *)a, (void *)b, minabLen);
         if (cmpRes == 0 and aLen <= bLen) {
             return 1;
-        }
-        else {
+        } else {
             return 0;
         }
     }
 };
 
-
-#endif // _BLASR_COMPARE_STRINGS_HPP_
+#endif  // _BLASR_COMPARE_STRINGS_HPP_

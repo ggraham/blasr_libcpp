@@ -1,16 +1,17 @@
 #ifndef _BLASR_TITLE_TABLE_HPP_
 #define _BLASR_TITLE_TABLE_HPP_
 
-#include <sstream>
-#include <iostream>
-#include <fstream>
-#include <string>
 #include <string.h>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
 #include <vector>
 #include "../utils.hpp"
 
-class TitleTable {
-public: 
+class TitleTable
+{
+public:
     char **table;
     int tableLength;
     TitleTable();
@@ -30,10 +31,9 @@ public:
 
     void Free();
 
-    bool Lookup(std::string title, int &index) ;
+    bool Lookup(std::string title, int &index);
 
-    static void ResetTableToIntegers(char **table, 
-        int *tableLengths, int nTable);
+    static void ResetTableToIntegers(char **table, int *tableLengths, int nTable);
 };
 
 #endif

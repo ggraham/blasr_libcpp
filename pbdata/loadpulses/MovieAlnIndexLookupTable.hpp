@@ -41,76 +41,69 @@
 
 #include "../Types.h"
 
-class MovieAlnIndexLookupTable {
-public: 
-    bool  skip;
-    // as movies may split into multiple parts, skip=true if 
+class MovieAlnIndexLookupTable
+{
+public:
+    bool skip;
+    // as movies may split into multiple parts, skip=true if
     // this alignment is not found in the movie
-     
-    size_t   movieAlignmentIndex;
-    // movieIndexSets[movieIndex][toFrom[movieAlignmentIndex]] 
-    
-    UInt  alignmentIndex;
+
+    size_t movieAlignmentIndex;
+    // movieIndexSets[movieIndex][toFrom[movieAlignmentIndex]]
+
+    UInt alignmentIndex;
     // cmpFile.alnInfo.alignments[alignmentIndex]
-    
-    UInt  holeNumber;
+
+    UInt holeNumber;
     // holeNumber corresponding to this alignment in baseFile
-    
-    size_t   refGroupIndex;
+
+    size_t refGroupIndex;
     // cmpReader.refAlignGroups[refGroupIndex]
-    
-    size_t   readGroupIndex;
+
+    size_t readGroupIndex;
     // cmpReader.refAlignGroups[refGroupIndex]->readGroups[readGroupIndex]
-    
-    UInt  offsetBegin, offsetEnd; 
+
+    UInt offsetBegin, offsetEnd;
     // offset begin and end for this alignment in /ref/movie/AlnArray
     // = cmpFile.alnInfo.alignments[alignmentIndex].GetOffsetBegin/End()
-    
-    UInt   queryStart,  queryEnd;
+
+    UInt queryStart, queryEnd;
     // start/end for this read = cmpFile.alnInfo.
     // alignments[alignmentIndex].GetQueryStart/End()
 
-    size_t   readIndex;
+    size_t readIndex;
     // index of this alignment in baseFile.readStartPositions
     // = index of this hole number in BaseCalls/ZMW/HoleNumber
     // baseFile.LookupReadIndexByHoleNumber(holeNumber, out=readIndex)
-    
-    size_t   readStart;
+
+    size_t readStart;
     // start pos of this alignment in baseFile
     // = baseFile.readStartPositions[readIndex]
 
-    int   readLength;
+    int readLength;
     // read length of this alignment in baseFile
-    // = baseFile.readStartPositions[readIndex+1] - readStart 
+    // = baseFile.readStartPositions[readIndex+1] - readStart
 
-    size_t   plsReadIndex;
+    size_t plsReadIndex;
     // index of this alignment in pulseFile.pulseStartPositions
     // = index of this hole number in PulseCalls/ZMW/HoleNumbers
     // = pulseFile.LookupReadIndexByHoleNumber(holeNumber, out=plsReadIndex)
 
-    // vector<int> baseToAlignmentMap; 
+    // vector<int> baseToAlignmentMap;
     // keep all the baseToAlignmentMap in memory for now
-    // Note that baseToAlignmentMap is not initialized when 
+    // Note that baseToAlignmentMap is not initialized when
     // BuildLookupTable is called.
-   
+
     std::string alignedSequence;
 
     MovieAlnIndexLookupTable();
 
-    void SetValue(const bool & skipP,
-                  const size_t  & movieAlignmentIndexP,
-                  const UInt & alignmentIndexP,
-                  const size_t  & refGroupIndexP,
-                  const size_t  & readGroupIndexP,
-                  const UInt & holeNumberP,
-                  const UInt & offsetBeginP,
-                  const UInt & offsetEndP,
-                  const UInt & queryStartP,
-                  const UInt & queryEndP,
-                  const size_t  & readIndexP,
-                  const size_t  & readStartP,
-                  const int  & readLengthP,
-                  const size_t  & plsReadIndexP);
+    void SetValue(const bool& skipP, const size_t& movieAlignmentIndexP,
+                  const UInt& alignmentIndexP, const size_t& refGroupIndexP,
+                  const size_t& readGroupIndexP, const UInt& holeNumberP, const UInt& offsetBeginP,
+                  const UInt& offsetEndP, const UInt& queryStartP, const UInt& queryEndP,
+                  const size_t& readIndexP, const size_t& readStartP, const int& readLengthP,
+                  const size_t& plsReadIndexP);
 
     void print();
 };

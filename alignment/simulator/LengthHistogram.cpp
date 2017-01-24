@@ -1,32 +1,33 @@
 #include "LengthHistogram.hpp"
 
-int LengthHistogram::Read(std::string &inName) {
+int LengthHistogram::Read(std::string &inName)
+{
     std::ifstream in;
     CrucialOpen(inName, in, std::ios::in);
     return Read(in);
 }
 
-int LengthHistogram::Read(std::ifstream &in) {
-    while(in) {
+int LengthHistogram::Read(std::ifstream &in)
+{
+    while (in) {
         int length, count;
         in >> length;
         in >> count;
         lengthHistogram.data.push_back(length);
         if (lengthHistogram.cdf.size() == 0) {
             lengthHistogram.cdf.push_back(count);
-        }
-        else {
-            lengthHistogram.cdf.push_back(lengthHistogram.cdf[lengthHistogram.cdf.size()-1] + count);
+        } else {
+            lengthHistogram.cdf.push_back(lengthHistogram.cdf[lengthHistogram.cdf.size() - 1] +
+                                          count);
         }
     }
     return 1;
 }
 
-void LengthHistogram::GetRandomLength(int &length) {
-    lengthHistogram.SelectRandomValue(length);
-}
+void LengthHistogram::GetRandomLength(int &length) { lengthHistogram.SelectRandomValue(length); }
 
-void LengthHistogram::BuildFromAlignmentLengths(std::vector<int> &lengths) {
+void LengthHistogram::BuildFromAlignmentLengths(std::vector<int> &lengths)
+{
     sort(lengths.begin(), lengths.end());
     for (size_t f = 0, i = 1; i < lengths.size(); i++) {
         if (lengths[i] != lengths[f]) {
@@ -36,7 +37,7 @@ void LengthHistogram::BuildFromAlignmentLengths(std::vector<int> &lengths) {
         }
     }
     if (lengths.size() != 0) {
-        lengthHistogram.data.push_back(lengths[lengths.size()-1]);
+        lengthHistogram.data.push_back(lengths[lengths.size() - 1]);
         lengthHistogram.cdf.push_back(lengths.size());
     }
     /* Tests:
@@ -52,5 +53,5 @@ void LengthHistogram::BuildFromAlignmentLengths(std::vector<int> &lengths) {
      * lengths:               10
      * lengthHistogram.data:  10
      * lengthHistogram.cdf :  1 
-     */ 
+     */
 }

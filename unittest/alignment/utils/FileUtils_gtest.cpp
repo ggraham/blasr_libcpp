@@ -26,28 +26,31 @@ string readablefile = "/bin/ls";
 string writeablefile = "/tmp/writabletmpfile";
 string expected_errmsg = "^.+$";
 
-TEST(FILEUTILS, CriticalOpenRead) {
+TEST(FILEUTILS, CriticalOpenRead)
+{
     ifstream ifs;
-    EXPECT_EXIT(CriticalOpenRead(nonexistfile, ifs, std::ios::in),
-        ::testing::ExitedWithCode(1), expected_errmsg);
+    EXPECT_EXIT(CriticalOpenRead(nonexistfile, ifs, std::ios::in), ::testing::ExitedWithCode(1),
+                expected_errmsg);
     CriticalOpenRead(readablefile, ifs, std::ios::in);
 }
 
-TEST(FILEUTILS, OpenRead) {
+TEST(FILEUTILS, OpenRead)
+{
     ifstream ifs;
-    EXPECT_EQ( OpenRead(nonexistfile, ifs, std::ios::in), 0);
-    EXPECT_EQ( OpenRead(readablefile, ifs, std::ios::in), 1);
+    EXPECT_EQ(OpenRead(nonexistfile, ifs, std::ios::in), 0);
+    EXPECT_EQ(OpenRead(readablefile, ifs, std::ios::in), 1);
 }
 
-
-TEST(FILEUTILS, CriticalOpenWrite) {
+TEST(FILEUTILS, CriticalOpenWrite)
+{
     ofstream ofs;
-    EXPECT_EXIT( CriticalOpenWrite(nonexistfile, ofs, std::ios::out),
-        ::testing::ExitedWithCode(1), expected_errmsg);
+    EXPECT_EXIT(CriticalOpenWrite(nonexistfile, ofs, std::ios::out), ::testing::ExitedWithCode(1),
+                expected_errmsg);
     CriticalOpenWrite(writeablefile, ofs, std::ios::out);
 }
 
-TEST(FILEUTILS, OpenWrite) {
+TEST(FILEUTILS, OpenWrite)
+{
     ofstream ofs;
     EXPECT_EQ(OpenWrite(nonexistfile, ofs, std::ios::out), 0);
     EXPECT_EQ(OpenWrite(writeablefile, ofs, std::ios::out), 1);

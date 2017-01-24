@@ -16,22 +16,22 @@
  * =====================================================================================
  */
 
-
-#include "gtest/gtest.h"
-#include "files/CCSIterator.hpp"
-#include "reads/RegionTable.hpp"
 #include "HDFRegionTableReader.hpp"
+#include "files/CCSIterator.hpp"
+#include "gtest/gtest.h"
 #include "pbdata/testdata.h"
+#include "reads/RegionTable.hpp"
 
 using namespace std;
 
-class CCSIteratorTestFixture: public testing::Test {
+class CCSIteratorTestFixture : public testing::Test
+{
 public:
-    CCSIteratorTestFixture() {
-    }
+    CCSIteratorTestFixture() {}
 
-    void SetUp() {
-        fileName = baxFile2; 
+    void SetUp()
+    {
+        fileName = baxFile2;
         reader = new HDFRegionTableReader();
         ccs = new CCSSequence();
         rgn = new RegionTable();
@@ -42,23 +42,20 @@ public:
         reader->Close();
     }
 
-    void TearDown() {
+    void TearDown()
+    {
         if (reader) delete reader;
         if (ccs) delete ccs;
         if (rgn) delete rgn;
     }
 
-    ~CCSIteratorTestFixture() {
-    }
+    ~CCSIteratorTestFixture() {}
 
     string fileName;
-    HDFRegionTableReader * reader;
-    CCSSequence * ccs;
-    RegionTable * rgn;
+    HDFRegionTableReader* reader;
+    CCSSequence* ccs;
+    RegionTable* rgn;
     CCSIterator it;
 };
 
-
-TEST_F(CCSIteratorTestFixture, Initialize) {
- 
-}
+TEST_F(CCSIteratorTestFixture, Initialize) {}

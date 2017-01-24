@@ -1,22 +1,19 @@
 #include "FileOfFileNames.hpp"
-#include "../../hdf/HDFNewBasReader.hpp"
 #include <cstdlib>
+#include "../../hdf/HDFNewBasReader.hpp"
 
-void
-FileOfFileNames::StoreFileOrFileList(std::string fileName, 
-    std::vector<std::string> &fofnList) {
+void FileOfFileNames::StoreFileOrFileList(std::string fileName, std::vector<std::string> &fofnList)
+{
 
     std::vector<std::string> tmpList;
     if (IsFOFN(fileName)) {
         FOFNToList(fileName, tmpList);
-    }
-    else {
+    } else {
         tmpList.push_back(fileName);
     }
     for (int i = 0; i < int(tmpList.size()); i++) {
         if (FileOfFileNames::IsFOFN(tmpList[i])) {
-            std::cout << "ERROR. Nested File of File Names are not allowed. "
-                      << std::endl;
+            std::cout << "ERROR. Nested File of File Names are not allowed. " << std::endl;
             exit(1);
         } else if (FileOfFileNames::IsBasH5(tmpList[i])) {
             std::vector<std::string> baxFNs = FileOfFileNames::Bas2Bax(tmpList[i]);
@@ -27,12 +24,11 @@ FileOfFileNames::StoreFileOrFileList(std::string fileName,
     }
 }
 
-void 
-FileOfFileNames::FOFNToList(std::string &fofnFileName, 
-    std::vector<std::string> &fofnList) {
+void FileOfFileNames::FOFNToList(std::string &fofnFileName, std::vector<std::string> &fofnList)
+{
     std::ifstream fofnIn;
     CrucialOpen(fofnFileName, fofnIn);
-    while(fofnIn) {
+    while (fofnIn) {
         std::string name;
         getline(fofnIn, name);
         if (name.size() > 0) {
@@ -41,12 +37,12 @@ FileOfFileNames::FOFNToList(std::string &fofnFileName,
     }
 }
 
-bool 
-FileOfFileNames::IsFOFN(std::string &fileName) {
+bool FileOfFileNames::IsFOFN(std::string &fileName)
+{
     std::string::size_type dotPos = fileName.rfind(".");
     if (dotPos != std::string::npos) {
         std::string extension;
-        extension.assign(fileName, dotPos+1, fileName.size() - (dotPos+1));
+        extension.assign(fileName, dotPos + 1, fileName.size() - (dotPos + 1));
         if (extension == "fofn") {
             return true;
         }
@@ -54,8 +50,8 @@ FileOfFileNames::IsFOFN(std::string &fileName) {
     return false;
 }
 
-bool 
-FileOfFileNames::IsBasH5(std::string & fileName) {
+bool FileOfFileNames::IsBasH5(std::string &fileName)
+{
     // Return true if file ends with bas.h5
     if (fileName.size() > 6) {
         if (fileName.rfind("bas.h5") == fileName.size() - 6) {
@@ -65,8 +61,8 @@ FileOfFileNames::IsBasH5(std::string & fileName) {
     return false;
 }
 
-std::vector<std::string> 
-FileOfFileNames::Bas2Bax(std::string & basFN) {
+std::vector<std::string> FileOfFileNames::Bas2Bax(std::string &basFN)
+{
     // There are two types of bas.h5 files.
     // Before SMRT 2.0, bas.h5 files contain all the /PulseData data,
     // in this case, return the bas.h5.
@@ -86,16 +82,14 @@ FileOfFileNames::Bas2Bax(std::string & basFN) {
     return baxFNs;
 }
 
-
-int
-FileOfFileNames::ExpandFileNameList(std::vector<std::string> &fileNames) {
+int FileOfFileNames::ExpandFileNameList(std::vector<std::string> &fileNames)
+{
     int rfn;
     std::vector<std::string> expandedFileNames;
     for (rfn = 0; rfn < static_cast<int>(fileNames.size()); rfn++) {
         std::vector<std::string> tmpList;
         FileOfFileNames::StoreFileOrFileList(fileNames[rfn], tmpList);
-        expandedFileNames.insert(expandedFileNames.end(),
-                                 tmpList.begin(), tmpList.end());
+        expandedFileNames.insert(expandedFileNames.end(), tmpList.begin(), tmpList.end());
     }
     fileNames = expandedFileNames;
     return fileNames.size();

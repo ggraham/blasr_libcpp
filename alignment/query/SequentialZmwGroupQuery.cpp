@@ -1,9 +1,9 @@
 #include "../../pbdata/libconfig.h"
 #ifdef USE_PBBAM
-#include "SequentialZmwGroupQuery.h"
 #include <pbbam/CompositeBamReader.h>
 #include <boost/optional.hpp>
 #include <cassert>
+#include "SequentialZmwGroupQuery.h"
 using namespace PacBio;
 using namespace PacBio::BAM;
 using namespace PacBio::BAM::internal;
@@ -13,9 +13,9 @@ struct SequentialZmwGroupQuery::SequentialZmwGroupQueryPrivate
 {
 public:
     SequentialZmwGroupQueryPrivate(const DataSet& dataset)
-        : reader_(new SequentialCompositeBamReader(dataset))
-        , nextRecord_(boost::none)
-    { }
+        : reader_(new SequentialCompositeBamReader(dataset)), nextRecord_(boost::none)
+    {
+    }
 
     bool GetNext(vector<BamRecord>& records)
     {
@@ -38,8 +38,7 @@ public:
                 movieName = record.MovieName();
                 holeNumber = record.HoleNumber();
                 records.push_back(record);
-            }
-            else {
+            } else {
                 assert(!records.empty());
                 if (record.MovieName() == movieName and record.HoleNumber() == holeNumber)
                     records.push_back(record);
@@ -59,13 +58,12 @@ public:
 };
 
 SequentialZmwGroupQuery::SequentialZmwGroupQuery(const DataSet& dataset)
-    : internal::IGroupQuery()
-    , d_(new SequentialZmwGroupQueryPrivate(dataset))
-{ }
+    : internal::IGroupQuery(), d_(new SequentialZmwGroupQueryPrivate(dataset))
+{
+}
 
-SequentialZmwGroupQuery::~SequentialZmwGroupQuery(void) { }
+SequentialZmwGroupQuery::~SequentialZmwGroupQuery(void) {}
 
-bool SequentialZmwGroupQuery::GetNext(vector<BamRecord>& records)
-{ return d_->GetNext(records); }
+bool SequentialZmwGroupQuery::GetNext(vector<BamRecord>& records) { return d_->GetNext(records); }
 
 #endif

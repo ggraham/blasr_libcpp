@@ -12,20 +12,21 @@ typedef float QualityProbability;
 
 #ifndef _QVScale_
 #define _QVScale_
-enum QVScale {POverOneMinusP, // popularized by Illumina
-              PHRED};
+enum QVScale
+{
+    POverOneMinusP,  // popularized by Illumina
+    PHRED
+};
 #endif
 
-QualityValue ProbabilityToQualityValue(
-    QualityProbability pErr, QVScale qvScale=POverOneMinusP); 
+QualityValue ProbabilityToQualityValue(QualityProbability pErr, QVScale qvScale = POverOneMinusP);
 
-QualityValue PacBioQVToPhred(QualityValue pbQV); 
+QualityValue PacBioQVToPhred(QualityValue pbQV);
 
-QualityValue ToPhred(QualityValue qv, QVScale qvScale=POverOneMinusP); 
+QualityValue ToPhred(QualityValue qv, QVScale qvScale = POverOneMinusP);
 
-QualityProbability QualityValueToProbability(QualityValue qv, 
-    QVScale qvScale=POverOneMinusP); 
-	
-QVScale DetermineQVScaleFromChangeListID(ChangeListID &cl); 
+QualityProbability QualityValueToProbability(QualityValue qv, QVScale qvScale = POverOneMinusP);
 
-#endif // _BLASR_QUALITY_VALUE_HPP_
+QVScale DetermineQVScaleFromChangeListID(ChangeListID &cl);
+
+#endif  // _BLASR_QUALITY_VALUE_HPP_

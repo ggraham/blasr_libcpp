@@ -1,41 +1,44 @@
 #ifndef _BLASR_SUFFIX_ARRAY_HPP_
 #define _BLASR_SUFFIX_ARRAY_HPP_
 
-#include <string.h>
 #include <assert.h>
-#include <iostream>
+#include <string.h>
 #include <fstream>
+#include <iostream>
 #include <string>
 #include <vector>
-#include "../../pbdata/defs.h"
-#include "../../pbdata/utils.hpp"
-#include "../../pbdata/qvs/QualityValue.hpp"
 #include "../../pbdata/DNASequence.hpp"
 #include "../../pbdata/NucConversion.hpp"
-#include "LCPTable.hpp"
+#include "../../pbdata/defs.h"
+#include "../../pbdata/qvs/QualityValue.hpp"
+#include "../../pbdata/utils.hpp"
 #include "../algorithms/compare/CompareStrings.hpp"
-#include "../algorithms/sorting/qsufsort.hpp"
 #include "../algorithms/sorting/LightweightSuffixArray.hpp"
-#include "../tuples/DNATuple.hpp"
+#include "../algorithms/sorting/qsufsort.hpp"
 #include "../tuples/CompressedDNATuple.hpp"
+#include "../tuples/DNATuple.hpp"
+#include "LCPTable.hpp"
 /*
  * Suffix array implementation, with a Manber and Meyers sort, but
  * that is typically not used.
  *
  */
 
-typedef enum E_SAType {manmy, slow, mcilroy, larsson, kark, mafe, welter} SAType;
+typedef enum E_SAType { manmy, slow, mcilroy, larsson, kark, mafe, welter } SAType;
 
-template<typename T>
-class CompareSuffixes {
+template <typename T>
+class CompareSuffixes
+{
 public:
     T t;
     int refLength;
-    CompareSuffixes(T tref, int prefLength) {
+    CompareSuffixes(T tref, int prefLength)
+    {
         t = tref;
         refLength = prefLength;
     }
-    int operator()(int a, int b) {
+    int operator()(int a, int b)
+    {
         int aSufLen = refLength - a;
         int bSufLen = refLength - b;
         int abMinLength = MIN(aSufLen, bSufLen);
@@ -43,12 +46,10 @@ public:
         if (cmpRes == 0) {
             if (aSufLen < bSufLen) {
                 return 1;
-            }
-            else {
+            } else {
                 return 0;
             }
-        }
-        else {
+        } else {
             return cmpRes < 0;
         }
     }
@@ -57,15 +58,14 @@ public:
 typedef uint32_t SAIndex;
 typedef uint32_t SAIndexLength;
 
-template<typename T, 
-    typename Sigma,
-    typename Compare = DefaultCompareStrings<T>,
-    typename Tuple   = DNATuple >
-class SuffixArray {
+template <typename T, typename Sigma, typename Compare = DefaultCompareStrings<T>,
+          typename Tuple = DNATuple>
+class SuffixArray
+{
 public:
     SAIndex *index;
     bool deleteStructures;
-    T*  target;
+    T *target;
     SAIndex length;
     SAIndex *startPosTable, *endPosTable;
     SAIndexLength lookupTableLength;
@@ -74,29 +74,35 @@ public:
     unsigned int magicNumber;
     unsigned int ckMagicNumber;
     typedef Compare CompareType;
-    enum Component { CompArray, CompLookupTable, CompLCPTable};
+    enum Component
+    {
+        CompArray,
+        CompLookupTable,
+        CompLCPTable
+    };
     static const int ComponentListLength = 2;
     static const int FullSearch = -1;
     int componentList[ComponentListLength];
 
     // vector<SAIndex> leftBound, rightBound;
 
-    inline	int LengthLongestCommonPrefix(T *a, int alen, T *b, int blen) {
+    inline int LengthLongestCommonPrefix(T *a, int alen, T *b, int blen)
+    {
         int i;
-        for (i = 0 ; i < alen and i < blen; i++ ) 
-            if (a[i] != b[i])
-                break;
+        for (i = 0; i < alen and i < blen; i++)
+            if (a[i] != b[i]) break;
         return i;
     }
 
-    SuffixArray() {
+    SuffixArray()
+    {
         // Not necessarily using the lookup table.
-        // The magic number is linked with a version 
+        // The magic number is linked with a version
         magicNumber = 0xacac0001;
         startPosTable = endPosTable = NULL;
         lookupPrefixLength = 0;
         lookupTableLength = 0;
-        deleteStructures  = true;
+        deleteStructures = true;
         ckMagicNumber = 0;
         length = 0;
         int i;
@@ -107,7 +113,8 @@ public:
         target = NULL;
         index = NULL;
     }
-    ~SuffixArray() {
+    ~SuffixArray()
+    {
         if (deleteStructures == false) {
             //
             // It is possible this class is referencing another structrue. In
@@ -126,47 +133,51 @@ public:
         }
     }
 
-    int StringLessThanEqual(T *a, int aLen, T *b, int bLen) {
+    int StringLessThanEqual(T *a, int aLen, T *b, int bLen)
+    {
         return Compare::LessThanEqual(a, aLen, b, bLen);
     }
 
-    int StringEquals(T *a, int aLen, T *b, int bLen) {
-        return Compare::Equal(a, aLen, b, bLen);
-    }
-    int StringLessThan(T *a, int aLen, T *b, int bLen) {
+    int StringEquals(T *a, int aLen, T *b, int bLen) { return Compare::Equal(a, aLen, b, bLen); }
+    int StringLessThan(T *a, int aLen, T *b, int bLen)
+    {
         return Compare::LessThan(a, aLen, b, bLen);
     }
 
-    void InitAsciiCharDNAAlphabet(std::vector<int> &dnaAlphabet) {
+    void InitAsciiCharDNAAlphabet(std::vector<int> &dnaAlphabet)
+    {
         int i;
         for (i = 0; i < 127; i++) {
             dnaAlphabet.push_back(i);
         }
     }
 
-    void InitTwoBitDNAAlphabet(std::vector<int> &dnaAlphabet) {
+    void InitTwoBitDNAAlphabet(std::vector<int> &dnaAlphabet)
+    {
         dnaAlphabet.push_back(0);
-        dnaAlphabet.push_back(1);	
+        dnaAlphabet.push_back(1);
         dnaAlphabet.push_back(2);
         dnaAlphabet.push_back(3);
     }
 
-    void InitThreeBitDNAAlphabet(std::vector<int> &dnaAlphabet) {
+    void InitThreeBitDNAAlphabet(std::vector<int> &dnaAlphabet)
+    {
         //
         // This is initialized to have ACTG-0123, N=4, and EOF=5
         //
         dnaAlphabet.push_back(0);
-        dnaAlphabet.push_back(1);	
+        dnaAlphabet.push_back(1);
         dnaAlphabet.push_back(2);
         dnaAlphabet.push_back(3);
         dnaAlphabet.push_back(4);
         dnaAlphabet.push_back(5);
     }
 
-    void PrintSuffices(T *target, int targetLength, int maxPrintLength) {
+    void PrintSuffices(T *target, int targetLength, int maxPrintLength)
+    {
         PB_UNUSED(targetLength);
         std::string seq;
-        seq.resize(maxPrintLength+1);
+        seq.resize(maxPrintLength + 1);
         SAIndex i, s;
         seq[maxPrintLength] = '\0';
         for (i = 0; i < length; i++) {
@@ -176,7 +187,7 @@ public:
             }
             std::cout << index[i] << " " << suffixLength << " ";
             seq.resize(suffixLength);
-            for (s = 0; s < suffixLength; s++ ){ 
+            for (s = 0; s < suffixLength; s++) {
                 seq[s] = TwoBitToAscii[target[index[i] + s]];
             }
             seq[suffixLength] = '\0';
@@ -184,7 +195,8 @@ public:
         }
     }
 
-    void BuildLookupTable(T *target, SAIndexLength targetLength, int prefixLengthP) { 
+    void BuildLookupTable(T *target, SAIndexLength targetLength, int prefixLengthP)
+    {
 
         //
         // pprefixLength is the length used to lookup the index boundaries
@@ -194,13 +206,17 @@ public:
         SAIndexLength i;
         tm.tupleSize = lookupPrefixLength = prefixLengthP;
         tm.InitializeMask();
-        lookupTableLength = 1 << (2*lookupPrefixLength);
+        lookupTableLength = 1 << (2 * lookupPrefixLength);
 
-        if (startPosTable) {delete [] startPosTable;}
+        if (startPosTable) {
+            delete[] startPosTable;
+        }
         startPosTable = ProtectedNew<SAIndex>(lookupTableLength);
 
-        if (endPosTable) {delete [] endPosTable;}
-        endPosTable   = ProtectedNew<SAIndex>(lookupTableLength);
+        if (endPosTable) {
+            delete[] endPosTable;
+        }
+        endPosTable = ProtectedNew<SAIndex>(lookupTableLength);
         deleteStructures = true;
 
         Tuple curPrefix, nextPrefix;
@@ -209,71 +225,78 @@ public:
             startPosTable[i] = endPosTable[i] = 0;
         }
         i = 0;
-        SAIndex     indexPos;
+        SAIndex indexPos;
         indexPos = 0;
         do {
             // Advance to the first position that may be translated into a tuple.
-            if (targetLength < lookupPrefixLength)
-                break;
-            while(indexPos < targetLength - lookupPrefixLength + 1 and 
-                    index[indexPos] + lookupPrefixLength > targetLength) {
+            if (targetLength < lookupPrefixLength) break;
+            while (indexPos < targetLength - lookupPrefixLength + 1 and
+                   index[indexPos] + lookupPrefixLength > targetLength) {
                 indexPos++;
             }
             if (indexPos >= targetLength - lookupPrefixLength + 1) {
                 break;
             }
             while (indexPos < targetLength - lookupPrefixLength + 1 and
-                    curPrefix.FromStringLR((Nucleotide*) &target[index[indexPos]], tm) == 0) {
+                   curPrefix.FromStringLR((Nucleotide *)&target[index[indexPos]], tm) == 0) {
                 ++indexPos;
             }
 
             startPosTable[curPrefix.tuple] = indexPos;
             indexPos++;
-            while(indexPos < targetLength - lookupPrefixLength + 1 and
-                    index[indexPos] + lookupPrefixLength < targetLength) {
+            while (indexPos < targetLength - lookupPrefixLength + 1 and
+                   index[indexPos] + lookupPrefixLength < targetLength) {
                 nextPrefix.tuple = 0;
-                nextPrefix.FromStringLR((Nucleotide*) &target[index[indexPos]], tm);
+                nextPrefix.FromStringLR((Nucleotide *)&target[index[indexPos]], tm);
                 if (nextPrefix.tuple != curPrefix.tuple) {
                     break;
-                }
-                else {
+                } else {
                     indexPos++;
                 }
             }
             endPosTable[curPrefix.tuple] = indexPos;
-        }
-        while ((indexPos < targetLength - lookupPrefixLength + 1) and 
-               (uint32_t(curPrefix.tuple) < uint32_t(lookupTableLength - 1)));
+        } while ((indexPos < targetLength - lookupPrefixLength + 1) and
+                 (uint32_t(curPrefix.tuple) < uint32_t(lookupTableLength - 1)));
     }
 
-    void AllocateSuffixArray(SAIndexLength stringLength) {
+    void AllocateSuffixArray(SAIndexLength stringLength)
+    {
         assert(index == NULL or not deleteStructures);
         index = ProtectedNew<SAIndex>(stringLength + 1);
         deleteStructures = true;
         length = stringLength;
     }
 
-    void LarssonBuildSuffixArray(T* target, SAIndexLength targetLength, Sigma &alphabet) {
+    void LarssonBuildSuffixArray(T *target, SAIndexLength targetLength, Sigma &alphabet)
+    {
         (void)(alphabet);
         assert(index == NULL or not deleteStructures);
-        index =  ProtectedNew<SAIndex>(targetLength+1);
+        index = ProtectedNew<SAIndex>(targetLength + 1);
         deleteStructures = true;
-        SAIndex *p = ProtectedNew<SAIndex>(targetLength+1);
+        SAIndex *p = ProtectedNew<SAIndex>(targetLength + 1);
         SAIndexLength i;
-        for (i = 0; i < targetLength; i++) { index[i] = target[i] + 1;}
+        for (i = 0; i < targetLength; i++) {
+            index[i] = target[i] + 1;
+        }
         SAIndexLength maxVal = 0;
-        for (i = 0; i < targetLength; i++) { maxVal = index[i] > maxVal ?  index[i] : maxVal;}
+        for (i = 0; i < targetLength; i++) {
+            maxVal = index[i] > maxVal ? index[i] : maxVal;
+        }
         index[targetLength] = 0;
         LarssonSuffixSort<SAIndex, UINT_MAX> sorter;
-        sorter(index, p, ((SAIndex) targetLength), ((SAIndex) maxVal+1), (SAIndex) 1 );
-        for (i = 0; i < targetLength; i++ ){ index[i] = p[i+1];};
+        sorter(index, p, ((SAIndex)targetLength), ((SAIndex)maxVal + 1), (SAIndex)1);
+        for (i = 0; i < targetLength; i++) {
+            index[i] = p[i + 1];
+        };
         length = targetLength;
         delete[] p;
     }
 
-    void LightweightBuildSuffixArray(T*target, SAIndexLength targetLength, int diffCoverSize=2281) {
+    void LightweightBuildSuffixArray(T *target, SAIndexLength targetLength,
+                                     int diffCoverSize = 2281)
+    {
         assert(index == NULL or not deleteStructures);
-        index = ProtectedNew<SAIndex>(targetLength+1);
+        index = ProtectedNew<SAIndex>(targetLength + 1);
         deleteStructures = true;
         length = targetLength;
         DNALength pos;
@@ -284,10 +307,10 @@ public:
         for (pos = 0; pos < targetLength; pos++) {
             target[pos]--;
         }
-
     }
 
-    void MMBuildSuffixArray(T* target, SAIndexLength targetLength, Sigma &alphabet) {
+    void MMBuildSuffixArray(T *target, SAIndexLength targetLength, Sigma &alphabet)
+    {
         /*
          * Manber and Myers suffix array construction.
          */
@@ -302,15 +325,15 @@ public:
 
         prm.resize(targetLength);
         count.resize(targetLength);
-        bh.resize(targetLength+1);
-        b2h.resize(targetLength+1);
+        bh.resize(targetLength + 1);
+        b2h.resize(targetLength + 1);
         std::fill(bh.begin(), bh.end(), false);
         std::fill(b2h.begin(), b2h.end(), false);
         std::fill(count.begin(), count.end(), 0);
         assert(index == NULL or not deleteStructures);
         index = ProtectedNew<SAIndex>(targetLength);
         deleteStructures = true;
-        for (a = 0; a < alphabet.size(); a++ ) {
+        for (a = 0; a < alphabet.size(); a++) {
             bucket[a] = -1;
         }
 
@@ -328,15 +351,14 @@ public:
         //
         c = 0;
         int b;
-        for (a = 0; a < alphabet.size(); a++) { 
-            b = bucket[alphabet[a]]; // position of last suffix starting with 'a'
+        for (a = 0; a < alphabet.size(); a++) {
+            b = bucket[alphabet[a]];  // position of last suffix starting with 'a'
             while (b != -1) {
                 j = index[b];
                 prm[b] = c;
                 if (b == bucket[a]) {
                     bh[c] = true;
-                }
-                else {
+                } else {
                     bh[c] = false;
                 }
                 c = c + 1;
@@ -362,7 +384,9 @@ public:
                 r = l + 1;
                 count[l] = 0;
                 //				bh[l] = 0;
-                while (bh[r] == false) {r++;} // find the begining of the next bucket.
+                while (bh[r] == false) {
+                    r++;
+                }  // find the begining of the next bucket.
                 while (l < r) {
                     assert(l < targetLength);
                     prm[index[l]] = bstart;
@@ -371,7 +395,7 @@ public:
             }
 
             SAIndex d = targetLength - h;
-            SAIndex e = prm[d]; 
+            SAIndex e = prm[d];
 
             /*
              * Phase 1: Set up the buckets in the index and bh list.
@@ -389,24 +413,23 @@ public:
             // Move each d that is h backwards up in it's 2h bucket.
             //
 
-            d = targetLength - h; 
-            e = prm[d]; 
-            bh[e]    = true;     // e is bstart, the beginning of the bucket.
-            prm[d]   = e + count[e];
+            d = targetLength - h;
+            e = prm[d];
+            bh[e] = true;  // e is bstart, the beginning of the bucket.
+            prm[d] = e + count[e];
             count[e] = count[e] + 1;
             b2h[prm[d]] = true;
 
-            for (c = 0; c < targetLength; c++ ){
+            for (c = 0; c < targetLength; c++) {
                 // d is T_i
                 d = index[c] - h;
                 if (index[c] >= h and d < targetLength) {
-                    e           = prm[d];
-                    prm[d]      = e + count[e];
-                    count[e]    = count[e] + 1;
+                    e = prm[d];
+                    prm[d] = e + count[e];
+                    count[e] = count[e] + 1;
                     b2h[prm[d]] = true;
                 }
             }
-
 
             //
             // Fix the bucket boundaries.
@@ -414,12 +437,11 @@ public:
 
             l = 0;
 
+            while (l < targetLength) {
 
-            while(l < targetLength) {
-
-                // First assign b2h to be 1 on the entire portion of the 
+                // First assign b2h to be 1 on the entire portion of the
                 // current bucket (from l ... bh[c]==true).
-                for (c = l; c == l or bh[c] == false; c++)  {
+                for (c = l; c == l or bh[c] == false; c++) {
                     d = index[c] - h;
                     if (d < targetLength) {
                         b2h[prm[d]] = true;
@@ -441,7 +463,7 @@ public:
 
                             e = j;
                             SAIndex f;
-                            for (f = prm[d] + 1; f <= e - 1; f++) { 
+                            for (f = prm[d] + 1; f <= e - 1; f++) {
                                 b2h[f] = false;
                             }
                         }
@@ -450,11 +472,11 @@ public:
                 l = c;
             }
 
-            for (i = 0; i < targetLength; i++) { 
+            for (i = 0; i < targetLength; i++) {
                 index[prm[i]] = i;
             }
 
-            for (i = 0 ; i < targetLength; i++) {
+            for (i = 0; i < targetLength; i++) {
                 if (b2h[i] == true and bh[i] == false) {
                     bh[i] = b2h[i];
                 }
@@ -463,40 +485,44 @@ public:
         }
     }
 
-    void BuildSuffixArray(T* target, SAIndex targetLength, Sigma &alphabet) {
+    void BuildSuffixArray(T *target, SAIndex targetLength, Sigma &alphabet)
+    {
         PB_UNUSED(alphabet);
         length = targetLength;
         assert(index == NULL or not deleteStructures);
-        index  = ProtectedNew<SAIndex>(length);
+        index = ProtectedNew<SAIndex>(length);
         deleteStructures = true;
-        CompareSuffixes<T*> cmp(target, length);
+        CompareSuffixes<T *> cmp(target, length);
         SAIndex i;
-        for (i = 0; i < length; i++ ){ 
+        for (i = 0; i < length; i++) {
             index[i] = i;
         }
         std::sort(index, index + length, cmp);
     }
 
-    void WriteArray(std::ofstream &out) {
-        out.write((char*) &length, sizeof(int));
-        out.write((char*) index, sizeof(int) * (length));
+    void WriteArray(std::ofstream &out)
+    {
+        out.write((char *)&length, sizeof(int));
+        out.write((char *)index, sizeof(int) * (length));
     }
 
-    void WriteLookupTable(std::ofstream &out) {
+    void WriteLookupTable(std::ofstream &out)
+    {
 
-        out.write((char*) &lookupTableLength, sizeof(SAIndex));
-        out.write((char*) &lookupPrefixLength, sizeof(SAIndex));
-        out.write((char*) startPosTable, sizeof(SAIndex) * (lookupTableLength));
-        out.write((char*) endPosTable, sizeof(SAIndex) * (lookupTableLength));
+        out.write((char *)&lookupTableLength, sizeof(SAIndex));
+        out.write((char *)&lookupPrefixLength, sizeof(SAIndex));
+        out.write((char *)startPosTable, sizeof(SAIndex) * (lookupTableLength));
+        out.write((char *)endPosTable, sizeof(SAIndex) * (lookupTableLength));
     }
 
-    void WriteComponentList(std::ofstream &out) {
+    void WriteComponentList(std::ofstream &out)
+    {
         //
         // First build the component list.
         //
         if (index != NULL)
             componentList[CompArray] = 1;
-        else 
+        else
             componentList[CompArray] = 0;
 
         if (startPosTable != NULL)
@@ -504,16 +530,18 @@ public:
         else
             componentList[CompLookupTable] = 0;
 
-        out.write((char*) componentList, sizeof(int) * ComponentListLength);
+        out.write((char *)componentList, sizeof(int) * ComponentListLength);
     }
 
-    void WriteLCPTable(std::ofstream &out) {
+    void WriteLCPTable(std::ofstream &out)
+    {
         PB_UNUSED(out);
         std::cout << "NOT YET IMPLEMENTED." << std::endl;
         exit(1);
     }
 
-    void Write(std::string &outFileName) {
+    void Write(std::string &outFileName)
+    {
 
         //
         // The suffix array is written in 2 or more parts:
@@ -521,7 +549,7 @@ public:
         //       array that are written
         //   2 - The components.
         //
-        // 
+        //
         std::ofstream suffixArrayOut;
         suffixArrayOut.open(outFileName.c_str(), std::ios::binary);
         if (!suffixArrayOut.good()) {
@@ -541,70 +569,74 @@ public:
         }
         suffixArrayOut.close();
     }
-    void WriteMagicNumber(std::ofstream &out) {
-        out.write((char*) &magicNumber, sizeof(int));
-    }
+    void WriteMagicNumber(std::ofstream &out) { out.write((char *)&magicNumber, sizeof(int)); }
 
-    int ReadMagicNumber(std::ifstream &in) {
-        in.read((char*) &ckMagicNumber, sizeof(int));
+    int ReadMagicNumber(std::ifstream &in)
+    {
+        in.read((char *)&ckMagicNumber, sizeof(int));
         if (ckMagicNumber != magicNumber) {
             return 0;
-        }
-        else { 
+        } else {
             return 1;
         }
     }
 
-    void ReadComponentList(std::ifstream &in) { 
-        in.read((char*) componentList, sizeof(int) * ComponentListLength);
+    void ReadComponentList(std::ifstream &in)
+    {
+        in.read((char *)componentList, sizeof(int) * ComponentListLength);
     }
 
-    void ReadAllocatedArray(std::ifstream &in) {
-        in.read((char*) index, sizeof(int) * length);
-    }
+    void ReadAllocatedArray(std::ifstream &in) { in.read((char *)index, sizeof(int) * length); }
 
-    void LightReadArray(std::ifstream &in) {
-        in.read((char*) &length, sizeof(int));
+    void LightReadArray(std::ifstream &in)
+    {
+        in.read((char *)&length, sizeof(int));
         // skip the actual array
-        in.seekg(length*sizeof(int), std::ios_base::cur);
+        in.seekg(length * sizeof(int), std::ios_base::cur);
     }
 
-    void ReadArray(std::ifstream &in) {
-        in.read((char*) &length, sizeof(int));
+    void ReadArray(std::ifstream &in)
+    {
+        in.read((char *)&length, sizeof(int));
         assert(index == NULL or not deleteStructures);
         index = ProtectedNew<SAIndex>(length);
         deleteStructures = true;
         ReadAllocatedArray(in);
     }
 
-    void ReadAllocatedLookupTable(std::ifstream &in) {
-        in.read((char*) startPosTable, sizeof(int) * (lookupTableLength));
-        in.read((char*) endPosTable, sizeof(int) * (lookupTableLength));
+    void ReadAllocatedLookupTable(std::ifstream &in)
+    {
+        in.read((char *)startPosTable, sizeof(int) * (lookupTableLength));
+        in.read((char *)endPosTable, sizeof(int) * (lookupTableLength));
     }
 
-    void ReadLookupTableLengths(std::ifstream &in) {
-        in.read((char*) &lookupTableLength, sizeof(int));
-        in.read((char*) &lookupPrefixLength, sizeof(int));
+    void ReadLookupTableLengths(std::ifstream &in)
+    {
+        in.read((char *)&lookupTableLength, sizeof(int));
+        in.read((char *)&lookupPrefixLength, sizeof(int));
     }
 
-    void ReadLookupTable(std::ifstream &in) {
+    void ReadLookupTable(std::ifstream &in)
+    {
         ReadLookupTableLengths(in);
         tm.Initialize(lookupPrefixLength);
         assert(startPosTable == NULL or not deleteStructures);
         assert(endPosTable == NULL or not deleteStructures);
         startPosTable = ProtectedNew<SAIndex>(lookupTableLength);
-        endPosTable   = ProtectedNew<SAIndex>(lookupTableLength);
+        endPosTable = ProtectedNew<SAIndex>(lookupTableLength);
         deleteStructures = true;
         ReadAllocatedLookupTable(in);
     }
 
-    void ReadLCPTable(std::ifstream &in) {
+    void ReadLCPTable(std::ifstream &in)
+    {
         PB_UNUSED(in);
-        std::cout <<" NOT YET IMPLEMENTED!!!" << std::endl;
+        std::cout << " NOT YET IMPLEMENTED!!!" << std::endl;
         exit(1);
     }
 
-    bool LightRead(std::string &inFileName) {
+    bool LightRead(std::string &inFileName)
+    {
         std::ifstream saIn;
         saIn.open(inFileName.c_str(), std::ios::binary);
         int hasMagicNumber;
@@ -615,14 +647,14 @@ public:
             ReadLookupTable(saIn);
             saIn.close();
             return true;
-        }
-        else {
+        } else {
             saIn.close();
             return false;
         }
     }
 
-    bool Read(std::string &inFileName) {
+    bool Read(std::string &inFileName)
+    {
         std::ifstream saIn;
         saIn.open(inFileName.c_str(), std::ios::binary);
         int hasMagicNumber;
@@ -637,24 +669,24 @@ public:
             }
             saIn.close();
             return true;
-        }
-        else {
+        } else {
             saIn.close();
             return false;
         }
     }
 
-    int SearchLCP(T* target, T* query, DNALength queryLength, SAIndex &low, SAIndex &high, DNALength &lcpLength, DNALength maxlcp) {
-      PB_UNUSED(maxlcp);
+    int SearchLCP(T *target, T *query, DNALength queryLength, SAIndex &low, SAIndex &high,
+                  DNALength &lcpLength, DNALength maxlcp)
+    {
+        PB_UNUSED(maxlcp);
         //		cout << "searching lcp with query of length: " << queryLength << endl;
         lcpLength = 0;
-        if (startPosTable != NULL and
-                queryLength >= lookupPrefixLength) {
+        if (startPosTable != NULL and queryLength >= lookupPrefixLength) {
             Tuple lookupTuple;
             int left, right;
             // just in case this was changed.
             lookupTuple.FromStringLR(query, tm);
-            left  = startPosTable[lookupTuple.tuple];
+            left = startPosTable[lookupTuple.tuple];
             right = endPosTable[lookupTuple.tuple];
             //
             // When left == right, the k-mer in the read did not exist in the
@@ -672,11 +704,11 @@ public:
             //
             lcpLength = lookupPrefixLength;
             low = left, high = right;
-        }
-        else {
-            low = 0; high = length - 1;
+        } else {
+            low = 0;
+            high = length - 1;
             lcpLength = 0;
-        }		
+        }
         int prevLow = low;
         int prevHigh = high;
         int prevLCPLength = lcpLength - 1;
@@ -688,21 +720,27 @@ public:
         Search(target, query, queryLength, low, high, low, high, 0);
 
         DNALength lowLCP = lookupPrefixLength, highLCP = lookupPrefixLength;
-        while (lowLCP < queryLength and index[low]+lowLCP < length and 
-                target[index[low] + lowLCP] == query[lowLCP]) lowLCP++;
+        while (lowLCP < queryLength and index[low] + lowLCP < length and
+               target[index[low] + lowLCP] == query[lowLCP])
+            lowLCP++;
 
-        while (highLCP < queryLength and index[high]+highLCP < length and 
-                target[index[high] + highLCP] == query[highLCP]) highLCP++;
+        while (highLCP < queryLength and index[high] + highLCP < length and
+               target[index[high] + highLCP] == query[highLCP])
+            highLCP++;
 
         DNALength minLCP = highLCP;
-        if (lowLCP < highLCP ) { 
+        if (lowLCP < highLCP) {
             minLCP = lowLCP;
         }
 
-        while (minLCP >= (lookupPrefixLength -2 )and 
-                low > 0 and high < (length - minLCP) and high - low < 10) {
-            while(low  > 0 and StringEquals(&target[index[low]], minLCP, &target[index[high]], minLCP)) low--;
-            while(high > 0 and StringEquals(&target[index[low]], minLCP, &target[index[high]], minLCP)) high++;
+        while (minLCP >= (lookupPrefixLength - 2) and low > 0 and high < (length - minLCP) and
+               high - low < 10) {
+            while (low > 0 and
+                   StringEquals(&target[index[low]], minLCP, &target[index[high]], minLCP))
+                low--;
+            while (high > 0 and
+                   StringEquals(&target[index[low]], minLCP, &target[index[high]], minLCP))
+                high++;
             --minLCP;
         }
 
@@ -710,21 +748,23 @@ public:
         // The LCP is not an exact match to the end of the string.
         //
 
-        prevLow  = low;
+        prevLow = low;
         prevHigh = high;
 
-        low = prevLow; high = prevHigh;
+        low = prevLow;
+        high = prevHigh;
         if (low < high and high - low < 100) {
             return queryLength;
-        }
-        else {
+        } else {
             high = low - 1;
             lcpLength = 0;
         }
         return lcpLength;
     }
 
-    int Search(T* target, T* query, DNALength queryLength, SAIndex left, SAIndex right, SAIndex &low, SAIndex &high, unsigned int offset=0) {
+    int Search(T *target, T *query, DNALength queryLength, SAIndex left, SAIndex right,
+               SAIndex &low, SAIndex &high, unsigned int offset = 0)
+    {
         if (offset >= queryLength) {
             return high - low;
         }
@@ -733,25 +773,27 @@ public:
         return high - low;
     }
 
-    int Search(T* target, T* query, DNALength queryLength, SAIndex &low, SAIndex &high, int offset = 0) {
+    int Search(T *target, T *query, DNALength queryLength, SAIndex &low, SAIndex &high,
+               int offset = 0)
+    {
 
         int left = 0;
         int right = length - 1;
         //
         // Constrain the lookup if a lookup table exists.
         //
-        if (startPosTable != NULL and
-                queryLength >= lookupPrefixLength) {
+        if (startPosTable != NULL and queryLength >= lookupPrefixLength) {
             Tuple lookupTuple;
             lookupTuple.FromStringLR(query, tm);
-            left  = startPosTable[lookupTuple.tuple];
+            left = startPosTable[lookupTuple.tuple];
             right = endPosTable[lookupTuple.tuple];
         }
         return Search(target, query, queryLength, left, right, low, high, offset);
     }
 
-
-    long SearchLeftBound(T* target, long targetLength, DNALength targetOffset,  T queryChar, long l, long r) {
+    long SearchLeftBound(T *target, long targetLength, DNALength targetOffset, T queryChar, long l,
+                         long r)
+    {
         long ll, lr;
         ll = l;
         lr = r;
@@ -761,24 +803,23 @@ public:
             m = (ll + lr) / 2;
             targetSufLen = targetLength - index[m];
             if (targetSufLen == targetOffset) {
-                ll =m + 1;
+                ll = m + 1;
                 continue;
             }
             //
-            // The suffix at index[m] is shorter than the lengths of the 
+            // The suffix at index[m] is shorter than the lengths of the
             // two sequences being compared.  With the Larsson
             // implementation, that means that the target suffix is lex-less
             // than the read.
             int comp;
             if (targetSufLen < targetOffset) {
                 comp = -1;
-            }
-            else {
+            } else {
                 //
                 // There is enough sequence to compare the target suffix with
                 // the query suffix.
                 //
-                assert(index[m]+targetOffset < targetLength);
+                assert(index[m] + targetOffset < targetLength);
 
                 /*
                    if (ThreeBit[target[index[m]+targetOffset]] >= 4 or 
@@ -787,21 +828,20 @@ public:
                    break;
                    }
                    */
-                comp = Compare::Compare(target[index[m]+targetOffset], queryChar);
-
+                comp = Compare::Compare(target[index[m] + targetOffset], queryChar);
             }
             if (comp < 0) {
                 ll = m + 1;
-            }
-            else {
+            } else {
                 lr = m;
             }
         }
         return ll;
     }
 
-    long SearchRightBound(T* target, long targetLength, DNALength targetOffset, 
-            T queryChar, long l, long r) {
+    long SearchRightBound(T *target, long targetLength, DNALength targetOffset, T queryChar, long l,
+                          long r)
+    {
         long rl, rr;
         rl = l;
         rr = r;
@@ -810,14 +850,13 @@ public:
         while (rl < rr) {
             m = (rl + rr) / 2;
             targetSufLen = targetLength - index[m];
-            if (targetSufLen == targetOffset) { 
+            if (targetSufLen == targetOffset) {
                 rr = m;
-                break; 
+                break;
             }
             if (targetSufLen < targetOffset) {
-                rr = m ;
-            }
-            else {
+                rr = m;
+            } else {
                 /*
                  * Do not try and map stretches of N. These do not add
                  * infomrative anchors.
@@ -832,9 +871,8 @@ public:
                 int comp = Compare::Compare(target[index[m] + targetOffset], queryChar);
                 if (comp <= 0) {
                     rl = m + 1;
-                }
-                else {
-                    rr = m ;
+                } else {
+                    rr = m;
                 }
             }
         }
@@ -847,9 +885,12 @@ public:
      * between the read and the genome.
      */
 
-    int SearchLCPBounds(T*target, long targetLength, T*query, DNALength queryLength, SAIndex &l, SAIndex &r, DNALength &refOffset, DNALength &queryOffset) {
+    int SearchLCPBounds(T *target, long targetLength, T *query, DNALength queryLength, SAIndex &l,
+                        SAIndex &r, DNALength &refOffset, DNALength &queryOffset)
+    {
         //	 l = 0; r = targetLength;
-        for (; refOffset < targetLength and  queryOffset < queryLength and l < r; queryOffset++, refOffset++) {
+        for (; refOffset < targetLength and queryOffset < queryLength and l < r;
+             queryOffset++, refOffset++) {
             std::cout << "bounds: " << l << ", " << r << std::endl;
             //
             // Band l by the character at query[offset]
@@ -861,59 +902,59 @@ public:
             // If the current search is past the end of the suffix array, it
             // will be impossible to extend.
             //
-            if (index[l] + refOffset >= targetLength or 
-                    Compare::Compare(target[index[l] + refOffset], query[queryOffset]) != 0) {
+            if (index[l] + refOffset >= targetLength or
+                Compare::Compare(target[index[l] + refOffset], query[queryOffset]) != 0) {
                 break;
             }
 
             r = SearchRightBound(target, targetLength, refOffset, query[queryOffset], l, r);
-            if (Compare::Compare(query[queryOffset], target[index[l]+refOffset]) != 0 or
-                    Compare::Compare(query[queryOffset], target[index[r]+refOffset]) != 0) {
+            if (Compare::Compare(query[queryOffset], target[index[l] + refOffset]) != 0 or
+                Compare::Compare(query[queryOffset], target[index[r] + refOffset]) != 0) {
                 break;
             }
         }
         return refOffset;
     }
 
-
-    int StoreLCPBounds(T *target, long targetLength,
-            T *query,  long queryLength,
-            SAIndex &low, SAIndex &high) {
+    int StoreLCPBounds(T *target, long targetLength, T *query, long queryLength, SAIndex &low,
+                       SAIndex &high)
+    {
 
         DNALength targetOffset = 0;
-        DNALength queryOffset  = 0;
+        DNALength queryOffset = 0;
 
         DNALength lcpLength = 0;
-        low = 0; high = targetLength;
-        for (; index[low] + targetOffset < targetLength and
-                targetOffset < targetLength  and 
-                queryOffset < queryLength and 
-                low < high ;
-                targetOffset++, queryOffset++, lcpLength++) {
+        low = 0;
+        high = targetLength;
+        for (; index[low] + targetOffset < targetLength and targetOffset < targetLength and
+               queryOffset < queryLength and low < high;
+             targetOffset++, queryOffset++, lcpLength++) {
             //
             // Band l by the character at query[offset]
             //
 
-            low = SearchLeftBound(target, targetLength, targetOffset, query[queryOffset], low, high);
+            low =
+                SearchLeftBound(target, targetLength, targetOffset, query[queryOffset], low, high);
 
             //
             // If the current search is past the end of the suffix array, it
             // will be impossible to extend.
             //
-            if (index[low] + targetOffset > targetLength or 
-                    Compare::Compare(target[index[low] + targetOffset], query[queryOffset]) != 0 or
-                    ThreeBit[query[queryOffset]] > 3) {
+            if (index[low] + targetOffset > targetLength or
+                Compare::Compare(target[index[low] + targetOffset], query[queryOffset]) != 0 or
+                ThreeBit[query[queryOffset]] > 3) {
                 break;
             }
 
-            high = SearchRightBound(target, targetLength, targetOffset, query[queryOffset], low, high);
-
+            high =
+                SearchRightBound(target, targetLength, targetOffset, query[queryOffset], low, high);
         }
         return lcpLength;
-
     }
 
-    int CountNumBranches(T* target, DNALength targetLength, DNALength targetOffset, SAIndex low, SAIndex high) {
+    int CountNumBranches(T *target, DNALength targetLength, DNALength targetOffset, SAIndex low,
+                         SAIndex high)
+    {
         //
         // look to see how many different characters start suffices between
         // low and high at targetOffset
@@ -923,24 +964,25 @@ public:
         //
 
         // 1. No branches (indices do not define any subset of the suffix
-        // array). 
+        // array).
         if (high <= low) {
             return 0;
         }
-        // 2. One branch, 
-        if (target[index[low] + targetOffset ] == target[index[high-1] + targetOffset]) {
+        // 2. One branch,
+        if (target[index[low] + targetOffset] == target[index[high - 1] + targetOffset]) {
             return 1;
         }
         int numBranches = 1;
         // More than one branch.
-        while ( low < high ) {
+        while (low < high) {
             //
             // Find the band where the suffices share the same chatacter
             // 'targetOffset' bases into the suffix as the first suffix in
             // the band given to this function.
             //
             SAIndex curCharHigh = high;
-            curCharHigh = SearchRightBound(target, targetLength, targetOffset, target[index[low]+targetOffset], low, high);
+            curCharHigh = SearchRightBound(target, targetLength, targetOffset,
+                                           target[index[low] + targetOffset], low, high);
             if (curCharHigh != high) {
                 ++numBranches;
             }
@@ -949,21 +991,24 @@ public:
         return numBranches;
     }
 
-
-    int StoreLCPBounds(T *target, long targetLength, // The string which the suffix array is built on.
-            T *query, DNALength queryLength, // The query string. search starts at pos 0 in this string
-            bool useLookupTable,  // Should the indices of the first k bases be determined by a lookup table?
-            DNALength  maxMatchLength,  // Stop extending match at lcp length = maxMatchLength,
-            // Vectors containing lcpLeft and lcpRight from 0 ... lcpLength.
-            std::vector<SAIndex> &lcpLeftBounds, std::vector<SAIndex> &lcpRightBounds,
-            bool stopOnceUnique=false) {
+    int StoreLCPBounds(
+        T *target, long targetLength,     // The string which the suffix array is built on.
+        T *query, DNALength queryLength,  // The query string. search starts at pos 0 in this string
+        bool
+            useLookupTable,  // Should the indices of the first k bases be determined by a lookup table?
+        DNALength maxMatchLength,  // Stop extending match at lcp length = maxMatchLength,
+        // Vectors containing lcpLeft and lcpRight from 0 ... lcpLength.
+        std::vector<SAIndex> &lcpLeftBounds,
+        std::vector<SAIndex> &lcpRightBounds, bool stopOnceUnique = false)
+    {
 
         //
         // Precondition: target[l][0] >= query[offset]
         //
         long l, r;
 
-        l = 0; r = targetLength;
+        l = 0;
+        r = targetLength;
         DNALength lcpLength = 0;
         Tuple lookupTuple;
         lookupTuple.tuple = -1;
@@ -976,15 +1021,13 @@ public:
          * re-uses previous lcp searches.
          */
 
-        if (useLookupTable and 
-                startPosTable != NULL) {
+        if (useLookupTable and startPosTable != NULL) {
             // just in case this was changed.
             if (lookupTuple.FromStringLR(query, tm)) {
-                l  = startPosTable[lookupTuple.tuple];
-                r  = endPosTable[lookupTuple.tuple];
+                l = startPosTable[lookupTuple.tuple];
+                r = endPosTable[lookupTuple.tuple];
                 lcpLength = lookupPrefixLength;
-            }
-            else {
+            } else {
                 //
                 // Not able to find a match for this sequence, so do not
                 // register a hit.
@@ -1002,8 +1045,7 @@ public:
             if (l < r) {
                 lcpLeftBounds.push_back(l);
                 lcpRightBounds.push_back(r);
-            }
-            else {
+            } else {
                 //
                 // No exact match found in the lookup table, do not bother
                 // searching, and return 0 lcp length.
@@ -1016,10 +1058,9 @@ public:
         // Search the suffix array for the longest common prefix between
         // the read and the genome.
         //
-        while( l < r and  
-                lcpLength < queryLength // stop searching when the end of
-                // the query is reached.
-             ) {
+        while (l < r and lcpLength < queryLength  // stop searching when the end of
+                                                  // the query is reached.
+               ) {
 
             //
             // If there is only one match in the suffix array, and and not
@@ -1043,7 +1084,7 @@ public:
             // by appending a stretch of N's between matches (although they
             // should just use a multi-fasta file).  Since the reads also
             // have stretches of N's, this tends to slow the search down
-            // dramatically. 
+            // dramatically.
             if (ThreeBit[target[index[l] + lcpLength]] >= 4) {
                 break;
             }
@@ -1056,26 +1097,23 @@ public:
             l = SearchLeftBound(target, targetLength, lcpLength, query[lcpLength], l, r);
             r = SearchRightBound(target, targetLength, lcpLength, query[lcpLength], l, r);
 
-
             //
             // If the current search is past the end of the suffix array, it
             // will be impossible to extend.
             //
-            if (l == r or // if this point is reached, stop loop now since
-                    // otherwise the lcp length will be incremented by
-                    // 1, which will give one longer than the actual
-                    // LCP length.
-                    index[l] + lcpLength >= targetLength or  // This shouldn't
-                    // happen
-                    // End on a mismatch.
-                    ThreeBit[query[lcpLength]] >= 4 or 
-                    Compare::Compare(target[index[l] + lcpLength], query[lcpLength]) != 0
+            if (l == r or  // if this point is reached, stop loop now since
+                // otherwise the lcp length will be incremented by
+                // 1, which will give one longer than the actual
+                // LCP length.
+                index[l] + lcpLength >= targetLength or  // This shouldn't
+                // happen
+                // End on a mismatch.
+                ThreeBit[query[lcpLength]] >= 4 or
+                Compare::Compare(target[index[l] + lcpLength], query[lcpLength]) != 0
 
-               ) {
+                ) {
                 break;
             }
-
-
 
             //
             // Store the bounds for the current offset.  These are used later
@@ -1084,33 +1122,27 @@ public:
             lcpLeftBounds.push_back(l);
             lcpRightBounds.push_back(r);
             lcpLength++;
-
-
         }
         return lcpLength;
     }
 
-
-    int SearchLow(T *target, T *query, DNALength queryLength, SAIndex l, SAIndex r, SAIndex &low, unsigned int offset=0) {
+    int SearchLow(T *target, T *query, DNALength queryLength, SAIndex l, SAIndex r, SAIndex &low,
+                  unsigned int offset = 0)
+    {
 
         long midPos;
         int high;
         int numSteps = 0;
-        // 
+        //
         // Boundary conditions, the string is either before (lexicographically) the text
         // or after.
         //
-        if (StringLessThanEqual(&query[offset], 
-                    queryLength-offset, 
-                    &target[index[l]+offset], 
-                    length - index[l]-offset)) {
+        if (StringLessThanEqual(&query[offset], queryLength - offset, &target[index[l] + offset],
+                                length - index[l] - offset)) {
             low = l;
             return low;
-        }
-        else if (StringLessThan(&target[index[r]+offset], 
-                    length - index[r] - offset , 
-                    &query[offset], 
-                    queryLength  - offset)) {
+        } else if (StringLessThan(&target[index[r] + offset], length - index[r] - offset,
+                                  &query[offset], queryLength - offset)) {
             low = length;
             return low;
         }
@@ -1120,34 +1152,36 @@ public:
         //
         low = l;
         high = r;
-        long diff = ((long) high) - ((long) low);
+        long diff = ((long)high) - ((long)low);
         while (diff > 1) {
             ++numSteps;
-            midPos = ((long) high) + ((long) low);
+            midPos = ((long)high) + ((long)low);
             midPos = midPos / 2;
-            if (StringLessThanEqual(&query[offset], queryLength-offset, &target[index[midPos]+offset], length - index[midPos]-offset)) {
+            if (StringLessThanEqual(&query[offset], queryLength - offset,
+                                    &target[index[midPos] + offset],
+                                    length - index[midPos] - offset)) {
                 high = midPos;
-            }
-            else {
+            } else {
                 low = midPos;
             }
-            diff = ((long) high) - ((long) low);
+            diff = ((long)high) - ((long)low);
         }
 
         //
         // The search is for the least position such that the query is greater than or equal to the text.
-        // High tracks the positions that may be equal to the query, and low is strictly less than the query. 
+        // High tracks the positions that may be equal to the query, and low is strictly less than the query.
         // At the end of the search, high is either pointing to the query, or the first element where the query
         // could be placed before high without changing the order of target.
         //
         low = high;
-        diff = ((long) high) - ((long) low);
+        diff = ((long)high) - ((long)low);
         return low;
         //		cout << "search low took: " << numSteps << endl;
     }
 
-
-    int SearchHigh(T *target, T *query, DNALength queryLength, SAIndex l, SAIndex r,  SAIndex &high, unsigned int offset=0) {
+    int SearchHigh(T *target, T *query, DNALength queryLength, SAIndex l, SAIndex r, SAIndex &high,
+                   unsigned int offset = 0)
+    {
 
         //
         // Find the last position where the query is less than the target.
@@ -1155,11 +1189,12 @@ public:
         long midPos;
         int low;
         int numSteps = 0;
-        // 
+        //
         // Boundary conditions, the string is either before (lexicographically) the text
         // or after.
         //
-        if (StringLessThan(&target[index[r]+offset], length - index[r] - offset, &query[offset], queryLength-offset)) {
+        if (StringLessThan(&target[index[r] + offset], length - index[r] - offset, &query[offset],
+                           queryLength - offset)) {
             high = -1;
             return high;
         }
@@ -1169,23 +1204,23 @@ public:
         //
         low = l;
         high = r;
-        long diff = ((long) high) - ((long) low);
+        long diff = ((long)high) - ((long)low);
         while (diff > 1) {
             ++numSteps;
-            midPos = ((long) high) + ((long) low);
+            midPos = ((long)high) + ((long)low);
             midPos = midPos / 2;
-            if (StringLessThan(&query[offset], queryLength - offset, &target[index[midPos]+offset], length - index[midPos] - offset)) {
+            if (StringLessThan(&query[offset], queryLength - offset,
+                               &target[index[midPos] + offset], length - index[midPos] - offset)) {
                 high = midPos;
-            }
-            else {
+            } else {
                 low = midPos;
             }
-            diff = ((long) high) - ((long) low);
+            diff = ((long)high) - ((long)low);
         }
 
         //
-        // The search is for the last position where the query is less than or equal to the text.  High is 
-        // strictly greater than or the query.  Low is less than or equal to the query.  At the end, low will be 
+        // The search is for the last position where the query is less than or equal to the text.  High is
+        // strictly greater than or the query.  Low is less than or equal to the query.  At the end, low will be
         // the last spot where query could be inserted after and not wreck the ordering of the array.
         //
         high = low;
@@ -1193,6 +1228,4 @@ public:
     }
 };
 
-
-
-#endif // _BLASR_SUFFIX_ARRAY_HPP_
+#endif  // _BLASR_SUFFIX_ARRAY_HPP_

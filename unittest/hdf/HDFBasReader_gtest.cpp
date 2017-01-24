@@ -16,38 +16,40 @@
  * ============================================================================
  */
 
-#include "gtest/gtest.h"
 #include "HDFBasReader.hpp"
+#include "gtest/gtest.h"
 #include "pbdata/testdata.h"
 
 using namespace std;
 using namespace H5;
 
-class HDFBasReaderTEST : public ::testing::Test {
+class HDFBasReaderTEST : public ::testing::Test
+{
 public:
-    virtual void SetUp() {
+    virtual void SetUp()
+    {
         fileName = baxFile3;
         reader.InitializeDefaultIncludedFields();
         ASSERT_EQ(reader.Initialize(fileName), 1);
     }
-    virtual void TearDown() {
-        reader.Close();
-    }
+    virtual void TearDown() { reader.Close(); }
     string fileName;
-    T_HDFBasReader<SMRTSequence> reader; 
+    T_HDFBasReader<SMRTSequence> reader;
 };
 
-TEST_F(HDFBasReaderTEST, ReadBaseFromBaseCalls) {
-    ASSERT_EQ(reader.GetMovieName(), 
-            "m150223_190837_42175_c100735112550000001823160806051530_s1_p0");
+TEST_F(HDFBasReaderTEST, ReadBaseFromBaseCalls)
+{
+    ASSERT_EQ(reader.GetMovieName(),
+              "m150223_190837_42175_c100735112550000001823160806051530_s1_p0");
     SMRTSequence seq;
 
-    for(int i=0; i < 1000; i++) {
+    for (int i = 0; i < 1000; i++) {
         reader.GetNext(seq);
     }
 }
 
-TEST_F(HDFBasReaderTEST, GetChemistryTriple) {
+TEST_F(HDFBasReaderTEST, GetChemistryTriple)
+{
     string bindingKit, sequencingKit, version;
     reader.GetChemistryTriple(bindingKit, sequencingKit, version);
     EXPECT_EQ(bindingKit, "100356300");

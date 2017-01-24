@@ -1,32 +1,32 @@
 #ifndef _BLASR_HDF_BAS_READER_HPP_
 #define _BLASR_HDF_BAS_READER_HPP_
 
+#include <cstdint>
 #include <cstdlib>
 #include <sstream>
-#include <vector>
 #include <string>
-#include <cstdint>
+#include <vector>
 
 // pbdata/
+#include "../pbdata/ChangeListID.hpp"
 #include "../pbdata/Enumerations.h"
 #include "../pbdata/FASTQSequence.hpp"
 #include "../pbdata/SMRTSequence.hpp"
 #include "../pbdata/VectorUtils.hpp"
-#include "../pbdata/ChangeListID.hpp"
 #include "../pbdata/reads/BaseFile.hpp"
 
-#include "HDFArray.hpp"
+#include "DatasetCollection.hpp"
 #include "HDF2DArray.hpp"
+#include "HDFArray.hpp"
 #include "HDFAtom.hpp"
 #include "HDFGroup.hpp"
-#include "HDFZMWReader.hpp"
-#include "HDFScanDataReader.hpp"
 #include "HDFPulseDataFile.hpp"
-#include "DatasetCollection.hpp"
+#include "HDFScanDataReader.hpp"
+#include "HDFZMWReader.hpp"
 
 //
 // Below is sample code for using the bas reader to read in sequences
-// from a .bas.h5 or .pls.h5 file.  
+// from a .bas.h5 or .pls.h5 file.
 // One may select which quality value fields to read.  By default,
 // none are read in.  To read in the rich quality values (insertionQV,
 // deletionQV, substitutionQV, mergeQV, substitutionTag, deletionTag),
@@ -38,7 +38,7 @@
 //#include <string>
 //
 //int main(int argc, char* argv[]) {
-//	
+//
 //	string basFile = argv[1];
 //
 //	HDFBasReader reader;
@@ -56,15 +56,16 @@
 //}
 //
 // * If you wanted to read only fasta sequences and not fastq, use:
-// 
+//
 // FASTASequence read;
 // while (reader.GetNext(read) {
 //   read.PritnSeq(cout);
 // }
 //
 
-template<typename T_Sequence>
-class T_HDFBasReader : public DatasetCollection, public HDFPulseDataFile {
+template <typename T_Sequence>
+class T_HDFBasReader : public DatasetCollection, public HDFPulseDataFile
+{
 public:
     DSLength curBasePos;
     UInt curRead;
@@ -88,7 +89,7 @@ public:
     HDFArray<uint16_t> preBaseFramesArray;
     HDFArray<int> pulseIndexArray;
     HDFArray<int> holeIndexArray;
- 
+
     // useful ZMWMetrics data
     HDF2DArray<float> hqRegionSNRMatrix;
     HDFArray<float> readScoreArray;
@@ -99,7 +100,7 @@ public:
     //	HDFArray<HalfWord> pulseWidthArray; This is deprecated
     HDFAtom<std::string> changeListIDAtom;
 
-    //bool useWidthInFrames,  usePulseIndex, 
+    //bool useWidthInFrames,  usePulseIndex,
     bool useZmwReader;
     //    bool usePulseWidth; This is deprecated
 
@@ -116,19 +117,16 @@ public:
     ChangeListID changeList;
     QVScale qvScale;
 
-    PlatformId GetPlatform() {
-        return scanDataReader.platformId;
-    }
+    PlatformId GetPlatform() { return scanDataReader.platformId; }
 
-    std::string GetMovieName() {
-        return scanDataReader.GetMovieName();
-    }
+    std::string GetMovieName() { return scanDataReader.GetMovieName(); }
 
-    DNALength GetReadAt(UInt index, SMRTSequence &read) {
+    DNALength GetReadAt(UInt index, SMRTSequence &read)
+    {
         //
         // The first time this is called there may be no table of read
         // offset positions.  Check for that and build if it does not
-        // exist. 
+        // exist.
         //
         if (preparedForRandomAccess == false) {
             PrepareForRandomAccess();
@@ -139,14 +137,13 @@ public:
         return GetNext(read);
     }
 
-    std::string GetRunCode() {
-        return scanDataReader.GetRunCode();
-    }
+    std::string GetRunCode() { return scanDataReader.GetRunCode(); }
 
-    T_HDFBasReader() {
-        curRead      = 0;
-        curBasePos   = 0;
-        nBases       = 0;
+    T_HDFBasReader()
+    {
+        curRead = 0;
+        curBasePos = 0;
+        nBases = 0;
         preparedForRandomAccess = false;
         readBasesFromCCS = false;
         baseCallsGroupName = "BaseCalls";
@@ -155,7 +152,7 @@ public:
         useZmwReader = false;
         useBasHoleXY = true;
         hasRegionTable = false;
-        qvScale = POverOneMinusP; //default 0 = POverOneMinusP
+        qvScale = POverOneMinusP;  //default 0 = POverOneMinusP
         fieldNames.push_back("Basecall");
         fieldNames.push_back("DeletionQV");
         fieldNames.push_back("DeletionTag");
@@ -178,8 +175,8 @@ public:
         IncludeField("Basecall");
     }
 
-
-    void InitializeDefaultCCSIncludeFields() {
+    void InitializeDefaultCCSIncludeFields()
+    {
         InitializeAllFields(false);
         IncludeField("Basecall");
         IncludeField("DeletionQV");
@@ -190,7 +187,8 @@ public:
         IncludeField("QualityValue");
     }
 
-    void InitializeDefaultRawBasIncludeFields() {
+    void InitializeDefaultRawBasIncludeFields()
+    {
         IncludeField("Basecall");
         IncludeField("QualityValue");
         IncludeField("InsertionQV");
@@ -198,7 +196,7 @@ public:
         IncludeField("MergeQV");
         IncludeField("SubstitutionQV");
         IncludeField("DeletionTag");
-        IncludeField("SubstitutionTag"); // used in IDSScoreFunction
+        IncludeField("SubstitutionTag");  // used in IDSScoreFunction
         // FIXME: The following QVs are not really used by downstream
         // analysis such as Quiver, make them optional to include.
         IncludeField("WidthInFrames");
@@ -207,58 +205,55 @@ public:
         IncludeField("HQRegionSNR");
         IncludeField("ReadScore");
     }
-    void InitializeDefaultIncludedFields() {
+    void InitializeDefaultIncludedFields()
+    {
         if (readBasesFromCCS == false) {
             InitializeDefaultRawBasIncludeFields();
-        }
-        else { 
+        } else {
             InitializeDefaultCCSIncludeFields();
         }
     }
 
-    void InitializeDefaultRequiredFields() {
-        requiredFields["Basecall"] = true;
-    }
+    void InitializeDefaultRequiredFields() { requiredFields["Basecall"] = true; }
 
-    bool HasRegionTable() {
-        return hasRegionTable;
-    }
+    bool HasRegionTable() { return hasRegionTable; }
 
-
-    bool HasSimulatedCoordinatesStored() {
+    bool HasSimulatedCoordinatesStored()
+    {
         if (baseCallsGroup.ContainsObject("SimulatedCoordinate") and
-                baseCallsGroup.ContainsObject("SimulatedSequenceIndex")) {
+            baseCallsGroup.ContainsObject("SimulatedSequenceIndex")) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
-    void SetReadBasesFromCCS() {
+    void SetReadBasesFromCCS()
+    {
         InitializeDefaultCCSIncludeFields();
         readBasesFromCCS = true;
     }
 
-    void GetChangeListID(std::string &changeListID) {
+    void GetChangeListID(std::string &changeListID)
+    {
         if (changeListIDAtom.IsInitialized()) {
             changeListIDAtom.Read(changeListID);
-        }
-        else {
+        } else {
             changeListID = "0";
         }
     }
- 
+
     /// Get BindingKit, SequencingKit and Base Caller Version.
-    void GetChemistryTriple(std::string & bindingKit,
-                            std::string & sequencingKit, 
-                            std::string & baseCallerVersion) {
+    void GetChemistryTriple(std::string &bindingKit, std::string &sequencingKit,
+                            std::string &baseCallerVersion)
+    {
         scanDataReader.ReadBindingKit(bindingKit);
         scanDataReader.ReadSequencingKit(sequencingKit);
         baseCallerVersion = changeList.GetVersion();
     }
 
-    int InitializeForReadingBases() {
+    int InitializeForReadingBases()
+    {
 
         //
         // Initialize root group + scan data information.
@@ -266,14 +261,14 @@ public:
         if (HDFPulseDataFile::Initialize(rootGroupPtr) == 0) return 0;
 
         //
-        // Open the base group, this contains all the required information.  
+        // Open the base group, this contains all the required information.
         //
 
         if (readBasesFromCCS) {
             baseCallsGroupName = "ConsensusBaseCalls";
         }
         if (pulseDataGroup.ContainsObject(baseCallsGroupName) == 0 or
-                baseCallsGroup.Initialize(pulseDataGroup.group, baseCallsGroupName) == 0) {
+            baseCallsGroup.Initialize(pulseDataGroup.group, baseCallsGroupName) == 0) {
             return 0;
         }
         if (baseCallsGroup.ContainsAttribute("ChangeListID")) {
@@ -285,8 +280,7 @@ public:
         }
         if (pulseDataGroup.ContainsObject("Regions")) {
             hasRegionTable = true;
-        }
-        else {
+        } else {
             hasRegionTable = false;
         }
 
@@ -306,16 +300,15 @@ public:
         if (baseCallsGroup.ContainsObject("SimulatedCoordinate")) {
             includedFields["SimulatedCoordinate"] = true;
             InitializeDataset(baseCallsGroup, simulatedCoordinateArray, "SimulatedCoordinate");
-        }
-        else {
+        } else {
             includedFields["SimulatedCoordinate"] = false;
         }
 
         if (baseCallsGroup.ContainsObject("SimulatedSequenceIndex")) {
             includedFields["SimulatedSequenceIndex"] = true;
-            InitializeDataset(baseCallsGroup, simulatedSequenceIndexArray, "SimulatedSequenceIndex");
-        }
-        else {
+            InitializeDataset(baseCallsGroup, simulatedSequenceIndexArray,
+                              "SimulatedSequenceIndex");
+        } else {
             includedFields["SimulatedSequenceIndex"] = false;
         }
         nBases = baseArray.arrayLength;
@@ -323,8 +316,8 @@ public:
         return 1;
     }
 
-
-    int InitializeCommon() {
+    int InitializeCommon()
+    {
 
         //
         // Initialize the smallest set of fields required to import bases.
@@ -333,64 +326,61 @@ public:
             return 0;
         }
 
-
         return 1;
     }
 
-    template<typename T_Dataset>
-        void InitializeRequiredField(HDFGroup &group, std::string arrayName, T_Dataset &field) {
-            if (group.ContainsObject(arrayName)) {
-                if (field.Initialize(group, arrayName) != 0) {
-                    return;
-                }
+    template <typename T_Dataset>
+    void InitializeRequiredField(HDFGroup &group, std::string arrayName, T_Dataset &field)
+    {
+        if (group.ContainsObject(arrayName)) {
+            if (field.Initialize(group, arrayName) != 0) {
+                return;
             }
-            cout << "ERROR. Could not initialize dataset " << arrayName << endl;
-            exit(1);
         }
+        cout << "ERROR. Could not initialize dataset " << arrayName << endl;
+        exit(1);
+    }
 
-    template<typename T>
-        int InitializeField(HDFGroup &rootGroup, std::string arrayName,
-                T &field, bool &initialized) {
-            initialized = false;
-            if (rootGroup.ContainsObject(arrayName)) {
-                if (field.Initialize(rootGroup, arrayName) != 0) {
-                    initialized = true;
-                    return true;
-                }
+    template <typename T>
+    int InitializeField(HDFGroup &rootGroup, std::string arrayName, T &field, bool &initialized)
+    {
+        initialized = false;
+        if (rootGroup.ContainsObject(arrayName)) {
+            if (field.Initialize(rootGroup, arrayName) != 0) {
+                initialized = true;
+                return true;
             }
-            return false;
         }
+        return false;
+    }
 
-    template<typename T>
-        int InitializeAttribute(HDFGroup &rootGroup, std::string arrayName,
-                T &field, bool &initialized,
-                bool fieldIsCritical = true) {
-            int success = 1;
-            initialized = false;
-            if (rootGroup.ContainsAttribute(arrayName)) {
-                if (field.Initialize(rootGroup, arrayName) == 0) {
-                    success = 0;
-                }
-                else {
-                    initialized = true;
-                }
-            }
-            else {
-                // the field does not exist
+    template <typename T>
+    int InitializeAttribute(HDFGroup &rootGroup, std::string arrayName, T &field, bool &initialized,
+                            bool fieldIsCritical = true)
+    {
+        int success = 1;
+        initialized = false;
+        if (rootGroup.ContainsAttribute(arrayName)) {
+            if (field.Initialize(rootGroup, arrayName) == 0) {
                 success = 0;
+            } else {
+                initialized = true;
             }
-            if (fieldIsCritical) {
-                return success;
-            }
-            else {
-                return 1;
-            }
+        } else {
+            // the field does not exist
+            success = 0;
         }
+        if (fieldIsCritical) {
+            return success;
+        } else {
+            return 1;
+        }
+    }
 
-
-    int InitializeSequenceFields(HDFGroup &baseCallsGroup) {
+    int InitializeSequenceFields(HDFGroup &baseCallsGroup)
+    {
         // The only field that is absoultely required is Basecall
-        if (baseArray.InitializeForReading(baseCallsGroup, "Basecall")        == false) return 0;
+        if (baseArray.InitializeForReading(baseCallsGroup, "Basecall") == false) return 0;
 
         //
         // These fields are not always present in bas.h5 files.
@@ -401,72 +391,82 @@ public:
             if (includedFields[fieldName] and
                 not qualArray.InitializeForReading(baseCallsGroup, fieldName))
                 return 0;
-        } else includedFields[fieldName] = false;
+        } else
+            includedFields[fieldName] = false;
 
         fieldName = "InsertionQV";
         if (baseCallsGroup.ContainsObject(fieldName)) {
             if (includedFields[fieldName] and
                 not insertionQVArray.InitializeForReading(baseCallsGroup, fieldName))
                 return 0;
-        } else includedFields[fieldName] = false;
+        } else
+            includedFields[fieldName] = false;
 
         fieldName = "DeletionQV";
         if (baseCallsGroup.ContainsObject(fieldName)) {
             if (includedFields[fieldName] and
                 not deletionQVArray.InitializeForReading(baseCallsGroup, fieldName))
                 return 0;
-        } else includedFields[fieldName] = false;
+        } else
+            includedFields[fieldName] = false;
 
         fieldName = "DeletionTag";
         if (baseCallsGroup.ContainsObject(fieldName)) {
             if (includedFields[fieldName] and
                 not deletionTagArray.InitializeForReading(baseCallsGroup, fieldName))
                 return 0;
-        } else includedFields[fieldName] = false;
+        } else
+            includedFields[fieldName] = false;
 
         fieldName = "SubstitutionQV";
         if (baseCallsGroup.ContainsObject(fieldName)) {
             if (includedFields[fieldName] and
                 not substitutionQVArray.InitializeForReading(baseCallsGroup, fieldName))
                 return 0;
-        } else includedFields[fieldName] = false;
+        } else
+            includedFields[fieldName] = false;
 
         fieldName = "SubstitutionTag";
         if (baseCallsGroup.ContainsObject(fieldName)) {
             if (includedFields[fieldName] and
                 not substitutionTagArray.InitializeForReading(baseCallsGroup, fieldName))
                 return 0;
-        } else includedFields[fieldName] = false;
+        } else
+            includedFields[fieldName] = false;
 
         fieldName = "PreBaseFrames";
         if (baseCallsGroup.ContainsObject(fieldName)) {
             if (includedFields[fieldName] and
                 not preBaseFramesArray.InitializeForReading(baseCallsGroup, fieldName))
                 return 0;
-        } else includedFields[fieldName] = false;
+        } else
+            includedFields[fieldName] = false;
 
         fieldName = "PulseIndex";
         if (baseCallsGroup.ContainsObject(fieldName)) {
             if (includedFields[fieldName] and
                 not pulseIndexArray.InitializeForReading(baseCallsGroup, fieldName))
                 return 0;
-        } else includedFields[fieldName] = false;
+        } else
+            includedFields[fieldName] = false;
 
         fieldName = "WidthInFrames";
         if (baseCallsGroup.ContainsObject(fieldName)) {
             if (includedFields[fieldName] and
                 not basWidthInFramesArray.InitializeForReading(baseCallsGroup, fieldName))
                 return 0;
-        } else includedFields[fieldName] = false;
+        } else
+            includedFields[fieldName] = false;
 
         fieldName = "MergeQV";
         if (baseCallsGroup.ContainsObject(fieldName)) {
             if (includedFields[fieldName] and
                 not mergeQVArray.InitializeForReading(baseCallsGroup, fieldName))
                 return 0;
-        } else includedFields[fieldName] = false;
+        } else
+            includedFields[fieldName] = false;
 
-        if (not baseCallsGroup.ContainsObject(zmwMetricsGroupName) or 
+        if (not baseCallsGroup.ContainsObject(zmwMetricsGroupName) or
             not zmwMetricsGroup.Initialize(baseCallsGroup.group, zmwMetricsGroupName)) {
             includedFields["HQRegionSNR"] = false;
             includedFields["ReadScore"] = false;
@@ -474,44 +474,47 @@ public:
             if (includedFields["HQRegionSNR"]) {
                 if (not zmwMetricsGroup.ContainsObject("HQRegionSNR") or
                     not hqRegionSNRMatrix.InitializeForReading(zmwMetricsGroup, "HQRegionSNR") or
-                    GetDatasetNDim(zmwMetricsGroup.group, "HQRegionSNR") != 2 or 
+                    GetDatasetNDim(zmwMetricsGroup.group, "HQRegionSNR") != 2 or
                     hqRegionSNRMatrix.GetNCols() != 4) {
                     includedFields["HQRegionSNR"] = false;
                 } else if (not useScanData) {
                     includedFields["HQRegionSNR"] = false;
-                    std::cerr << "WARNING: could not read HQRegionSNR because ScanData is absent!" << std::endl;
+                    std::cerr << "WARNING: could not read HQRegionSNR because ScanData is absent!"
+                              << std::endl;
                 }
-            } 
+            }
 
             if (includedFields["ReadScore"] and
                 (not zmwMetricsGroup.ContainsObject("ReadScore") or
                  not readScoreArray.InitializeForReading(zmwMetricsGroup, "ReadScore"))) {
                 includedFields["ReadScore"] = false;
             }
-
         }
         return 1;
     }
 
-    int InitializeAstro() {
+    int InitializeAstro()
+    {
         useBasHoleXY = true;
         return 1;
     }
 
-    int InitializeSpringfield() {
+    int InitializeSpringfield()
+    {
         //
         // For now, no special initialization is required.
         //
         return 1;
     }
 
-    int Initialize(HDFGroup *rootGroupP) {
-        rootGroupPtr= rootGroupP;
+    int Initialize(HDFGroup *rootGroupP)
+    {
+        rootGroupPtr = rootGroupP;
         return Initialize();
     }
 
-
-    int Initialize() {
+    int Initialize()
+    {
 
         // Return 0 if any of the array inializations do not work.
         if (InitializeCommon() == 0) {
@@ -521,8 +524,7 @@ public:
         // Must have zmw information.
         if (zmwReader.Initialize(&baseCallsGroup) == 0) {
             return 0;
-        }
-        else {
+        } else {
             useZmwReader = true;
         }
         //
@@ -535,8 +537,7 @@ public:
             if (InitializeAstro() == 0) {
                 return 0;
             }
-        }
-        else if (scanDataReader.platformId == Springfield) {
+        } else if (scanDataReader.platformId == Springfield) {
             if (InitializeSpringfield() == 0) {
                 return 0;
             }
@@ -547,7 +548,7 @@ public:
          */
 
         curBasePos = 0;
-        curRead    = 0;
+        curRead = 0;
 
         /*
          * All ok, return that.
@@ -555,8 +556,9 @@ public:
         return 1;
     }
 
-    int InitializeHDFFile(std::string hdfBasFileName, 
-            const H5::FileAccPropList & fileAccPropList = H5::FileAccPropList::DEFAULT) { 
+    int InitializeHDFFile(std::string hdfBasFileName,
+                          const H5::FileAccPropList &fileAccPropList = H5::FileAccPropList::DEFAULT)
+    {
         /*
          * Initialize access to the HDF file.  For reading bas files, this
          * involves:
@@ -574,23 +576,24 @@ public:
     }
 
     int Initialize(std::string hdfBasFileName,
-            const H5::FileAccPropList & fileAccPropList = H5::FileAccPropList::DEFAULT) {
+                   const H5::FileAccPropList &fileAccPropList = H5::FileAccPropList::DEFAULT)
+    {
         int init = InitializeHDFFile(hdfBasFileName, fileAccPropList);
         if (init == 0) return 0;
         return Initialize();
     }
 
-    UInt GetNumReads() {
-        return nReads;
-    }
+    UInt GetNumReads() { return nReads; }
 
-    void BuildReadTitle(std::string movieTitle, UInt holeNumber, std::string &readTitle) {
+    void BuildReadTitle(std::string movieTitle, UInt holeNumber, std::string &readTitle)
+    {
         std::stringstream readTitleStrm;
         readTitleStrm << movieTitle << "/" << holeNumber;
         readTitle = readTitleStrm.str();
     }
 
-    int GetNext(FASTASequence &seq) {
+    int GetNext(FASTASequence &seq)
+    {
         if (curRead == nReads) {
             return 0;
         }
@@ -598,17 +601,16 @@ public:
         DNALength seqLength;
         try {
             seqLength = GetNextWithoutPosAdvance(seq);
-        } catch(H5::DataSetIException e) {
-            cout << "ERROR, could not read base calls for FASTA Sequence "
-                << seq.GetName() << endl;
+        } catch (H5::DataSetIException e) {
+            cout << "ERROR, could not read base calls for FASTA Sequence " << seq.GetName() << endl;
             exit(1);
         }
         curBasePos += seqLength;
         return 1;
     }
 
-
-    int GetNext(FASTQSequence &seq) {
+    int GetNext(FASTQSequence &seq)
+    {
         try {
             if (curRead == nReads) {
                 return 0;
@@ -616,10 +618,11 @@ public:
             DNALength seqLength = GetNextWithoutPosAdvance(seq);
             seq.length = seqLength;
 
-            if (seqLength > 0 ) {
+            if (seqLength > 0) {
                 if (includedFields["QualityValue"]) {
                     seq.AllocateQualitySpace(seqLength);
-                    qualArray.Read(curBasePos, curBasePos + seqLength, (unsigned char*) seq.qual.data);
+                    qualArray.Read(curBasePos, curBasePos + seqLength,
+                                   (unsigned char *)seq.qual.data);
                 }
                 if (includedFields["DeletionQV"]) {
                     GetNextDeletionQV(seq);
@@ -642,9 +645,9 @@ public:
             }
             seq.SetQVScale(qvScale);
             curBasePos += seqLength;
-        } catch(H5::DataSetIException e) {
-            cout << "ERROR, could not read quality metrics for FASTQ Sequence " 
-                << seq.GetName() << endl;
+        } catch (H5::DataSetIException e) {
+            cout << "ERROR, could not read quality metrics for FASTQ Sequence " << seq.GetName()
+                 << endl;
             exit(1);
         }
         return 1;
@@ -654,7 +657,8 @@ public:
     // Read a SMRTSequence, but only the basecalls and maybe the QVs. This
     // makes pls2fasta more efficient.
     //
-    int GetNextBases(SMRTSequence &seq, bool readQVs) {
+    int GetNextBases(SMRTSequence &seq, bool readQVs)
+    {
         try {
             if (curRead == nReads) {
                 return 0;
@@ -670,13 +674,12 @@ public:
             }
             DNALength seqLength = GetNextWithoutPosAdvance(seq);
             seq.length = seqLength;
-            if(readQVs) {
-                if (seqLength > 0 ) {
+            if (readQVs) {
+                if (seqLength > 0) {
                     if (includedFields["QualityValue"]) {
                         seq.AllocateQualitySpace(seqLength);
-                        qualArray.Read(curBasePos, 
-                                       curBasePos + seqLength, 
-                                       (unsigned char*) seq.qual.data);
+                        qualArray.Read(curBasePos, curBasePos + seqLength,
+                                       (unsigned char *)seq.qual.data);
                     }
                 }
             }
@@ -687,8 +690,7 @@ public:
             seq.SubreadStart(0).SubreadEnd(seq.length);
             zmwReader.GetNext(seq.zmwData);
         } catch (H5::DataSetIException e) {
-            cout << "ERROR, could not read bases or QVs for SMRTSequence "
-                << seq.GetName() << endl;
+            cout << "ERROR, could not read bases or QVs for SMRTSequence " << seq.GetName() << endl;
             exit(1);
         }
         return 1;
@@ -699,7 +701,8 @@ public:
     // fields with ZMW information for identification of this read.
     //
 
-    int GetNext(SMRTSequence &seq) {
+    int GetNext(SMRTSequence &seq)
+    {
         //
         // Read in quality values.
         //
@@ -708,8 +711,8 @@ public:
         DSLength curBasPosCopy = curBasePos;
 
         //
-        // Getting next advances the curBasPos to the end of 
-        // the current sequence. 
+        // Getting next advances the curBasPos to the end of
+        // the current sequence.
         //
         try {
             // must check before looking at HQRegionSNR/ReadScore!!
@@ -720,7 +723,7 @@ public:
             //
             // Bail now if the file is already done
             //
-            if ((retVal = this->GetNext((FASTQSequence&)seq)) == 0) {
+            if ((retVal = this->GetNext((FASTQSequence &)seq)) == 0) {
                 return 0;
             }
             // GetNext calls GetNextWithoutPosAdvance, which increments curRead
@@ -736,14 +739,14 @@ public:
             DSLength nextBasePos = curBasePos;
             curBasePos = curBasPosCopy;
 
-            if (includedFields["WidthInFrames"] ) {
+            if (includedFields["WidthInFrames"]) {
                 assert(nextBasePos <= basWidthInFramesArray.arrayLength);
                 GetNextWidthInFrames(seq);
             }
-            if (includedFields["PreBaseFrames"]) { 
+            if (includedFields["PreBaseFrames"]) {
                 GetNextPreBaseFrames(seq);
             }
-            if (includedFields["PulseIndex"]) { 
+            if (includedFields["PulseIndex"]) {
                 GetNextPulseIndex(seq);
             }
             curBasePos = nextBasePos;
@@ -754,51 +757,61 @@ public:
             //
             seq.SubreadStart(0).SubreadEnd(seq.length);
             zmwReader.GetNext(seq.zmwData);
-        } catch(H5::DataSetIException e) {
-            cout << "ERROR, could not read pulse metrics for SMRTSequence " 
-                << seq.GetName() << endl;
+        } catch (H5::DataSetIException e) {
+            cout << "ERROR, could not read pulse metrics for SMRTSequence " << seq.GetName()
+                 << endl;
             exit(1);
         }
         return retVal;
     }
 
-    void GetAllPulseIndex(std::vector<int> &pulseIndex) {
+    void GetAllPulseIndex(std::vector<int> &pulseIndex)
+    {
         CheckMemoryAllocation(pulseIndexArray.arrayLength, maxAllocNElements, "PulseIndex");
         pulseIndex.resize(pulseIndexArray.arrayLength);
         pulseIndexArray.Read(0, pulseIndexArray.arrayLength, &pulseIndex[0]);
     }
 
-    void GetAllPreBaseFrames(std::vector<uint16_t> &preBaseFrames) {
+    void GetAllPreBaseFrames(std::vector<uint16_t> &preBaseFrames)
+    {
         CheckMemoryAllocation(preBaseFramesArray.arrayLength, maxAllocNElements, "PreBaseFrames");
         preBaseFrames.resize(nBases);
         preBaseFramesArray.Read(0, nBases, &preBaseFrames[0]);
     }
 
-    void GetAllWidthInFrames(std::vector<uint16_t> &widthInFrames) { 
-        CheckMemoryAllocation(basWidthInFramesArray.arrayLength, maxAllocNElements, "WidthInFrames");
+    void GetAllWidthInFrames(std::vector<uint16_t> &widthInFrames)
+    {
+        CheckMemoryAllocation(basWidthInFramesArray.arrayLength, maxAllocNElements,
+                              "WidthInFrames");
         widthInFrames.resize(nBases);
         basWidthInFramesArray.Read(0, nBases, &widthInFrames[0]);
     }
 
-    size_t GetAllHoleStatus(std::vector<unsigned char> &holeStatus) {
-        CheckMemoryAllocation(zmwReader.holeStatusArray.arrayLength, maxAllocNElements, "HoleStatus (base)");
+    size_t GetAllHoleStatus(std::vector<unsigned char> &holeStatus)
+    {
+        CheckMemoryAllocation(zmwReader.holeStatusArray.arrayLength, maxAllocNElements,
+                              "HoleStatus (base)");
         holeStatus.resize(nReads);
-        zmwReader.holeStatusArray.Read(0,nReads, (unsigned char*)&holeStatus[0]);
+        zmwReader.holeStatusArray.Read(0, nReads, (unsigned char *)&holeStatus[0]);
         return holeStatus.size();
     }
 
-    size_t GetAllReadLengths(std::vector<DNALength> &readLengths) {
+    size_t GetAllReadLengths(std::vector<DNALength> &readLengths)
+    {
         readLengths.resize(nReads);
         zmwReader.numEventArray.ReadDataset(readLengths);
         return readLengths.size();
     }
 
-    UInt Advance(UInt nSeq) {
+    UInt Advance(UInt nSeq)
+    {
         // cannot advance past the end of this file
-        if (curRead + nSeq >= nReads) { return 0; }
-        for (UInt i = curRead; i < curRead + nSeq && i < nReads; i++ ) {
+        if (curRead + nSeq >= nReads) {
+            return 0;
+        }
+        for (UInt i = curRead; i < curRead + nSeq && i < nReads; i++) {
             DNALength seqLength;
-            zmwReader.numEventArray.Read(i, i+1, &seqLength);
+            zmwReader.numEventArray.Read(i, i + 1, &seqLength);
             curBasePos += seqLength;
         }
         curRead += nSeq;
@@ -806,9 +819,10 @@ public:
         return curRead;
     }
 
-    DNALength GetNextWithoutPosAdvance(FASTASequence &seq) {
+    DNALength GetNextWithoutPosAdvance(FASTASequence &seq)
+    {
         DNALength seqLength;
-        zmwReader.numEventArray.Read(curRead, curRead+1, &seqLength);
+        zmwReader.numEventArray.Read(curRead, curRead + 1, &seqLength);
 
         seq.length = 0;
         seq.seq = NULL;
@@ -816,24 +830,24 @@ public:
         if (includedFields["Basecall"]) {
             if (seqLength > 0) {
                 ResizeSequence(seq, seqLength);
-                baseArray.Read(curBasePos, curBasePos + seqLength, (unsigned char*) seq.seq);
+                baseArray.Read(curBasePos, curBasePos + seqLength, (unsigned char *)seq.seq);
             }
         }
 
         std::string readTitle;
         UInt holeNumber;
-        zmwReader.holeNumberArray.Read(curRead, curRead+1, &holeNumber);
+        zmwReader.holeNumberArray.Read(curRead, curRead + 1, &holeNumber);
 
         unsigned char holeStatus;
-        zmwReader.holeStatusArray.Read(curRead, curRead+1, &holeStatus);
+        zmwReader.holeStatusArray.Read(curRead, curRead + 1, &holeStatus);
 
-        DNALength simIndex=0, simCoordinate=0;
+        DNALength simIndex = 0, simCoordinate = 0;
 
         if (includedFields["SimulatedSequenceIndex"] == true) {
-            simulatedSequenceIndexArray.Read(curRead,curRead+1,&simIndex);
+            simulatedSequenceIndexArray.Read(curRead, curRead + 1, &simIndex);
         }
         if (includedFields["SimulatedCoordinate"] == true) {
-            simulatedCoordinateArray.Read(curRead, curRead+1, &simCoordinate);
+            simulatedCoordinateArray.Read(curRead, curRead + 1, &simCoordinate);
         }
 
         BuildReadTitle(scanDataReader.GetMovieName(), holeNumber, readTitle);
@@ -845,68 +859,80 @@ public:
         return seqLength;
     }
 
-    DNALength GetNextDeletionQV(FASTQSequence &seq) {
+    DNALength GetNextDeletionQV(FASTQSequence &seq)
+    {
         if (seq.length == 0) return 0;
         seq.AllocateDeletionQVSpace(seq.length);
-        deletionQVArray.Read(curBasePos, curBasePos + seq.length, (unsigned char*) seq.deletionQV.data);
+        deletionQVArray.Read(curBasePos, curBasePos + seq.length,
+                             (unsigned char *)seq.deletionQV.data);
         return seq.length;
     }
 
-    DNALength GetNextMergeQV(FASTQSequence &seq) {
+    DNALength GetNextMergeQV(FASTQSequence &seq)
+    {
         if (seq.length == 0) return 0;
         seq.AllocateMergeQVSpace(seq.length);
-        mergeQVArray.Read(curBasePos, curBasePos + seq.length, (unsigned char*) seq.mergeQV.data);
+        mergeQVArray.Read(curBasePos, curBasePos + seq.length, (unsigned char *)seq.mergeQV.data);
         return seq.length;
     }
 
-    DNALength GetNextDeletionTag(FASTQSequence &seq) {
+    DNALength GetNextDeletionTag(FASTQSequence &seq)
+    {
         if (seq.length == 0) return 0;
         seq.AllocateDeletionTagSpace(seq.length);
-        deletionTagArray.Read(curBasePos, curBasePos + seq.length, (unsigned char*) seq.deletionTag);
+        deletionTagArray.Read(curBasePos, curBasePos + seq.length,
+                              (unsigned char *)seq.deletionTag);
         return seq.length;
     }
 
-    DNALength GetNextInsertionQV(FASTQSequence &seq) {
+    DNALength GetNextInsertionQV(FASTQSequence &seq)
+    {
         if (seq.length == 0) return 0;
         seq.AllocateInsertionQVSpace(seq.length);
-        insertionQVArray.Read(curBasePos, curBasePos + seq.length, (unsigned char*) seq.insertionQV.data);
+        insertionQVArray.Read(curBasePos, curBasePos + seq.length,
+                              (unsigned char *)seq.insertionQV.data);
         return seq.length;
     }
 
-    DNALength GetNextWidthInFrames(SMRTSequence &seq) {
+    DNALength GetNextWidthInFrames(SMRTSequence &seq)
+    {
         if (seq.length == 0) return 0;
         if (seq.widthInFrames) {
-            delete [] seq.widthInFrames;
+            delete[] seq.widthInFrames;
             seq.widthInFrames = NULL;
         }
         seq.widthInFrames = ProtectedNew<HalfWord>(seq.length);
-        basWidthInFramesArray.Read(curBasePos, curBasePos + seq.length, (HalfWord*) seq.widthInFrames);
+        basWidthInFramesArray.Read(curBasePos, curBasePos + seq.length,
+                                   (HalfWord *)seq.widthInFrames);
         return seq.length;
     }
 
-    DNALength GetNextPreBaseFrames(SMRTSequence &seq) {
+    DNALength GetNextPreBaseFrames(SMRTSequence &seq)
+    {
         if (seq.length == 0) return 0;
         if (seq.preBaseFrames) {
-            delete [] seq.preBaseFrames;
+            delete[] seq.preBaseFrames;
             seq.preBaseFrames = NULL;
         }
         seq.preBaseFrames = ProtectedNew<HalfWord>(seq.length);
-        preBaseFramesArray.Read(curBasePos, curBasePos + seq.length, (HalfWord*) seq.preBaseFrames);
+        preBaseFramesArray.Read(curBasePos, curBasePos + seq.length, (HalfWord *)seq.preBaseFrames);
         return seq.length;
     }
 
-    DNALength GetNextPulseIndex(SMRTSequence &seq) {
+    DNALength GetNextPulseIndex(SMRTSequence &seq)
+    {
         if (seq.length == 0) return 0;
         if (seq.pulseIndex) {
-            delete [] seq.pulseIndex;
+            delete[] seq.pulseIndex;
             seq.pulseIndex = NULL;
         }
         seq.pulseIndex = ProtectedNew<int>(seq.length);
-        pulseIndexArray.Read(curBasePos, curBasePos + seq.length, (int*) seq.pulseIndex);
+        pulseIndexArray.Read(curBasePos, curBasePos + seq.length, (int *)seq.pulseIndex);
         return seq.length;
     }
 
-    int GetNextHQRegionSNR(SMRTSequence &seq) {
+    int GetNextHQRegionSNR(SMRTSequence &seq)
+    {
         float snrs[4];
         hqRegionSNRMatrix.Read(curRead, curRead + 1, snrs);
 
@@ -914,32 +940,38 @@ public:
         std::map<char, size_t> baseMap = scanDataReader.BaseMap();
         assert(ScanData::IsValidBaseMap(baseMap));
         seq.HQRegionSnr('A', snrs[baseMap['A']])
-           .HQRegionSnr('C', snrs[baseMap['C']])
-           .HQRegionSnr('G', snrs[baseMap['G']])
-           .HQRegionSnr('T', snrs[baseMap['T']]);
+            .HQRegionSnr('C', snrs[baseMap['C']])
+            .HQRegionSnr('G', snrs[baseMap['G']])
+            .HQRegionSnr('T', snrs[baseMap['T']]);
         return 4;
     }
 
-    int GetNextReadScore(SMRTSequence &seq) {
+    int GetNextReadScore(SMRTSequence &seq)
+    {
         readScoreArray.Read(curRead, curRead + 1, &seq.readScore);
         return 1;
     }
 
-    DNALength GetNextSubstitutionQV(FASTQSequence &seq) {
+    DNALength GetNextSubstitutionQV(FASTQSequence &seq)
+    {
         if (seq.length == 0) return 0;
         seq.AllocateSubstitutionQVSpace(seq.length);
-        substitutionQVArray.Read(curBasePos, curBasePos + seq.length, (unsigned char*) seq.substitutionQV.data);
+        substitutionQVArray.Read(curBasePos, curBasePos + seq.length,
+                                 (unsigned char *)seq.substitutionQV.data);
         return seq.length;
     }
 
-    DNALength GetNextSubstitutionTag(FASTQSequence &seq) {
+    DNALength GetNextSubstitutionTag(FASTQSequence &seq)
+    {
         if (seq.length == 0) return 0;
         seq.AllocateSubstitutionTagSpace(seq.length);
-        substitutionTagArray.Read(curBasePos, curBasePos + seq.length, (unsigned char*) seq.substitutionTag);		
+        substitutionTagArray.Read(curBasePos, curBasePos + seq.length,
+                                  (unsigned char *)seq.substitutionTag);
         return seq.length;
     }
 
-    void Close() {
+    void Close()
+    {
 
         baseCallsGroup.Close();
         zmwXCoordArray.Close();
@@ -989,17 +1021,19 @@ public:
         HDFPulseDataFile::Close();
     }
 
-    void ReadAllHoleXY(BaseFile &baseFile) {
+    void ReadAllHoleXY(BaseFile &baseFile)
+    {
         baseFile.holeXY.resize(nReads);
         for (UInt i = 0; i < nReads; i++) {
-            zmwReader.xyArray.Read(i, i+1, baseFile.holeXY[i].xy);
+            zmwReader.xyArray.Read(i, i + 1, baseFile.holeXY[i].xy);
         }
     }
 
     //
     // Return size of an entire field.
     //
-    DSLength GetFieldSize(const std::string & field) {
+    DSLength GetFieldSize(const std::string &field)
+    {
         if (not includedFields[field]) {
             cout << "ERROR, field [" << field << "] is not included in the base file." << endl;
             exit(1);
@@ -1010,11 +1044,11 @@ public:
             return qualArray.arrayLength / 1024 * sizeof(unsigned char);
         } else if (field == "DeletionQV") {
             return deletionQVArray.arrayLength / 1024 * sizeof(unsigned char);
-        } else if (field == "DeletionTag")  {
+        } else if (field == "DeletionTag") {
             return deletionTagArray.arrayLength / 1024 * sizeof(unsigned char);
         } else if (field == "MergeQV") {
             return mergeQVArray.arrayLength / 1024 * sizeof(unsigned char);
-        } else if (field == "InsertionQV") { 
+        } else if (field == "InsertionQV") {
             return insertionQVArray.arrayLength / 1024 * sizeof(unsigned char);
         } else if (field == "SubstitutionQV") {
             return substitutionQVArray.arrayLength / 1024 * sizeof(unsigned char);
@@ -1027,7 +1061,7 @@ public:
         } else if (field == "PulseIndex") {
             return pulseIndexArray.arrayLength / 1024 * sizeof(int);
         } else {
-            cout << "ERROR, field [" << field << "] is not supported. " << endl ;
+            cout << "ERROR, field [" << field << "] is not supported. " << endl;
             exit(1);
         }
     }
@@ -1035,26 +1069,27 @@ public:
     //
     // Read an entire field.
     //
-    void ReadField(BaseFile & baseFile, const std::string & field) {
+    void ReadField(BaseFile &baseFile, const std::string &field)
+    {
         if (not includedFields[field]) {
             cout << "ERROR, field [" << field << "] is not included in the base file." << endl;
             exit(1);
         }
         if (field == "Basecall") {
             assert(nBases == baseArray.arrayLength);
-            baseArray.ReadDataset(baseFile.baseCalls); 
+            baseArray.ReadDataset(baseFile.baseCalls);
         } else if (field == "QualityValue") {
             qualArray.ReadDataset(baseFile.qualityValues);
         } else if (field == "DeletionQV") {
             deletionQVArray.ReadDataset(baseFile.deletionQV);
-        } else if (field == "DeletionTag")  {
+        } else if (field == "DeletionTag") {
             deletionTagArray.ReadDataset(baseFile.deletionTag);
         } else if (field == "MergeQV") {
             mergeQVArray.ReadDataset(baseFile.mergeQV);
-        } else if (field == "InsertionQV") { 
+        } else if (field == "InsertionQV") {
             insertionQVArray.ReadDataset(baseFile.insertionQV);
         } else if (field == "SubstitutionQV") {
-            substitutionQVArray.ReadDataset(baseFile.substitutionQV);			
+            substitutionQVArray.ReadDataset(baseFile.substitutionQV);
         } else if (field == "SubstitutionTag") {
             substitutionTagArray.ReadDataset(baseFile.substitutionTag);
         } else if (field == "WidthInFrames") {
@@ -1064,7 +1099,7 @@ public:
         } else if (field == "PulseIndex") {
             pulseIndexArray.ReadDataset(baseFile.pulseIndex);
         } else {
-            cout << "ERROR, field [" << field << "] is not supported. " << endl ;
+            cout << "ERROR, field [" << field << "] is not supported. " << endl;
             exit(1);
         }
     }
@@ -1072,7 +1107,8 @@ public:
     //
     // Clear memory allocated for a field
     //
-    void ClearField(BaseFile & baseFile, const std::string & field) {
+    void ClearField(BaseFile &baseFile, const std::string &field)
+    {
         if (not includedFields[field]) {
             cout << "ERROR, field [" << field << "] is not included in the base file." << endl;
             exit(1);
@@ -1083,11 +1119,11 @@ public:
             ClearMemory(baseFile.qualityValues);
         } else if (field == "DeletionQV") {
             ClearMemory(baseFile.deletionQV);
-        } else if (field == "DeletionTag")  {
+        } else if (field == "DeletionTag") {
             ClearMemory(baseFile.deletionTag);
         } else if (field == "MergeQV") {
-            ClearMemory(baseFile.mergeQV); 
-        } else if (field == "InsertionQV") { 
+            ClearMemory(baseFile.mergeQV);
+        } else if (field == "InsertionQV") {
             ClearMemory(baseFile.insertionQV);
         } else if (field == "SubstitutionQV") {
             ClearMemory(baseFile.substitutionQV);
@@ -1096,19 +1132,20 @@ public:
         } else if (field == "WidthInFrames") {
             ClearMemory(baseFile.basWidthInFrames);
         } else if (field == "PreBaseFrames") {
-            ClearMemory(baseFile.preBaseFrames); 
+            ClearMemory(baseFile.preBaseFrames);
         } else if (field == "PulseIndex") {
             ClearMemory(baseFile.pulseIndex);
         } else {
-            cout << "ERROR, field [" << field << "] is supported. " << endl ;
+            cout << "ERROR, field [" << field << "] is supported. " << endl;
             exit(1);
         }
     }
 
     //
-    // Initialization for reading a base file.  
+    // Initialization for reading a base file.
     //
-    void ReadBaseFileInit(BaseFile & baseFile) {
+    void ReadBaseFileInit(BaseFile &baseFile)
+    {
         if (scanDataReader.fileHasScanData) {
             scanDataReader.Read(baseFile.scanData);
         }
@@ -1126,14 +1163,13 @@ public:
         // Cache the start positions of all reads.
         //
         assert(baseFile.nReads == baseFile.readLengths.size());
-        baseFile.readStartPositions.resize(baseFile.readLengths.size()+1);
+        baseFile.readStartPositions.resize(baseFile.readLengths.size() + 1);
 
-        if ( baseFile.readLengths.size() > 0 ) {
+        if (baseFile.readLengths.size() > 0) {
             baseFile.readStartPositions[0] = 0;
-            for (size_t i = 1; i < baseFile.readLengths.size()+1; i++) {
-                baseFile.readStartPositions[i] = 
-                    (baseFile.readStartPositions[i-1] +
-                     baseFile.readLengths[i-1]);
+            for (size_t i = 1; i < baseFile.readLengths.size() + 1; i++) {
+                baseFile.readStartPositions[i] =
+                    (baseFile.readStartPositions[i - 1] + baseFile.readLengths[i - 1]);
             }
         }
     }
@@ -1141,7 +1177,8 @@ public:
     //
     // Read a base file.
     //
-    void ReadBaseFile(BaseFile &baseFile) {
+    void ReadBaseFile(BaseFile &baseFile)
+    {
         ReadBaseFileInit(baseFile);
 
         if (includedFields["Basecall"]) {
@@ -1172,10 +1209,10 @@ public:
             substitutionTagArray.ReadDataset(baseFile.substitutionTag);
         }
         if (includedFields["SubstitutionQV"]) {
-            substitutionQVArray.ReadDataset(baseFile.substitutionQV);			
+            substitutionQVArray.ReadDataset(baseFile.substitutionQV);
         }
         if (includedFields["MergeQV"]) {
-            mergeQVArray.ReadDataset(baseFile.mergeQV);			
+            mergeQVArray.ReadDataset(baseFile.mergeQV);
         }
         if (includedFields["DeletionQV"]) {
             deletionQVArray.ReadDataset(baseFile.deletionQV);
@@ -1187,14 +1224,15 @@ public:
         baseFile.nBases = nBases;
         baseFile.scanData.platformId = scanDataReader.platformId;
     }
-    
-    void GetMinMaxHoleNumber(UInt &minHole, UInt &maxHole) {
+
+    void GetMinMaxHoleNumber(UInt &minHole, UInt &maxHole)
+    {
         assert(nReads >= 0);
         // Assume that hole numbers are ascendingly sorted in ZMW/HoleNumber.
-        if (not zmwReader.GetHoleNumberAt(0, minHole) or 
+        if (not zmwReader.GetHoleNumberAt(0, minHole) or
             not zmwReader.GetHoleNumberAt(nReads - 1, maxHole)) {
             cout << "ERROR, could not get the minimum and maximum hole numbers "
-                    << "from ZMW HoleNumbers." << endl;
+                 << "from ZMW HoleNumbers." << endl;
             exit(1);
         }
     }
@@ -1202,6 +1240,5 @@ public:
 
 typedef T_HDFBasReader<FASTASequence> HDFBasReader;
 typedef T_HDFBasReader<FASTQSequence> HDFQualReader;
-
 
 #endif

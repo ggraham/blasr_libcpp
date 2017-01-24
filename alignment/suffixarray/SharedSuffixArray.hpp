@@ -4,18 +4,16 @@
 #include <stdlib.h>
 #include <fstream>
 #include <sstream>
-#include "SuffixArray.hpp"
-#include "../ipc/SharedMemoryAllocator.hpp"
-#include "../tuples/DNATuple.hpp"
-#include "../tuples/CompressedDNATuple.hpp"
 #include "../algorithms/compare/CompareStrings.hpp"
+#include "../ipc/SharedMemoryAllocator.hpp"
+#include "../tuples/CompressedDNATuple.hpp"
+#include "../tuples/DNATuple.hpp"
+#include "SuffixArray.hpp"
 
-
-template<typename T, 
-    typename Sigma,
-    typename Compare = DefaultCompareStrings<T>,
-    typename Tuple   = DNATuple >
-class SharedSuffixArray : public SuffixArray<T, Sigma, Compare, Tuple> {
+template <typename T, typename Sigma, typename Compare = DefaultCompareStrings<T>,
+          typename Tuple = DNATuple>
+class SharedSuffixArray : public SuffixArray<T, Sigma, Compare, Tuple>
+{
 public:
     std::string shmIdTag;
     SAIndex *indexShared;
@@ -26,16 +24,17 @@ public:
     std::string lookupTableHandle;
     int lookupPrefixLength;
 
-    void InitShmIdTag() {
+    void InitShmIdTag()
+    {
         std::stringstream tagStrm;
         tagStrm << "_" << getpid();
         shmIdTag = tagStrm.str();
     }
 
-
-    void ReadSharedArray(std::ifstream &saIn) {
+    void ReadSharedArray(std::ifstream &saIn)
+    {
         std::cout << "reading a shared suffix array index." << std::endl;
-        saIn.read((char*) &this->length, sizeof(int));
+        saIn.read((char *)&this->length, sizeof(int));
         indexHandle = "suffixarray.index." + shmIdTag;
         AllocateMappedShare(indexHandle, this->length + 1, indexShared, indexID);
         std::cout << "the shared index is: " << indexShared << std::endl;
@@ -44,40 +43,41 @@ public:
         this->ReadAllocatedArray(saIn);
     }
 
-    void ReadSharedLookupTable(std::ifstream &saIn) {
+    void ReadSharedLookupTable(std::ifstream &saIn)
+    {
         this->ReadLookupTableLengths(saIn);
         lookupTableHandle = "suffixarray.lookuptable." + shmIdTag;
-        AllocateMappedShare(lookupTableHandle, this->lookupTableLength + 1, lookupTableShared, lookupTableID);
+        AllocateMappedShare(lookupTableHandle, this->lookupTableLength + 1, lookupTableShared,
+                            lookupTableID);
         this->lookupTable = lookupTableShared;
         this->ReadAllocatedLookupTable(saIn);
     }
 
-    void ReadShared(std::string &inFileName) {
+    void ReadShared(std::string &inFileName)
+    {
         std::ifstream saIn;
         InitShmIdTag();
         saIn.open(inFileName.c_str(), std::ios::binary);
         this->ReadComponentList(saIn);
-        if (this->componentList[SuffixArray<T,Sigma,Compare,Tuple>::CompArray]) {
+        if (this->componentList[SuffixArray<T, Sigma, Compare, Tuple>::CompArray]) {
             this->ReadSharedArray(saIn);
         }
-        if (this->componentList[SuffixArray<T,Sigma,Compare,Tuple>::CompLookupTable]) {
+        if (this->componentList[SuffixArray<T, Sigma, Compare, Tuple>::CompLookupTable]) {
             this->ReadSharedLookupTable(saIn);
         }
         saIn.close();
     }
 
-    void FreeShared() {
+    void FreeShared()
+    {
 
-        if (this->componentList[SuffixArray<T,Sigma,Compare,Tuple>::CompArray]) {
+        if (this->componentList[SuffixArray<T, Sigma, Compare, Tuple>::CompArray]) {
             shm_unlink(indexHandle.c_str());
         }
-        if (this->componentList[SuffixArray<T,Sigma,Compare,Tuple>::CompLookupTable]) {
+        if (this->componentList[SuffixArray<T, Sigma, Compare, Tuple>::CompLookupTable]) {
             shm_unlink(lookupTableHandle.c_str());
         }
     }
-
-
 };
 
-
-#endif // _BLASR_SHARED_SUFFIX_ARRAY_HPP_
+#endif  // _BLASR_SHARED_SUFFIX_ARRAY_HPP_

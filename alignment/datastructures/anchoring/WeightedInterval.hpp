@@ -1,14 +1,15 @@
 #ifndef _BLASR_WEIGHTED_INTERVAL_HPP_
 #define _BLASR_WEIGHTED_INTERVAL_HPP_
 
-#include <vector>
 #include <set>
+#include <vector>
 #include "../../../pbdata/DNASequence.hpp"
 #include "MatchPos.hpp"
 
-class WeightedInterval {
+class WeightedInterval
+{
 public:
-    DNALength size; // not necessarily end - start + 1
+    DNALength size;  // not necessarily end - start + 1
     DNALength start;
     DNALength end;
     DNALength qStart, qEnd;
@@ -24,19 +25,16 @@ public:
 
     WeightedInterval();
 
-    WeightedInterval(int _size, int _start, int _end, 
-        int _readIndex, float _pValue =0.0);
+    WeightedInterval(int _size, int _start, int _end, int _readIndex, float _pValue = 0.0);
 
-    WeightedInterval(int _size, int _start, int _end, 
-        int _readIndex, float _pValue, int _qStart, int _qEnd);
+    WeightedInterval(int _size, int _start, int _end, int _readIndex, float _pValue, int _qStart,
+                     int _qEnd);
 
-    WeightedInterval(int _size, unsigned int _nAnchors, 
-        unsigned int _totalAnchorSize, int _start, int _end, 
-        int _readIndex, float _pValue, int _qStart, int _qEnd, 
-        std::vector<ChainedMatchPos> &_matches);
+    WeightedInterval(int _size, unsigned int _nAnchors, unsigned int _totalAnchorSize, int _start,
+                     int _end, int _readIndex, float _pValue, int _qStart, int _qEnd,
+                     std::vector<ChainedMatchPos> &_matches);
 
-    void Init(int _size, int _start, int _end, 
-        int _readIndex, float _pValue);
+    void Init(int _size, int _start, int _end, int _readIndex, float _pValue);
 
     int GetStrandIndex() const;
     void SetPValueVariance(float v);
@@ -46,11 +44,11 @@ public:
     int operator<(const WeightedInterval &intv) const;
     int operator==(const WeightedInterval &intv) const;
 
-    friend std::ostream & operator << (std::ostream & out, const WeightedInterval & wi) {
-        out << "[WeightedInterval size=" << wi.size
-            << " start=" << wi.start << " end=" << wi.end
-            << " qstart=" << wi.qStart << " qend=" << wi.qEnd 
-            << " strand=" << wi.readIndex << " pval=" << wi.pValue << "]";
+    friend std::ostream &operator<<(std::ostream &out, const WeightedInterval &wi)
+    {
+        out << "[WeightedInterval size=" << wi.size << " start=" << wi.start << " end=" << wi.end
+            << " qstart=" << wi.qStart << " qend=" << wi.qEnd << " strand=" << wi.readIndex
+            << " pval=" << wi.pValue << "]";
         return out;
     }
 
@@ -58,26 +56,28 @@ public:
     int Size() const;
 };
 
-class CompareWeightedIntervalByPValue {
+class CompareWeightedIntervalByPValue
+{
 public:
-    int operator()(const WeightedInterval& a, const WeightedInterval& b) const;
+    int operator()(const WeightedInterval &a, const WeightedInterval &b) const;
 };
 
 typedef std::vector<WeightedInterval> WeightedIntervalVector;
 
-typedef std::multiset<WeightedInterval, CompareWeightedIntervalByPValue> 
-T_WeightedIntervalMultiSet;
+typedef std::multiset<WeightedInterval, CompareWeightedIntervalByPValue> T_WeightedIntervalMultiSet;
 
-class WeightedIntervalSet: public T_WeightedIntervalMultiSet {
+class WeightedIntervalSet : public T_WeightedIntervalMultiSet
+{
 public:
     size_t maxSize;
     WeightedIntervalSet();
     WeightedIntervalSet(const size_t maxSizeP);
     bool insert(WeightedInterval &intv);
-    friend std::ostream & operator << (std::ostream & out, const WeightedIntervalSet & wis) {
+    friend std::ostream &operator<<(std::ostream &out, const WeightedIntervalSet &wis)
+    {
         WeightedIntervalSet::iterator it;
         for (it = wis.begin(); it != wis.end(); it++) {
-            out << *((WeightedInterval*)&(*it)) << std::endl;
+            out << *((WeightedInterval *)&(*it)) << std::endl;
         }
         return out;
     }

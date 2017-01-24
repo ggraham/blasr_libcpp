@@ -3,17 +3,14 @@
 
 #include <string>
 
-template<typename T_AlignChar=char>
-class AlignedPair {
- public:
-	int length;
-	T_AlignChar *tAlignmentSeq;
-	T_AlignChar *qAlignmentSeq;
+template <typename T_AlignChar = char>
+class AlignedPair
+{
+public:
+    int length;
+    T_AlignChar *tAlignmentSeq;
+    T_AlignChar *qAlignmentSeq;
 };
 
-
-inline
-void ReadCompareSequencesAlignment {
-
-}
+inline void ReadCompareSequencesAlignment {}
 #endif

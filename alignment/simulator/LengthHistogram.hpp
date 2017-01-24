@@ -4,16 +4,17 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "CDFMap.hpp"
-#include "../../pbdata/alignment/CmpAlignment.hpp" // pbdata
+#include "../../pbdata/alignment/CmpAlignment.hpp"  // pbdata
 #include "../../pbdata/utils.hpp"
+#include "CDFMap.hpp"
 
-class LengthHistogram {
+class LengthHistogram
+{
 public:
     CDFMap<int> lengthHistogram;
 
     int Read(std::string &inName);
-   
+
     int Read(std::ifstream &in);
 
     void GetRandomLength(int &length);

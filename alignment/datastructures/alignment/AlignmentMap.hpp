@@ -3,18 +3,15 @@
 
 #include <vector>
 
-class AlignmentMap {
- public:
-	int qPos, tPos;
-	std::vector<int> alignPos;
+class AlignmentMap
+{
+public:
+    int qPos, tPos;
+    std::vector<int> alignPos;
 };
 
-
 // Build a map of positions from (unaligned) bases to an aligned sequence
-void 
-CreateSequenceToAlignmentMap(const std::string & alignedSequence,
-        std::vector<int> & baseToAlignmentMap); 
+void CreateSequenceToAlignmentMap(const std::string& alignedSequence,
+                                  std::vector<int>& baseToAlignmentMap);
 
-
-#endif // _BLASR_ALIGNMENT_MAP_HPP_
-
+#endif  // _BLASR_ALIGNMENT_MAP_HPP_

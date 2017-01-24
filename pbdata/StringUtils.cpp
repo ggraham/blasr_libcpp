@@ -1,25 +1,26 @@
-#include <string>
-#include <stdint.h>
-#include <vector>
-#include <sstream>
-#include "Types.h"
-#include "MD5Utils.hpp"
 #include "StringUtils.hpp"
+#include <stdint.h>
+#include <sstream>
+#include <string>
+#include <vector>
+#include "MD5Utils.hpp"
+#include "Types.h"
 
-int ExactPatternMatch(string orig, string pattern) {
+int ExactPatternMatch(string orig, string pattern)
+{
     string::size_type pos = orig.find(pattern);
     if (pos == orig.npos) {
         return 0;
-    }
-    else {
+    } else {
         return 1;
     }
 }
 
-void MakeMD5(const char *data, unsigned int dataLength, string &md5Str, int nChars) {
+void MakeMD5(const char *data, unsigned int dataLength, string &md5Str, int nChars)
+{
 
     MD5 md5engine;
-    md5engine.update((unsigned char*) data, dataLength);
+    md5engine.update((unsigned char *)data, dataLength);
     md5engine.finalize();
 
     char *md5c_str = md5engine.hex_digest();
@@ -31,27 +32,27 @@ void MakeMD5(const char *data, unsigned int dataLength, string &md5Str, int nCha
     delete[] md5c_str;
 }
 
-
-void MakeMD5(string &data, string &md5Str, int nChars) {
+void MakeMD5(string &data, string &md5Str, int nChars)
+{
     MakeMD5(data.c_str(), data.size(), md5Str, nChars);
 }
 
+int IsWhitespace(char c) { return (c == ' ' or c == '\t' or c == '\n' or c == '\r' or c == '\0'); }
 
-int IsWhitespace(char c) {
-    return (c == ' ' or c == '\t' or c == '\n' or c == '\r' or c == '\0');
-}
+int IsSpace(char c) { return (c == ' ' or c == '\t'); }
 
-int IsSpace(char c) {
-    return (c == ' ' or c == '\t');
-}
-
-size_t ToWords(string &orig, vector<string> &words) {
+size_t ToWords(string &orig, vector<string> &words)
+{
     size_t curWordStart, curWordEnd;
     curWordStart = 0;
-    while(curWordStart < orig.size()) {
-        while (curWordStart < orig.size() and IsSpace(orig[curWordStart])) { curWordStart++; }
+    while (curWordStart < orig.size()) {
+        while (curWordStart < orig.size() and IsSpace(orig[curWordStart])) {
+            curWordStart++;
+        }
         curWordEnd = curWordStart;
-        while (curWordEnd < orig.size() and !IsSpace(orig[curWordEnd])) { curWordEnd++; }
+        while (curWordEnd < orig.size() and !IsSpace(orig[curWordEnd])) {
+            curWordEnd++;
+        }
         string word;
         if (curWordEnd != curWordStart) {
             word.assign(orig, curWordStart, curWordEnd - curWordStart);
@@ -63,13 +64,14 @@ size_t ToWords(string &orig, vector<string> &words) {
 }
 
 // Splice a string by pattern and save to a vector of token strings.
-int Splice(const string & orig, const string & pattern, vector<string> & tokens) {
+int Splice(const string &orig, const string &pattern, vector<string> &tokens)
+{
     assert(pattern.size() > 0);
 
     tokens.clear();
     size_t search_start = 0;
     size_t find_pos = orig.find(pattern, search_start);
-    while(find_pos != string::npos) {
+    while (find_pos != string::npos) {
         string x = orig.substr(search_start, find_pos - search_start);
         tokens.push_back(x);
         search_start = find_pos + pattern.size();
@@ -79,7 +81,8 @@ int Splice(const string & orig, const string & pattern, vector<string> & tokens)
     return tokens.size();
 }
 
-void ParseSeparatedList(const string &csl, vector<string> &values, char delim) {
+void ParseSeparatedList(const string &csl, vector<string> &values, char delim)
+{
     stringstream cslStrm(csl);
     string valString;
     string next;
@@ -89,14 +92,15 @@ void ParseSeparatedList(const string &csl, vector<string> &values, char delim) {
                 values.push_back(valString);
             }
         }
-    }
-    while (cslStrm);
+    } while (cslStrm);
 }
 
-int AssignUntilFirstSpace(char *orig, int origLength, string &result) {
+int AssignUntilFirstSpace(char *orig, int origLength, string &result)
+{
     int i;
-    for (i = 0; i < origLength; i++ ){ 
-        if (orig[i] == ' ' or orig[i] == '\t' or orig[i] == '\n' or orig[i] == '\r' or orig[i] == '\0') {
+    for (i = 0; i < origLength; i++) {
+        if (orig[i] == ' ' or orig[i] == '\t' or orig[i] == '\n' or orig[i] == '\r' or
+            orig[i] == '\0') {
             break;
         }
     }
@@ -104,7 +108,8 @@ int AssignUntilFirstSpace(char *orig, int origLength, string &result) {
     return i;
 }
 
-string RStrip(string & fileName) {
+string RStrip(string &fileName)
+{
     // Remove right-ended spaces
     int i = fileName.size();
     if (i == 0) {
@@ -119,12 +124,13 @@ string RStrip(string & fileName) {
     return fileName.substr(0, i + 1);
 }
 
-string MakeReadGroupId(const string & movieName, const ReadType::ReadTypeEnum & readType) {
+string MakeReadGroupId(const string &movieName, const ReadType::ReadTypeEnum &readType)
+{
     // PBBAM spec 3.0b5:
     // Read Group Id is computed as MD5(${movieName}//${readType})[0:8], where
     // movieName is PacBio platform unit id, e.g., (m140905_042...77_s1_X0),
-    // readtype is SUBREAD, CCS or UNKNOWN, 
-    // CCS reads for a movie named "movie32" would have 
+    // readtype is SUBREAD, CCS or UNKNOWN,
+    // CCS reads for a movie named "movie32" would have
     // RGID STRING = "f5b4ffb6"
     string seed = movieName + "//" + ReadType::ToString(readType);
     string readGroupId;

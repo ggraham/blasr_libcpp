@@ -3,10 +3,11 @@
 
 #include <fstream>
 #include <iostream>
-#include "../../../pbdata/qvs/QualityValue.hpp"
 #include "../../../pbdata/DNASequence.hpp"
+#include "../../../pbdata/qvs/QualityValue.hpp"
 
-class AnchorParameters {
+class AnchorParameters
+{
 public:
     QualityValue branchQualityThreshold;
     DNALength minMatchLength;
@@ -24,12 +25,11 @@ public:
     std::ostream *lcpBoundsOutPtr;
     int branchExpand;
 
-    AnchorParameters(); 
+    AnchorParameters();
 
     AnchorParameters &Assign(const AnchorParameters &rhs);
 
-    AnchorParameters &operator=(const AnchorParameters &rhs); 
+    AnchorParameters &operator=(const AnchorParameters &rhs);
 };
 
-
-#endif // _BLASR_ANCHOR_PARAMETERS_HPP_
+#endif  // _BLASR_ANCHOR_PARAMETERS_HPP_

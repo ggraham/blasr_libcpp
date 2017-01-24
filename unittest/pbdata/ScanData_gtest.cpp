@@ -19,7 +19,8 @@
 #include "gtest/gtest.h"
 #include "reads/ScanData.hpp"
 
-TEST(ScanDataTest, GetMovieName) {
+TEST(ScanDataTest, GetMovieName)
+{
     ScanData sd;
     EXPECT_EQ(sd.platformId, NoPlatform);
     EXPECT_EQ(sd.frameRate, 0);

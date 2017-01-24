@@ -3,18 +3,17 @@
 using namespace H5;
 using namespace std;
 
-HDFFile::HDFFile() {
-}
+HDFFile::HDFFile() {}
 
 //
 //  Open a file.  By default, if the file already exists, open it in
 //  read/write mode.  The only other flag that is allowed is
 //  H5F_ACC_TRUNC, which will truncate the file to zero size.
 //
-void HDFFile::Open(string fileName, unsigned int flags, 
-    const FileAccPropList& fileAccPropList) {
+void HDFFile::Open(string fileName, unsigned int flags, const FileAccPropList& fileAccPropList)
+{
 
-    assert (flags == H5F_ACC_RDWR || flags == H5F_ACC_TRUNC || flags == H5F_ACC_RDONLY);
+    assert(flags == H5F_ACC_RDWR || flags == H5F_ACC_TRUNC || flags == H5F_ACC_RDONLY);
     ifstream testIn(fileName.c_str());
     bool fileExists = static_cast<bool>(testIn);
     bool flagsIsNotTrunc = flags != H5F_ACC_TRUNC;
@@ -22,13 +21,11 @@ void HDFFile::Open(string fileName, unsigned int flags,
     if (fileExists and H5File::isHdf5(fileName.c_str()) and flagsIsNotTrunc) {
         try {
             hdfFile.openFile(fileName.c_str(), flags, fileAccPropList);
-        }
-        catch (FileIException e) {
+        } catch (FileIException e) {
             cout << "Error opening file " << fileName << endl;
             exit(1);
         }
-    }
-    else {
+    } else {
         try {
             //
             // Open a new file with TRUNC permissions, always read/write.
@@ -36,8 +33,7 @@ void HDFFile::Open(string fileName, unsigned int flags,
             FileCreatPropList filePropList;
             filePropList.setUserblock(512);
             hdfFile = H5File(fileName.c_str(), H5F_ACC_TRUNC, filePropList);
-        }
-        catch (FileIException fileException) {
+        } catch (FileIException fileException) {
             cout << "Error creating file " << fileName << endl;
             exit(1);
         }
@@ -48,6 +44,4 @@ void HDFFile::Open(string fileName, unsigned int flags,
     }
 }
 
-void HDFFile::Close() {
-    hdfFile.close();
-}
+void HDFFile::Close() { hdfFile.close(); }

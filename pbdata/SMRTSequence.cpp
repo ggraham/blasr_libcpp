@@ -1,30 +1,30 @@
 // Author: Mark Chaisson
 
+#include "SMRTSequence.hpp"
 #include <stdlib.h>
 #include "utils/SMRTTitle.hpp"
-#include "SMRTSequence.hpp"
 
 using namespace std;
 
 SMRTSequence::SMRTSequence()
     : FASTQSequence()
-    , subreadStart_(0)      // subread start
-    , subreadEnd_(0)        // subread end
-    , readGroupId_("")      // read group id
+    , subreadStart_(0)  // subread start
+    , subreadEnd_(0)    // subread end
+    , readGroupId_("")  // read group id
     , zmwData(ZMWGroupEntry())
-    , lowQualityPrefix(0)   // By default, allow the entire read.
-    , lowQualitySuffix(0)   // By default, allow the entire read.
-    , highQualityRegionScore(0) // HQ read score
-    , readScore(0)          // read score
+    , lowQualityPrefix(0)        // By default, allow the entire read.
+    , lowQualitySuffix(0)        // By default, allow the entire read.
+    , highQualityRegionScore(0)  // HQ read score
+    , readScore(0)               // read score
     , copiedFromBam(false)
     , preBaseFrames(nullptr)
     , widthInFrames(nullptr)
-    , meanSignal(nullptr)   // not allocated by default
-    , maxSignal(nullptr)    // not allocated by default
-    , midSignal(nullptr)    // not allocated by default
-    , classifierQV(nullptr) // not allocated by default
-    , startFrame(nullptr)   // not allocated by default
-    , pulseIndex(nullptr)   // not allocated by default
+    , meanSignal(nullptr)    // not allocated by default
+    , maxSignal(nullptr)     // not allocated by default
+    , midSignal(nullptr)     // not allocated by default
+    , classifierQV(nullptr)  // not allocated by default
+    , startFrame(nullptr)    // not allocated by default
+    , pulseIndex(nullptr)    // not allocated by default
 #ifdef USE_PBBAM
     , bamRecord(PacBio::BAM::BamRecord())
 #endif
@@ -35,34 +35,33 @@ SMRTSequence::SMRTSequence()
     }
 }
 
-void SMRTSequence::Allocate(DNALength length) {
+void SMRTSequence::Allocate(DNALength length)
+{
     // Assert *this has no allocated space.
-    if (not (seq == NULL && preBaseFrames == NULL &&
-             widthInFrames == NULL and pulseIndex == NULL)) {
+    if (not(seq == NULL && preBaseFrames == NULL && widthInFrames == NULL and pulseIndex == NULL)) {
         cout << "ERROR, trying to double-allocate memory for a SMRTSequence." << endl;
         exit(1);
     }
 
     FASTQSequence::AllocateQualitySpace(length);
     FASTQSequence::AllocateRichQualityValues(length);
-    seq           = ProtectedNew<Nucleotide>(length);
-    this->length  = length;
+    seq = ProtectedNew<Nucleotide>(length);
+    this->length = length;
     preBaseFrames = ProtectedNew<HalfWord>(length);
     widthInFrames = ProtectedNew<HalfWord>(length);
-    pulseIndex    = ProtectedNew<int>(length);
-    subreadEnd_   = length;
-    deleteOnExit  = true;
+    pulseIndex = ProtectedNew<int>(length);
+    subreadEnd_ = length;
+    deleteOnExit = true;
 }
 
-void SMRTSequence::CompactAllocate(const DNALength length,
-                                   const bool hasInsertionDeletionQVTag,
-                                   const bool hasSubstitutionQVTag) {
+void SMRTSequence::CompactAllocate(const DNALength length, const bool hasInsertionDeletionQVTag,
+                                   const bool hasSubstitutionQVTag)
+{
     // Only allocate necessary QVs for computing alignments
     // Insertion QV, Deletion QV and Deletion Tag must be either all exist or none exist
     // Substitution QV and tag must be either both exist or non exist.
-    assert(seq == NULL && preBaseFrames == NULL &&
-           widthInFrames == NULL and pulseIndex == NULL);
-    seq           = ProtectedNew<Nucleotide>(length);
+    assert(seq == NULL && preBaseFrames == NULL && widthInFrames == NULL and pulseIndex == NULL);
+    seq = ProtectedNew<Nucleotide>(length);
     if (hasInsertionDeletionQVTag) {
         this->AllocateInsertionQVSpace(length);
         this->insertionQV.Fill(0);
@@ -78,111 +77,119 @@ void SMRTSequence::CompactAllocate(const DNALength length,
         this->AllocateSubstitutionTagSpace(length);
         memset(this->substitutionTag, 'N', sizeof(char) * length);
     }
-    this->length  = length;
-    subreadEnd_   = length;
-    deleteOnExit  = true;
+    this->length = length;
+    subreadEnd_ = length;
+    deleteOnExit = true;
 }
 
-
-void SMRTSequence::SetSubreadTitle(SMRTSequence &subread, DNALength subreadStart, DNALength subreadEnd) {
+void SMRTSequence::SetSubreadTitle(SMRTSequence &subread, DNALength subreadStart,
+                                   DNALength subreadEnd)
+{
     stringstream titleStream;
-    titleStream << title << "/"<< subreadStart << "_" << subreadEnd;
+    titleStream << title << "/" << subreadStart << "_" << subreadEnd;
     subread.CopyTitle(titleStream.str());
 }
 
-void SMRTSequence::SetSubreadBoundaries(SMRTSequence &subread, DNALength subreadStart, DNALength subreadEnd) {
+void SMRTSequence::SetSubreadBoundaries(SMRTSequence &subread, DNALength subreadStart,
+                                        DNALength subreadEnd)
+{
     if (subreadEnd == static_cast<DNALength>(-1)) {
         subreadEnd = length;
     }
     assert(subreadEnd - subreadStart <= length);
     subread.subreadStart_ = subreadStart;
-    subread.subreadEnd_  = subreadEnd;
+    subread.subreadEnd_ = subreadEnd;
     SetSubreadTitle(subread, subreadStart, subreadEnd);
 }
 
-void SMRTSequence::MakeSubreadAsMasked(SMRTSequence &subread,
-    DNALength subreadStart, int subreadEnd) {
+void SMRTSequence::MakeSubreadAsMasked(SMRTSequence &subread, DNALength subreadStart,
+                                       int subreadEnd)
+{
     subread.Free();
     //
     // This creates the entire subread, but masks out the portions
     // that do not correspond to this insert.
     //
-    static_cast<SMRTSequence*>(&subread)->Copy(*this);
+    static_cast<SMRTSequence *>(&subread)->Copy(*this);
     SetSubreadBoundaries(subread, subreadStart, subreadEnd);
     DNALength pos;
-    for (pos = 0; pos < subreadStart; pos++) { subread.seq[pos] = 'N'; }
-    for (pos = subreadEnd; pos < length; pos++) { subread.seq[pos] = 'N'; }
+    for (pos = 0; pos < subreadStart; pos++) {
+        subread.seq[pos] = 'N';
+    }
+    for (pos = subreadEnd; pos < length; pos++) {
+        subread.seq[pos] = 'N';
+    }
     // This is newly allocated memory, free it on exit.
     assert(subread.deleteOnExit);
 }
 
-void SMRTSequence::MakeSubreadAsReference(SMRTSequence &subread,
-    DNALength subreadStart, int subreadEnd) {
+void SMRTSequence::MakeSubreadAsReference(SMRTSequence &subread, DNALength subreadStart,
+                                          int subreadEnd)
+{
     subread.Free();
     //
-    // Just create a reference to a substring of this read. 
+    // Just create a reference to a substring of this read.
     //
-    static_cast<FASTQSequence*>(&subread)->ReferenceSubstring(*this, subreadStart, subreadEnd - subreadStart);
+    static_cast<FASTQSequence *>(&subread)->ReferenceSubstring(*this, subreadStart,
+                                                               subreadEnd - subreadStart);
     SetSubreadBoundaries(subread, subreadStart, subreadEnd);
     // The subread references this read, protect the memory.
     assert(not subread.deleteOnExit);
 }
 
-void SMRTSequence::Copy(const SMRTSequence &rhs) {
-    SMRTSequence::Copy(rhs, 0, rhs.length);
-}
+void SMRTSequence::Copy(const SMRTSequence &rhs) { SMRTSequence::Copy(rhs, 0, rhs.length); }
 
-void SMRTSequence::Copy(const SMRTSequence &rhs, DNALength rhsPos, DNALength rhsLength) {
+void SMRTSequence::Copy(const SMRTSequence &rhs, DNALength rhsPos, DNALength rhsLength)
+{
     // Sanity check
     CheckBeforeCopyOrReference(rhs, "SMRTSequence");
-   
+
     // Free this SMRTSequence before copying anything from rhs.
     SMRTSequence::Free();
 
     FASTQSequence subseq;
     // subseq.seq is referenced, while seq.title is not, we need to call
     // subseq.Free() to prevent memory leak.
-    static_cast<FASTQSequence*>(&subseq)->ReferenceSubstring(rhs, rhsPos, rhsLength);
-    static_cast<FASTQSequence*>(&subseq)->CopyTitle(rhs.title, rhs.titleLength);
+    static_cast<FASTQSequence *>(&subseq)->ReferenceSubstring(rhs, rhsPos, rhsLength);
+    static_cast<FASTQSequence *>(&subseq)->CopyTitle(rhs.title, rhs.titleLength);
 
     if (rhs.length == 0) {
-        static_cast<FASTQSequence*>(this)->Copy(subseq);
+        static_cast<FASTQSequence *>(this)->Copy(subseq);
         //
         // Make sure that no values of length 0 are allocated by returning here.
         //
-    }
-    else {
+    } else {
         assert(rhs.seq != seq);
         assert(rhsLength <= rhs.length);
         assert(rhsPos < rhs.length);
 
         // Copy seq, title and FASTQ QVs from subseq
-        static_cast<FASTQSequence*>(this)->Copy(subseq);
+        static_cast<FASTQSequence *>(this)->Copy(subseq);
 
         // Copy SMRT QVs
         if (rhs.preBaseFrames != NULL) {
             preBaseFrames = ProtectedNew<HalfWord>(length);
-            memcpy(preBaseFrames, rhs.preBaseFrames, length*sizeof(HalfWord));
+            memcpy(preBaseFrames, rhs.preBaseFrames, length * sizeof(HalfWord));
         }
         if (rhs.widthInFrames != NULL) {
             widthInFrames = ProtectedNew<HalfWord>(length);
-            memcpy(widthInFrames, rhs.widthInFrames, length*sizeof(HalfWord));
+            memcpy(widthInFrames, rhs.widthInFrames, length * sizeof(HalfWord));
         }
         if (rhs.pulseIndex != NULL) {
-            pulseIndex = ProtectedNew <int>(length);
+            pulseIndex = ProtectedNew<int>(length);
             memcpy(pulseIndex, rhs.pulseIndex, sizeof(int) * length);
         }
     }
 
     // Copy other member variables from rhs
     subreadStart_ = rhs.subreadStart_;
-    subreadEnd_   = rhs.subreadEnd_;
+    subreadEnd_ = rhs.subreadEnd_;
     lowQualityPrefix = rhs.lowQualityPrefix;
     lowQualitySuffix = rhs.lowQualitySuffix;
     highQualityRegionScore = rhs.highQualityRegionScore;
     zmwData = rhs.zmwData;
 
-    assert(deleteOnExit); // should have control over seq and all QVs
+    assert(deleteOnExit);  // should have control over seq and all QVs
 
     subseq.Free();
     copiedFromBam = rhs.copiedFromBam;
@@ -191,20 +198,23 @@ void SMRTSequence::Copy(const SMRTSequence &rhs, DNALength rhsPos, DNALength rhs
 #endif
 }
 
-void SMRTSequence::Print(ostream &out) const {
-    out << "SMRTSequence for zmw " << HoleNumber()
-        << ", [" << SubreadStart() << ", " << SubreadEnd() << ")" << endl;
+void SMRTSequence::Print(ostream &out) const
+{
+    out << "SMRTSequence for zmw " << HoleNumber() << ", [" << SubreadStart() << ", "
+        << SubreadEnd() << ")" << endl;
     DNASequence::Print(out);
 }
 
-SMRTSequence& SMRTSequence::operator=(const SMRTSequence &rhs) {
+SMRTSequence &SMRTSequence::operator=(const SMRTSequence &rhs)
+{
     SMRTSequence::Copy(rhs);
     return *this;
 }
 
-void SMRTSequence::Free() {
+void SMRTSequence::Free()
+{
     if (deleteOnExit == true) {
-        if (preBaseFrames)  {
+        if (preBaseFrames) {
             delete[] preBaseFrames;
         }
         if (widthInFrames) {
@@ -250,103 +260,106 @@ void SMRTSequence::Free() {
     FASTQSequence::Free();
 }
 
-SMRTSequence & SMRTSequence::HoleNumber(UInt holeNumber) {
+SMRTSequence &SMRTSequence::HoleNumber(UInt holeNumber)
+{
     zmwData.holeNumber = holeNumber;
     return *this;
 }
 
-UInt SMRTSequence::HoleNumber(void) const {
-    return zmwData.holeNumber;
-}
+UInt SMRTSequence::HoleNumber(void) const { return zmwData.holeNumber; }
 
-SMRTSequence & SMRTSequence::HoleXY(const int x, const int y) {
+SMRTSequence &SMRTSequence::HoleXY(const int x, const int y)
+{
     zmwData.x = x;
     zmwData.y = y;
     return *this;
 }
 
-UInt SMRTSequence::HoleX(void) const {
-    return zmwData.x;
-}
+UInt SMRTSequence::HoleX(void) const { return zmwData.x; }
 
-UInt SMRTSequence::HoleY(void) const {
-    return zmwData.y;
-}
+UInt SMRTSequence::HoleY(void) const { return zmwData.y; }
 
-SMRTSequence & SMRTSequence::HoleStatus(const unsigned char holeStatus) {
+SMRTSequence &SMRTSequence::HoleStatus(const unsigned char holeStatus)
+{
     zmwData.holeStatus = holeStatus;
     return *this;
 }
 
-unsigned char SMRTSequence::HoleStatus(void) const {
-    return zmwData.holeStatus;
-}
+unsigned char SMRTSequence::HoleStatus(void) const { return zmwData.holeStatus; }
 
-std::string SMRTSequence::MovieName(void) const {
-    return SMRTTitle(GetTitle()).MovieName();
-}
+std::string SMRTSequence::MovieName(void) const { return SMRTTitle(GetTitle()).MovieName(); }
 
-DNALength SMRTSequence::SubreadStart(void) const {
-    return subreadStart_;
-}
+DNALength SMRTSequence::SubreadStart(void) const { return subreadStart_; }
 
-SMRTSequence & SMRTSequence::SubreadStart(const DNALength start) {
+SMRTSequence &SMRTSequence::SubreadStart(const DNALength start)
+{
     subreadStart_ = start;
     return *this;
 }
 
-DNALength SMRTSequence::SubreadEnd(void) const {
-    return subreadEnd_;
-}
+DNALength SMRTSequence::SubreadEnd(void) const { return subreadEnd_; }
 
-SMRTSequence & SMRTSequence::SubreadEnd(const DNALength end) {
+SMRTSequence &SMRTSequence::SubreadEnd(const DNALength end)
+{
     subreadEnd_ = end;
     return *this;
 }
 
-DNALength SMRTSequence::SubreadLength(void) const {
-    return subreadEnd_ - subreadStart_;
-}
+DNALength SMRTSequence::SubreadLength(void) const { return subreadEnd_ - subreadStart_; }
 
-std::string SMRTSequence::ReadGroupId() const {
-    return readGroupId_;
-}
+std::string SMRTSequence::ReadGroupId() const { return readGroupId_; }
 
-SMRTSequence & SMRTSequence::ReadGroupId(const std::string & rid) {
+SMRTSequence &SMRTSequence::ReadGroupId(const std::string &rid)
+{
     readGroupId_ = rid;
     return *this;
 }
 
-float SMRTSequence::HQRegionSnr(const char base) const {
-    if (::toupper(base) == 'A')      return hqRegionSnr_[SMRTSequence::SnrIndex4Base::A];
-    else if (::toupper(base) == 'C') return hqRegionSnr_[SMRTSequence::SnrIndex4Base::C];
-    else if (::toupper(base) == 'G') return hqRegionSnr_[SMRTSequence::SnrIndex4Base::G];
-    else if (::toupper(base) == 'T') return hqRegionSnr_[SMRTSequence::SnrIndex4Base::T];
-    else assert("Base must be in A, C, G, T" == 0);
+float SMRTSequence::HQRegionSnr(const char base) const
+{
+    if (::toupper(base) == 'A')
+        return hqRegionSnr_[SMRTSequence::SnrIndex4Base::A];
+    else if (::toupper(base) == 'C')
+        return hqRegionSnr_[SMRTSequence::SnrIndex4Base::C];
+    else if (::toupper(base) == 'G')
+        return hqRegionSnr_[SMRTSequence::SnrIndex4Base::G];
+    else if (::toupper(base) == 'T')
+        return hqRegionSnr_[SMRTSequence::SnrIndex4Base::T];
+    else
+        assert("Base must be in A, C, G, T" == 0);
 }
 
-SMRTSequence & SMRTSequence::HQRegionSnr(const char base, float v) {
-    if (::toupper(base) == 'A')      hqRegionSnr_[SMRTSequence::SnrIndex4Base::A] = v;
-    else if (::toupper(base) == 'C') hqRegionSnr_[SMRTSequence::SnrIndex4Base::C] = v;
-    else if (::toupper(base) == 'G') hqRegionSnr_[SMRTSequence::SnrIndex4Base::G] = v;
-    else if (::toupper(base) == 'T') hqRegionSnr_[SMRTSequence::SnrIndex4Base::T] = v;
-    else assert("Base must be in A, C, G, T" == 0);
+SMRTSequence &SMRTSequence::HQRegionSnr(const char base, float v)
+{
+    if (::toupper(base) == 'A')
+        hqRegionSnr_[SMRTSequence::SnrIndex4Base::A] = v;
+    else if (::toupper(base) == 'C')
+        hqRegionSnr_[SMRTSequence::SnrIndex4Base::C] = v;
+    else if (::toupper(base) == 'G')
+        hqRegionSnr_[SMRTSequence::SnrIndex4Base::G] = v;
+    else if (::toupper(base) == 'T')
+        hqRegionSnr_[SMRTSequence::SnrIndex4Base::T] = v;
+    else
+        assert("Base must be in A, C, G, T" == 0);
     return *this;
 }
 
-void SMRTSequence::MadeFromSubreadsAsPolymerase(const std::vector<SMRTSequence> & subreads) {
+void SMRTSequence::MadeFromSubreadsAsPolymerase(const std::vector<SMRTSequence> &subreads)
+{
     assert(subreads.size() > 0);
     DNALength hqStart = static_cast<DNALength>(-1), hqEnd = 0;
     bool hasInsDel = true, hasSubstitution = true;
     // Compute hqStart, hqEnd and which QVs to use over all subreads.
-    for(auto subread: subreads) {
+    for (auto subread : subreads) {
         hqStart = min(DNALength(subread.SubreadStart()), hqStart);
-        hqEnd   = max(DNALength(subread.SubreadEnd()),   hqEnd);
-        if (subread.insertionQV.Empty() or subread.deletionQV.Empty()
-            or subread.deletionTag == nullptr)
-        { hasInsDel = false; }
-        if (subread.substitutionTag == nullptr or subread.substitutionQV.Empty())
-        { hasSubstitution = false; }
+        hqEnd = max(DNALength(subread.SubreadEnd()), hqEnd);
+        if (subread.insertionQV.Empty() or subread.deletionQV.Empty() or
+            subread.deletionTag == nullptr) {
+            hasInsDel = false;
+        }
+        if (subread.substitutionTag == nullptr or subread.substitutionQV.Empty()) {
+            hasSubstitution = false;
+        }
     }
     this->Free();
     // Compact allocate memory.
@@ -362,32 +375,32 @@ void SMRTSequence::MadeFromSubreadsAsPolymerase(const std::vector<SMRTSequence> 
     this->CopyTitle(ss.str());
 
     // Copy subreads content to this polymerase read.
-    for (auto subread: subreads) {
-        memcpy(&this->seq[subread.SubreadStart()],
-               &subread.seq[0], sizeof(char) * subread.length);
+    for (auto subread : subreads) {
+        memcpy(&this->seq[subread.SubreadStart()], &subread.seq[0], sizeof(char) * subread.length);
         if (hasInsDel) {
             this->insertionQV.Fill(subread.SubreadStart(), subread.length, subread.insertionQV, 0);
             this->deletionQV.Fill(subread.SubreadStart(), subread.length, subread.deletionQV, 0);
-            memcpy(&this->deletionTag[subread.SubreadStart()],
-                   &subread.deletionTag[0], sizeof(char) * subread.length);
+            memcpy(&this->deletionTag[subread.SubreadStart()], &subread.deletionTag[0],
+                   sizeof(char) * subread.length);
         }
         if (hasSubstitution) {
-            this->substitutionQV.Fill(subread.SubreadStart(), subread.length, subread.substitutionQV, 0);
-            memcpy(&this->substitutionTag[subread.SubreadStart()],
-                   &subread.substitutionTag[0], sizeof(char) * subread.length);
+            this->substitutionQV.Fill(subread.SubreadStart(), subread.length,
+                                      subread.substitutionQV, 0);
+            memcpy(&this->substitutionTag[subread.SubreadStart()], &subread.substitutionTag[0],
+                   sizeof(char) * subread.length);
         }
     }
 }
 
-
 #ifdef USE_PBBAM
-bool SMRTSequence::IsValid(const PacBio::BAM::BamRecord & record) {
+bool SMRTSequence::IsValid(const PacBio::BAM::BamRecord &record)
+{
     DNALength expectedLength = 0;
     if (record.Type() != PacBio::BAM::RecordType::CCS) {
-        expectedLength = static_cast<int>(record.QueryEnd()) -
-                         static_cast<int>(record.QueryStart());
+        expectedLength =
+            static_cast<int>(record.QueryEnd()) - static_cast<int>(record.QueryStart());
     } else {
-        expectedLength =  static_cast<int>(record.Sequence().length());
+        expectedLength = static_cast<int>(record.Sequence().length());
     }
     if (record.Sequence().size() != expectedLength) return false;
 
@@ -418,18 +431,18 @@ bool SMRTSequence::IsValid(const PacBio::BAM::BamRecord & record) {
     return true;
 }
 
-void SMRTSequence::Copy(const PacBio::BAM::BamRecord & record,
-                        bool copyAllQVs) {
+void SMRTSequence::Copy(const PacBio::BAM::BamRecord &record, bool copyAllQVs)
+{
     Free();
 
     copiedFromBam = true;
 
     bamRecord = PacBio::BAM::BamRecord(record);
-   
+
     // Only copy insertionQV, deletionQV, substitutionQV, mergeQV,
     // deletionTag and substitutionTag from BamRecord to SMRTSequence.
     // Do NOT copy other SMRTQVs such as startFrame, meanSignal...
-    (static_cast<FASTQSequence*>(this))->Copy(record);
+    (static_cast<FASTQSequence *>(this))->Copy(record);
 
     // Set subread start, subread end in coordinate of zmw.
     if (record.Type() != PacBio::BAM::RecordType::CCS) {
@@ -437,7 +450,7 @@ void SMRTSequence::Copy(const PacBio::BAM::BamRecord & record,
         subreadEnd_ = static_cast<int>(record.QueryEnd());
     } else {
         subreadStart_ = 0;
-        subreadEnd_ =  static_cast<int>(record.Sequence().length());
+        subreadEnd_ = static_cast<int>(record.Sequence().length());
     }
 
     // Shall we copy all pulse QVs including ipd and pw?
@@ -463,12 +476,15 @@ void SMRTSequence::Copy(const PacBio::BAM::BamRecord & record,
     // PacBio bam for secondary analysis does NOT carry zmw
     // info other than holeNumber, including holeStatus, holeX,
     // holeY, numEvents.
-    UInt hn = static_cast<UInt> (record.HoleNumber());
-    this->HoleNumber(hn).
-    // Assumption: holeStatus of a bam record must be 'SEQUENCING'
-          HoleStatus(static_cast<unsigned char> (PacBio::AttributeValues::ZMW::HoleStatus::sequencingzmw)).
-    // x = upper 16 bit, y = lower 16 bit
-          HoleXY(hn >> 16, hn & 0x0000FFFF);
+    UInt hn = static_cast<UInt>(record.HoleNumber());
+    this->HoleNumber(hn)
+        .
+        // Assumption: holeStatus of a bam record must be 'SEQUENCING'
+        HoleStatus(
+            static_cast<unsigned char>(PacBio::AttributeValues::ZMW::HoleStatus::sequencingzmw))
+        .
+        // x = upper 16 bit, y = lower 16 bit
+        HoleXY(hn >> 16, hn & 0x0000FFFF);
 
     // Set hq region read score
     if (record.HasReadAccuracy()) {
@@ -492,9 +508,9 @@ void SMRTSequence::Copy(const PacBio::BAM::BamRecord & record,
         // HQRegion from BAM: record.SignalToNoise()
         std::vector<float> snrs = record.SignalToNoise();
         this->HQRegionSnr('A', snrs[0])
-             .HQRegionSnr('C', snrs[1])
-             .HQRegionSnr('G', snrs[2])
-             .HQRegionSnr('T', snrs[3]);
+            .HQRegionSnr('C', snrs[1])
+            .HQRegionSnr('G', snrs[2])
+            .HQRegionSnr('T', snrs[3]);
     }
 }
 

@@ -1,29 +1,32 @@
-#include "../pbdata/Types.h"
 #include "HDFZMWReader.hpp"
+#include "../pbdata/Types.h"
 
-HDFZMWReader::HDFZMWReader() {
+HDFZMWReader::HDFZMWReader()
+{
     closeFileOnExit = false;
-    readHoleNumber  = false;
-    readHoleXY      = false;
-    readNumEvent    = false;
-    readHoleStatus  = false;
+    readHoleNumber = false;
+    readHoleXY = false;
+    readNumEvent = false;
+    readHoleStatus = false;
     nZMWEntries = curZMW = 0;
     parentGroupPtr = NULL;
 }
 
-int HDFZMWReader::Initialize(HDFGroup *parentGroupP) {
+int HDFZMWReader::Initialize(HDFGroup *parentGroupP)
+{
     parentGroupPtr = parentGroupP;
     closeFileOnExit = false;
     return Initialize();
 }
 
-int HDFZMWReader::Initialize() {
+int HDFZMWReader::Initialize()
+{
 
     //
     // Make sure we can open the component containing the zmw information.
     //
     if (parentGroupPtr->ContainsObject("ZMW") == 0 or
-            zmwGroup.Initialize(parentGroupPtr->group, "ZMW") == 0) {
+        zmwGroup.Initialize(parentGroupPtr->group, "ZMW") == 0) {
         return 0;
     }
 
@@ -36,8 +39,7 @@ int HDFZMWReader::Initialize() {
             return 0;
         }
         readHoleNumber = true;
-    }
-    else {
+    } else {
         readHoleNumber = false;
     }
 
@@ -46,19 +48,16 @@ int HDFZMWReader::Initialize() {
             return 0;
         }
         readHoleStatus = true;
-    }
-    else {
+    } else {
         readHoleStatus = false;
     }
-
 
     if (zmwGroup.ContainsObject("HoleXY")) {
         if (xyArray.Initialize(zmwGroup, "HoleXY") == 0) {
             return 0;
         }
         readHoleXY = true;
-    }
-    else {
+    } else {
         readHoleXY = false;
     }
     if (numEventArray.Initialize(zmwGroup, "NumEvent") == 0) {
@@ -66,42 +65,44 @@ int HDFZMWReader::Initialize() {
     }
     nZMWEntries = numEventArray.arrayLength;
     readNumEvent = true;
-    curZMW      = 0;
+    curZMW = 0;
     return 1;
 }
 
-int HDFZMWReader::Advance(UInt nSteps) {
+int HDFZMWReader::Advance(UInt nSteps)
+{
     if (curZMW >= nZMWEntries) {
         return 0;
-    }
-    else {
+    } else {
         curZMW += nSteps;
         return 1;
     }
 }
 
-bool HDFZMWReader::GetNext(ZMWGroupEntry &groupEntry) {
+bool HDFZMWReader::GetNext(ZMWGroupEntry &groupEntry)
+{
     if (curZMW == nZMWEntries) {
         return false;
     }
     if (readHoleNumber) {
-        holeNumberArray.Read(curZMW, curZMW+1, &groupEntry.holeNumber);
+        holeNumberArray.Read(curZMW, curZMW + 1, &groupEntry.holeNumber);
     }
     if (readHoleStatus) {
-        holeStatusArray.Read(curZMW, curZMW+1, &groupEntry.holeStatus);
+        holeStatusArray.Read(curZMW, curZMW + 1, &groupEntry.holeStatus);
     }
-    if (readHoleXY){ 
+    if (readHoleXY) {
         int16_t holeXY[2];
-        xyArray.Read(curZMW, curZMW+1, holeXY);
+        xyArray.Read(curZMW, curZMW + 1, holeXY);
         groupEntry.x = holeXY[0];
         groupEntry.y = holeXY[1];
     }
-    numEventArray.Read(curZMW, curZMW+1, &groupEntry.numEvents);
+    numEventArray.Read(curZMW, curZMW + 1, &groupEntry.numEvents);
     curZMW++;
     return true;
 }
 
-void HDFZMWReader::Close() {
+void HDFZMWReader::Close()
+{
     if (readHoleNumber) {
         holeNumberArray.Close();
     }
@@ -122,15 +123,15 @@ void HDFZMWReader::Close() {
         hdfPlsFile.close();
     }
     zmwGroup.Close();
-
 }
 
-bool HDFZMWReader::GetHoleNumberAt(UInt index, UInt &holeNumber) {
-    if (index >= nZMWEntries) { return false; }
-    holeNumberArray.Read(index, index + 1, &holeNumber); 
+bool HDFZMWReader::GetHoleNumberAt(UInt index, UInt &holeNumber)
+{
+    if (index >= nZMWEntries) {
+        return false;
+    }
+    holeNumberArray.Read(index, index + 1, &holeNumber);
     return true;
 }
 
-HDFZMWReader::~HDFZMWReader() {
-    Close();
-}
+HDFZMWReader::~HDFZMWReader() { Close(); }

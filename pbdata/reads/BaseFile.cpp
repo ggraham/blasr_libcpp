@@ -1,37 +1,37 @@
-#include <algorithm>
 #include "BaseFile.hpp"
+#include <algorithm>
 
-bool CompareHoleXY::operator()(const HoleXY &lhs, const HoleXY &rhs) const {
+bool CompareHoleXY::operator()(const HoleXY &lhs, const HoleXY &rhs) const
+{
     if (lhs.xy[0] == rhs.xy[0]) {
         return lhs.xy[1] < rhs.xy[1];
-    }
-    else {
+    } else {
         return lhs.xy[0] < rhs.xy[0];
     }
 }
 
-bool BaseFile::LookupReadIndexByXY(uint16_t x, uint16_t y, UInt &index) {
+bool BaseFile::LookupReadIndexByXY(uint16_t x, uint16_t y, UInt &index)
+{
     int16_t xy[2];
-    xy[0] = x; xy[1] = y;
+    xy[0] = x;
+    xy[1] = y;
     std::vector<HoleXY>::iterator holeIt;
     holeIt = lower_bound(holeXY.begin(), holeXY.end(), xy);
     if ((*holeIt).xy[0] == xy[0] and (*holeIt).xy[1] == xy[1]) {
         index = holeIt - holeXY.begin();
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
 
-
-void BaseFile::CopyReadAt(uint32_t readIndex, SMRTSequence &read) {
+void BaseFile::CopyReadAt(uint32_t readIndex, SMRTSequence &read)
+{
     assert(holeNumbers.size() > readIndex);
     read.HoleNumber(holeNumbers[readIndex]);
     if (holeXY.size() > 0) {
         assert(holeXY.size() > readIndex);
-        read.HoleXY(holeXY[readIndex].xy[0],
-                    holeXY[readIndex].xy[1]);
+        read.HoleXY(holeXY[readIndex].xy[0], holeXY[readIndex].xy[1]);
     }
 
     DSLength startPos = readStartPositions[readIndex];
@@ -59,7 +59,7 @@ void BaseFile::CopyReadAt(uint32_t readIndex, SMRTSequence &read) {
         CopyArray(deletionTag, startPos, readLength, read.deletionTag);
     }
     if (insertionQV.size() > 0) {
-        assert(insertionQV.size()  >= readLength + startPos);
+        assert(insertionQV.size() >= readLength + startPos);
         CopyArray(insertionQV, startPos, readLength, read.insertionQV.data);
     }
     if (substitutionQV.size() > 0) {
@@ -78,5 +78,4 @@ void BaseFile::CopyReadAt(uint32_t readIndex, SMRTSequence &read) {
         assert(preBaseFrames.size() >= readLength + startPos);
         CopyArray(preBaseFrames, startPos, readLength, read.preBaseFrames);
     }
-
 }

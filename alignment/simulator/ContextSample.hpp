@@ -1,13 +1,14 @@
 #ifndef _SIMULATOR_CONTEXT_SAMPLE_HPP_
 #define _SIMULATOR_CONTEXT_SAMPLE_HPP_
 
-#include<string>
-#include<vector>
-#include<iostream>
-#include "QualitySample.hpp"
+#include <iostream>
+#include <string>
+#include <vector>
 #include "../statistics/StatUtils.hpp"
+#include "QualitySample.hpp"
 
-class ContextSample {
+class ContextSample
+{
 public:
     std::vector<QualitySample> samples;
     size_t minSamples;
@@ -20,7 +21,7 @@ public:
 
     int AppendSample(SMRTSequence &seq, DNALength pos);
 
-    QualitySample* GetRandomQualitySample();
+    QualitySample *GetRandomQualitySample();
 
     void Write(std::ofstream &out);
 

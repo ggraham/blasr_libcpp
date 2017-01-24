@@ -16,15 +16,17 @@
  * =====================================================================================
  */
 
-#include "gtest/gtest.h"
 #include "Types.h"
+#include "gtest/gtest.h"
 #include "saf/MovieInfo.hpp"
 
 // Test MovieInfo.FindMovie
-TEST(MovieInfoTest, FindMovie) {
+TEST(MovieInfoTest, FindMovie)
+{
     MovieInfo movieInfo;
-    int ids[5] = {3, 5, 7, 4, 0} ;
-    string names[5] = {"movieX", "movieY", "abc", "m000000000032102389170_s0", "m000000000032102389170_s"};
+    int ids[5] = {3, 5, 7, 4, 0};
+    string names[5] = {"movieX", "movieY", "abc", "m000000000032102389170_s0",
+                       "m000000000032102389170_s"};
 
     for (int i = 0; i < 5; i++) {
         movieInfo.name.push_back(names[i]);
@@ -39,5 +41,4 @@ TEST(MovieInfoTest, FindMovie) {
     ret = movieInfo.FindMovie(-1, nameVal);
     EXPECT_EQ(nameVal2, "");
     EXPECT_EQ(ret, 0);
-
 }

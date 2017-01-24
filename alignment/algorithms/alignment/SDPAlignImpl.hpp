@@ -1,38 +1,33 @@
 #ifndef _BLASR_SDP_ALIGN_IMPL_HPP_
 #define _BLASR_SDP_ALIGN_IMPL_HPP_
 
-#include <cstddef>
-#include <vector>
 #include <math.h>
+#include <cstddef>
 #include <cstdlib>
 #include <ostream>
+#include <vector>
 // pbdata
+#include "../../../pbdata/DNASequence.hpp"
+#include "../../../pbdata/Enumerations.h"
 #include "../../../pbdata/Types.h"
 #include "../../../pbdata/defs.h"
-#include "../../../pbdata/utils.hpp"
-#include "../../../pbdata/Enumerations.h"
-#include "../../../pbdata/DNASequence.hpp"
 #include "../../../pbdata/matrix/FlatMatrix.hpp"
+#include "../../../pbdata/utils.hpp"
 
 #include "../../datastructures/alignment/Alignment.hpp"
-#include "GraphPaper.hpp"
 #include "AlignmentUtils.hpp"
+#include "GraphPaper.hpp"
+#include "SDPAlign.hpp"
 #include "SWAlign.hpp"
 #include "sdp/SDPFragment.hpp"
 #include "sdp/SparseDynamicProgramming.hpp"
-#include "SDPAlign.hpp"
 
-template<typename T_QuerySequence, typename T_TargetSequence, typename T_ScoreFn>
-int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
-        T_ScoreFn &scoreFn, int wordSize, 
-        int sdpIns, int sdpDel, float indelRate,
-        blasr::Alignment &alignment, 
-        AlignmentType alignType,
-        bool detailedAlignment,
-        bool extendFrontByLocalAlignment,
-        DNALength noRecurseUnder,
-        bool fastSDP,
-        unsigned int minFragmentsToUseGraphPaper) {
+template <typename T_QuerySequence, typename T_TargetSequence, typename T_ScoreFn>
+int SDPAlign(T_QuerySequence &query, T_TargetSequence &target, T_ScoreFn &scoreFn, int wordSize,
+             int sdpIns, int sdpDel, float indelRate, blasr::Alignment &alignment,
+             AlignmentType alignType, bool detailedAlignment, bool extendFrontByLocalAlignment,
+             DNALength noRecurseUnder, bool fastSDP, unsigned int minFragmentsToUseGraphPaper)
+{
     /*
        Since SDP Align uses a large list of buffers, but none are
        provided with this mechanism of calling SDPAlign, allocate the
@@ -44,70 +39,44 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
     TupleList<PositionDNATuple> targetSuffixTupleList;
     std::vector<int> maxFragmentChain;
 
-    return SDPAlign(query, target,
-            scoreFn, wordSize, 
-            sdpIns, sdpDel, indelRate,
-            alignment, 
-            fragmentSet, prefixFragmentSet, suffixFragmentSet, 
-            targetTupleList, targetPrefixTupleList, targetSuffixTupleList,
-            maxFragmentChain,
-            alignType,
-            detailedAlignment,
-            extendFrontByLocalAlignment,
-            noRecurseUnder,
-            fastSDP,
-            minFragmentsToUseGraphPaper);
+    return SDPAlign(query, target, scoreFn, wordSize, sdpIns, sdpDel, indelRate, alignment,
+                    fragmentSet, prefixFragmentSet, suffixFragmentSet, targetTupleList,
+                    targetPrefixTupleList, targetSuffixTupleList, maxFragmentChain, alignType,
+                    detailedAlignment, extendFrontByLocalAlignment, noRecurseUnder, fastSDP,
+                    minFragmentsToUseGraphPaper);
 }
 
-template<typename T_QuerySequence, typename T_TargetSequence, typename T_ScoreFn, typename T_BufferCache>
-int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
-        T_ScoreFn &scoreFn, int wordSize, 
-        int sdpIns, int sdpDel, float indelRate,
-        blasr::Alignment &alignment, 
-        T_BufferCache &buffers,
-        AlignmentType alignType,
-        bool detailedAlignment,
-        bool extendFrontByLocalAlignment, 
-        DNALength noRecurseUnder,
-        bool fastSDP,
-        unsigned int minFragmentsToUseGraphPaper) {
+template <typename T_QuerySequence, typename T_TargetSequence, typename T_ScoreFn,
+          typename T_BufferCache>
+int SDPAlign(T_QuerySequence &query, T_TargetSequence &target, T_ScoreFn &scoreFn, int wordSize,
+             int sdpIns, int sdpDel, float indelRate, blasr::Alignment &alignment,
+             T_BufferCache &buffers, AlignmentType alignType, bool detailedAlignment,
+             bool extendFrontByLocalAlignment, DNALength noRecurseUnder, bool fastSDP,
+             unsigned int minFragmentsToUseGraphPaper)
+{
 
-    return SDPAlign(query, target, scoreFn, wordSize, 
-            sdpIns, sdpDel, indelRate,
-            alignment,  
-            buffers.sdpFragmentSet,
-            buffers.sdpPrefixFragmentSet,
-            buffers.sdpSuffixFragmentSet,
-            buffers.sdpCachedTargetTupleList,
-            buffers.sdpCachedTargetPrefixTupleList,
-            buffers.sdpCachedTargetSuffixTupleList,
-            buffers.sdpCachedMaxFragmentChain,
-            alignType, detailedAlignment, 
-            extendFrontByLocalAlignment, noRecurseUnder,
-            fastSDP, minFragmentsToUseGraphPaper);
+    return SDPAlign(query, target, scoreFn, wordSize, sdpIns, sdpDel, indelRate, alignment,
+                    buffers.sdpFragmentSet, buffers.sdpPrefixFragmentSet,
+                    buffers.sdpSuffixFragmentSet, buffers.sdpCachedTargetTupleList,
+                    buffers.sdpCachedTargetPrefixTupleList, buffers.sdpCachedTargetSuffixTupleList,
+                    buffers.sdpCachedMaxFragmentChain, alignType, detailedAlignment,
+                    extendFrontByLocalAlignment, noRecurseUnder, fastSDP,
+                    minFragmentsToUseGraphPaper);
 }
 
-template<typename T_QuerySequence, typename T_TargetSequence, typename T_ScoreFn, typename T_TupleList>
-int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
-        T_ScoreFn &scoreFn,
-        int wordSize, 
-        int sdpIns, int sdpDel, float indelRate,
-        blasr::Alignment &alignment, 
-        std::vector<Fragment> &fragmentSet,
-        std::vector<Fragment> &prefixFragmentSet,
-        std::vector<Fragment> &suffixFragmentSet,
-        T_TupleList &targetTupleList,
-        T_TupleList &targetPrefixTupleList,
-        T_TupleList &targetSuffixTupleList,
-        std::vector<int> &maxFragmentChain,
-        // A few optinal parameters, should delete that last one.
-        AlignmentType alignType,
-        bool detailedAlignment,
-        bool extendFrontByLocalAlignment, 
-        DNALength noRecurseUnder,
-        bool fastSDP,
-        unsigned int minFragmentsToUseGraphPaper) {
-    // minFragmentsToUseGraphPaper: minimum number of fragments to 
+template <typename T_QuerySequence, typename T_TargetSequence, typename T_ScoreFn,
+          typename T_TupleList>
+int SDPAlign(T_QuerySequence &query, T_TargetSequence &target, T_ScoreFn &scoreFn, int wordSize,
+             int sdpIns, int sdpDel, float indelRate, blasr::Alignment &alignment,
+             std::vector<Fragment> &fragmentSet, std::vector<Fragment> &prefixFragmentSet,
+             std::vector<Fragment> &suffixFragmentSet, T_TupleList &targetTupleList,
+             T_TupleList &targetPrefixTupleList, T_TupleList &targetSuffixTupleList,
+             std::vector<int> &maxFragmentChain,
+             // A few optinal parameters, should delete that last one.
+             AlignmentType alignType, bool detailedAlignment, bool extendFrontByLocalAlignment,
+             DNALength noRecurseUnder, bool fastSDP, unsigned int minFragmentsToUseGraphPaper)
+{
+    // minFragmentsToUseGraphPaper: minimum number of fragments to
     // use Graph Paper for speed up.
 
     fragmentSet.clear();
@@ -122,7 +91,7 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
     //	Collect a set of matching fragments between query and target.
     //  Since this function is an inner-loop for alignment, anything to
     //	speed it up will help.  One way to speed it up is to re-use the
-    //	vectors that contain the sdp matches. 
+    //	vectors that contain the sdp matches.
     //
 
     TupleMetrics tm, tmSmall;
@@ -137,9 +106,9 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
     // higher sensitivity at the ends of reads, which are more likely to
     // be misaligned.
     //
-    int prefixLength, middleLength, suffixLength, suffixPos; // prefix pos is 0
-    prefixLength = min(target.length, (DNALength) SDP_PREFIX_LENGTH);
-    suffixLength = min(target.length - prefixLength, (DNALength) SDP_SUFFIX_LENGTH);
+    int prefixLength, middleLength, suffixLength, suffixPos;  // prefix pos is 0
+    prefixLength = min(target.length, (DNALength)SDP_PREFIX_LENGTH);
+    suffixLength = min(target.length - prefixLength, (DNALength)SDP_SUFFIX_LENGTH);
     middleLength = target.length - prefixLength - suffixLength;
 
     DNASequence prefix, middle, suffix;
@@ -149,37 +118,37 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
     prefix.length = prefixLength;
     pos += prefixLength;
 
-    // Align the entire query against the entire target to get alignments 
+    // Align the entire query against the entire target to get alignments
     // in the middle.
     middle.seq = &target.seq[0];
     middle.length = target.length;
 
     pos += middleLength;
-    suffixPos = pos; // while = prefixLength + middleLength
+    suffixPos = pos;  // while = prefixLength + middleLength
     suffix.seq = &target.seq[suffixPos];
     suffix.length = suffixLength;
 
-    int qPrefixLength, qMiddleLength, qSuffixLength, qMiddlePos, qSuffixPos; // prefix pos is 0
-    qPrefixLength = min(query.length, (DNALength) SDP_PREFIX_LENGTH);
-    qSuffixLength = min(query.length - qPrefixLength, (DNALength) SDP_SUFFIX_LENGTH);
+    int qPrefixLength, qMiddleLength, qSuffixLength, qMiddlePos, qSuffixPos;  // prefix pos is 0
+    qPrefixLength = min(query.length, (DNALength)SDP_PREFIX_LENGTH);
+    qSuffixLength = min(query.length - qPrefixLength, (DNALength)SDP_SUFFIX_LENGTH);
     qMiddleLength = query.length - qPrefixLength - qSuffixLength;
 
     pos = 0;
     qPrefix.seq = &query.seq[pos];
     qPrefix.length = qPrefixLength;
 
-    // Align the entire query against the entire target to get alignments 
+    // Align the entire query against the entire target to get alignments
     // in the middle.
     qMiddle.seq = &query.seq[0];
     qMiddle.length = query.length;
     qMiddlePos = pos += qPrefixLength;
     (void)(qMiddlePos);
 
-    qSuffixPos = pos += qMiddleLength; // = qPrefixLength + qMiddleLength
+    qSuffixPos = pos += qMiddleLength;  // = qPrefixLength + qMiddleLength
     qSuffix.seq = &query.seq[qSuffixPos];
     qSuffix.length = qSuffixLength;
 
-	fragmentSet.clear();
+    fragmentSet.clear();
     SequenceToTupleList(prefix, tmSmall, targetPrefixTupleList);
     SequenceToTupleList(suffix, tmSmall, targetSuffixTupleList);
     SequenceToTupleList(middle, tm, targetTupleList);
@@ -188,16 +157,15 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
     targetSuffixTupleList.Sort();
     targetTupleList.Sort();
 
-
     //
     // Store in fragmentSet the tuples that match between the target
     // and query.
     //
     StoreMatchingPositions(qPrefix, tmSmall, targetPrefixTupleList, prefixFragmentSet);
     StoreMatchingPositions(qSuffix, tmSmall, targetSuffixTupleList, suffixFragmentSet);
-    StoreMatchingPositions(qMiddle, tm, targetTupleList, fragmentSet); 
+    StoreMatchingPositions(qMiddle, tm, targetTupleList, fragmentSet);
 
-    // 
+    //
     // The method to store matching positions is not weight aware.
     // Store the weight here.
     //
@@ -237,11 +205,10 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
     if (fragmentSet.size() > minFragmentsToUseGraphPaper and fastSDP) {
         int nCol = 50;
         vector<bool> onOptPath(fragmentSet.size(), false);
-        GraphPaper<Fragment>(fragmentSet, nCol, nCol,
-                                      graphBins, graphScoreMat, 
-                                      graphPathMat, onOptPath);
+        GraphPaper<Fragment>(fragmentSet, nCol, nCol, graphBins, graphScoreMat, graphPathMat,
+                             onOptPath);
         RemoveOffOpt(fragmentSet, onOptPath);
-    } 
+    }
     graphScoreMat.Clear();
     graphPathMat.Clear();
     graphBins.Clear();
@@ -256,24 +223,26 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
     int fCur = 0;
     while (f + 1 <= fragmentSet.size()) {
         fragmentSet[fCur] = fragmentSet[f];
-        while (f < fragmentSet.size() and fragmentSet[fCur].x == fragmentSet[f].x and fragmentSet[fCur].y == fragmentSet[f].y) {
+        while (f < fragmentSet.size() and fragmentSet[fCur].x == fragmentSet[f].x and
+               fragmentSet[fCur].y == fragmentSet[f].y) {
             f++;
         }
         fCur++;
     }
     fragmentSet.resize(fCur);
-  
-	if (fragmentSet.size() == 0) {
-		//
-		// This requires at least one seeded tuple to begin an alignment.
-		//
-		return 0;
-	}
+
+    if (fragmentSet.size() == 0) {
+        //
+        // This requires at least one seeded tuple to begin an alignment.
+        //
+        return 0;
+    }
 
     //
     // Find the longest chain of anchors.
     //
-    SDPLongestCommonSubsequence(query.length, fragmentSet, tm.tupleSize, sdpIns, sdpDel, scoreFn.scoreMatrix[0][0], maxFragmentChain, alignType);
+    SDPLongestCommonSubsequence(query.length, fragmentSet, tm.tupleSize, sdpIns, sdpDel,
+                                scoreFn.scoreMatrix[0][0], maxFragmentChain, alignType);
 
     //
     // Now turn the max fragment chain into a real alignment.
@@ -290,12 +259,12 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
     // Patch the sdp fragments into an alignment, possibly breaking the
     // alignment if the gap between two fragments is too large.
     //
-    for (f = 0; f < maxFragmentChain.size(); f++ ){ 
+    for (f = 0; f < maxFragmentChain.size(); f++) {
         startF = f;
         // Condense contiguous stretches.
-        while(f < maxFragmentChain.size()  - 1 and 
-              fragmentSet[maxFragmentChain[f]].x == fragmentSet[maxFragmentChain[f+1]].x - 1 and
-              fragmentSet[maxFragmentChain[f]].y == fragmentSet[maxFragmentChain[f+1]].y - 1) {
+        while (f < maxFragmentChain.size() - 1 and
+               fragmentSet[maxFragmentChain[f]].x == fragmentSet[maxFragmentChain[f + 1]].x - 1 and
+               fragmentSet[maxFragmentChain[f]].y == fragmentSet[maxFragmentChain[f + 1]].y - 1) {
             f++;
         }
 
@@ -311,37 +280,43 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
         // extends past the end of a sequence.  By taking the length as
         // the difference here, it ensures this will not happen.
         //
-        block.length = fragmentSet[maxFragmentChain[f]].x + fragmentSet[maxFragmentChain[f]].length - fragmentSet[maxFragmentChain[startF]].x;
-		chainAlignment.blocks.push_back(block);
-	}
+        block.length = fragmentSet[maxFragmentChain[f]].x +
+                       fragmentSet[maxFragmentChain[f]].length -
+                       fragmentSet[maxFragmentChain[startF]].x;
+        chainAlignment.blocks.push_back(block);
+    }
 
-	//
-	// It may be possible that in regions of low similarity, spurious matches fit into the LCS.  
-	// Assume that indels cause the matches to diverge from the diagonal on a random walk.  If they 
-	// walk more than 3 standard deviations away from the diagonal, they are probably spurious. 
-	//
-	unsigned int b;
-	chainAlignment.qPos = 0;
-	chainAlignment.tPos = 0;
+    //
+    // It may be possible that in regions of low similarity, spurious matches fit into the LCS.
+    // Assume that indels cause the matches to diverge from the diagonal on a random walk.  If they
+    // walk more than 3 standard deviations away from the diagonal, they are probably spurious.
+    //
+    unsigned int b;
+    chainAlignment.qPos = 0;
+    chainAlignment.tPos = 0;
 
-    for (b = 0; b < chainAlignment.size()-1; b++){ 
-        if (chainAlignment.blocks[b].qPos + chainAlignment.blocks[b].length > chainAlignment.blocks[b+1].qPos) {
-            chainAlignment.blocks[b].length = (chainAlignment.blocks[b+1].qPos - chainAlignment.blocks[b].qPos);
+    for (b = 0; b < chainAlignment.size() - 1; b++) {
+        if (chainAlignment.blocks[b].qPos + chainAlignment.blocks[b].length >
+            chainAlignment.blocks[b + 1].qPos) {
+            chainAlignment.blocks[b].length =
+                (chainAlignment.blocks[b + 1].qPos - chainAlignment.blocks[b].qPos);
         }
-        if (chainAlignment.blocks[b].tPos + chainAlignment.blocks[b].length > chainAlignment.blocks[b+1].tPos) {
-            chainAlignment.blocks[b].length = (chainAlignment.blocks[b+1].tPos - chainAlignment.blocks[b].tPos);
+        if (chainAlignment.blocks[b].tPos + chainAlignment.blocks[b].length >
+            chainAlignment.blocks[b + 1].tPos) {
+            chainAlignment.blocks[b].length =
+                (chainAlignment.blocks[b + 1].tPos - chainAlignment.blocks[b].tPos);
         }
         // the min indel rate between the two chain blocks is the difference in diagonals between the two sequences.
         int curDiag, nextDiag, diffDiag;
         curDiag = chainAlignment.blocks[b].tPos - chainAlignment.blocks[b].qPos;
-        nextDiag = chainAlignment.blocks[b+1].tPos - chainAlignment.blocks[b+1].qPos;
+        nextDiag = chainAlignment.blocks[b + 1].tPos - chainAlignment.blocks[b + 1].qPos;
         diffDiag = std::abs(curDiag - nextDiag);
 
         //
         // It is expected that the deviation is at least 1, so discount for this
         //
         diffDiag--;
-        // compare the alignment distances.  
+        // compare the alignment distances.
     }
 
     std::vector<bool> blockIsGood;
@@ -355,24 +330,26 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
     // zero length.  This shouldn't happen, so to balance this out
     // remove blocks that have zero length.
     //
-    for (b = 0; b < chainAlignment.size(); b++){ 
+    for (b = 0; b < chainAlignment.size(); b++) {
         if (chainAlignment.blocks[b].length == 0) {
             blockIsGood[b] = false;
         }
     }
-    for (b = 1; b < chainAlignment.size()-1; b++){ 
+    for (b = 1; b < chainAlignment.size() - 1; b++) {
         // the min indel rate between the two chain blocks is the difference in diagonals between the two sequences.
-        int prevDiag = abs(((int)chainAlignment.blocks[b].tPos -   (int)chainAlignment.blocks[b].qPos)  -
-                ((int)chainAlignment.blocks[b-1].tPos - (int)chainAlignment.blocks[b-1].qPos));
+        int prevDiag =
+            abs(((int)chainAlignment.blocks[b].tPos - (int)chainAlignment.blocks[b].qPos) -
+                ((int)chainAlignment.blocks[b - 1].tPos - (int)chainAlignment.blocks[b - 1].qPos));
 
-        int prevDist = std::min(chainAlignment.blocks[b].tPos - chainAlignment.blocks[b-1].tPos,
-                chainAlignment.blocks[b].qPos - chainAlignment.blocks[b-1].qPos);
+        int prevDist = std::min(chainAlignment.blocks[b].tPos - chainAlignment.blocks[b - 1].tPos,
+                                chainAlignment.blocks[b].qPos - chainAlignment.blocks[b - 1].qPos);
 
-        int nextDiag = abs(((int)chainAlignment.blocks[b+1].tPos - (int)chainAlignment.blocks[b+1].qPos)  -
-                ((int)chainAlignment.blocks[b].tPos -   (int)chainAlignment.blocks[b].qPos));
+        int nextDiag =
+            abs(((int)chainAlignment.blocks[b + 1].tPos - (int)chainAlignment.blocks[b + 1].qPos) -
+                ((int)chainAlignment.blocks[b].tPos - (int)chainAlignment.blocks[b].qPos));
 
-        int nextDist = std::min(chainAlignment.blocks[b+1].tPos - chainAlignment.blocks[b].tPos,
-                chainAlignment.blocks[b+1].qPos - chainAlignment.blocks[b].qPos);
+        int nextDist = std::min(chainAlignment.blocks[b + 1].tPos - chainAlignment.blocks[b].tPos,
+                                chainAlignment.blocks[b + 1].qPos - chainAlignment.blocks[b].qPos);
 
         if (prevDist * indelRate < prevDiag and nextDist * indelRate < nextDiag) {
             blockIsGood[b] = false;
@@ -380,13 +357,13 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
     }
 
     for (b = chainAlignment.size(); b > 0; b--) {
-        if (blockIsGood[b-1] == false) {
-            chainAlignment.blocks.erase(chainAlignment.blocks.begin() + b-1);
+        if (blockIsGood[b - 1] == false) {
+            chainAlignment.blocks.erase(chainAlignment.blocks.begin() + b - 1);
         }
     }
 
     if (chainAlignment.blocks.size() > 0) {
-        T_QuerySequence  qFragment;
+        T_QuerySequence qFragment;
         T_TargetSequence tFragment;
         blasr::Alignment fragAlignment;
         unsigned int fb;
@@ -395,8 +372,7 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
             // For Global alignment, refine the alignment from the beginnings of the
             // sequences to the start of the first block.
             //
-            if (chainAlignment.blocks[0].qPos > 0 and
-                chainAlignment.blocks[0].tPos > 0) {
+            if (chainAlignment.blocks[0].qPos > 0 and chainAlignment.blocks[0].tPos > 0) {
 
                 qFragment.seq = &query.seq[0];
                 qFragment.length = chainAlignment.blocks[0].qPos;
@@ -406,46 +382,39 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
                     alignment.blocks.push_back(fragAlignment.blocks[b]);
                 }
             }
-        }
-        else if (alignType == Local) {
+        } else if (alignType == Local) {
             // Perform a front-anchored alignment to extend the alignment to
             // the beginning of the read.
-            if (chainAlignment.blocks[0].qPos > 0 and 
-                    chainAlignment.blocks[0].tPos > 0) {
-                qFragment.seq = (Nucleotide*) &query.seq[0];
+            if (chainAlignment.blocks[0].qPos > 0 and chainAlignment.blocks[0].tPos > 0) {
+                qFragment.seq = (Nucleotide *)&query.seq[0];
                 qFragment.length = chainAlignment.blocks[0].qPos;
 
-                tFragment.seq = (Nucleotide*) &target.seq[0];
+                tFragment.seq = (Nucleotide *)&target.seq[0];
                 tFragment.length = chainAlignment.blocks[0].tPos;
                 blasr::Alignment frontAlignment;
                 // Currently, there might be some space between the beginning
                 // of the alignment and the beginning of the read.  Run an
                 // EndAnchored alignment that allows free gaps to the start of
                 // where the alignment begins, but normal, ungapped alignment
-                // otherwise. 
+                // otherwise.
                 if (extendFrontByLocalAlignment) {
-                    if (noRecurseUnder == 0 or qFragment.length * tFragment.length < noRecurseUnder) {
-                    SWAlign(qFragment, tFragment, fragScoreMat, fragPathMat, frontAlignment, scoreFn, EndAnchored);
+                    if (noRecurseUnder == 0 or
+                        qFragment.length * tFragment.length < noRecurseUnder) {
+                        SWAlign(qFragment, tFragment, fragScoreMat, fragPathMat, frontAlignment,
+                                scoreFn, EndAnchored);
                     } else {
                         // cout << "running recursive sdp alignment. " << endl;
                         vector<int> recurseFragmentChain;
-                        SDPAlign(qFragment, tFragment, scoreFn,
-                                std::max(wordSize/2, 5),
-                                sdpIns, sdpDel,  indelRate,
-                                frontAlignment,
-                                fragmentSet,
-                                prefixFragmentSet,
-                                suffixFragmentSet,
-                                targetTupleList,
-                                targetPrefixTupleList,
-                                targetSuffixTupleList,
-                                recurseFragmentChain,
-                                alignType, detailedAlignment, 
-                                extendFrontByLocalAlignment, 0);
+                        SDPAlign(qFragment, tFragment, scoreFn, std::max(wordSize / 2, 5), sdpIns,
+                                 sdpDel, indelRate, frontAlignment, fragmentSet, prefixFragmentSet,
+                                 suffixFragmentSet, targetTupleList, targetPrefixTupleList,
+                                 targetSuffixTupleList, recurseFragmentChain, alignType,
+                                 detailedAlignment, extendFrontByLocalAlignment, 0);
                     }
 
                     unsigned int anchorBlock;
-                    for (anchorBlock = 0; anchorBlock < frontAlignment.blocks.size(); anchorBlock++) {
+                    for (anchorBlock = 0; anchorBlock < frontAlignment.blocks.size();
+                         anchorBlock++) {
                         //
                         // The front alignment needs to be transformed to the
                         // coordinate offsets that the chain alignment is in.  This
@@ -461,48 +430,41 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
             }
         }
 
-		// 
-		// The chain alignment blocks are not complete blocks, so they
-		// must be appended to the true alignment and then patched up.
-		//
+        //
+        // The chain alignment blocks are not complete blocks, so they
+        // must be appended to the true alignment and then patched up.
+        //
         for (b = 0; b < chainAlignment.size() - 1; b++) {
             alignment.blocks.push_back(chainAlignment.blocks[b]);
 
             //
             // Do a detaied smith-waterman alignment between blocks, if this
-            // is specified.  
+            // is specified.
             fragAlignment.Clear();
             qFragment.Free();
-            qFragment.ReferenceSubstring(query, chainAlignment.blocks[b].qPos + chainAlignment.blocks[b].length);
-            qFragment.length = chainAlignment.blocks[b+1].qPos - 
-                (chainAlignment.blocks[b].qPos + chainAlignment.blocks[b].length);
+            qFragment.ReferenceSubstring(
+                query, chainAlignment.blocks[b].qPos + chainAlignment.blocks[b].length);
+            qFragment.length = chainAlignment.blocks[b + 1].qPos -
+                               (chainAlignment.blocks[b].qPos + chainAlignment.blocks[b].length);
 
-            tFragment.seq    = &(target.seq[chainAlignment.blocks[b].tPos + chainAlignment.blocks[b].length]);
-            tFragment.length = (chainAlignment.blocks[b+1].tPos - 
-                    (chainAlignment.blocks[b].tPos + chainAlignment.blocks[b].length));
+            tFragment.seq =
+                &(target.seq[chainAlignment.blocks[b].tPos + chainAlignment.blocks[b].length]);
+            tFragment.length = (chainAlignment.blocks[b + 1].tPos -
+                                (chainAlignment.blocks[b].tPos + chainAlignment.blocks[b].length));
 
-            if (qFragment.length > 0 and 
-                    tFragment.length > 0 and
-                    detailedAlignment == true) {
+            if (qFragment.length > 0 and tFragment.length > 0 and detailedAlignment == true) {
 
                 if (noRecurseUnder == 0 or qFragment.length * tFragment.length < noRecurseUnder) {
-                    SWAlign(qFragment, tFragment, fragScoreMat, fragPathMat, fragAlignment, scoreFn, Global);
-                }
-                else {
+                    SWAlign(qFragment, tFragment, fragScoreMat, fragPathMat, fragAlignment, scoreFn,
+                            Global);
+                } else {
                     //          cout << "running recursive sdp alignment on " << qFragment.length * tFragment.length << endl;
                     std::vector<int> recurseFragmentChain;
-                    SDPAlign(qFragment, tFragment, scoreFn,
-                            std::max(wordSize/2, 5),
-                            sdpIns, sdpDel,  indelRate,
-                            fragAlignment,
-                            fragmentSet,
-                            prefixFragmentSet,
-                            suffixFragmentSet,
-                            targetTupleList,
-                            targetPrefixTupleList,
-                            targetSuffixTupleList,
-                            recurseFragmentChain,
-                            alignType, detailedAlignment, 0, 0);
+                    SDPAlign(qFragment, tFragment, scoreFn, std::max(wordSize / 2, 5), sdpIns,
+                             sdpDel, indelRate, fragAlignment, fragmentSet, prefixFragmentSet,
+                             suffixFragmentSet, targetTupleList, targetPrefixTupleList,
+                             targetSuffixTupleList, recurseFragmentChain, alignType,
+                             detailedAlignment, 0, 0);
                 }
                 fragAlignment.qPos = 0;
                 fragAlignment.tPos = 0;
@@ -525,19 +487,21 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
                 if (alignType == Global and detailedAlignment == true) {
                     //
                     // When doing a global alignment, the sequence from the end of
-                    // the last block of the query should be aligned to the end of 
+                    // the last block of the query should be aligned to the end of
                     // the text.
                     //
                     qFragment.Free();
-                    qFragment.ReferenceSubstring(query, chainAlignment.blocks[lastBlock].qPos + chainAlignment.blocks[lastBlock].length,
-                            query.length -  
-                            (chainAlignment.blocks[lastBlock].qPos + chainAlignment.blocks[lastBlock].length));
+                    qFragment.ReferenceSubstring(
+                        query, chainAlignment.blocks[lastBlock].qPos +
+                                   chainAlignment.blocks[lastBlock].length,
+                        query.length - (chainAlignment.blocks[lastBlock].qPos +
+                                        chainAlignment.blocks[lastBlock].length));
 
-                    tFragment.seq    = &(target.seq[chainAlignment.blocks[lastBlock].tPos + chainAlignment.blocks[lastBlock].length]);
-                    tFragment.length = (target.length - 
-                            (chainAlignment.blocks[lastBlock].tPos + chainAlignment.blocks[lastBlock].length));
-                    if (qFragment.length > 0 and
-                            tFragment.length > 0 ) {
+                    tFragment.seq = &(target.seq[chainAlignment.blocks[lastBlock].tPos +
+                                                 chainAlignment.blocks[lastBlock].length]);
+                    tFragment.length = (target.length - (chainAlignment.blocks[lastBlock].tPos +
+                                                         chainAlignment.blocks[lastBlock].length));
+                    if (qFragment.length > 0 and tFragment.length > 0) {
 
                         if (extendFrontByLocalAlignment) {
 
@@ -546,31 +510,26 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
                                 //              cout << "Cautin: slow alignment crossing! " << qFragment.length  << " " << tFragment.length << endl;
                             }
 
-                            if (noRecurseUnder == 0 or qFragment.length * tFragment.length < noRecurseUnder) {
-                                SWAlign(qFragment, tFragment, fragScoreMat, fragPathMat, fragAlignment, scoreFn, EndAnchored);
-                            }
-                            else {
+                            if (noRecurseUnder == 0 or
+                                qFragment.length * tFragment.length < noRecurseUnder) {
+                                SWAlign(qFragment, tFragment, fragScoreMat, fragPathMat,
+                                        fragAlignment, scoreFn, EndAnchored);
+                            } else {
                                 std::vector<int> recurseFragmentChain;
-                                SDPAlign(qFragment, tFragment, scoreFn,
-                                        std::max(wordSize/2, 5),
-                                        sdpIns, sdpDel,  indelRate,
-                                        fragAlignment,
-                                        fragmentSet,
-                                        prefixFragmentSet,
-                                        suffixFragmentSet,
-                                        targetTupleList,
-                                        targetPrefixTupleList,
-                                        targetSuffixTupleList,
-                                        recurseFragmentChain,
-                                        alignType, detailedAlignment, extendFrontByLocalAlignment, 0);
+                                SDPAlign(qFragment, tFragment, scoreFn, std::max(wordSize / 2, 5),
+                                         sdpIns, sdpDel, indelRate, fragAlignment, fragmentSet,
+                                         prefixFragmentSet, suffixFragmentSet, targetTupleList,
+                                         targetPrefixTupleList, targetSuffixTupleList,
+                                         recurseFragmentChain, alignType, detailedAlignment,
+                                         extendFrontByLocalAlignment, 0);
                             }
 
-
-
-                            int qOffset = chainAlignment.blocks[lastBlock].qPos + chainAlignment.blocks[lastBlock].length;
-                            int tOffset = chainAlignment.blocks[lastBlock].tPos + chainAlignment.blocks[lastBlock].length;
+                            int qOffset = chainAlignment.blocks[lastBlock].qPos +
+                                          chainAlignment.blocks[lastBlock].length;
+                            int tOffset = chainAlignment.blocks[lastBlock].tPos +
+                                          chainAlignment.blocks[lastBlock].length;
                             unsigned int fb;
-                            for (fb = 0; fb < fragAlignment.size(); fb++) { 
+                            for (fb = 0; fb < fragAlignment.size(); fb++) {
                                 fragAlignment.blocks[fb].qPos += qOffset;
                                 fragAlignment.blocks[fb].tPos += tOffset;
                                 alignment.blocks.push_back(fragAlignment.blocks[fb]);
@@ -586,7 +545,7 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
         alignment.tPos = alignment.blocks[0].tPos;
         alignment.qPos = alignment.blocks[0].qPos;
         VectorIndex b;
-        for (b = 0; b < alignment.blocks.size(); b++) { 
+        for (b = 0; b < alignment.blocks.size(); b++) {
             alignment.blocks[b].qPos -= alignment.qPos;
             alignment.blocks[b].tPos -= alignment.tPos;
         }
@@ -608,4 +567,4 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target,
     return alignmentScore;
 }
 
-#endif //_BLASR_SDP_ALIGN_IMPL_HPP_
+#endif  //_BLASR_SDP_ALIGN_IMPL_HPP_

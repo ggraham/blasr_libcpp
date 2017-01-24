@@ -16,53 +16,51 @@
  * ============================================================================
  */
 
-#include "HDFCCSReader.hpp"
 #include "CCSSequence.hpp"
+#include "HDFCCSReader.hpp"
 #include "gtest/gtest.h"
 #include "pbdata/testdata.h"
 
 using namespace std;
 using namespace H5;
 
-class HDFCCSReaderTEST : public ::testing::Test {
+class HDFCCSReaderTEST : public ::testing::Test
+{
 public:
-    virtual void SetUp() {
-    }
-    virtual void TearDown() {
-    }
+    virtual void SetUp() {}
+    virtual void TearDown() {}
 };
 
-TEST_F(HDFCCSReaderTEST, ReadCCSFromBasH5) {
+TEST_F(HDFCCSReaderTEST, ReadCCSFromBasH5)
+{
     string fileName = baxFile2;
     HDFCCSReader<CCSSequence> reader;
     reader.InitializeDefaultIncludedFields();
     ASSERT_EQ(reader.Initialize(fileName), 1);
     ASSERT_EQ(reader.GetMovieName(),
-            "m130220_114643_42129_c100471902550000001823071906131347_s1_p0");
+              "m130220_114643_42129_c100471902550000001823071906131347_s1_p0");
 
     CCSSequence seq;
-    for(int i=0; i < 1000; i++) {
+    for (int i = 0; i < 1000; i++) {
         reader.GetNext(seq);
     }
     reader.Close();
 }
 
-TEST_F(HDFCCSReaderTEST, ReadCCSFromCCSH5) {
+TEST_F(HDFCCSReaderTEST, ReadCCSFromCCSH5)
+{
     string fileName = ccsFile1;
     HDFCCSReader<CCSSequence> reader;
     reader.SetReadBasesFromCCS();
     reader.InitializeDefaultIncludedFields();
     ASSERT_EQ(reader.Initialize(fileName), 1);
     ASSERT_EQ(reader.GetMovieName(),
-            "m130328_211423_ethan_c100499512550000001823070408081371_s1_p0");
+              "m130328_211423_ethan_c100499512550000001823070408081371_s1_p0");
 
     CCSSequence seq;
-    for(int i=0; i < 1000; i++) {
+    for (int i = 0; i < 1000; i++) {
         reader.GetNext(seq);
     }
 
     reader.Close();
 }
-
-
-

@@ -10,16 +10,18 @@
 #include "PulseBaseCommon.hpp"
 #include "ScanData.hpp"
 
-class CompareHoleXY {
+class CompareHoleXY
+{
 public:
-    bool operator()(const HoleXY &lhs, const HoleXY &rhs) const; 
+    bool operator()(const HoleXY &lhs, const HoleXY &rhs) const;
 };
 
-class BaseFile : public PulseBaseCommon {
+class BaseFile : public PulseBaseCommon
+{
 public:
     std::vector<unsigned char> baseCalls;
     std::vector<uint8_t> holeStatus;
-    std::vector<HoleXY>   holeXY;
+    std::vector<HoleXY> holeXY;
     std::vector<uint16_t> basWidthInFrames;
     std::vector<uint16_t> preBaseFrames;
     std::vector<int> pulseIndex;
@@ -30,21 +32,20 @@ public:
     std::vector<unsigned char> substitutionQV;
     std::vector<unsigned char> substitutionTag;
     std::vector<unsigned char> mergeQV;
-    std::vector<DNALength>  readLengths;
-    std::vector<DSLength>  readStartPositions;
+    std::vector<DNALength> readLengths;
+    std::vector<DSLength> readStartPositions;
     UInt nReads;
     DSLength nBases;
 
-    bool LookupReadIndexByXY(uint16_t x, uint16_t y, UInt &index); 
+    bool LookupReadIndexByXY(uint16_t x, uint16_t y, UInt &index);
 
-    void CopyReadAt(UInt readIndex, SMRTSequence &read); 
+    void CopyReadAt(UInt readIndex, SMRTSequence &read);
 
     // Copy array from fullArray starting from position pos with length length to dest.
-    template<typename T>
-    void CopyArray(std::vector<T> &fullArray, DSLength pos, DNALength length, T*dest); 
-    
+    template <typename T>
+    void CopyArray(std::vector<T> &fullArray, DSLength pos, DNALength length, T *dest);
 };
 
 #include "BaseFileImpl.hpp"
 
-#endif // _BLASR_BASE_FILE_HPP_
+#endif  // _BLASR_BASE_FILE_HPP_

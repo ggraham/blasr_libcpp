@@ -1,6 +1,7 @@
 #include "HDFCmpSupportedFields.hpp"
 
-HDFCmpSupportedFields::HDFCmpSupportedFields() {
+HDFCmpSupportedFields::HDFCmpSupportedFields()
+{
     this->insert("StartTimeOffset");
     this->insert("QualityValue");
     this->insert("IPD");
@@ -21,5 +22,4 @@ HDFCmpSupportedFields::HDFCmpSupportedFields() {
     this->insert("SubstitutionTag");
     this->insert("DeletionTag");
     this->insert("PulseIndex");
-
 }

@@ -1,17 +1,13 @@
-#include <stdint.h>
 #include "TupleMetrics.hpp"
+#include <stdint.h>
 #include "TupleMask.h"
 
-TupleMetrics::TupleMetrics()
-    : tupleSize(0)
-    , tupleMask(0)
-{ }
+TupleMetrics::TupleMetrics() : tupleSize(0), tupleMask(0) {}
 
-void TupleMetrics::InitializeMask() {
-    tupleMask = TupleMask[tupleSize];
-}
+void TupleMetrics::InitializeMask() { tupleMask = TupleMask[tupleSize]; }
 
-void TupleMetrics::Initialize(int pTupleSize) {
+void TupleMetrics::Initialize(int pTupleSize)
+{
     tupleSize = pTupleSize;
     InitializeMask();
 }

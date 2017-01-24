@@ -1,35 +1,41 @@
 #ifndef _BLASR_HDF_BUFFERED_HDF_2D_ARRAY_IMPL_HPP_
 #define _BLASR_HDF_BUFFERED_HDF_2D_ARRAY_IMPL_HPP_
 
-#include <cstring>
 #include <cassert>
+#include <cstring>
 #include "../pbdata/utils.hpp"
 
-template<typename T>
-BufferedHDF2DArray<T>::BufferedHDF2DArray(H5::CommonFG *_container, 
-    std::string _datasetName) : HDFData(_container, _datasetName) {}
+template <typename T>
+BufferedHDF2DArray<T>::BufferedHDF2DArray(H5::CommonFG *_container, std::string _datasetName)
+    : HDFData(_container, _datasetName)
+{
+}
 
-template<typename T>
-BufferedHDF2DArray<T>::BufferedHDF2DArray() : HDFData() {
+template <typename T>
+BufferedHDF2DArray<T>::BufferedHDF2DArray() : HDFData()
+{
     maxDims = 0;
     nDims = 2;
-    dimSize =NULL;
+    dimSize = NULL;
     rowLength = -1;
     colLength = -1;
 }
 
-template<typename T>
-DSLength BufferedHDF2DArray<T>::GetNRows() {
+template <typename T>
+DSLength BufferedHDF2DArray<T>::GetNRows()
+{
     return rowLength;
 }
 
-template<typename T>
-DSLength BufferedHDF2DArray<T>::GetNCols() {
+template <typename T>
+DSLength BufferedHDF2DArray<T>::GetNCols()
+{
     return colLength;
 }
 
-template<typename T>
-void BufferedHDF2DArray<T>::Close() {
+template <typename T>
+void BufferedHDF2DArray<T>::Close()
+{
 
     //
     // Clean up the write buffer.
@@ -42,13 +48,14 @@ void BufferedHDF2DArray<T>::Close() {
     this->HDFWriteBuffer<T>::Free();
 }
 
-template<typename T>
-BufferedHDF2DArray<T>::~BufferedHDF2DArray() {
+template <typename T>
+BufferedHDF2DArray<T>::~BufferedHDF2DArray()
+{
     Close();
 }
 
-template<typename T>
-int BufferedHDF2DArray<T>::InitializeForReading(HDFGroup& group, std::string datasetName)
+template <typename T>
+int BufferedHDF2DArray<T>::InitializeForReading(HDFGroup &group, std::string datasetName)
 {
     return Initialize(group, datasetName, 0, 0, false);
 }
@@ -58,9 +65,10 @@ int BufferedHDF2DArray<T>::InitializeForReading(HDFGroup& group, std::string dat
  * required.  The assumption is that the dataspace is in two
  * dimensions, and this exits without grace if it is not. 
  */
-template<typename T>
-int BufferedHDF2DArray<T>::Initialize(HDFGroup &group, std::string datasetName,
-    DSLength _rowLength, int _bufferSize, bool createIfMissing) {
+template <typename T>
+int BufferedHDF2DArray<T>::Initialize(HDFGroup &group, std::string datasetName, DSLength _rowLength,
+                                      int _bufferSize, bool createIfMissing)
+{
     (void)(_bufferSize);
 
     bool groupContainsDataset = group.ContainsObject(datasetName);
@@ -73,30 +81,30 @@ int BufferedHDF2DArray<T>::Initialize(HDFGroup &group, std::string datasetName,
             exit(1);
         }
         if (_rowLength == 0) {
-            std::cout << "ERROR!  Improper usage of BufferedHDF2DArray::Initialize.  The 2D Array "<<std::endl
-                << "is being created but is given a number of columns of 0." << std::endl;
+            std::cout << "ERROR!  Improper usage of BufferedHDF2DArray::Initialize.  The 2D Array "
+                      << std::endl
+                      << "is being created but is given a number of columns of 0." << std::endl;
             exit(1);
         }
         Create(&group.group, datasetName, _rowLength);
-    }
-    else {
+    } else {
         InitializeDataset(group.group, datasetName);
         try {
             dataspace = dataset.getSpace();
-        }
-        catch(H5::DataSetIException &e) { 
+        } catch (H5::DataSetIException &e) {
             std::cout << e.getDetailMsg() << std::endl;
             exit(1);
         }
 
-        maxDims   = MAX_DIMS;
+        maxDims = MAX_DIMS;
         try {
-            nDims     = dataspace.getSimpleExtentNdims();
+            nDims = dataspace.getSimpleExtentNdims();
             /*
              * Prevent abuse of this class for multidimensional IO.
              */
             if (nDims != 2) {
-                std::cout << "ERROR in HDF format: dataset: " << datasetName << " should be 1-D, but it is not." << std::endl;
+                std::cout << "ERROR in HDF format: dataset: " << datasetName
+                          << " should be 1-D, but it is not." << std::endl;
                 exit(1);
             }
 
@@ -104,7 +112,7 @@ int BufferedHDF2DArray<T>::Initialize(HDFGroup &group, std::string datasetName,
              * Load in the size of this dataset, and make a map to the whole thing.
              */
             if (dimSize) {
-                delete [] dimSize;
+                delete[] dimSize;
             }
             dimSize = ProtectedNew<hsize_t>(nDims);
             dataspace.getSimpleExtentDims(dimSize);
@@ -116,8 +124,7 @@ int BufferedHDF2DArray<T>::Initialize(HDFGroup &group, std::string datasetName,
             }
             fullSourceSpace = H5::DataSpace(2, dimSize);
             dataspace.close();
-        }
-        catch(H5::Exception &e) {
+        } catch (H5::Exception &e) {
             std::cout << e.getDetailMsg() << std::endl;
             exit(1);
         }
@@ -125,8 +132,9 @@ int BufferedHDF2DArray<T>::Initialize(HDFGroup &group, std::string datasetName,
     return 1;
 }
 
-template<typename T>
-DSLength BufferedHDF2DArray<T>::size() {
+template <typename T>
+DSLength BufferedHDF2DArray<T>::size()
+{
     dataspace.getSimpleExtentDims(dimSize);
     return dimSize[0];
 }
@@ -134,32 +142,40 @@ DSLength BufferedHDF2DArray<T>::size() {
 /*
  * Read rows in the range (startX, endX] in to dest.
  */
-template<typename T>
-void BufferedHDF2DArray<T>::Read(DSLength startX, DSLength endX, H5::DataType typeID, T*dest) {
+template <typename T>
+void BufferedHDF2DArray<T>::Read(DSLength startX, DSLength endX, H5::DataType typeID, T *dest)
+{
     Read(startX, endX, 0, dimSize[1], typeID, dest);
 }
 
-template<typename T>
-void BufferedHDF2DArray<T>::Read(DSLength startX, DSLength endX, T*dest) {
+template <typename T>
+void BufferedHDF2DArray<T>::Read(DSLength startX, DSLength endX, T *dest)
+{
     Read(startX, endX, 0, dimSize[1], dest);
 }
 /*
  * This is the non-specialized definition.  Since this should only
  * operate on specialized types, report an error and bail.
  */
-template<typename T>
-void BufferedHDF2DArray<T>::Read(DSLength startX, DSLength endX, DSLength startY, DSLength endY, T* dest) {
+template <typename T>
+void BufferedHDF2DArray<T>::Read(DSLength startX, DSLength endX, DSLength startY, DSLength endY,
+                                 T *dest)
+{
     (void)(startX);
     (void)(endX);
     (void)(startY);
     (void)(endY);
     (void)(dest);
-    assert("ERROR, calling Read with an unsupported type. Use Read(startx,endx, starty,endy,datatype, dest) instead." == 0);
+    assert(
+        "ERROR, calling Read with an unsupported type. Use Read(startx,endx, starty,endy,datatype, "
+        "dest) instead." == 0);
     exit(1);
 }
 
-template<typename T>
-void BufferedHDF2DArray<T>::Read(DSLength startX, DSLength endX, DSLength startY, DSLength endY, H5::DataType typeID, T *dest) {
+template <typename T>
+void BufferedHDF2DArray<T>::Read(DSLength startX, DSLength endX, DSLength startY, DSLength endY,
+                                 H5::DataType typeID, T *dest)
+{
     hsize_t memSpaceSize[2] = {0, 0};
     memSpaceSize[0] = endX - startX;
     memSpaceSize[1] = endY - startY;
@@ -167,17 +183,19 @@ void BufferedHDF2DArray<T>::Read(DSLength startX, DSLength endX, DSLength startY
     sourceSpaceOffset[0] = startX;
     sourceSpaceOffset[1] = startY;
 
-    H5::DataSpace destSpace(2, memSpaceSize);		
+    H5::DataSpace destSpace(2, memSpaceSize);
     fullSourceSpace.selectHyperslab(H5S_SELECT_SET, memSpaceSize, sourceSpaceOffset);
     dataset.read(dest, typeID, destSpace, fullSourceSpace);
     destSpace.close();
 }
 
-template<typename T>
-void BufferedHDF2DArray<T>::Create(H5::CommonFG *_container, string _datasetName, DSLength _rowLength) {
-    container   = _container;
+template <typename T>
+void BufferedHDF2DArray<T>::Create(H5::CommonFG *_container, string _datasetName,
+                                   DSLength _rowLength)
+{
+    container = _container;
     datasetName = _datasetName;
-    rowLength   = _rowLength;
+    rowLength = _rowLength;
     //
     // Make life easy if the buffer is too small to fit a row --
     // resize it so that rows may be copied and written out in an
@@ -194,7 +212,7 @@ void BufferedHDF2DArray<T>::Create(H5::CommonFG *_container, string _datasetName
         this->bufferSize = rowLength;
     }
 
-    hsize_t dataSize[2]    = {0, hsize_t(rowLength)};
+    hsize_t dataSize[2] = {0, hsize_t(rowLength)};
     hsize_t maxDataSize[2] = {H5S_UNLIMITED, hsize_t(rowLength)};
     H5::DataSpace fileSpace(2, dataSize, maxDataSize);
     H5::DSetCreatPropList cparms;
@@ -207,7 +225,7 @@ void BufferedHDF2DArray<T>::Create(H5::CommonFG *_container, string _datasetName
      * use an API by reading comments in source code.
      */
     hsize_t chunkDims[2] = {16384, hsize_t(rowLength)};
-    cparms.setChunk( 2, chunkDims );
+    cparms.setChunk(2, chunkDims);
     TypedCreate(fileSpace, cparms);
     fileSpace.close();
 
@@ -218,23 +236,27 @@ void BufferedHDF2DArray<T>::Create(H5::CommonFG *_container, string _datasetName
     isInitialized = true;
 }
 
-template<typename T>
-void BufferedHDF2DArray<T>::TypedCreate(H5::DataSpace &fileSpace,
-    H5::DSetCreatPropList &cparms) {
+template <typename T>
+void BufferedHDF2DArray<T>::TypedCreate(H5::DataSpace &fileSpace, H5::DSetCreatPropList &cparms)
+{
     (void)(fileSpace);
     (void)(cparms);
-    assert("Error, calling HDF2DArray<T>::TypedCreate on an unsupported type.  A specialization must be written in HDF2DArray.h" == 0);
+    assert(
+        "Error, calling HDF2DArray<T>::TypedCreate on an unsupported type.  A specialization must "
+        "be written in HDF2DArray.h" == 0);
 }
 
 // Append
-template<typename T>
-void TypedWriteRow(const T*, const H5::DataSpace &memoryDataSpace, 
-    const H5::DataSpace &fileDataSpace) {
+template <typename T>
+void TypedWriteRow(const T *, const H5::DataSpace &memoryDataSpace,
+                   const H5::DataSpace &fileDataSpace)
+{
     (void)(memoryDataSpace);
     (void)(fileDataSpace);
-    assert("Error, calling HDF2DArray<T>::TypedWriteRow on an unsupported type.  A specialization must be written in HDF2DArray.h" == 0);
+    assert(
+        "Error, calling HDF2DArray<T>::TypedWriteRow on an unsupported type.  A specialization "
+        "must be written in HDF2DArray.h" == 0);
 }
-
 
 /*
  * This code is copied directly form BufferedHDFArray.  I'm not sure
@@ -244,8 +266,9 @@ void TypedWriteRow(const T*, const H5::DataSpace &memoryDataSpace,
  * it's 15 lines of code.
  */
 
-template<typename T>
-void BufferedHDF2DArray<T>::WriteRow(const T *data, DSLength dataLength, DSLength destRow) {
+template <typename T>
+void BufferedHDF2DArray<T>::WriteRow(const T *data, DSLength dataLength, DSLength destRow)
+{
     // Fill the buffer with data. When there is overflow, write
     // that out to disk.
     //
@@ -253,22 +276,23 @@ void BufferedHDF2DArray<T>::WriteRow(const T *data, DSLength dataLength, DSLengt
     int bufferCapacity;
     int bufferFillSize = 0;
     bool flushBuffer;
-    while(dataIndex < dataLength) {
+    while (dataIndex < dataLength) {
         //
         // Compute the capacity of this buffer to fit an integral number
         // of rows into it.
         //
-        bufferCapacity = (this->bufferSize / rowLength)*rowLength - this->bufferIndex;
+        bufferCapacity = (this->bufferSize / rowLength) * rowLength - this->bufferIndex;
         flushBuffer = false;
-        if (static_cast<long long>(bufferCapacity)  > static_cast<long long>(dataLength) - static_cast<long long>(dataIndex)) {
+        if (static_cast<long long>(bufferCapacity) >
+            static_cast<long long>(dataLength) - static_cast<long long>(dataIndex)) {
             bufferFillSize = dataLength - dataIndex;
-        }
-        else {
+        } else {
             bufferFillSize = bufferCapacity;
             flushBuffer = true;
         }
-        memcpy((void*) &this->writeBuffer[this->bufferIndex], (void*) &data[dataIndex], sizeof(T)*bufferFillSize);
-        dataIndex   += bufferFillSize;
+        memcpy((void *)&this->writeBuffer[this->bufferIndex], (void *)&data[dataIndex],
+               sizeof(T) * bufferFillSize);
+        dataIndex += bufferFillSize;
         this->bufferIndex += bufferFillSize;
         if (flushBuffer) {
             Flush(destRow);
@@ -283,8 +307,9 @@ void BufferedHDF2DArray<T>::WriteRow(const T *data, DSLength dataLength, DSLengt
     }
 }
 
-template<typename T>
-void BufferedHDF2DArray<T>::Flush(DSLength destRow) {
+template <typename T>
+void BufferedHDF2DArray<T>::Flush(DSLength destRow)
+{
 
     //
     // A default writeRow of -1 implies append
@@ -321,8 +346,7 @@ void BufferedHDF2DArray<T>::Flush(DSLength destRow) {
 
         if (destRow == static_cast<DSLength>(-1)) {
             fileArraySize[0] += numDataRows;
-        }
-        else {
+        } else {
             // If the data cannot fit in the current file size, extend
             // it,  otherwise, do not toch the file array size.
             if (destRow + numDataRows > fileArraySize[0]) {
@@ -339,7 +363,7 @@ void BufferedHDF2DArray<T>::Flush(DSLength destRow) {
         //
         // Store the newly dimensioned dataspaces.
         //
-        fileSpace.getSimpleExtentDims(fileArraySize, fileArrayMaxSize);			
+        fileSpace.getSimpleExtentDims(fileArraySize, fileArrayMaxSize);
         //
         // Configure the proper addressing to append to the array.
         //
@@ -352,8 +376,7 @@ void BufferedHDF2DArray<T>::Flush(DSLength destRow) {
         //
         if (destRow == static_cast<DSLength>(-1)) {
             offset[0] = blockStart[0];
-        }
-        else {
+        } else {
             offset[0] = destRow;
         }
         offset[1] = 0;
@@ -361,7 +384,7 @@ void BufferedHDF2DArray<T>::Flush(DSLength destRow) {
         H5::DataSpace memorySpace(2, dataSize);
 
         //
-        // Finally, write out the data.  
+        // Finally, write out the data.
         // This uses a generic function which is specialized with
         // templates later on to t
         // memorySpace addresses the entire array in linear format
@@ -375,4 +398,4 @@ void BufferedHDF2DArray<T>::Flush(DSLength destRow) {
     this->ResetWriteBuffer();
 }
 
-#endif // _BLASR_HDF_BUFFERED_HDF_2D_ARRAY_IMPL_HPP_
+#endif  // _BLASR_HDF_BUFFERED_HDF_2D_ARRAY_IMPL_HPP_

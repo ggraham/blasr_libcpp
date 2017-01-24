@@ -19,10 +19,11 @@
  *
  * 
  */
-template<typename T_Point>
-PSTVertex<T_Point>::PSTVertex() {
-    isALeaf         = 0;
-    leftChildIndex  = 0;
+template <typename T_Point>
+PSTVertex<T_Point>::PSTVertex()
+{
+    isALeaf = 0;
+    leftChildIndex = 0;
     rightChildIndex = 0;
     maxScoreNode = -1;
     maxKey = 0;
@@ -30,28 +31,29 @@ PSTVertex<T_Point>::PSTVertex() {
     pointIndex = 0;
 }
 
+template <typename T_Point>
+PrioritySearchTree<T_Point>::PrioritySearchTree()
+{
+    treePtr = NULL;
+}
 
-template<typename T_Point>
-PrioritySearchTree<T_Point>::PrioritySearchTree() {treePtr = NULL;}
-
-template<typename T_Point>
-int PrioritySearchTree<T_Point>::
-GetMedianIndex(int start, int end) {
+template <typename T_Point>
+int PrioritySearchTree<T_Point>::GetMedianIndex(int start, int end)
+{
     return (end + start) / 2;
 }
 
-template<typename T_Point>
-inline 
-KeyType PrioritySearchTree<T_Point>::
-CreateTree(std::vector<T_Point> &points, 
-    int start, int end, unsigned int &iterativeIndex) {
+template <typename T_Point>
+inline KeyType PrioritySearchTree<T_Point>::CreateTree(std::vector<T_Point> &points, int start,
+                                                       int end, unsigned int &iterativeIndex)
+{
     assert(iterativeIndex < (*treePtr).size());
 
     //
-    // Look to see if this vertex is the parent of a leaf 
+    // Look to see if this vertex is the parent of a leaf
     // -- when there are only two points below.
     //
-    int medianIndex    = GetMedianIndex(start, end);
+    int medianIndex = GetMedianIndex(start, end);
     int curVertexIndex = iterativeIndex;
     (*treePtr)[curVertexIndex].medianKey = points[medianIndex].GetKey();
 
@@ -61,13 +63,13 @@ CreateTree(std::vector<T_Point> &points,
         return (*treePtr)[curVertexIndex].medianKey;
     }
 
-    // 
+    //
     // Check to see if the current
     // node is a leaf node.  No recursion on this node.
     //
     if (end - start == 1) {
-        (*treePtr)[curVertexIndex].isALeaf    = 1;
-        (*treePtr)[curVertexIndex].medianKey  = points[start].GetKey();
+        (*treePtr)[curVertexIndex].isALeaf = 1;
+        (*treePtr)[curVertexIndex].medianKey = points[start].GetKey();
         (*treePtr)[curVertexIndex].pointIndex = start;
         //
         // Return the key of this vertex.  The parent
@@ -77,16 +79,15 @@ CreateTree(std::vector<T_Point> &points,
         // If it is the right side of a (*treePtr), it is ignored.
         //
         return (*treePtr)[curVertexIndex].medianKey;
-    }
-    else {
+    } else {
         //
-        // This vertex contains at least two children, so it is not 
+        // This vertex contains at least two children, so it is not
         // a leaf.  Recurse assigning leaves.
         //
         (*treePtr)[curVertexIndex].isALeaf = 0;
         (*treePtr)[curVertexIndex].leftChildIndex = ++iterativeIndex;
         KeyType leftTreeKey, rightTreeKey;
-        leftTreeKey  = CreateTree(points, start, medianIndex, iterativeIndex);
+        leftTreeKey = CreateTree(points, start, medianIndex, iterativeIndex);
 
         //
         // The leftTreeKey separates the branches BELOW this vertex.
@@ -102,29 +103,29 @@ CreateTree(std::vector<T_Point> &points,
         return rightTreeKey;
     }
 }
-	
-template<typename T_Point>
-int PrioritySearchTree<T_Point>::
-FindIndexOfMaxPoint(int curVertexIndex, std::vector<T_Point> &points, 
-    KeyType maxKey, int &maxPointValue, 
-    int &maxPointIndex) {
+
+template <typename T_Point>
+int PrioritySearchTree<T_Point>::FindIndexOfMaxPoint(int curVertexIndex,
+                                                     std::vector<T_Point> &points, KeyType maxKey,
+                                                     int &maxPointValue, int &maxPointIndex)
+{
     //
-    // Attempt to find the leaf vertex beneath this vertex that has 
+    // Attempt to find the leaf vertex beneath this vertex that has
     // the largest score, with a key less than max key.
     //
-    // On return: 
+    // On return:
     //   Return 1 if a value is assigned to maxPointValue, 0 otherwise.
     //   If a value is assigned to maxPointValue, this sets:
     //      maxPointValue is the score of the maximum point.
     //      maxPointIndex the index of the point in 'points' that has
     //      the maximum score.
-    //   
+    //
 
     //
-    // The vertex at curVertexIndex has a max score node beneath it, 
-    // if it has been initialized.  If the maxScoreNode has a key less 
-    // than the current maxKey, then we know the maximum value is 
-    // contained beneath this vertex, AND that its key is within the 
+    // The vertex at curVertexIndex has a max score node beneath it,
+    // if it has been initialized.  If the maxScoreNode has a key less
+    // than the current maxKey, then we know the maximum value is
+    // contained beneath this vertex, AND that its key is within the
     // range in the rage maximum query.
     // That means that there is no need to continue the search below here.
     //
@@ -137,74 +138,66 @@ FindIndexOfMaxPoint(int curVertexIndex, std::vector<T_Point> &points,
             maxPointValue = thisPoint.GetScore();
             maxPointIndex = (*treePtr)[curVertexIndex].maxScoreNode;
             return 1;
-        }
-        else {
+        } else {
             return 0;
         }
     }
     //
-    // Otherwise, the maximum scoring node beneath this node has a 
+    // Otherwise, the maximum scoring node beneath this node has a
     // key greater than the max key. That means that the search must
     // continue for the maximum value node with a key less than 'maxKey'.
     //
     // The search has two cases:
-    // First, if the median key of this node is greater than the maxKey, 
+    // First, if the median key of this node is greater than the maxKey,
     // all keys on the right side of the tree are greater than maxKey,
     // so do not search there.
     //
-    // If the median key of this node si less than maxKey, there may 
-    // be a node on the left or right child of the current node with 
+    // If the median key of this node si less than maxKey, there may
+    // be a node on the left or right child of the current node with
     // a maximum key.  Search both to the left and right.
     //
     else {
         if (!(*treePtr)[curVertexIndex].isALeaf) {
             if (maxKey <= (*treePtr)[curVertexIndex].medianKey) {
-                return FindIndexOfMaxPoint(
-                        (*treePtr)[curVertexIndex].leftChildIndex,
-                        points, maxKey, maxPointValue, maxPointIndex);
-            }
-            else {
+                return FindIndexOfMaxPoint((*treePtr)[curVertexIndex].leftChildIndex, points,
+                                           maxKey, maxPointValue, maxPointIndex);
+            } else {
                 int foundValueLeft, foundValueRight;
-                foundValueLeft = FindIndexOfMaxPoint(
-                        (*treePtr)[curVertexIndex].leftChildIndex, 
-                        points, maxKey, maxPointValue, maxPointIndex);
+                foundValueLeft = FindIndexOfMaxPoint((*treePtr)[curVertexIndex].leftChildIndex,
+                                                     points, maxKey, maxPointValue, maxPointIndex);
 
-                foundValueRight = FindIndexOfMaxPoint(
-                        (*treePtr)[curVertexIndex].rightChildIndex, 
-                        points, maxKey, maxPointValue, maxPointIndex);
+                foundValueRight = FindIndexOfMaxPoint((*treePtr)[curVertexIndex].rightChildIndex,
+                                                      points, maxKey, maxPointValue, maxPointIndex);
                 return (foundValueLeft or foundValueRight);
             }
-        }
-        else {
-            // 
+        } else {
+            //
             // The current node is a leaf node, but due to the condition
-            // from before, its key is greater than or equal to the max key, 
+            // from before, its key is greater than or equal to the max key,
             // therefore its score cannot be used for the maximum score.
-            // Returning 0 here signifies that this search-branch did not 
+            // Returning 0 here signifies that this search-branch did not
             // turn up any candidates for
             // the maximum scoring node.
             return 0;
         }
     }
 }
-	
 
-template<typename T_Point>
-void PrioritySearchTree<T_Point>::
-CreateTree(std::vector<T_Point> &points, 
-    std::vector< PSTVertex<T_Point> >* bufTreePtr) {
+template <typename T_Point>
+void PrioritySearchTree<T_Point>::CreateTree(std::vector<T_Point> &points,
+                                             std::vector<PSTVertex<T_Point> > *bufTreePtr)
+{
     //
     // Precondition: points is sorted according to key.
     //
-    // 
-    // The tree is a binary tree containing all the points.  The 
+    //
+    // The tree is a binary tree containing all the points.  The
     // perfectly balanced tree is of maximum size points.size()-1,
     // so go ahead and preallocate that now.
     //
     if (bufTreePtr != NULL) {
         treePtr = bufTreePtr;
-    }
-    else {
+    } else {
         treePtr = &tree;
     }
     treePtr->resize((points.size() * 2) - 1);
@@ -212,38 +205,31 @@ CreateTree(std::vector<T_Point> &points,
     CreateTree(points, 0, points.size(), curVertexIndex);
 }
 
-
 //
 // Implement the tree as an array of interior nodes.
-// Since there is already space allocated for the 
+// Since there is already space allocated for the
 //
-template<typename T_Point>
-int PrioritySearchTree<T_Point>::
-FindPoint(KeyType pointKey, 
-    int curVertexIndex, int &pointVertexIndex) {
+template <typename T_Point>
+int PrioritySearchTree<T_Point>::FindPoint(KeyType pointKey, int curVertexIndex,
+                                           int &pointVertexIndex)
+{
 
     if ((*treePtr)[curVertexIndex].isALeaf) {
         pointVertexIndex = curVertexIndex;
         return (*treePtr)[curVertexIndex].medianKey == pointKey;
-    }
-    else {
+    } else {
         if (pointKey <= (*treePtr)[curVertexIndex].medianKey) {
-            return FindPoint(pointKey, 
-                    (*treePtr)[curVertexIndex].leftChildIndex, 
-                    pointVertexIndex);
-        }
-        else {
-            return FindPoint(pointKey, 
-                    (*treePtr)[curVertexIndex].rightChildIndex, 
-                    pointVertexIndex);
+            return FindPoint(pointKey, (*treePtr)[curVertexIndex].leftChildIndex, pointVertexIndex);
+        } else {
+            return FindPoint(pointKey, (*treePtr)[curVertexIndex].rightChildIndex,
+                             pointVertexIndex);
         }
     }
 }
 
-
-template<typename T_Point>
-void PrioritySearchTree<T_Point>::
-Activate(std::vector<T_Point> &points, int pointIndex) {
+template <typename T_Point>
+void PrioritySearchTree<T_Point>::Activate(std::vector<T_Point> &points, int pointIndex)
+{
 
     int pointScore = points[pointIndex].GetScore();
     // Now, update the pMax scores in the (*treePtr).
@@ -251,46 +237,42 @@ Activate(std::vector<T_Point> &points, int pointIndex) {
     int curVertexIndex = 0;
     KeyType pointKey = points[pointIndex].GetKey();
     unsigned int itIndex = 0;
-    while (pointIndex != -1 and
-           (*treePtr)[curVertexIndex].isALeaf == 0) {
+    while (pointIndex != -1 and (*treePtr)[curVertexIndex].isALeaf == 0) {
         assert(itIndex < (*treePtr).size());
         int nodeIndex = (*treePtr)[curVertexIndex].maxScoreNode;
-        if (nodeIndex == -1 or 
-            points[nodeIndex].GetScore() < pointScore) {
+        if (nodeIndex == -1 or points[nodeIndex].GetScore() < pointScore) {
             (*treePtr)[curVertexIndex].maxScoreNode = pointIndex;
-            pointIndex = nodeIndex; 
+            pointIndex = nodeIndex;
         }
 
         if (pointKey <= (*treePtr)[curVertexIndex].medianKey) {
             curVertexIndex = (*treePtr)[curVertexIndex].leftChildIndex;
-        }
-        else {
+        } else {
             curVertexIndex = (*treePtr)[curVertexIndex].rightChildIndex;
         }
 
-        // Keep track of the number of times this loop is executed... an 
+        // Keep track of the number of times this loop is executed... an
         // infinite loop will bomb.
         ++itIndex;
     }
 }
 
-template<typename T_Point>
-int PrioritySearchTree<T_Point>::
-FindIndexOfMaxPoint(std::vector<T_Point> &points, 
-    KeyType maxPointKey, int &maxPointIndex) {
+template <typename T_Point>
+int PrioritySearchTree<T_Point>::FindIndexOfMaxPoint(std::vector<T_Point> &points,
+                                                     KeyType maxPointKey, int &maxPointIndex)
+{
 
     // start at the root
     int curVertexIndex = 0;
     if ((*treePtr)[curVertexIndex].maxScoreNode == -1) {
         //
         // This case can only be hit if none of the points have been
-        // activated. 
+        // activated.
         //
         return 0;
     }
     int maxPointValue = 0;
-    return FindIndexOfMaxPoint(0, points, maxPointKey, 
-            maxPointValue, maxPointIndex);
+    return FindIndexOfMaxPoint(0, points, maxPointKey, maxPointValue, maxPointIndex);
 }
 
 #endif

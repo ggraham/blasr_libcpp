@@ -1,47 +1,49 @@
 #ifndef _BLASR_SDP_FRAGMENT_HPP_
 #define _BLASR_SDP_FRAGMENT_HPP_
 
-class Fragment {
+class Fragment
+{
 public:
-	unsigned int x;
-	unsigned int y;
-	unsigned int weight;
-	unsigned int length;
-	int index;
-	int chainPrev;
-	int cost;
+    unsigned int x;
+    unsigned int y;
+    unsigned int weight;
+    unsigned int length;
+    int index;
+    int chainPrev;
+    int cost;
     int above;
-	unsigned int chainLength;
+    unsigned int chainLength;
 
-	inline Fragment(unsigned int px, unsigned int py, int pweight=0); 
+    inline Fragment(unsigned int px, unsigned int py, int pweight = 0);
 
-	inline Fragment();
+    inline Fragment();
 
-	unsigned int GetX() const {return x;}
+    unsigned int GetX() const { return x; }
 
-	unsigned int GetY() const {return y;}
+    unsigned int GetY() const { return y; }
 
     bool SetAbove(int a);
-    bool GetAbove(int & a);
+    bool GetAbove(int &a);
 
-	inline int LessThanXY(const Fragment &f) const;
+    inline int LessThanXY(const Fragment &f) const;
 
-	inline int LessThanYX(const Fragment &f) const;
+    inline int LessThanYX(const Fragment &f) const;
 
     inline int operator<(const Fragment &f) const;
 
-    inline Fragment& operator=(const Fragment &rhs);
+    inline Fragment &operator=(const Fragment &rhs);
 
     inline int operator==(const Fragment &f) const;
 
-	int operator>(const Fragment &f) const; 
+    int operator>(const Fragment &f) const;
 
-	int GetLength(); 
+    int GetLength();
 
-	void SetLength(int _length); 
+    void SetLength(int _length);
 };
 
-inline Fragment::Fragment(unsigned int px, unsigned int py, int pweight) {
+inline Fragment::Fragment(unsigned int px, unsigned int py, int pweight)
+{
     x = px;
     y = py;
     weight = pweight;
@@ -55,7 +57,8 @@ inline Fragment::Fragment(unsigned int px, unsigned int py, int pweight) {
 // give bad results if members are not properly initialized
 // later on.
 //
-inline Fragment::Fragment() {
+inline Fragment::Fragment()
+{
     x = -1;
     y = -1;
     weight = length = index = 0;
@@ -63,13 +66,18 @@ inline Fragment::Fragment() {
     above = -1;
 }
 
-inline int Fragment::LessThanXY(const Fragment &f) const {
+inline int Fragment::LessThanXY(const Fragment &f) const
+{
     if (x == f.x) {
         if (y == f.y) {
-            if (length == f.length) return 0;
-            else return length < f.length;
-        } else return y < f.y;
-    } else return x < f.x;
+            if (length == f.length)
+                return 0;
+            else
+                return length < f.length;
+        } else
+            return y < f.y;
+    } else
+        return x < f.x;
     /*
     if (x < f.x)
         return 1;
@@ -80,13 +88,18 @@ inline int Fragment::LessThanXY(const Fragment &f) const {
     */
 }
 
-inline int Fragment::LessThanYX(const Fragment &f) const {
+inline int Fragment::LessThanYX(const Fragment &f) const
+{
     if (y == f.y) {
         if (x == f.x) {
-            if (length == f.length) return 0;
-            else return length < f.length;
-        } else return x < f.x;
-    } else return y < f.y;
+            if (length == f.length)
+                return 0;
+            else
+                return length < f.length;
+        } else
+            return x < f.x;
+    } else
+        return y < f.y;
     /*
     if (y < f.y)
         return 1;
@@ -97,25 +110,25 @@ inline int Fragment::LessThanYX(const Fragment &f) const {
     */
 }
 
-inline Fragment& Fragment::operator=(const Fragment &rhs) {
-    x           = rhs.x;
-    y           = rhs.y;
-    index       = rhs.index;
-    cost        = rhs.cost;
-    weight      = rhs.weight;
-    length      = rhs.length;
+inline Fragment &Fragment::operator=(const Fragment &rhs)
+{
+    x = rhs.x;
+    y = rhs.y;
+    index = rhs.index;
+    cost = rhs.cost;
+    weight = rhs.weight;
+    length = rhs.length;
     chainLength = rhs.chainLength;
-    chainPrev   = rhs.chainPrev;
-    above       = rhs.above;
+    chainPrev = rhs.chainPrev;
+    above = rhs.above;
     return *this;
 }
 
-inline int Fragment::operator==(const Fragment &f) const {
-    return (x == f.x and y == f.y);
-}
+inline int Fragment::operator==(const Fragment &f) const { return (x == f.x and y == f.y); }
 
-inline int Fragment::operator<(const Fragment &f) const {
-    // 
+inline int Fragment::operator<(const Fragment &f) const
+{
+    //
     // Sort fragments by diagonal:
     //
     int diag, fDiag;
@@ -129,4 +142,4 @@ inline int Fragment::operator<(const Fragment &f) const {
         return 0;
 }
 
-#endif // _BLASR_SDP_FRAGMENT_HPP_
+#endif  // _BLASR_SDP_FRAGMENT_HPP_
