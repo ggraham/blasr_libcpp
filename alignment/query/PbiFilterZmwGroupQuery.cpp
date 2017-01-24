@@ -24,7 +24,7 @@ public:
         records.clear();
 
         string movieName;
-        int32_t holeNumber;
+        int32_t holeNumber = -1;
 
         if (nextRecord_.is_initialized()) {
             BamRecord r = nextRecord_.get();
