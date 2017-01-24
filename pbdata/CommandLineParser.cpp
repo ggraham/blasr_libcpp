@@ -320,7 +320,7 @@ CommandLineParser::ErrorValue CommandLineParser::
 ParseOption(int optionIndex, int &argi, 
     int argc, char *argv[]) {
 
-    ErrorValue ev;
+    ErrorValue ev = CLMissingValue;
     // 
     // Extract the value type of this option.
     //
