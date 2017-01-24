@@ -2,6 +2,7 @@
 #define _BLASR_ALIGNMENT_MAP_HPP_
 
 #include <vector>
+#include <string>
 
 class AlignmentMap
 {

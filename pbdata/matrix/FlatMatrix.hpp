@@ -3,6 +3,8 @@
 
 #define rc2index(r, c, rowSize) ((r) * (rowSize) + c)
 #include <iosfwd>
+#include <vector>
+#include <fstream>
 #include "../Types.h"  // UInt
 
 template <typename T>
