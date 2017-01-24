@@ -9,7 +9,8 @@
 #include "ReadInterval.hpp"
 #include "RegionAnnotation.hpp"
 
-class RegionAnnotations {
+class RegionAnnotations
+{
 
     /// \name Region Annotations of a single ZMW
     /// \{
@@ -24,11 +25,10 @@ private:
     std::vector<RegionType> types_;
 
 public:
-    RegionAnnotations(const UInt holeNumber,
-                      const std::vector<RegionAnnotation> & annotations,
-                      const std::vector<RegionType> & types);
+    RegionAnnotations(const UInt holeNumber, const std::vector<RegionAnnotation>& annotations,
+                      const std::vector<RegionType>& types);
 
-    RegionAnnotations(const RegionAnnotations & rhs);
+    RegionAnnotations(const RegionAnnotations& rhs);
 
     ~RegionAnnotations() {}
 
@@ -68,15 +68,13 @@ public:
     ///                            true : infer inserts according to adapters.
     /// \param[in] byHQRegion      false: inserts may contain both HQ and LQ regions
     ///                            true : inserts in HQ regions only.
-    std::vector<ReadInterval>
-    SubreadIntervals(const DNALength wholeLength,
-                     const bool byAdapter = true,
-                     const bool byHQRegion = true) const;
+    std::vector<ReadInterval> SubreadIntervals(const DNALength wholeLength,
+                                               const bool byAdapter = true,
+                                               const bool byHQRegion = true) const;
 
 private:
     /// \returns sorted vector of region annotations of a RegionType.
-    std::vector<RegionAnnotation>
-    RegionAnnotationsOfType(RegionType type) const;
+    std::vector<RegionAnnotation> RegionAnnotationsOfType(RegionType type) const;
 
     /// \returns HQ regions of this zmw.
     std::vector<RegionAnnotation> HQRegions() const;

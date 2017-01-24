@@ -1,25 +1,25 @@
 #ifndef _BLASR_REVERSE_COMPRESS_INDEX_HPP_
 #define _BLASR_REVERSE_COMPRESS_INDEX_HPP_
 
-class ReverseCompressIndex {
+class ReverseCompressIndex
+{
 public:
     int *index;
     int indexLength;
     int binSize;
     int maxRun;
-    int size() { return indexLength;}
+    int size() { return indexLength; }
 
-    ReverseCompressIndex(); 
-    ~ReverseCompressIndex(); 
+    ReverseCompressIndex();
+    ~ReverseCompressIndex();
 
-    void Write(std::ofstream &out); 
+    void Write(std::ofstream &out);
 
-    void Read(std::ifstream &in); 
+    void Read(std::ifstream &in);
 
     void ShallowCopy(ReverseCompressIndex &rhs);
 
     void Free();
 };
 
-
-#endif // _BLASR_REVERSE_COMPRESS_INDEX_HPP_
+#endif  // _BLASR_REVERSE_COMPRESS_INDEX_HPP_

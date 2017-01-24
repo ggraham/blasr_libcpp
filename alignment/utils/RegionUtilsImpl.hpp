@@ -1,12 +1,9 @@
-#ifndef _BLASR_REGION_UTILS_IMPL_HPP 
-#define _BLASR_REGION_UTILS_IMPL_HPP 
-
+#ifndef _BLASR_REGION_UTILS_IMPL_HPP
+#define _BLASR_REGION_UTILS_IMPL_HPP
 
 //FIXME: move all functions to class SMRTSequence
-template<typename T_Sequence>
-bool MaskRead(T_Sequence &fastaRead,
-              ZMWGroupEntry &zmwData,
-              RegionTable &regionTable)
+template <typename T_Sequence>
+bool MaskRead(T_Sequence &fastaRead, ZMWGroupEntry &zmwData, RegionTable &regionTable)
 {
     if (not regionTable.HasHoleNumber(zmwData.holeNumber)) {
         return false;
@@ -30,17 +27,17 @@ bool MaskRead(T_Sequence &fastaRead,
 /// \params[out] - readEnd
 /// \params[out] - score
 /// \returns Whether or not read coordinate trimmed according to HQRegion
-template<typename T_Sequence>
-bool GetReadTrimCoordinates(T_Sequence &fastaRead,
-	ZMWGroupEntry &zmwData,	RegionTable &regionTable,
-	DNALength &readStart ,DNALength &readEnd, int &score) {
+template <typename T_Sequence>
+bool GetReadTrimCoordinates(T_Sequence &fastaRead, ZMWGroupEntry &zmwData, RegionTable &regionTable,
+                            DNALength &readStart, DNALength &readEnd, int &score)
+{
 
     if (regionTable.HasHoleNumber(zmwData.holeNumber)) {
         RegionAnnotations regions = regionTable[zmwData.holeNumber];
         if (regions.HasHQRegion()) {
             readStart = regions.HQStart();
-            readEnd   = regions.HQEnd();
-            score     = regions.HQScore();
+            readEnd = regions.HQEnd();
+            score = regions.HQScore();
             return true;
         }
     }

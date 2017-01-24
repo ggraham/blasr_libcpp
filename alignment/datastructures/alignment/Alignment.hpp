@@ -1,14 +1,15 @@
 #ifndef _BLASR_ALIGNMENT_HPP_
 #define _BLASR_ALIGNMENT_HPP_
 
-#include "Path.h"
-#include "AlignmentStats.hpp"
-#include <vector>
 #include <string>
+#include <vector>
 #include "../../../pbdata/DNASequence.hpp"
+#include "AlignmentStats.hpp"
+#include "Path.h"
 
 namespace blasr {
-class Block {
+class Block
+{
 public:
     //
     // An alignment is a collection of blocks. The qPos and tPos in a block
@@ -19,38 +20,42 @@ public:
 
     Block();
 
-    Block(const DNALength & queryPos, const DNALength & targetPos,
-          const DNALength & blockLength);
-    
-    Block& operator=(const Block &rhs);
+    Block(const DNALength &queryPos, const DNALength &targetPos, const DNALength &blockLength);
+
+    Block &operator=(const Block &rhs);
 
     friend std::ostream &operator<<(std::ostream &out, const Block &b);
 
     std::string ToString() const;
 
-    Block& Assign(Block &rhs);
+    Block &Assign(Block &rhs);
 
-    DNALength QEnd() const; 
+    DNALength QEnd() const;
 
     DNALength TEnd() const;
 
-    void Clear(); 
+    void Clear();
 };
 
-
-class Gap {
+class Gap
+{
 public:
-    enum GapSeq {Query, Target};
+    enum GapSeq
+    {
+        Query,
+        Target
+    };
     GapSeq seq;
     int length;
     Gap();
-    Gap(GapSeq seqP, int lengthP); 
+    Gap(GapSeq seqP, int lengthP);
     std::string ToString() const;
 };
 
 typedef std::vector<Gap> GapList;
 
-class Alignment : public AlignmentStats {
+class Alignment : public AlignmentStats
+{
 public:
     // the FASTA titles of each sequence
     std::string qName, tName;
@@ -66,8 +71,8 @@ public:
     // That is when rc query aligns to target, we save rc query sequence in this
     // class (i.e., qStrand to Reverse), while keep forward target sequence.
     int qStrand, tStrand;
-   
-    // The starting pos in the text and query of the start of the 
+
+    // The starting pos in the text and query of the start of the
     // alignment, in the window that is matched.
     DNALength qPos, tPos;
     DNALength qAlignLength;
@@ -78,9 +83,9 @@ public:
     double probability;
     float zScore;
     float probScore;
-    int   sumQVScore; 
-    int   nCells;
-    int   nSampledPaths;
+    int sumQVScore;
+    int nCells;
+    int nSampledPaths;
     std::vector<Block> blocks;
     std::vector<GapList> gaps;
 
@@ -88,27 +93,27 @@ public:
 
     void CopyStats(Alignment &rhs);
 
-    // 
+    //
     // The position in the query is qPos + block[i].qPos
     // and the position in the text is tPos + block[i].tPos
     //
     void Clear();
 
-    Alignment& operator=(const Alignment &rhs);
+    Alignment &operator=(const Alignment &rhs);
 
-    unsigned int size(); 
+    unsigned int size();
 
     void Assign(Alignment &rhs);
 
     int ComputeNumAnchors(int minAnchorSize, int &nAnchors, int &nAnchorBases);
 
-    void AllocateBlocks(int nBlocks); 
+    void AllocateBlocks(int nBlocks);
 
-    void AppendAlignmentGaps(Alignment &next, bool mergeFirst=false); 
+    void AppendAlignmentGaps(Alignment &next, bool mergeFirst = false);
 
-    void AppendAlignmentBlocks(Alignment &next, int qOffset = 0, int tOffset = 0); 
+    void AppendAlignmentBlocks(Alignment &next, int qOffset = 0, int tOffset = 0);
 
-    void AppendAlignment(Alignment &next); 
+    void AppendAlignment(Alignment &next);
 
     // Return blocks as a string for debugging.
     // Ideally, blocks and gaps should be implemented as a class.
@@ -125,7 +130,7 @@ public:
        the gap blocks are tracked in addition to the match blocks.
        */
 
-    void ArrowPathToAlignment(std::vector<Arrow> &optPath); 
+    void ArrowPathToAlignment(std::vector<Arrow> &optPath);
 
     //
     // samtools / picard do not like the pattern
@@ -134,27 +139,27 @@ public:
     // produces the same scoring alignment, however it is reordered so
     // that Picard / samtools accepts the alignments.
     //
-    void OrderGapsByType(); 
+    void OrderGapsByType();
 
     //
     // Transform an alignment that has up to one long gap in it to a
     // block based alignment.
 
-    void LongGapArrowPathToAlignment(std::vector<Arrow> &optPath, DNALength lengthOfLongGap); 
+    void LongGapArrowPathToAlignment(std::vector<Arrow> &optPath, DNALength lengthOfLongGap);
 
     //
     // The length of the aligned sequence in the query.
     //
-    DNALength QEnd() const; 
+    DNALength QEnd() const;
 
     //
     // The lenght of the aligned sequence in the target.
     //
-    DNALength TEnd() const; 
+    DNALength TEnd() const;
 
-    DNALength GenomicTBegin() const; 
+    DNALength GenomicTBegin() const;
 
-    DNALength GenomicTEnd() const; 
+    DNALength GenomicTEnd() const;
 
     //
     // Some programs do not accept alignments that have gaps at their
@@ -163,50 +168,49 @@ public:
     //
 
     void RemoveEndGaps();
-
 };
 
 //
 // This data structure holds two things: alignments, of course, and in addition
-// the coordinates of sequences that are successively refined in order to produce 
+// the coordinates of sequences that are successively refined in order to produce
 // the alignment.  This is somewhat tricky when the target genome has been
-// transformed by some noise-reducing function phi(t). 
+// transformed by some noise-reducing function phi(t).
 //
-// Before aligning a read, it is first mapped to the genome, or transformed 
+// Before aligning a read, it is first mapped to the genome, or transformed
 // then mapped to the transformed genome.  Because the mapping is inexact, the
-// region a read is mapped to is typically much larger than the read.  
+// region a read is mapped to is typically much larger than the read.
 // The coordinates of the mapped region are stored in tStart and tEnd
 // Alignments are performed in native nucleotide space (not transformed).
 
 // For now, the query is always qStart=0, qEnd = queryLength.
 
-
 //
 // When mapping a read to a set of concatenated chromosomes, each chromosome
-// has an offset into the file.  Therefore though a sequence may be aligned 
+// has an offset into the file.  Therefore though a sequence may be aligned
 // to a region starting at tStart, the relative offset into the chromosome
 // is tStart - tChromOffset.  This is used when printing the coordinates of a match.
 //
-class MatchedAlignment : public Alignment {
-public: 
+class MatchedAlignment : public Alignment
+{
+public:
     int refIndex;
     int readIndex;
     DNALength tStart, tEnd, qStart, qEnd;
     int tChromOffset;
 
-    MatchedAlignment &Assign(MatchedAlignment &rhs); 
+    MatchedAlignment &Assign(MatchedAlignment &rhs);
 };
-
 
 /*
  *  Create a structure for storing the information output by compare sequences.
  *  Namely, the two string representations of the alignment.
  */
-class CompSeqAlignment : public Alignment {
-    public:
-        std::string tString, qString, alignString;
+class CompSeqAlignment : public Alignment
+{
+public:
+    std::string tString, qString, alignString;
 };
 
-} // namespace blasr
+}  // namespace blasr
 
-#endif // _BLASR_ALIGNMENT_HPP_
+#endif  // _BLASR_ALIGNMENT_HPP_

@@ -1,8 +1,9 @@
 #include "ClusterProbability.hpp"
-#include <cassert>
 #include <math.h>
+#include <cassert>
 
-float ComputeAnchorProbability(float pMatch, int minAnchorLength) {
+float ComputeAnchorProbability(float pMatch, int minAnchorLength)
+{
     assert(minAnchorLength >= 0);
     assert(pMatch < 1.00001 and pMatch > 0);
 
@@ -16,9 +17,8 @@ float ComputeAnchorProbability(float pMatch, int minAnchorLength) {
     return 1 - totalProbability;
 }
 
-
-float ComputeExpectedAnchorLength(float pMatch, int minAnchorLength, 
-        float pAnchor) {
+float ComputeExpectedAnchorLength(float pMatch, int minAnchorLength, float pAnchor)
+{
     int i = 0;
     for (i = 0; i < minAnchorLength; i++) {
         pMatch *= pMatch;
@@ -27,19 +27,17 @@ float ComputeExpectedAnchorLength(float pMatch, int minAnchorLength,
     float pValueEpsilon = 0.000000001;
     float expAnchorLength = 0;
 
-    while(pMatch*pMismatch > pValueEpsilon) {
-        expAnchorLength += i * pMatch*pMismatch/pAnchor;
+    while (pMatch * pMismatch > pValueEpsilon) {
+        expAnchorLength += i * pMatch * pMismatch / pAnchor;
         pMatch *= pMatch;
     }
     return expAnchorLength;
 }
 
+float AnchorBasesPerRead(int readLength, float pAnchor) { return pAnchor * readLength; }
 
-float AnchorBasesPerRead(int readLength, float pAnchor) {
-    return pAnchor * readLength;
-}
-
-float AnchorBasesPerReadSigma(float expAnchorBasesPerRead) {
-    // Assume exponential distribution: 
+float AnchorBasesPerReadSigma(float expAnchorBasesPerRead)
+{
+    // Assume exponential distribution:
     return sqrt(expAnchorBasesPerRead);
 }

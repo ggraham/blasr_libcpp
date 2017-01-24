@@ -3,19 +3,20 @@
 
 #include "CmpIndexedStringTable.h"
 // pbdata
+#include "../../../pbdata/Enumerations.h"
 #include "../../../pbdata/reads/ReadType.hpp"
 #include "../../../pbdata/saf/AlnGroup.hpp"
 #include "../../../pbdata/saf/AlnInfo.hpp"
+#include "../../../pbdata/saf/MovieInfo.hpp"
 #include "../../../pbdata/saf/RefGroup.hpp"
 #include "../../../pbdata/saf/RefInfo.hpp"
-#include "../../../pbdata/saf/MovieInfo.hpp"
-#include "../../../pbdata/Enumerations.h"
 
 #include <vector>
 
-class CmpFile {
- public:
-	int lastRow;
+class CmpFile
+{
+public:
+    int lastRow;
     std::string readTypeString, index, version, commandLine;
     ReadType::ReadTypeEnum readType;
 
@@ -24,10 +25,10 @@ class CmpFile {
     CmpIndexedStringTable readGroupTable, movieNameTable, refSeqTable;
     vector<string> colNames;
     PlatformId platformId;
-    AlnGroup  alnGroup;
-    AlnInfo   alnInfo;
-    RefGroup  refGroup;
-    RefInfo   refInfo;
+    AlnGroup alnGroup;
+    AlnInfo alnInfo;
+    RefGroup refGroup;
+    RefInfo refInfo;
     MovieInfo movieInfo;
 };
 

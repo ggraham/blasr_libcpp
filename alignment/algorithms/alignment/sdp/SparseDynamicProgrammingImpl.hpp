@@ -1,48 +1,47 @@
 #ifndef SPARSE_DYNAMIC_PROGRAMMING_IMPL_HPP_
 #define SPARSE_DYNAMIC_PROGRAMMING_IMPL_HPP_
 
-#include <stdlib.h>
+#include <limits.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <cassert>
-#include <set>
-#include <limits.h>
 #include <ostream>
-#include "SDPSet.hpp"
-#include "SDPFragment.hpp"
-#include "SDPColumn.hpp"
+#include <set>
 #include "FragmentSort.hpp"
+#include "SDPColumn.hpp"
+#include "SDPFragment.hpp"
+#include "SDPSet.hpp"
 
-template<typename T_Fragment>
-void StoreAbove(std::vector<T_Fragment> &fragmentSet, DNALength fragmentLength) {
+template <typename T_Fragment>
+void StoreAbove(std::vector<T_Fragment> &fragmentSet, DNALength fragmentLength)
+{
     (void)(fragmentLength);
-	std::sort(fragmentSet.begin(), fragmentSet.end(), LexicographicFragmentSortByY<T_Fragment>());	
-	for (size_t i = 1; i < fragmentSet.size(); i++) {
-		if (fragmentSet[i-1].x <= fragmentSet[i].x 
-   		    and fragmentSet[i-1].x + fragmentSet[i-1].length > fragmentSet[i].x 
-			and fragmentSet[i-1].y < fragmentSet[i].y) {
-			fragmentSet[i].SetAbove(fragmentSet[i-1].index);
-		}
-	}
-	// Place back in original order.
-	std::sort(fragmentSet.begin(), fragmentSet.end(), LexicographicFragmentSort<T_Fragment>());		
+    std::sort(fragmentSet.begin(), fragmentSet.end(), LexicographicFragmentSortByY<T_Fragment>());
+    for (size_t i = 1; i < fragmentSet.size(); i++) {
+        if (fragmentSet[i - 1].x <= fragmentSet[i].x and
+            fragmentSet[i - 1].x + fragmentSet[i - 1].length > fragmentSet[i].x and
+            fragmentSet[i - 1].y < fragmentSet[i].y) {
+            fragmentSet[i].SetAbove(fragmentSet[i - 1].index);
+        }
+    }
+    // Place back in original order.
+    std::sort(fragmentSet.begin(), fragmentSet.end(), LexicographicFragmentSort<T_Fragment>());
 }
 
-template<typename T_Fragment>
-int SDPLongestCommonSubsequence(DNALength queryLength,
-        std::vector<T_Fragment> &fragmentSet, 
-        DNALength fragmentLength,
-        int insertion, int deletion, int match,
-        std::vector<int> &maxFragmentChain, AlignmentType alignType) {
+template <typename T_Fragment>
+int SDPLongestCommonSubsequence(DNALength queryLength, std::vector<T_Fragment> &fragmentSet,
+                                DNALength fragmentLength, int insertion, int deletion, int match,
+                                std::vector<int> &maxFragmentChain, AlignmentType alignType)
+{
 
     maxFragmentChain.clear();
-    if (fragmentSet.size() < 1)
-        return 0;
+    if (fragmentSet.size() < 1) return 0;
 
     std::sort(fragmentSet.begin(), fragmentSet.end(), LexicographicFragmentSort<T_Fragment>());
 
     SDPSet<Fragment> sweepSet;
-    SDPSet<SDPColumn>   colSet;
+    SDPSet<SDPColumn> colSet;
 
     unsigned int sweepRow;
     unsigned int trailRow;
@@ -68,8 +67,7 @@ int SDPLongestCommonSubsequence(DNALength queryLength,
         // fSweep is past query.length.
         int startF = fSweep;
         size_t fragmentSetSize = fragmentSet.size();
-        while (fSweep < fragmentSetSize and 
-                fragmentSet[fSweep].x == sweepRow) {
+        while (fSweep < fragmentSetSize and fragmentSet[fSweep].x == sweepRow) {
 
             //
             // Compute the cost of every fragment in the sweep.
@@ -87,12 +85,12 @@ int SDPLongestCommonSubsequence(DNALength queryLength,
             if (colSet.Predecessor(curCol, predCol)) {
                 //
                 // predCol points to the fragment with greatest value less than curCol.
-                // 
+                //
                 // Baker and Giancarlo LCS cost
-                driftPenalty = IndelPenalty(fragmentSet[fSweep].x, fragmentSet[fSweep].y,
-                                            fragmentSet[predCol.optFragment].x, 
-                                            fragmentSet[predCol.optFragment].y,
-                                            insertion, deletion);
+                driftPenalty =
+                    IndelPenalty(fragmentSet[fSweep].x, fragmentSet[fSweep].y,
+                                 fragmentSet[predCol.optFragment].x,
+                                 fragmentSet[predCol.optFragment].y, insertion, deletion);
                 cp = fragmentSet[predCol.optFragment].cost + driftPenalty;
                 foundPrev = 1;
             }
@@ -103,22 +101,22 @@ int SDPLongestCommonSubsequence(DNALength queryLength,
                 //	Baker and Giancarlo LCS cost
                 //  Cost with insertion and deletion penalty.
                 //
-                cl = pred.cost + 
-                     MIN((int)(fragmentLength - (fragmentSet[fSweep].y - pred.y)) * match, 0) + 
-                     IndelPenalty(fragmentSet[fSweep].x, fragmentSet[fSweep].y,
-                                  pred.x, pred.y, insertion, deletion);
+                cl = pred.cost +
+                     MIN((int)(fragmentLength - (fragmentSet[fSweep].y - pred.y)) * match, 0) +
+                     IndelPenalty(fragmentSet[fSweep].x, fragmentSet[fSweep].y, pred.x, pred.y,
+                                  insertion, deletion);
                 foundPrev = 1;
             }
 
             int aboveIndex;
             if (fragmentSet[fSweep].GetAbove(aboveIndex)) {
-                //	Baker and Giancarlo LCS cost 
-                ca = fragmentSet[aboveIndex].cost + 
-                      (fragmentLength - (int)(fragmentSet[fSweep].y - fragmentSet[aboveIndex].y)) * match + 
-                      IndelPenalty(fragmentSet[fSweep].x, fragmentSet[fSweep].y, 
-                                  fragmentSet[aboveIndex].x, 
-                                  fragmentSet[aboveIndex].y, 
-                                  insertion, deletion);
+                //	Baker and Giancarlo LCS cost
+                ca = fragmentSet[aboveIndex].cost +
+                     (fragmentLength - (int)(fragmentSet[fSweep].y - fragmentSet[aboveIndex].y)) *
+                         match +
+                     IndelPenalty(fragmentSet[fSweep].x, fragmentSet[fSweep].y,
+                                  fragmentSet[aboveIndex].x, fragmentSet[aboveIndex].y, insertion,
+                                  deletion);
                 foundPrev = 1;
             }
 
@@ -130,36 +128,32 @@ int SDPLongestCommonSubsequence(DNALength queryLength,
 
             //
             //  If doing a global alignment, chain is always extended.  If local, the chain may not be.
-            // 
-            if (foundPrev and 
-                (alignType == Global or
-                (alignType == Local and minCost < 0))) {
+            //
+            if (foundPrev and (alignType == Global or (alignType == Local and minCost < 0))) {
                 fragmentSet[fSweep].cost = minCost - fragmentSet[fSweep].weight;
                 if (minCost == cp) {
                     fragmentSet[fSweep].chainPrev = predCol.optFragment;
-                }
-                else if (minCost == cl) {
+                } else if (minCost == cl) {
                     fragmentSet[fSweep].chainPrev = pred.index;
-                }
-                else if (minCost == ca) {
+                } else if (minCost == ca) {
                     fragmentSet[fSweep].chainPrev = aboveIndex;
                 }
                 assert(fragmentSet[fSweep].chainPrev >= 0 and
                        fragmentSet[fSweep].chainPrev < (int)fragmentSet.size());
-                fragmentSet[fSweep].chainLength = fragmentSet[fragmentSet[fSweep].chainPrev].chainLength + 1;
-            }
-            else {
+                fragmentSet[fSweep].chainLength =
+                    fragmentSet[fragmentSet[fSweep].chainPrev].chainLength + 1;
+            } else {
                 if (alignType == Global) {
-                    fragmentSet[fSweep].chainPrev = (int) -1;
-                    fragmentSet[fSweep].cost = (fragmentSet[fSweep].x + fragmentSet[fSweep].y) * deletion +
-                                               fragmentLength * match - fragmentSet[fSweep].weight;
+                    fragmentSet[fSweep].chainPrev = (int)-1;
+                    fragmentSet[fSweep].cost =
+                        (fragmentSet[fSweep].x + fragmentSet[fSweep].y) * deletion +
+                        fragmentLength * match - fragmentSet[fSweep].weight;
                     fragmentSet[fSweep].chainLength = 1;
-                }
-                else if (alignType == Local) {
-                    fragmentSet[fSweep].chainPrev = (int) -1;
+                } else if (alignType == Local) {
+                    fragmentSet[fSweep].chainPrev = (int)-1;
                     fragmentSet[fSweep].cost = fragmentLength * match - fragmentSet[fSweep].weight;
                     fragmentSet[fSweep].chainLength = 1;
-                }					
+                }
             }
 
             if (minFragmentCost > fragmentSet[fSweep].cost) {
@@ -178,11 +172,10 @@ int SDPLongestCommonSubsequence(DNALength queryLength,
         }
 
         //
-        // Insert all fragments in the sweep set 
+        // Insert all fragments in the sweep set
         //
         fSweep = startF;
-        while (fSweep < fragmentSetSize and 
-                fragmentSet[fSweep].x == sweepRow) {
+        while (fSweep < fragmentSetSize and fragmentSet[fSweep].x == sweepRow) {
             //			cout << "inserting sweep set with index" << fragmentSet[fSweep].index << endl;
             sweepSet.Insert(fragmentSet[fSweep]);
             ++fSweep;
@@ -191,8 +184,7 @@ int SDPLongestCommonSubsequence(DNALength queryLength,
         // Remove elements from the sweep set that are too far back.
         if (sweepRow >= fragmentLength + 1) {
             trailRow = sweepRow - fragmentLength - 1;
-            while (fTrail < fragmentSetSize and
-                   fragmentSet[fTrail].x == trailRow) {
+            while (fTrail < fragmentSetSize and fragmentSet[fTrail].x == trailRow) {
                 //
                 // These elements are removed from the sweep set since they are done being processed.
                 // If they are the lowest cost in the value, update colSet
@@ -205,23 +197,22 @@ int SDPLongestCommonSubsequence(DNALength queryLength,
                     if (fragmentSet[col.optFragment].cost < fragmentSet[fTrail].cost) {
                         storeCol = 1;
                     }
-                }
-                else {
+                } else {
                     storeCol = 1;
                 }
                 if (storeCol) {
                     col.col = fragmentSet[fTrail].y;
                     col.optFragment = fTrail;
-                    // 
+                    //
                     // Insert new column or replace col with a more optimal one.
                     //
                     colSet.Insert(col);
 
-                    // 
+                    //
                     // The invariant structure of the colSet is that
-                    // after inserting a fragment of score S at column col, 
+                    // after inserting a fragment of score S at column col,
                     // the score of all columns greater than 'col' in col set
-                    // must be less than col. 
+                    // must be less than col.
                     //
                     // To preserve this invariant, when an element is inserted
                     // at 'col', look to columns greater.  As long as any columns
@@ -263,4 +254,4 @@ int SDPLongestCommonSubsequence(DNALength queryLength,
     return maxFragmentChain.size();
 }
 
-#endif // __SPARSE_DYNAMIC_PROGRAMMING_IMPL_HPP_
+#endif  // __SPARSE_DYNAMIC_PROGRAMMING_IMPL_HPP_

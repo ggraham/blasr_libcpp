@@ -16,20 +16,22 @@
  * =====================================================================================
  */
 
-#include "gtest/gtest.h"
 #include "SMRTSequence.hpp"
+#include "gtest/gtest.h"
 
 using namespace std;
 
-Nucleotide seqnt[] = "ATATGGGGATTAGGGGATA"; 
-const string seqst("ATATGGGGATTAGGGGATA"); 
+Nucleotide seqnt[] = "ATATGGGGATTAGGGGATA";
+const string seqst("ATATGGGGATTAGGGGATA");
 
-SMRTSequence _make_a_smrt_read_(const string & movieName, const UInt & holeNumber,
-        const DNALength subreadStart, const DNALength subreadEnd,
-        const string & seqst,
-        const bool hasInsertion, const bool hasDeletion, const bool hasSubstitution,
-        const int insertionQVValue, const int deletionQVValue, const char deletionTagValue,
-        const int substitutionQVValue, const char substitutionTagValue) {
+SMRTSequence _make_a_smrt_read_(const string& movieName, const UInt& holeNumber,
+                                const DNALength subreadStart, const DNALength subreadEnd,
+                                const string& seqst, const bool hasInsertion,
+                                const bool hasDeletion, const bool hasSubstitution,
+                                const int insertionQVValue, const int deletionQVValue,
+                                const char deletionTagValue, const int substitutionQVValue,
+                                const char substitutionTagValue)
+{
 
     DNALength length = seqst.size();
     SMRTSequence smrt;
@@ -58,44 +60,46 @@ SMRTSequence _make_a_smrt_read_(const string & movieName, const UInt & holeNumbe
     smrt.SubreadStart(subreadStart);
     smrt.SubreadEnd(subreadEnd);
     smrt.HoleNumber(holeNumber);
-    assert(length ==  subreadEnd - subreadStart);
+    assert(length == subreadEnd - subreadStart);
     return smrt;
 }
 
-class SMRTSequenceTest: public:: testing:: Test{
+class SMRTSequenceTest : public ::testing::Test
+{
 public:
-    void SetUp() {
+    void SetUp()
+    {
         smrt.seq = seqnt;
         int len = sizeof(seqnt) / sizeof(Nucleotide) - 1;
-        smrt.length = len; 
+        smrt.length = len;
         smrt.HoleNumber(1);
         smrt.SubreadStart(0);
-        smrt.SubreadEnd  (19);
+        smrt.SubreadEnd(19);
         smrt.AllocateDeletionQVSpace(len);
-        for(int i=0; i < 19; i ++) {
+        for (int i = 0; i < 19; i++) {
             smrt.deletionQV[i] = i;
         }
     }
-    void TearDown() {
-        smrt.Free();
-    }
+    void TearDown() { smrt.Free(); }
     SMRTSequence smrt;
 };
 
-TEST_F(SMRTSequenceTest, Print) {
-   stringstream ss;
-   smrt.Print(ss);
-   ASSERT_EQ(ss.str(), (string("SMRTSequence for zmw 1, [0, 19)\n")
-                        + seqst + "\n"));
+TEST_F(SMRTSequenceTest, Print)
+{
+    stringstream ss;
+    smrt.Print(ss);
+    ASSERT_EQ(ss.str(), (string("SMRTSequence for zmw 1, [0, 19)\n") + seqst + "\n"));
 }
 
-TEST_F(SMRTSequenceTest, GetDeletionQV) {
-    for(int i = 0; i < smrt.length; i ++){
+TEST_F(SMRTSequenceTest, GetDeletionQV)
+{
+    for (int i = 0; i < smrt.length; i++) {
         ASSERT_EQ(smrt.GetDeletionQV(i), i);
     }
 }
 
-TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymerase) {
+TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymerase)
+{
 
     string movieName = "mymovie";
     UInt holeNumber = 12354;
@@ -105,10 +109,10 @@ TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymerase) {
     string expected_seq3 = "NATGGCNNNNGGCT";
     DNALength expected_hqstart = 0, expected_hqend = 14;
     DNALength expected_lqprefix = 1, expected_lqsuffix = 0;
-    int expected_insertionQV[14]    = {0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 11, 11, 11, 11};
-    int expected_deletionQV[14]     = {0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 12, 12, 12, 12};
+    int expected_insertionQV[14] = {0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 11, 11, 11, 11};
+    int expected_deletionQV[14] = {0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 12, 12, 12, 12};
     int expected_substitutionQV[14] = {0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 13, 13, 13, 13};
-    string expected_deletionTag     = "NAAAAANNNNCCCC";
+    string expected_deletionTag = "NAAAAANNNNCCCC";
     string expected_substitutionTag = "NGGGGGNNNNTTTT";
 
     bool expected_hasInsertionQV = true;
@@ -117,11 +121,11 @@ TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymerase) {
     bool expected_hasSubstitutionQV = true;
     bool expected_hasSubstitutionTag = true;
 
-    SMRTSequence read1 = _make_a_smrt_read_(movieName, holeNumber, 1, 6, seq1,
-            true, true, true, 1, 2, 'A', 3, 'G');
+    SMRTSequence read1 =
+        _make_a_smrt_read_(movieName, holeNumber, 1, 6, seq1, true, true, true, 1, 2, 'A', 3, 'G');
 
-    SMRTSequence read2 = _make_a_smrt_read_(movieName, holeNumber, 10, 14, seq2,
-            true, true, true, 11, 12, 'C', 13, 'T');
+    SMRTSequence read2 = _make_a_smrt_read_(movieName, holeNumber, 10, 14, seq2, true, true, true,
+                                            11, 12, 'C', 13, 'T');
 
     SMRTSequence read3;
     read3.MadeFromSubreadsAsPolymerase({read1, read2});
@@ -136,8 +140,8 @@ TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymerase) {
     EXPECT_EQ(not read3.insertionQV.Empty(), expected_hasInsertionQV);
     EXPECT_EQ(not read3.deletionQV.Empty(), expected_hasDeletionQV);
     EXPECT_EQ(not read3.substitutionQV.Empty(), expected_hasSubstitutionQV);
-    EXPECT_EQ(read3.deletionTag!=nullptr, expected_hasDeletionTag);
-    EXPECT_EQ(read3.substitutionTag!=nullptr, expected_hasSubstitutionTag);
+    EXPECT_EQ(read3.deletionTag != nullptr, expected_hasDeletionTag);
+    EXPECT_EQ(read3.substitutionTag != nullptr, expected_hasSubstitutionTag);
 
     EXPECT_TRUE(read3.qual.Empty());
     EXPECT_TRUE(read3.preBaseFrames == nullptr);
@@ -156,8 +160,8 @@ TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymerase) {
     }
 }
 
-
-TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymeraseNoInsertionNoDeletion) {
+TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymeraseNoInsertionNoDeletion)
+{
 
     string movieName = "mymovie";
     UInt holeNumber = 12354;
@@ -176,10 +180,10 @@ TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymeraseNoInsertionNoDeletion) {
     bool expected_hasSubstitutionQV = true;
     bool expected_hasSubstitutionTag = true;
 
-    SMRTSequence read1 = _make_a_smrt_read_(movieName, holeNumber, 1, 6, seq1,
-            false, true, true, 1, 2, 'A', 3, 'G');
-    SMRTSequence read2 = _make_a_smrt_read_(movieName, holeNumber, 10, 14, seq2,
-            true, true, true, 11, 12, 'C', 13, 'T');
+    SMRTSequence read1 =
+        _make_a_smrt_read_(movieName, holeNumber, 1, 6, seq1, false, true, true, 1, 2, 'A', 3, 'G');
+    SMRTSequence read2 = _make_a_smrt_read_(movieName, holeNumber, 10, 14, seq2, true, true, true,
+                                            11, 12, 'C', 13, 'T');
 
     // read3 should contain neither insertionQV nor deletionQV nor deletionTag
     SMRTSequence read3;
@@ -195,8 +199,8 @@ TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymeraseNoInsertionNoDeletion) {
     EXPECT_EQ(not read3.insertionQV.Empty(), expected_hasInsertionQV);
     EXPECT_EQ(not read3.deletionQV.Empty(), expected_hasDeletionQV);
     EXPECT_EQ(not read3.substitutionQV.Empty(), expected_hasSubstitutionQV);
-    EXPECT_EQ(read3.deletionTag!=nullptr, expected_hasDeletionTag);
-    EXPECT_EQ(read3.substitutionTag!=nullptr, expected_hasSubstitutionTag);
+    EXPECT_EQ(read3.deletionTag != nullptr, expected_hasDeletionTag);
+    EXPECT_EQ(read3.substitutionTag != nullptr, expected_hasSubstitutionTag);
 
     EXPECT_TRUE(read3.qual.Empty());
     EXPECT_TRUE(read3.preBaseFrames == nullptr);
@@ -212,7 +216,8 @@ TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymeraseNoInsertionNoDeletion) {
     }
 }
 
-TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymeraseNoInsertionNoDeletionNoSubstitution) {
+TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymeraseNoInsertionNoDeletionNoSubstitution)
+{
 
     string movieName = "mymovie";
     UInt holeNumber = 12354;
@@ -229,10 +234,10 @@ TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymeraseNoInsertionNoDeletionNoSubs
     bool expected_hasSubstitutionQV = false;
     bool expected_hasSubstitutionTag = false;
 
-    SMRTSequence read1 = _make_a_smrt_read_(movieName, holeNumber, 1, 6, seq1,
-            false, true, true, 1, 2, 'A', 3, 'G');
-    SMRTSequence read2 = _make_a_smrt_read_(movieName, holeNumber, 10, 14, seq2,
-            true, true, false, 11, 12, 'C', 13, 'T');
+    SMRTSequence read1 =
+        _make_a_smrt_read_(movieName, holeNumber, 1, 6, seq1, false, true, true, 1, 2, 'A', 3, 'G');
+    SMRTSequence read2 = _make_a_smrt_read_(movieName, holeNumber, 10, 14, seq2, true, true, false,
+                                            11, 12, 'C', 13, 'T');
 
     // read3 should contain neither insertionQV nor deletionQV nor deletionTag
     SMRTSequence read3;
@@ -248,8 +253,8 @@ TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymeraseNoInsertionNoDeletionNoSubs
     EXPECT_EQ(not read3.insertionQV.Empty(), expected_hasInsertionQV);
     EXPECT_EQ(not read3.deletionQV.Empty(), expected_hasDeletionQV);
     EXPECT_EQ(not read3.substitutionQV.Empty(), expected_hasSubstitutionQV);
-    EXPECT_EQ(read3.deletionTag!=nullptr, expected_hasDeletionTag);
-    EXPECT_EQ(read3.substitutionTag!=nullptr, expected_hasSubstitutionTag);
+    EXPECT_EQ(read3.deletionTag != nullptr, expected_hasDeletionTag);
+    EXPECT_EQ(read3.substitutionTag != nullptr, expected_hasSubstitutionTag);
 
     EXPECT_TRUE(read3.qual.Empty());
     EXPECT_TRUE(read3.preBaseFrames == nullptr);

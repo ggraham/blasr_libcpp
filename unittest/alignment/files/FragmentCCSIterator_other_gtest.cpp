@@ -18,11 +18,11 @@
 
 #include "gtest/gtest.h"
 #define private public
+#include "HDFRegionTableReader.hpp"
 #include "files/CCSIterator.hpp"
 #include "files/FragmentCCSIterator.hpp"
-#include "reads/RegionTable.hpp"
-#include "HDFRegionTableReader.hpp"
 #include "pbdata/testdata.h"
+#include "reads/RegionTable.hpp"
 
 using namespace std;
 
@@ -33,8 +33,8 @@ static const std::vector<RegionType> TYPES = {Adapter, Insert, HQRegion};
 static const std::vector<std::string> TYPESTRS = {"Adapter", "Insert", "HQRegion"};
 
 static const std::vector<RegionAnnotation> INSERTS = {
-    RegionAnnotation(HOLENUMBER, 1, 0,   253,  -1),
-    RegionAnnotation(HOLENUMBER, 1, 301, 678,  -1),
+    RegionAnnotation(HOLENUMBER, 1, 0, 253, -1),
+    RegionAnnotation(HOLENUMBER, 1, 301, 678, -1),
     RegionAnnotation(HOLENUMBER, 1, 724, 1101, -1),
     RegionAnnotation(HOLENUMBER, 1, 1150, 1534, -1),
     RegionAnnotation(HOLENUMBER, 1, 1575, 1956, -1),
@@ -44,8 +44,7 @@ static const std::vector<RegionAnnotation> INSERTS = {
     RegionAnnotation(HOLENUMBER, 1, 3287, 3727, -1),
     RegionAnnotation(HOLENUMBER, 1, 3778, 4176, -1),
     RegionAnnotation(HOLENUMBER, 1, 4221, 4618, -1),
-    RegionAnnotation(HOLENUMBER, 1, 4661, 4862, -1)
-};
+    RegionAnnotation(HOLENUMBER, 1, 4661, 4862, -1)};
 
 static const std::vector<RegionAnnotation> ADAPTERS = {
     RegionAnnotation(HOLENUMBER, 0, 253, 301, 854),
@@ -58,25 +57,23 @@ static const std::vector<RegionAnnotation> ADAPTERS = {
     RegionAnnotation(HOLENUMBER, 0, 3245, 3287, 928),
     RegionAnnotation(HOLENUMBER, 0, 3727, 3778, 784),
     RegionAnnotation(HOLENUMBER, 0, 4176, 4221, 911),
-    RegionAnnotation(HOLENUMBER, 0, 4618, 4661, 767)
-};
+    RegionAnnotation(HOLENUMBER, 0, 4618, 4661, 767)};
 
 static const std::vector<RegionAnnotation> HQREGION = {
-    RegionAnnotation(HOLENUMBER, 2, 0, 4861, 865)
-};
+    RegionAnnotation(HOLENUMBER, 2, 0, 4861, 865)};
 
 static const DNALength EXPECTED_HQSTART = 0;
 
-static const DNALength EXPECTED_HQEND   = 4861;
+static const DNALength EXPECTED_HQEND = 4861;
 
-static const DNALength EXPECTED_SCORE   = 865;
+static const DNALength EXPECTED_SCORE = 865;
 
 static const DNALength WHOLE_LENGTH = 5000;
 
 static const int EXPECTED_NUM_SUBREADS = 12;
 
-
-TEST(CCSFragmentIterator, Constructor) {
+TEST(CCSFragmentIterator, Constructor)
+{
     std::vector<RegionAnnotation> regions = INSERTS;
     regions.insert(regions.end(), HQREGION.begin(), HQREGION.end());
     regions.insert(regions.end(), ADAPTERS.begin(), ADAPTERS.end());
@@ -96,5 +93,5 @@ TEST(CCSFragmentIterator, Constructor) {
 
     EXPECT_EQ(it.subreadIntervals[0], ReadInterval(0, 253, 865));
 
-    EXPECT_EQ(it.subreadIntervals[EXPECTED_NUM_SUBREADS-1], ReadInterval(4661, 4861, 865));
+    EXPECT_EQ(it.subreadIntervals[EXPECTED_NUM_SUBREADS - 1], ReadInterval(4661, 4861, 865));
 }

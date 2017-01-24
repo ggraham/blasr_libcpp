@@ -16,21 +16,21 @@
  * =====================================================================================
  */
 
+#include <climits>
+#include <fstream>
+#include <iostream>
 #include "FASTASequence.hpp"
 #include "gtest/gtest.h"
-#include <climits>
-#include <iostream>
-#include <fstream>
-
 
 using namespace std;
 
-class FASTASequenceTest : public ::testing::Test {
+class FASTASequenceTest : public ::testing::Test
+{
 public:
-    virtual void SetUp() {
-    }
+    virtual void SetUp() {}
 
-    virtual void TearDown() {
+    virtual void TearDown()
+    {
         fastaOne.Free();
         fastaTwo.Free();
         fastaThree.Free();
@@ -40,14 +40,14 @@ public:
     FASTASequence fastaTwo;
     FASTASequence fastaThree;
 
-    std::streambuf * sbuf;
+    std::streambuf* sbuf;
     ofstream ofs;
 };
 
-
-//Test FASTASequence 
-TEST_F(FASTASequenceTest, ALLFUNC) {
-    // Test constructor 
+//Test FASTASequence
+TEST_F(FASTASequenceTest, ALLFUNC)
+{
+    // Test constructor
     EXPECT_TRUE(fastaOne.title == NULL);
     EXPECT_TRUE(fastaOne.titleLength == 0);
     EXPECT_TRUE(fastaOne.seq == NULL);
@@ -62,7 +62,7 @@ TEST_F(FASTASequenceTest, ALLFUNC) {
 
     int titleLength = 22;
     string title("fasta_seq_one comments");
-    fastaOne.title = new char [titleLength];
+    fastaOne.title = new char[titleLength];
     memcpy(fastaOne.title, title.c_str(), titleLength);
 
     fastaOne.titleLength = titleLength;
@@ -76,14 +76,12 @@ TEST_F(FASTASequenceTest, ALLFUNC) {
     // EXPECT_EQ(fastaTwo.seq, fastaOne.seq);
     // EXPECT_EQ(fastaTwo.title, fastaOne.title);
 
-
     // Test AppendToTitle
     fastaOne.AppendToTitle(string("XXX"));
     EXPECT_EQ(fastaOne.titleLength, 26);
 
     string newTitle = "fasta_seq_one commentsXXX";
     EXPECT_STREQ(fastaOne.title, newTitle.c_str());
-
 
     // Test ReverseComplementSelf()
     fastaOne.ReverseComplementSelf();
@@ -93,7 +91,7 @@ TEST_F(FASTASequenceTest, ALLFUNC) {
     }
 
     // Test operator =
-    fastaTwo=fastaOne;
+    fastaTwo = fastaOne;
     EXPECT_NE(fastaOne.title, fastaTwo.title);
     EXPECT_EQ(fastaOne.titleLength, fastaTwo.titleLength);
     EXPECT_STREQ(fastaOne.title, fastaTwo.title);
@@ -118,31 +116,32 @@ TEST_F(FASTASequenceTest, ALLFUNC) {
     EXPECT_EQ(thisSeq, "ATGCATGCTC");
 }
 
-
-TEST_F(FASTASequenceTest, CopyFromString) {
+TEST_F(FASTASequenceTest, CopyFromString)
+{
     string name = "read_name";
     string seq = "ATGGGCGC";
     fastaOne.Copy(name, seq);
     EXPECT_EQ(fastaOne.title, name);
     EXPECT_EQ(fastaOne.length, seq.size());
     EXPECT_EQ(fastaOne.deleteOnExit, true);
-    for(int i = 0; i < fastaOne.length; i++) {
+    for (int i = 0; i < fastaOne.length; i++) {
         EXPECT_EQ(fastaOne.seq[i], seq[i]);
     }
 
-    // Copy sequence from another string. 
+    // Copy sequence from another string.
     string seq2 = "GGTTGTG";
     fastaOne.Copy(seq2);
     // Name not changed.
     EXPECT_EQ(fastaOne.title, name);
     EXPECT_EQ(fastaOne.length, seq2.size());
     EXPECT_EQ(fastaOne.deleteOnExit, true);
-    for(int i = 0; i < fastaOne.length; i++) {
+    for (int i = 0; i < fastaOne.length; i++) {
         EXPECT_EQ(fastaOne.seq[i], seq2[i]);
     }
 }
 
-TEST_F(FASTASequenceTest, ReverseComplementSelf) {
+TEST_F(FASTASequenceTest, ReverseComplementSelf)
+{
     const std::string name = "fasta-seq-name";
     const std::string s = "TTAAGG";
     const std::string r = "CCTTAA";

@@ -3,11 +3,12 @@
 
 #include <vector>
 #include "../DNASequence.hpp"
-#include "statistics/StatUtils.hpp" // Where does this come from? Does this compile anymore?
+#include "statistics/StatUtils.hpp"  // Where does this come from? Does this compile anymore?
 
-
-template<typename T_Sequence>
-void FindRandomPos(vector<T_Sequence> &sequences, DNALength &seqIndex, DNALength &seqPos, DNALength seqLength=0 ) {
+template <typename T_Sequence>
+void FindRandomPos(vector<T_Sequence> &sequences, DNALength &seqIndex, DNALength &seqPos,
+                   DNALength seqLength = 0)
+{
     vector<UInt> cumulativeLengths;
     cumulativeLengths.resize(sequences.size());
     int i;
@@ -18,7 +19,7 @@ void FindRandomPos(vector<T_Sequence> &sequences, DNALength &seqIndex, DNALength
     cumulativeLengths[0] = sequences[0].length;
     cumulativeLength = cumulativeLengths[0];
     for (i = 1; i < sequences.size(); i++) {
-        cumulativeLengths[i] = cumulativeLength = cumulativeLengths[i-1] + sequences[i].length;
+        cumulativeLengths[i] = cumulativeLength = cumulativeLengths[i - 1] + sequences[i].length;
     }
     bool validPosFound = false;
     int iter = 0;
@@ -31,7 +32,7 @@ void FindRandomPos(vector<T_Sequence> &sequences, DNALength &seqIndex, DNALength
             break;
         }
         DNALength pos = RandomUnsignedInt(cumulativeLength - seqLength);
-        // Make sure this sequence fits 
+        // Make sure this sequence fits
         for (seqIndex = 0; seqIndex < sequences.size(); seqIndex++) {
             if (cumulativeLengths[seqIndex] > pos) break;
         }
@@ -41,9 +42,8 @@ void FindRandomPos(vector<T_Sequence> &sequences, DNALength &seqIndex, DNALength
         UInt pi;
         if (seqIndex == 0) {
             seqPos = pos;
-        }
-        else {
-            seqPos = pos - cumulativeLengths[seqIndex-1];
+        } else {
+            seqPos = pos - cumulativeLengths[seqIndex - 1];
         }
         bool seqContainsN = false;
         for (pi = seqPos; pi < seqPos + seqLength; pi++) {
@@ -54,17 +54,16 @@ void FindRandomPos(vector<T_Sequence> &sequences, DNALength &seqIndex, DNALength
         }
         if (seqContainsN) {
             continue;
-        }
-        else {
+        } else {
             validPosFound = true;
         }
     }
     if (iter == max_iter) {
-        cout << "ERROR! Unable to generate a random seq/pos pair!, maybe length " << seqLength << endl
-            << " is too high, or there are too many N's in the references." << endl;
+        cout << "ERROR! Unable to generate a random seq/pos pair!, maybe length " << seqLength
+             << endl
+             << " is too high, or there are too many N's in the references." << endl;
         exit(1);
     }
 }
-
 
 #endif

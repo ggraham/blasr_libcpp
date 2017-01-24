@@ -16,10 +16,11 @@
  *
  * =====================================================================================
  */
-#include "gtest/gtest.h"
 #include "SeqUtils.hpp"
+#include "gtest/gtest.h"
 
-TEST(SeqUtils, OnlyACTG){
+TEST(SeqUtils, OnlyACTG)
+{
     DNASequence seq;
     Nucleotide seqnt[] = "ATGC";
     seq.seq = seqnt;
@@ -32,7 +33,8 @@ TEST(SeqUtils, OnlyACTG){
     EXPECT_EQ(OnlyACTG(seq), 0);
 }
 
-TEST(SeqUtils, CountMasked){
+TEST(SeqUtils, CountMasked)
+{
     DNASequence seq;
     Nucleotide seqnt[] = "ATGCNNNNNNATGC";
     seq.seq = seqnt;
@@ -40,11 +42,11 @@ TEST(SeqUtils, CountMasked){
     EXPECT_EQ(CountMasked(seq), 6);
 }
 
-TEST(SeqUtils, CountNotMasked){
+TEST(SeqUtils, CountNotMasked)
+{
     DNASequence seq;
     Nucleotide seqnt[] = "ATGCNNNNNNATGC";
     seq.seq = seqnt;
     seq.length = 14;
     EXPECT_EQ(CountNotMasked(seq), 8);
-
 }

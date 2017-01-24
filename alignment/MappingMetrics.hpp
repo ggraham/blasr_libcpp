@@ -1,18 +1,18 @@
 #ifndef _BLASR_MAPPING_METRICS_HPP_
 #define _BLASR_MAPPING_METRICS_HPP_
 
-#include <iostream>
 #include <time.h>
+#include <iostream>
 #include <map>
 #include <vector>
-//In order to use clock_gettime in LINUX, add -lrt 
+//In order to use clock_gettime in LINUX, add -lrt
 #ifdef __APPLE__
-#  include <AvailabilityMacros.h>
-#  if MAC_OS_X_VERSION_MAX_ALLOWED < 101200
-#    include <mach/mach.h>
-#    include <mach/clock.h>
-#    include <mach/mach_time.h>
-#    include <errno.h>
+#include <AvailabilityMacros.h>
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 101200
+#include <errno.h>
+#include <mach/clock.h>
+#include <mach/mach.h>
+#include <mach/mach_time.h>
 
 typedef enum {
     CLOCK_REALTIME,
@@ -22,75 +22,74 @@ typedef enum {
 } clockid_t;
 static mach_timebase_info_data_t __clock_gettime_inf;
 
-int my_clock_gettime_(clockid_t clk_id, struct timespec *tp); 
-#  endif // MAC_OS_X_VERSION_MAX_ALLOWED < 101200
-#endif // __APPLE__
+int my_clock_gettime_(clockid_t clk_id, struct timespec *tp);
+#endif  // MAC_OS_X_VERSION_MAX_ALLOWED < 101200
+#endif  // __APPLE__
 
-class Timer {
+class Timer
+{
 public:
     bool keepHistogram, keepList;
     timespec cpuclock[2];
     int elapsedClockMsec;
-    float   elapsedTime;
-    std::map<int,int> histogram;
+    float elapsedTime;
+    std::map<int, int> histogram;
     std::vector<int> msecList;
     long long totalElapsedClock;
     std::string header;
 
+    Timer(std::string _header = "");
 
-    Timer(std::string _header=""); 
+    int ListSize();
 
-    int ListSize(); 
+    void PrintHeader(std::ostream &out);
 
-    void PrintHeader(std::ostream &out); 
+    void PrintListValue(std::ostream &out, int index);
 
-    void PrintListValue(std::ostream &out, int index); 
+    void Tick();
 
-    void Tick(); 
+    void SetStoreElapsedTime(bool value);
 
-    void SetStoreElapsedTime(bool value); 
+    void SetStoreHistgram(bool value);
 
-    void SetStoreHistgram(bool value); 
+    void Tock();
 
-    void Tock(); 
+    void Add(const Timer &rhs);
 
-    void Add(const Timer &rhs); 
-
-    void SetHeader(std::string _header); 
-
+    void SetHeader(std::string _header);
 };
 
-
-class MappingClocks {
+class MappingClocks
+{
 public:
     Timer total;
     Timer findAnchors;
     Timer mapToGenome;
     Timer sortMatchPosList;
     Timer findMaxIncreasingInterval;
-    Timer alignIntervals;           
+    Timer alignIntervals;
     std::vector<int> nCellsPerSample;
     std::vector<int> nBasesPerSample;
 
-    void AddCells(int nCells); 
+    void AddCells(int nCells);
 
-    void AddBases(int nBases); 
+    void AddBases(int nBases);
 
-    int  GetSize(); 
+    int GetSize();
 
-    MappingClocks(); 
+    MappingClocks();
 
-    void PrintHeader(std::ostream &out); 
+    void PrintHeader(std::ostream &out);
 
-    void PrintList(std::ostream &out, int index); 
+    void PrintList(std::ostream &out, int index);
 
-    void SetStoreList(bool value=true); 
+    void SetStoreList(bool value = true);
 
-    void AddClockTime(const MappingClocks &rhs); 
+    void AddClockTime(const MappingClocks &rhs);
 };
 
-
-class MappingMetrics {
+class MappingMetrics
+{
 public:
     MappingClocks clocks;
     int numReads;
@@ -104,33 +103,31 @@ public:
     int anchorsPerRead;
     long totalAnchorsForMappedReads;
 
-    MappingMetrics(); 
+    MappingMetrics();
 
-    void StoreSDPPoint(int nBases, int nSDPAnchors, int nClock); 
+    void StoreSDPPoint(int nBases, int nSDPAnchors, int nClock);
 
-    void SetStoreList(bool value=true); 
+    void SetStoreList(bool value = true);
 
     void PrintSeconds(std::ostream &out, long sec);
 
-    void PrintFraction(std::ostream &out, float frac); 
+    void PrintFraction(std::ostream &out, float frac);
 
-    void RecordNumAlignedBases(int nBases); 
+    void RecordNumAlignedBases(int nBases);
 
-    void RecordNumCells(int nCells); 
+    void RecordNumCells(int nCells);
 
-    void Collect(MappingMetrics &rhs); 
+    void Collect(MappingMetrics &rhs);
 
-    void CollectSDPMetrics(MappingMetrics &rhs); 
+    void CollectSDPMetrics(MappingMetrics &rhs);
 
-    void PrintSDPMetrics(std::ostream &out); 
+    void PrintSDPMetrics(std::ostream &out);
 
-    void PrintFullList(std::ostream &out); 
+    void PrintFullList(std::ostream &out);
 
-    void PrintSummary(std::ostream &out); 
+    void PrintSummary(std::ostream &out);
 
-    void AddClock(MappingClocks &clocks); 
+    void AddClock(MappingClocks &clocks);
 };
 
-
-
-#endif // _BLASR_MAPPING_METRICS_HPP_
+#endif  // _BLASR_MAPPING_METRICS_HPP_

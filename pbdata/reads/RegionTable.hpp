@@ -5,19 +5,19 @@
 
 #include <cassert>
 #include <cstring>
-#include <string>
 #include <iostream>
-#include <vector>
 #include <map>
 #include <ostream>
-#include "../Types.h"
+#include <string>
+#include <vector>
 #include "../Enumerations.h"
 #include "../PacBioDefs.h"
+#include "../Types.h"
 #include "RegionAnnotation.hpp"
 #include "RegionAnnotations.hpp"
 
-
-class RegionTable {
+class RegionTable
+{
 private:
     /// RegionTable reading from h5 file 'Regions' dataset.
     /// \name member variables
@@ -31,7 +31,7 @@ private:
     std::vector<std::string> regionTypes;
     std::vector<std::string> regionDescriptions;
     std::vector<std::string> regionSources;
-    std::vector<RegionType>  regionTypeEnums;
+    std::vector<RegionType> regionTypeEnums;
     /// \}
 
 public:
@@ -75,24 +75,24 @@ public:
     /// \params[in] region table containing region annotations of all zmws
     /// \params[in] ordered region type strings, which maps region types
     ///             to region type indice.
-    RegionTable & ConstructTable(std::vector<RegionAnnotation> & table,
-                                 const std::vector<std::string> & regionTypeStrs);
+    RegionTable& ConstructTable(std::vector<RegionAnnotation>& table,
+                                const std::vector<std::string>& regionTypeStrs);
 
     /// Note that the ORDER of region types does matter.
     /// Set region types (order matters).
-    RegionTable & RegionTypes(const std::vector<std::string> & in);
+    RegionTable& RegionTypes(const std::vector<std::string>& in);
 
     /// Set column names, e.g.,
     /// {"HoleNumber", "TypeIndex", "Start", "End", "Score"}
-    RegionTable & ColumnNames(const std::vector<std::string> & in);
+    RegionTable& ColumnNames(const std::vector<std::string>& in);
 
     /// Set region descriptions. e.g.,
     /// {"desc of holenumber", "desc of index", "desc of start", "desc of end", "desc of score"}
-    RegionTable & RegionDescriptions(const std::vector<std::string> & in);
+    RegionTable& RegionDescriptions(const std::vector<std::string>& in);
 
     /// Set region sources, e.g.,
     /// {"source of holenumber", "source of index", "source of start", "source of end", "source of score"}
-    RegionTable & RegionSources(const std::vector<std::string> & in);
+    RegionTable& RegionSources(const std::vector<std::string>& in);
     /// \}
 
     /// \name Assessor functions to zmw region annotations.
@@ -103,8 +103,8 @@ public:
     /// Get zmw region annotaions given its hole number.
     /// Note that HasHoleNumber must be called first.
     /// \returns RegionAnnotations of a zmw.
-    RegionAnnotations operator [] (const UInt holeNumber) const;
+    RegionAnnotations operator[](const UInt holeNumber) const;
     /// \}
 };
 
-#endif // _BLASR_REGION_TABLE_HPP_
+#endif  // _BLASR_REGION_TABLE_HPP_

@@ -1,13 +1,14 @@
-#include <iomanip>
-#include <unistd.h>
 #include "MappingMetrics.hpp"
-//In order to use clock_gettime in LINUX, add -lrt 
+#include <unistd.h>
+#include <iomanip>
+//In order to use clock_gettime in LINUX, add -lrt
 
 #ifdef __APPLE__
-#    if MAC_OS_X_VERSION_MAX_ALLOWED < 101200
-int my_clock_gettime_(clockid_t clk_id, struct timespec *tp) {
-    kern_return_t   ret;
-    clock_serv_t    clk;
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 101200
+int my_clock_gettime_(clockid_t clk_id, struct timespec *tp)
+{
+    kern_return_t ret;
+    clock_serv_t clk;
     clock_id_t clk_serv_id;
     mach_timespec_t tm;
 
@@ -22,9 +23,10 @@ int my_clock_gettime_(clockid_t clk_id, struct timespec *tp) {
         case CLOCK_REALTIME:
         case CLOCK_MONOTONIC:
             clk_serv_id = clk_id == CLOCK_REALTIME ? CALENDAR_CLOCK : SYSTEM_CLOCK;
-            if (KERN_SUCCESS == (ret = host_get_clock_service(mach_host_self(), clk_serv_id, &clk))) {
+            if (KERN_SUCCESS ==
+                (ret = host_get_clock_service(mach_host_self(), clk_serv_id, &clk))) {
                 if (KERN_SUCCESS == (ret = clock_get_time(clk, &tm))) {
-                    tp->tv_sec  = tm.tv_sec;
+                    tp->tv_sec = tm.tv_sec;
                     tp->tv_nsec = tm.tv_nsec;
                     retval = 0;
                 }
@@ -48,7 +50,7 @@ int my_clock_gettime_(clockid_t clk_id, struct timespec *tp) {
                 mach_timebase_info(&__clock_gettime_inf);
             }
             nano = delta * __clock_gettime_inf.numer / __clock_gettime_inf.denom;
-            tp->tv_sec = nano * 1e-9;  
+            tp->tv_sec = nano * 1e-9;
             tp->tv_nsec = nano - (tp->tv_sec * 1e9);
             retval = 0;
             break;
@@ -58,57 +60,52 @@ int my_clock_gettime_(clockid_t clk_id, struct timespec *tp) {
     }
     return retval;
 }
-#        define clock_gettime my_clock_gettime_
-#    endif // MAC_OS_X_VERSION_MAX_ALLOWED < 101200
-#endif // __APPLE__
+#define clock_gettime my_clock_gettime_
+#endif  // MAC_OS_X_VERSION_MAX_ALLOWED < 101200
+#endif  // __APPLE__
 
-Timer::Timer(std::string _header) {
+Timer::Timer(std::string _header)
+{
     keepHistogram = false;
-    keepList      = false;
+    keepList = false;
     totalElapsedClock = 0;
-    header        = _header;
+    header = _header;
     elapsedClockMsec = 0;
-    elapsedTime   = 0.0;
+    elapsedTime = 0.0;
 }
 
-int Timer::ListSize() {
-    return msecList.size();
-}
+int Timer::ListSize() { return msecList.size(); }
 
-void Timer::PrintHeader(std::ostream &out) {
+void Timer::PrintHeader(std::ostream &out)
+{
     if (msecList.size() > 0) {
         out << header << " ";
     }
 }
 
-void Timer::PrintListValue(std::ostream &out, int index) {
+void Timer::PrintListValue(std::ostream &out, int index)
+{
     if (msecList.size() > 0) {
         out << msecList[index] << " ";
     }
 }
-void Timer::Tick() {
-    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &cpuclock[0]);
-}
+void Timer::Tick() { clock_gettime(CLOCK_THREAD_CPUTIME_ID, &cpuclock[0]); }
 
-void Timer::SetStoreElapsedTime(bool value) {
-    keepList = value;
-}
+void Timer::SetStoreElapsedTime(bool value) { keepList = value; }
 
-void Timer::SetStoreHistgram(bool value) {
-    keepHistogram = value;
-}
+void Timer::SetStoreHistgram(bool value) { keepHistogram = value; }
 
-void Timer::Tock() {
+void Timer::Tock()
+{
     clock_gettime(CLOCK_THREAD_CPUTIME_ID, &cpuclock[1]);
-    elapsedClockMsec   = (cpuclock[1].tv_nsec - cpuclock[0].tv_nsec)/1000;
+    elapsedClockMsec = (cpuclock[1].tv_nsec - cpuclock[0].tv_nsec) / 1000;
     totalElapsedClock += elapsedClockMsec;
-    elapsedTime  = ((1.0)*elapsedClockMsec);
+    elapsedTime = ((1.0) * elapsedClockMsec);
     if (keepHistogram) {
         // keep a histogram in number of milliseconds per operation
         if (histogram.find(elapsedClockMsec) == histogram.end()) {
             histogram[elapsedClockMsec] = 1;
-        }
-        else {
+        } else {
             histogram[elapsedClockMsec]++;
         }
     }
@@ -117,30 +114,24 @@ void Timer::Tock() {
     }
 }
 
-void Timer::Add(const Timer &rhs) {
+void Timer::Add(const Timer &rhs)
+{
     elapsedClockMsec += rhs.elapsedClockMsec;
-    elapsedTime  += rhs.elapsedTime;
+    elapsedTime += rhs.elapsedTime;
     totalElapsedClock += rhs.totalElapsedClock;
     msecList.insert(msecList.end(), rhs.msecList.begin(), rhs.msecList.end());
 }
 
-void Timer::SetHeader(std::string _header) {
-    header = _header;
-}
+void Timer::SetHeader(std::string _header) { header = _header; }
 
-void MappingClocks::AddCells(int nCells) {
-    nCellsPerSample.push_back(nCells);
-}
+void MappingClocks::AddCells(int nCells) { nCellsPerSample.push_back(nCells); }
 
-void MappingClocks::AddBases(int nBases) {
-    nBasesPerSample.push_back(nBases);
-}
+void MappingClocks::AddBases(int nBases) { nBasesPerSample.push_back(nBases); }
 
-int MappingClocks::GetSize() {
-    return total.ListSize();
-}
+int MappingClocks::GetSize() { return total.ListSize(); }
 
-MappingClocks::MappingClocks() {
+MappingClocks::MappingClocks()
+{
     total.SetHeader("Total");
     findAnchors.SetHeader("FindAnchors");
     mapToGenome.SetHeader("MapToGenome");
@@ -149,23 +140,25 @@ MappingClocks::MappingClocks() {
     alignIntervals.SetHeader("AlignIntervals");
 }
 
-void MappingClocks::PrintHeader(std::ostream &out) {
+void MappingClocks::PrintHeader(std::ostream &out)
+{
     total.PrintHeader(out);
     findAnchors.PrintHeader(out);
     mapToGenome.PrintHeader(out);
     sortMatchPosList.PrintHeader(out);
     findMaxIncreasingInterval.PrintHeader(out);
-    alignIntervals.PrintHeader(out); 
+    alignIntervals.PrintHeader(out);
 }
 
-void MappingClocks::PrintList(std::ostream &out, int index) {
+void MappingClocks::PrintList(std::ostream &out, int index)
+{
 
-    total.PrintListValue(out,index);
-    findAnchors.PrintListValue(out,index);
-    mapToGenome.PrintListValue(out,index);
-    sortMatchPosList.PrintListValue(out,index);
-    findMaxIncreasingInterval.PrintListValue(out,index);
-    alignIntervals.PrintListValue(out,index);
+    total.PrintListValue(out, index);
+    findAnchors.PrintListValue(out, index);
+    mapToGenome.PrintListValue(out, index);
+    sortMatchPosList.PrintListValue(out, index);
+    findMaxIncreasingInterval.PrintListValue(out, index);
+    alignIntervals.PrintListValue(out, index);
     if (nCellsPerSample.size() > 0) {
         out << nCellsPerSample[index] << " ";
     }
@@ -175,7 +168,8 @@ void MappingClocks::PrintList(std::ostream &out, int index) {
     out << std::endl;
 }
 
-void MappingClocks::SetStoreList(bool value) {
+void MappingClocks::SetStoreList(bool value)
+{
     total.SetStoreElapsedTime(value);
     findAnchors.SetStoreElapsedTime(value);
     mapToGenome.SetStoreElapsedTime(value);
@@ -184,7 +178,8 @@ void MappingClocks::SetStoreList(bool value) {
     alignIntervals.SetStoreElapsedTime(value);
 }
 
-void MappingClocks::AddClockTime(const MappingClocks &rhs) {
+void MappingClocks::AddClockTime(const MappingClocks &rhs)
+{
     total.Add(rhs.total);
     findAnchors.Add(rhs.findAnchors);
     mapToGenome.Add(rhs.mapToGenome);
@@ -193,7 +188,8 @@ void MappingClocks::AddClockTime(const MappingClocks &rhs) {
     alignIntervals.Add(rhs.alignIntervals);
 }
 
-MappingMetrics::MappingMetrics() {
+MappingMetrics::MappingMetrics()
+{
     numReads = 0;
     numMappedReads = 0;
     numMappedBases = 0;
@@ -201,57 +197,56 @@ MappingMetrics::MappingMetrics() {
     totalAnchorsForMappedReads = 0;
     totalAnchors = 0;
 }
-void MappingMetrics::StoreSDPPoint(int nBases, int nSDPAnchors, int nClock) {
+void MappingMetrics::StoreSDPPoint(int nBases, int nSDPAnchors, int nClock)
+{
     sdpBases.push_back(nBases);
     sdpAnchors.push_back(nSDPAnchors);
     sdpClock.push_back(nClock);
 }
 
-void MappingMetrics::SetStoreList(bool value) {
-    clocks.SetStoreList(value);
-}
+void MappingMetrics::SetStoreList(bool value) { clocks.SetStoreList(value); }
 
-void MappingMetrics::PrintSeconds(std::ostream& out, long sec ){
-    out << sec << " Msec";
-}
+void MappingMetrics::PrintSeconds(std::ostream &out, long sec) { out << sec << " Msec"; }
 
-void MappingMetrics::PrintFraction(std::ostream &out, float frac) {
+void MappingMetrics::PrintFraction(std::ostream &out, float frac)
+{
     out << std::setprecision(2) << frac;
 }
 
-void MappingMetrics::RecordNumAlignedBases(int nBases) {
-    mappedBases.push_back(nBases);
-}
+void MappingMetrics::RecordNumAlignedBases(int nBases) { mappedBases.push_back(nBases); }
 
-void MappingMetrics::RecordNumCells(int nCells) {
-    cellsPerAlignment.push_back(nCells);
-}
+void MappingMetrics::RecordNumCells(int nCells) { cellsPerAlignment.push_back(nCells); }
 
-void MappingMetrics::Collect(MappingMetrics &rhs) {
+void MappingMetrics::Collect(MappingMetrics &rhs)
+{
     clocks.AddClockTime(rhs.clocks);
     totalAnchors += rhs.totalAnchors;
     numReads += rhs.numReads;
     numMappedReads += rhs.numMappedReads;
     totalAnchorsForMappedReads += rhs.totalAnchorsForMappedReads;
     mappedBases.insert(mappedBases.end(), rhs.mappedBases.begin(), rhs.mappedBases.end());
-    cellsPerAlignment.insert(cellsPerAlignment.end(), rhs.cellsPerAlignment.begin(), rhs.cellsPerAlignment.end());
+    cellsPerAlignment.insert(cellsPerAlignment.end(), rhs.cellsPerAlignment.begin(),
+                             rhs.cellsPerAlignment.end());
 }
 
-void MappingMetrics::CollectSDPMetrics(MappingMetrics &rhs) {
+void MappingMetrics::CollectSDPMetrics(MappingMetrics &rhs)
+{
     sdpAnchors.insert(sdpAnchors.end(), rhs.sdpAnchors.begin(), rhs.sdpAnchors.end());
     sdpBases.insert(sdpBases.end(), rhs.sdpBases.begin(), rhs.sdpBases.end());
     sdpClock.insert(sdpClock.end(), rhs.sdpClock.begin(), rhs.sdpClock.end());
 }
 
-void MappingMetrics::PrintSDPMetrics(std::ostream &out) {
+void MappingMetrics::PrintSDPMetrics(std::ostream &out)
+{
     out << "nbases ncells time" << std::endl;
     for (size_t i = 0; i < sdpAnchors.size(); i++) {
         out << sdpBases[i] << " " << sdpAnchors[i] << " " << sdpClock[i] << std::endl;
     }
 }
 
-void MappingMetrics::PrintFullList(std::ostream &out) {
-    // 
+void MappingMetrics::PrintFullList(std::ostream &out)
+{
+    //
     // Print the full header
     //
     clocks.PrintHeader(out);
@@ -261,40 +256,40 @@ void MappingMetrics::PrintFullList(std::ostream &out) {
     //
     int i;
     for (i = 0; i < clocks.GetSize(); i++) {
-        clocks.PrintList(out,i);
+        clocks.PrintList(out, i);
         //      out << mappedBases[i] << " " << cellsPerAlignment[i] << endl;
     }
 }
 
-void MappingMetrics::PrintSummary(std::ostream &out) {
+void MappingMetrics::PrintSummary(std::ostream &out)
+{
     out << "Examined " << numReads << std::endl;
     out << "Mapped   " << numMappedReads << std::endl;
     out << "Total mapping time\t";
     PrintSeconds(out, clocks.total.elapsedClockMsec);
     out << " \t";
-    PrintSeconds(out, (1.0*clocks.total.elapsedClockMsec)/numReads);
+    PrintSeconds(out, (1.0 * clocks.total.elapsedClockMsec) / numReads);
     out << " /read" << std::endl;
     out << "      find anchors\t";
     PrintSeconds(out, clocks.mapToGenome.elapsedClockMsec);
     out << " \t";
-    PrintSeconds(out, (1.0*clocks.mapToGenome.elapsedClockMsec)/numReads);
+    PrintSeconds(out, (1.0 * clocks.mapToGenome.elapsedClockMsec) / numReads);
     out << std::endl;
     out << "      sort anchors\t";
     PrintSeconds(out, clocks.sortMatchPosList.elapsedClockMsec);
     out << " \t";
-    PrintSeconds(out, (1.0*clocks.sortMatchPosList.elapsedClockMsec)/numReads);
+    PrintSeconds(out, (1.0 * clocks.sortMatchPosList.elapsedClockMsec) / numReads);
     out << std::endl;
     out << " find max interval\t";
     PrintSeconds(out, clocks.findMaxIncreasingInterval.elapsedClockMsec);
     out << " \t";
-    PrintSeconds(out, (1.0*clocks.findMaxIncreasingInterval.elapsedClockMsec)/numReads);
+    PrintSeconds(out, (1.0 * clocks.findMaxIncreasingInterval.elapsedClockMsec) / numReads);
     out << std::endl;
     out << "Total anchors: " << totalAnchors << std::endl;
-    out << "   Anchors per read: " << (1.0*totalAnchors) / numReads << std::endl;
+    out << "   Anchors per read: " << (1.0 * totalAnchors) / numReads << std::endl;
     out << "Total mapped: " << totalAnchorsForMappedReads << std::endl;
-    out << "   Anchors per mapped read: " << (1.0*totalAnchorsForMappedReads) / numMappedReads << std::endl;
+    out << "   Anchors per mapped read: " << (1.0 * totalAnchorsForMappedReads) / numMappedReads
+        << std::endl;
 }
 
-void MappingMetrics::AddClock(MappingClocks &clocks) {
-    clocks.AddClockTime(clocks);
-}
+void MappingMetrics::AddClock(MappingClocks &clocks) { clocks.AddClockTime(clocks); }

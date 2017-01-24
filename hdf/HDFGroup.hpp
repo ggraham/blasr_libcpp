@@ -1,37 +1,36 @@
 #ifndef _BLASR_HDF_GROUP_HPP_
 #define _BLASR_HDF_GROUP_HPP_
 
-#include <vector>
-#include <iostream>
-#include <string>
-#include <stdlib.h>
 #include <H5Cpp.h>
 #include <H5Location.h>
-#include "HDFAttributable.hpp"
+#include <stdlib.h>
+#include <iostream>
+#include <string>
+#include <vector>
 #include "../pbdata/StringUtils.hpp"
+#include "HDFAttributable.hpp"
 
-
-class HDFGroup : public HDFAttributable {
+class HDFGroup : public HDFAttributable
+{
 public:
     std::vector<std::string> objectNames;
     std::string objectName;
     H5::Group group;
-    bool  groupIsInitialized;
+    bool groupIsInitialized;
 
     HDFGroup();
 
-    void AddGroup(std::string groupName); 
+    void AddGroup(std::string groupName);
 
-    H5::H5Location* GetObject(); 
+    H5::H5Location* GetObject();
 
     int Initialize(H5::CommonFG& fg, std::string groupName);
 
-    int Initialize(HDFGroup& parentGroup, std::string groupName); 
+    int Initialize(HDFGroup& parentGroup, std::string groupName);
 
-    bool ContainsObject(std::string queryObjectName); 
+    bool ContainsObject(std::string queryObjectName);
 
-    void Close(); 
+    void Close();
 };
-
 
 #endif

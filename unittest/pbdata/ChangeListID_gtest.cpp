@@ -16,13 +16,14 @@
  * =====================================================================================
  */
 
-#include "gtest/gtest.h"
 #include "ChangeListID.hpp"
+#include "gtest/gtest.h"
 
 using namespace std;
 
 // Test ChangeListID.GetVersion().
-TEST(ChangeListID, GetVersion) {
+TEST(ChangeListID, GetVersion)
+{
     string str = "2.3.0.143354";
     ChangeListID change = ChangeListID(str);
     EXPECT_EQ(change.GetVersion(), "2.3");
@@ -30,5 +31,4 @@ TEST(ChangeListID, GetVersion) {
     str = "";
     change = ChangeListID(str);
     EXPECT_EQ(change.GetVersion(), "");
-} 
-
+}

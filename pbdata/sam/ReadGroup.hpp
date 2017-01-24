@@ -9,32 +9,32 @@
  */
 #include "SAMKeywordValuePair.hpp"
 
-class SAMReadGroup {
- public:
-  std::string id;
-  void StoreValues(std::vector<SAMKeywordValuePair> &kvPairs,
-                   uint64_t lineNumber = 0);
+class SAMReadGroup
+{
+public:
+    std::string id;
+    void StoreValues(std::vector<SAMKeywordValuePair> &kvPairs, uint64_t lineNumber = 0);
 };
 
 /*
  * Full read group. Use when all data are required.
  */
-class SAMFullReadGroup : public SAMReadGroup {
- public:
-  std::string centerName;
-  std::string description;
-  std::string date;
-  std::string flowOrder;
-  std::string keySequence;
-  std::string library;
-  std::string processingProgram;
-  uint64_t    insertSize;
-  std::string platform;
-  std::string platformUnit;
-  std::string sample;
+class SAMFullReadGroup : public SAMReadGroup
+{
+public:
+    std::string centerName;
+    std::string description;
+    std::string date;
+    std::string flowOrder;
+    std::string keySequence;
+    std::string library;
+    std::string processingProgram;
+    uint64_t insertSize;
+    std::string platform;
+    std::string platformUnit;
+    std::string sample;
 
-  void StoreValues(std::vector<SAMKeywordValuePair> &kvPairs,
-                   uint64_t lineNumber = 0);
+    void StoreValues(std::vector<SAMKeywordValuePair> &kvPairs, uint64_t lineNumber = 0);
 };
 
 #endif

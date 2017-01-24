@@ -7,13 +7,13 @@
 #include <H5Cpp.h>
 
 #include "../pbdata/reads/RegionTable.hpp"
-#include "HDFFile.hpp"
-#include "HDFArray.hpp"
 #include "HDF2DArray.hpp"
+#include "HDFArray.hpp"
 #include "HDFAtom.hpp"
+#include "HDFFile.hpp"
 
-
-class HDFRegionTableReader {
+class HDFRegionTableReader
+{
 private:
     HDFFile regionTableFile;
     HDFGroup pulseDataGroup;
@@ -26,20 +26,20 @@ private:
 
     int curRow;
 
-    bool isInitialized_; // whether or not this reader is initialized.
+    bool isInitialized_;  // whether or not this reader is initialized.
 
     int nRows;
 
     bool fileContainsRegionTable;
 
 public:
-
     HDFRegionTableReader(void)
-    : curRow(0), isInitialized_(false), nRows(0) 
-    , fileContainsRegionTable(false) {}
+        : curRow(0), isInitialized_(false), nRows(0), fileContainsRegionTable(false)
+    {
+    }
 
-    int Initialize(std::string &regionTableFileName, 
-                   const H5::FileAccPropList & fileAccPropList = H5::FileAccPropList::DEFAULT);
+    int Initialize(std::string &regionTableFileName,
+                   const H5::FileAccPropList &fileAccPropList = H5::FileAccPropList::DEFAULT);
 
     bool IsInitialized(void) const;
 
@@ -54,6 +54,5 @@ public:
 private:
     int GetNext(RegionAnnotation &annotation);
 };
-
 
 #endif

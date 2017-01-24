@@ -1,12 +1,13 @@
 #ifndef _BLASR_HASHED_TUPLE_LIST_HPP_
 #define _BLASR_HASHED_TUPLE_LIST_HPP_
 
+#include "../../pbdata/DNASequence.hpp"
 #include "TupleList.hpp"
 #include "TupleMetrics.hpp"
-#include "../../pbdata/DNASequence.hpp"
 
-template<typename T_Tuple>
-class HashedTupleList {
+template <typename T_Tuple>
+class HashedTupleList
+{
 public:
     long mask;
     std::vector<TupleList<T_Tuple> > hashTable;
@@ -15,7 +16,7 @@ public:
     typedef T_Tuple Tuple;
 
     //
-    // Provide a default constructor with a small 
+    // Provide a default constructor with a small
     // tuple size for testing.
     //
     HashedTupleList();
@@ -39,22 +40,19 @@ public:
     void Print();
 
     //
-    // Provide a version of find that stores easy access to 
+    // Provide a version of find that stores easy access to
     // the original tuple.
     //
     int Find(T_Tuple tuple, int &hashValue, int &index);
 
-    void FindAll(T_Tuple &tuple, 
-        typename std::vector<T_Tuple>::const_iterator &firstPos, 
-        typename std::vector<T_Tuple>::const_iterator &endPos);
+    void FindAll(T_Tuple &tuple, typename std::vector<T_Tuple>::const_iterator &firstPos,
+                 typename std::vector<T_Tuple>::const_iterator &endPos);
 
     int GetHashLength();
 };
 
-
-template<typename T_Tuple>
-void SequenceToHash(DNASequence &seq, HashedTupleList<T_Tuple> &hash, 
-    TupleMetrics &tm);
+template <typename T_Tuple>
+void SequenceToHash(DNASequence &seq, HashedTupleList<T_Tuple> &hash, TupleMetrics &tm);
 
 #include "tuples/HashedTupleList.hpp"
 

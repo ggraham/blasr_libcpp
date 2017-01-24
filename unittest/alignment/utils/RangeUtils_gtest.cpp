@@ -19,7 +19,8 @@
 #include "gtest/gtest.h"
 #include "utils/RangeUtils.hpp"
 
-TEST(RangeTest, RangeConstructor) {
+TEST(RangeTest, RangeConstructor)
+{
     Range r(1, 2);
     EXPECT_EQ(r.start, 1);
     EXPECT_EQ(r.end, 2);
@@ -28,9 +29,10 @@ TEST(RangeTest, RangeConstructor) {
     EXPECT_EQ(r2.end, 1);
 }
 
-TEST(RangeTest, Ranges) {
-    UInt queryInRange[11] = {1,2,3,4,10,11,12,13,14,15,20};
-    UInt queryNotInRange[8] = {0, 16, 17, 18, 19, 30, 5, 100000}; 
+TEST(RangeTest, Ranges)
+{
+    UInt queryInRange[11] = {1, 2, 3, 4, 10, 11, 12, 13, 14, 15, 20};
+    UInt queryNotInRange[8] = {0, 16, 17, 18, 19, 30, 5, 100000};
 
     Ranges ranges1(string("1,2,3,4,10-15,20-20"));
 
@@ -43,7 +45,8 @@ TEST(RangeTest, Ranges) {
     }
 }
 
-TEST(RangeTest, SetRanges) {
+TEST(RangeTest, SetRanges)
+{
     Ranges rs;
     rs.setRanges("199");
 
@@ -51,8 +54,8 @@ TEST(RangeTest, SetRanges) {
     EXPECT_EQ(rs.size(), 1);
 }
 
-
-TEST(RangeTest, max) {
+TEST(RangeTest, max)
+{
     Ranges rs("199");
     EXPECT_EQ(rs.max(), 199);
     Ranges rs1("1, 10000, 10-30, 4000-5000");

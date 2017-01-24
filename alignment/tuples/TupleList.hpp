@@ -3,62 +3,63 @@
 
 #include <stdint.h>
 #include <algorithm>
-#include <string>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <string>
 #include <vector>
 
 #include "../../pbdata/Types.h"
 #include "TupleMetrics.hpp"
 
-template<typename T>
-class TupleList {
+template <typename T>
+class TupleList
+{
     int listLength;
     TupleMetrics tm;
-    public:
+
+public:
     typedef T Tuple;
     std::vector<T> tupleList;
 
-    TupleList(); 
+    TupleList();
 
-    void Reset(); 
-    
-    T &operator[](int index); 
+    void Reset();
 
-    void GetTupleMetrics(TupleMetrics &ptm); 
-    
-    void SetTupleMetrics(TupleMetrics &ptm); 
-    
+    T &operator[](int index);
+
+    void GetTupleMetrics(TupleMetrics &ptm);
+
+    void SetTupleMetrics(TupleMetrics &ptm);
+
     int size();
-    
+
     int GetLength();
-    
-    int InitFromFile(std::string &fileName); 
 
-    void clear(); 
+    int InitFromFile(std::string &fileName);
 
-    int WriteToFile(std::string &fileName); 
+    void clear();
+
+    int WriteToFile(std::string &fileName);
 
     //
     // Find one instance of a match.
     //
-    int Find(T& tuple); 
+    int Find(T &tuple);
 
     //
     // Find the boundaries of all instances of a match.
     //
-    void FindAll(T &tuple, 
-        typename std::vector<T>::const_iterator &firstPos, 
-        typename std::vector<T>::const_iterator &endPos ); 
+    void FindAll(T &tuple, typename std::vector<T>::const_iterator &firstPos,
+                 typename std::vector<T>::const_iterator &endPos);
 
-    void Append( T&tuple); 
+    void Append(T &tuple);
 
-    void Insert(T&tuple); 
+    void Insert(T &tuple);
 
-    void Sort(); 
+    void Sort();
 
-    void Print(); 
+    void Print();
 };
 
 #include "TupleListImpl.hpp"
-#endif // _BLASR_TUPLE_LIST_HPP_
+#endif  // _BLASR_TUPLE_LIST_HPP_

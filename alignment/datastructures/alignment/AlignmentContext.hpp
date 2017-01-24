@@ -5,29 +5,30 @@
 // pbdata
 #include "../../../pbdata/Enumerations.h"
 
-class AlignmentContext {
+class AlignmentContext
+{
 public:
     bool isPrimary;
-    int  subreadIndex;
-    int  numProperlyAlignedSubreads;
+    int subreadIndex;
+    int numProperlyAlignedSubreads;
     bool allSubreadsProperlyAligned;
     bool isFinal;
-    int  nextSubreadPos;
-    int  nextSubreadDir;
+    int nextSubreadPos;
+    int nextSubreadDir;
     bool hasNextSubreadPos;
-    int  nSubreads;
+    int nSubreads;
     std::string rNext;
     std::string readGroupId;
     std::string chipId;
     AlignMode alignMode;
     int editDist;
-    AlignmentContext(); 
+    AlignmentContext();
 
-    bool IsFirst(); 
+    bool IsFirst();
 
-    bool IsLast(); 
+    bool IsLast();
 
-    bool AllSubreadsAligned(); 
+    bool AllSubreadsAligned();
 };
 
-#endif // _BLASR_ALIGNMENT_CONTEXT_HPP_
+#endif  // _BLASR_ALIGNMENT_CONTEXT_HPP_

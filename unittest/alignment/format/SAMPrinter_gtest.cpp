@@ -18,27 +18,30 @@
 #define private public
 #define protected public
 
-#include <algorithm>
+#include <gtest/gtest.h>
 #include <stdio.h>
 #include <string.h>
+#include <algorithm>
 #include "format/SAMPrinter.hpp"
-#include <gtest/gtest.h>
 using namespace std;
 
-TEST(SAMPrinterTest, AddMatchBlockCigarOps) {
-    DNASequence qSeq; qSeq.Copy("XXXXXAAAAAGGGGGCCCCC");
-    DNASequence tSeq; tSeq.Copy(     "AAAAANGGGGCCCCC");
-    blasr::Block b; 
+TEST(SAMPrinterTest, AddMatchBlockCigarOps)
+{
+    DNASequence qSeq;
+    qSeq.Copy("XXXXXAAAAAGGGGGCCCCC");
+    DNASequence tSeq;
+    tSeq.Copy("AAAAANGGGGCCCCC");
+    blasr::Block b;
     b.qPos = 5;
     b.tPos = 0;
-    b.length=15;
+    b.length = 15;
     vector<int> opSize;
     vector<char> opChar;
 
     DNALength qSeqPos = 0;
     DNALength tSeqPos = 0;
 
-    const vector<int>  expOpSize = {5  , 1  , 9  };
+    const vector<int> expOpSize = {5, 1, 9};
     const vector<char> expOpChar = {'=', 'X', '='};
 
     AddMatchBlockCigarOps(qSeq, tSeq, b, qSeqPos, tSeqPos, opSize, opChar);
@@ -47,8 +50,8 @@ TEST(SAMPrinterTest, AddMatchBlockCigarOps) {
     EXPECT_EQ(opChar, expOpChar);
 }
 
-std::string merge_indels(const std::vector<int>& opSize, 
-                         const std::vector<char> & opChar) {
+std::string merge_indels(const std::vector<int>& opSize, const std::vector<char>& opChar)
+{
     std::vector<int> opSize_ = opSize;
     std::vector<char> opChar_ = opChar;
     SAMOutput::MergeAdjacentIndels(opSize_, opChar_, 'X');
@@ -57,8 +60,9 @@ std::string merge_indels(const std::vector<int>& opSize,
     return ret;
 }
 
-TEST(SAMPrinterTest, MergeAdjacentIndels) {
-    std::vector<int>  opSize({10,  1,   5,   7,  6});
+TEST(SAMPrinterTest, MergeAdjacentIndels)
+{
+    std::vector<int> opSize({10, 1, 5, 7, 6});
     std::vector<char> opChar({'=', '=', '=', 'X', 'X'});
 
     EXPECT_EQ(merge_indels(opSize, opChar), "16=13X");
@@ -75,27 +79,27 @@ TEST(SAMPrinterTest, MergeAdjacentIndels) {
     opChar = std::vector<char>({'I', 'D', '=', 'I', 'D'});
     EXPECT_EQ(merge_indels(opSize, opChar), "1X9I5=6X1I");
 
-    opSize = std::vector<int >({1,  1 });
-    opChar = std::vector<char>({'I','D'});
+    opSize = std::vector<int>({1, 1});
+    opChar = std::vector<char>({'I', 'D'});
     EXPECT_EQ(merge_indels(opSize, opChar), "1X");
 
-    opSize = std::vector<int >({1,  10 });
-    opChar = std::vector<char>({'I','D'});
+    opSize = std::vector<int>({1, 10});
+    opChar = std::vector<char>({'I', 'D'});
     EXPECT_EQ(merge_indels(opSize, opChar), "1X9D");
 
-    opSize = std::vector<int >({1  });
+    opSize = std::vector<int>({1});
     opChar = std::vector<char>({'='});
     EXPECT_EQ(merge_indels(opSize, opChar), "1=");
 
-    opSize = std::vector<int >({1  });
+    opSize = std::vector<int>({1});
     opChar = std::vector<char>({'I'});
     EXPECT_EQ(merge_indels(opSize, opChar), "1I");
 
-    opSize = std::vector<int >({1  , 10});
+    opSize = std::vector<int>({1, 10});
     opChar = std::vector<char>({'X', '='});
     EXPECT_EQ(merge_indels(opSize, opChar), "1X10=");
 
-    opSize = std::vector<int >({1  , 10});
+    opSize = std::vector<int>({1, 10});
     opChar = std::vector<char>({'I', '='});
     EXPECT_EQ(merge_indels(opSize, opChar), "1I10=");
 }

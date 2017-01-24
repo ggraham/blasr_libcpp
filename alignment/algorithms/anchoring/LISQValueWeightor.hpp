@@ -2,22 +2,23 @@
 #define _BLASR_LIS_QVALUE_WEIGHTOR_HPP_
 
 // pbdata
-#include "../../../pbdata/qvs/QualityValue.hpp"
 #include "../../../pbdata/DNASequence.hpp"
 #include "../../../pbdata/FASTQSequence.hpp"
+#include "../../../pbdata/qvs/QualityValue.hpp"
 
-template<typename T_MatchList, typename T_Sequence>
-class LISQValueWeightor {
+template <typename T_MatchList, typename T_Sequence>
+class LISQValueWeightor
+{
 public:
-	T_Sequence *seq;
-	float operator()(const T_MatchList &matchList);
+    T_Sequence *seq;
+    float operator()(const T_MatchList &matchList);
 };
 
-template<typename T_MatchList, typename T_Sequence>
-float LISQValueWeightor<T_MatchList, T_Sequence>::operator() (
-    const T_MatchList &matchList) {
+template <typename T_MatchList, typename T_Sequence>
+float LISQValueWeightor<T_MatchList, T_Sequence>::operator()(const T_MatchList &matchList)
+{
     float totalQ;
-    DNALength  nBases;
+    DNALength nBases;
     VectorIndex i;
     totalQ = 0.0;
     nBases = 0;

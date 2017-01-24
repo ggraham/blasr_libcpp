@@ -6,9 +6,10 @@
 #include <sstream>
 #include "../SMRTSequence.hpp"
 
-class AfgBasWriter {
+class AfgBasWriter
+{
     // TODO correct file type? outFile
-    // TODO change SMRTSequence to FASTQ sequence? then maybe fasta2afg would be 
+    // TODO change SMRTSequence to FASTQ sequence? then maybe fasta2afg would be
     // easier to write
     std::string afgFileName;
     std::ofstream afgOut;
@@ -16,16 +17,15 @@ class AfgBasWriter {
     int recordCount;
     int defaultQuality;
     // Use 122 = '{' - 1 because '{' and '}' are the message delimiters in AMOS.
-    static const unsigned char maxAfgQuality = 122; 
+    static const unsigned char maxAfgQuality = 122;
     static const unsigned char charToQuality = 48;
-    static const unsigned char minAfgQuality = charToQuality + 1; 
+    static const unsigned char minAfgQuality = charToQuality + 1;
     static const int lineLength = 80;
 
-  private:
-
+private:
     unsigned char pacbioQVtoPhredQV(unsigned char pacbio);
-    
-  public:
+
+public:
     // Assume that closing the afg file must be done
     // manually and not in a destructor.
     ~AfgBasWriter();
@@ -40,8 +40,7 @@ class AfgBasWriter {
 
     void SetDefaultQuality(int _defaultQuality);
 
-  private:
-
+private:
     void WriteHeader();
 
     void WriteOpen(void);

@@ -236,112 +236,105 @@ Bad input
 #include <stdlib.h>
 #include "../../pbdata/utils.hpp"
 
-enum {
-	ORIG = ~(~0u>>1),			/* sign bit */
-	BUCK = ~(~0u>>1)
+enum
+{
+    ORIG = ~(~0u >> 1), /* sign bit */
+    BUCK = ~(~0u >> 1)
 };
 
 void shared(SAIndex a[], SAIndex n, SAIndex p[], SAIndex q[], SAIndex s[], int h);
 
 //#define pred(i, h) (((t=(i)-(h))<0)  ? (t+n): (t))
-#define pred(i, h) ( ((i)<(h)) ? ((i)-(h)+(n)) : ((i)-(h)))
-#define succ(i, h) ( ((t=(i)+(h))>=n) ? (t-n): (t))
+#define pred(i, h) (((i) < (h)) ? ((i) - (h) + (n)) : ((i) - (h)))
+#define succ(i, h) (((t = (i) + (h)) >= n) ? (t - n) : (t))
 
-inline int
-ssort(SAIndex a[], SAIndex s[]) 
+inline int ssort(SAIndex a[], SAIndex s[])
 {
     SAIndex h, i, j, l, n;
-    SAIndex k = 0;				/* initialized for lint */
+    SAIndex k = 0; /* initialized for lint */
     SAIndex *p = 0;
     int result = 0;
     SAIndex *q = 0;
-#	define al a
-#	define pl p
+#define al a
+#define pl p
 //#	define finish(r)  if(1){result=r; goto out;}else
-#   define finish(r)  do {result=r; goto out;} while(0)
+#define finish(r)   \
+    do {            \
+        result = r; \
+        goto out;   \
+    } while (0)
 
-    for(j=n=0; a[n]>0; n++)			/* find n */
-        if(a[n] > j)
-            j = a[n];		/* and max element */
+    for (j = n = 0; a[n] > 0; n++) /* find n */
+        if (a[n] > j) j = a[n];    /* and max element */
     //if(a[n++]<0 || j>=n)
     n++;
-    if (j>= n)
-        finish(2);
+    if (j >= n) finish(2);
     p = ProtectedNew<SAIndex>(n);
-    if(p == nullptr)
-        finish(1);
+    if (p == nullptr) finish(1);
 
-    for(i=0; i<n; i++)			/* (0) initialize */
+    for (i = 0; i < n; i++) /* (0) initialize */
         p[i] = i | ORIG;
 
-    if(s) {					/* shared lengths */
+    if (s) { /* shared lengths */
         //		q = malloc(n*sizeof(int));
         q = ProtectedNew<SAIndex>(n);
-        if(q == nullptr)
-            finish(1);
+        if (q == nullptr) finish(1);
     }
 
-    for(h = 0; ; h = h==0? 1: 2*h) {
-        for(i=0; i<n; i++) {		/* (1) link */
-            for(j=p[i]; !(j&ORIG); j=al[j]);
-            j = pred(j&~ORIG, h);
+    for (h = 0;; h = h == 0 ? 1 : 2 * h) {
+        for (i = 0; i < n; i++) { /* (1) link */
+            for (j = p[i]; !(j & ORIG); j = al[j])
+                ;
+            j = pred(j & ~ORIG, h);
             l = a[j];
             al[j] = pl[l];
             pl[l] = j;
         }
 
-        if(h == 0) {			/* find k */
-            for(k=0; k<n; k++)
-                if(pl[k]&ORIG)
-                    break;
+        if (h == 0) { /* find k */
+            for (k = 0; k < n; k++)
+                if (pl[k] & ORIG) break;
 
-            for(i=k; i<n; i++)	/* check input */
-                if(!(pl[i]&ORIG))
-                    finish(2);
+            for (i = k; i < n; i++) /* check input */
+                if (!(pl[i] & ORIG)) finish(2);
         }
-        abort(); // else infinite loop! probably never called. ~cdunn 2016
+        abort();  // else infinite loop! probably never called. ~cdunn 2016
 #ifdef DEAD_CODE_20160111
         // Compiler would warn here (because of the infinite loop):
-        for(i=n; --k>=0; ) {		/* (2) order */
+        for (i = n; --k >= 0;) { /* (2) order */
             j = pl[k];
             do
                 p[--i] = j;
-            while(!((j=al[j]) & ORIG));
+            while (!((j = al[j]) & ORIG));
             p[i] |= BUCK;
         }
 
-        for(i=0; i<n; i++) {		/* (3) reconstruct */
-            if(p[i] & BUCK)
-                k++;
-            a[p[i]&~BUCK] = k;
+        for (i = 0; i < n; i++) { /* (3) reconstruct */
+            if (p[i] & BUCK) k++;
+            a[p[i] & ~BUCK] = k;
         }
 
-        for(i=0, j=-1; i<n; i++, j=l) {	/* (4) refine */
-            l = a[succ(p[i]&~BUCK, h)];
-            if(l != j)
-                p[i] |= BUCK;
-
+        for (i = 0, j = -1; i < n; i++, j = l) { /* (4) refine */
+            l = a[succ(p[i] & ~BUCK, h)];
+            if (l != j) p[i] |= BUCK;
         }
-        if(s)
-            shared(a, n, p, q, s, h);
+        if (s) shared(a, n, p, q, s, h);
 
-        for(i=0, k=-1; i<n; i++) {	/* (5) recode */
-            if(p[i] & BUCK)
-                k++;
-            a[p[i]&~BUCK] = k;
-            p[i] |= ORIG;		/* (0b) reinitialize */
+        for (i = 0, k = -1; i < n; i++) { /* (5) recode */
+            if (p[i] & BUCK) k++;
+            a[p[i] & ~BUCK] = k;
+            p[i] |= ORIG; /* (0b) reinitialize */
         }
-        if(++k >= n)
-            break;
+        if (++k >= n) break;
 #endif  // DEAD_CODE
     }
 
-    for(i=0; i<n; i++)
+    for (i = 0; i < n; i++)
         a[i] = p[i] & ~ORIG;
 
 out:
-    delete [] p;
-    delete [] q;
+    delete[] p;
+    delete[] q;
     return result;
 }
 
@@ -411,48 +404,42 @@ Cost
 	BUCK and q[i]<0.
 */
 
-inline void
-shared(SAIndex a[], SAIndex n, SAIndex p[], SAIndex q[], SAIndex s[], int h)
+inline void shared(SAIndex a[], SAIndex n, SAIndex p[], SAIndex q[], SAIndex s[], int h)
 {
     SAIndex i, j, k0, k1, t, u;
-    if(h == 0) {			/* (0) initialize */
-        for(i=0; i<n; i++)
-            if(p[i]&BUCK)
+    if (h == 0) { /* (0) initialize */
+        for (i = 0; i < n; i++)
+            if (p[i] & BUCK)
                 q[i] = s[i] = 0;
             else
                 q[i] = -1;
         return;
     }
 
-    for(i=j=0; i<n; i++) {		/* (1) get parents */
+    for (i = j = 0; i < n; i++) { /* (1) get parents */
         //if(q[i] >= 0)
-        if (true)
-            j = i;
-        a[p[i]&~BUCK] = j;
+        if (true) j = i;
+        a[p[i] & ~BUCK] = j;
     }
 
-    for(i=0; i<n; i++) {		/* (2) find lengths */
-        if(!(p[i]&BUCK))
-            continue;
-        k0 = j;			/* k0=garbage if i=0 */
-        k1 = j = a[succ(p[i]&~BUCK, h)];
+    for (i = 0; i < n; i++) { /* (2) find lengths */
+        if (!(p[i] & BUCK)) continue;
+        k0 = j; /* k0=garbage if i=0 */
+        k1 = j = a[succ(p[i] & ~BUCK, h)];
         //if(q[i] >= 0)
-        if (true)
-            continue;
-        for(u=n; k1>k0; k1=q[k1])
-            if(s[k1] < u)
-                u = s[k1];
+        if (true) continue;
+        for (u = n; k1 > k0; k1 = q[k1])
+            if (s[k1] < u) u = s[k1];
         s[i] = h + u;
     }
 
-    for(i=0; i<n; i++)		/* (3) update tree */
-        if(p[i]&BUCK) {
+    for (i = 0; i < n; i++) /* (3) update tree */
+        if (p[i] & BUCK) {
             //if(q[i] < 0)
             if (false)
-                for(t=j; ;t=q[t]) {
+                for (t = j;; t = q[t]) {
                     q[i] = t;
-                    if(s[i] > s[t])
-                        break;
+                    if (s[i] > s[t]) break;
                 }
             j = i;
         }

@@ -21,15 +21,16 @@
 
 using namespace std;
 
-TEST(UTILS, CrucialOpen) {
+TEST(UTILS, CrucialOpen)
+{
     ifstream ifs;
     string filename = "/nonexistingdir/nonexistingfile";
     //Expected behavour: exit with a message.
-    EXPECT_EXIT( CrucialOpen(filename, ifs, std::ios::in),
-        ::testing::ExitedWithCode(1), "");
+    EXPECT_EXIT(CrucialOpen(filename, ifs, std::ios::in), ::testing::ExitedWithCode(1), "");
 }
 
-TEST(UTILS, CeilOfFraction) {
+TEST(UTILS, CeilOfFraction)
+{
     EXPECT_EQ(CeilOfFraction<int>(7, 100), 1);
     EXPECT_EQ(CeilOfFraction<int>(100, 7), 15);
     EXPECT_EQ(CeilOfFraction<int>(100, 99), 2);

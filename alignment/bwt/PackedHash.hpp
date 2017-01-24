@@ -1,38 +1,38 @@
 #ifndef _BLASR_PACKED_HASH_HPP_
 #define _BLASR_PACKED_HASH_HPP_
 
-#include <vector>
-#include <map>
-#include <iostream>
-#include <fstream>
 #include <cstring>
+#include <fstream>
+#include <iostream>
+#include <map>
+#include <vector>
+#include "../../pbdata/DNASequence.hpp"
 #include "../../pbdata/Types.h"
 #include "../../pbdata/utils.hpp"
 #include "../../pbdata/utils/BitUtils.hpp"
-#include "../../pbdata/DNASequence.hpp"
 
-class PackedHash {
+class PackedHash
+{
 public:
-
     DNALength tableLength;
     uint32_t *table;
     uint64_t *values;
     std::vector<int> hashLengths;
     static const uint32_t BinNumBits = 5;
-    static const uint32_t BinSize = 1 <<(BinNumBits);
-    PackedHash() {
+    static const uint32_t BinSize = 1 << (BinNumBits);
+    PackedHash()
+    {
         table = NULL;
         values = NULL;
         tableLength = 0;
     }
 
-    ~PackedHash() {
-        Free();
-    }
+    ~PackedHash() { Free(); }
 
-    void Free() {
-        // In general convertions between int and pointer is not desired, 
-        // Consequences depending on the implementation, as the resulting 
+    void Free()
+    {
+        // In general convertions between int and pointer is not desired,
+        // Consequences depending on the implementation, as the resulting
         // pointers may incorrectly aligned. See C standard subclause 6.3.2.3.
         if (tableLength <= 0) {
             table = NULL;
@@ -42,19 +42,23 @@ public:
             return;
         }
 
-        for(DNALength i = 0; i < tableLength; i++) {
+        for (DNALength i = 0; i < tableLength; i++) {
             int nSetBits = CountBits(table[i]);
             if (nSetBits >= 3) {
                 //values[i] is a pointer to a list of uint32 integers
                 volatile uintptr_t iptr = values[i];
-                uint32_t * ptr = (uint32_t *)iptr;
+                uint32_t *ptr = (uint32_t *)iptr;
                 if (ptr != NULL) {
-                    delete [] ptr;
-                } //otherwise, values[i] is an uint_64.
+                    delete[] ptr;
+                }  //otherwise, values[i] is an uint_64.
             }
         }
-        if (values) {delete [] values;}
-        if (table) {delete [] table;}
+        if (values) {
+            delete[] values;
+        }
+        if (table) {
+            delete[] table;
+        }
         table = NULL;
         values = NULL;
         tableLength = 0;
@@ -65,13 +69,14 @@ public:
      * Create a mask that retains the lower 5 bits (0 .. 31) of a
      * position so that pos % 32 may be computed by a shift.
      */
-    static const uint32_t BinModMask = 0x1FU; 
+    static const uint32_t BinModMask = 0x1FU;
 
-    void Allocate(uint32_t sequenceLength) {
+    void Allocate(uint32_t sequenceLength)
+    {
         Free();
 
-        tableLength = CeilOfFraction(sequenceLength, (DNALength) BinSize);
-        table  = ProtectedNew<uint32_t>(tableLength);
+        tableLength = CeilOfFraction(sequenceLength, (DNALength)BinSize);
+        table = ProtectedNew<uint32_t>(tableLength);
         values = ProtectedNew<uint64_t>(tableLength);
         std::fill(&table[0], &table[tableLength], 0);
         std::fill(&values[0], &values[tableLength], 0);
@@ -79,34 +84,37 @@ public:
         std::fill(hashLengths.begin(), hashLengths.end(), 0);
     }
 
-    void PrintBinSummary() {
+    void PrintBinSummary()
+    {
         //
         // Report some stats on the hash.
         //
         DNALength p;
-        std::map<int,int> countMap;
+        std::map<int, int> countMap;
         int card;
-        for (p = 0; p < tableLength; p++ ){ 
+        for (p = 0; p < tableLength; p++) {
             card = CountBits(table[p]);
             countMap[card]++;
         }
-        std::map<int,int>::iterator mapit;
+        std::map<int, int>::iterator mapit;
         for (mapit = countMap.begin(); mapit != countMap.end(); ++mapit) {
             std::cout << mapit->first << " " << mapit->second << std::endl;
         }
     }
 
-    uint32_t LookupBinAtPos(DNALength pos) {
+    uint32_t LookupBinAtPos(DNALength pos)
+    {
         /* 
          * Each bucket contains 32 positions.  Membership is simply when
          * the bit at pos & BinModMask is set.  There should never be
          * collisions of multiple positions (from different areas in the
          * genome) mapping to the same position in a bin.
          */
-        return table[pos/BinSize] & (1 << (pos & BinModMask));
+        return table[pos / BinSize] & (1 << (pos & BinModMask));
     }
 
-    void ValueToList(uint64_t &storage, DNALength newValue, int newValuePos) {
+    void ValueToList(uint64_t &storage, DNALength newValue, int newValuePos)
+    {
 
         /*
          * This is called when one is attempting to add a spot to storage,
@@ -123,27 +131,34 @@ public:
         v0 = ((DNALength)storage);
         v1 = ((DNALength)(storage >> 32));
         DNALength *storagePtr = ProtectedNew<DNALength>(3);
-        storage = (uint64_t) storagePtr;
+        storage = (uint64_t)storagePtr;
 
         //
         // Only a couple of options, so handle them directly here
         //
-        if (newValuePos == 0)	{
-            storagePtr[0] = newValue; 
-            storagePtr[1] = v0; storagePtr[2] = v1;
-        }
-        else if (newValuePos == 1) {
-            storagePtr[0] = v0; storagePtr[1] = newValue; storagePtr[2] = v1;
-        }
-        else if (newValuePos == 2) {
-            storagePtr[0] = v0; storagePtr[1] = v1; storagePtr[2] = newValue;
-        }
-        else {
-            assert("ERROR! Somehow expected to only add 3 elements to an array of length 3, but the position of the new value is greater than the length of the array" && 0);
+        if (newValuePos == 0) {
+            storagePtr[0] = newValue;
+            storagePtr[1] = v0;
+            storagePtr[2] = v1;
+        } else if (newValuePos == 1) {
+            storagePtr[0] = v0;
+            storagePtr[1] = newValue;
+            storagePtr[2] = v1;
+        } else if (newValuePos == 2) {
+            storagePtr[0] = v0;
+            storagePtr[1] = v1;
+            storagePtr[2] = newValue;
+        } else {
+            assert(
+                "ERROR! Somehow expected to only add 3 elements to an array of length 3, but the "
+                "position of the new value is greater than the length of the array" &&
+                0);
         }
     }
 
-    void InsertValueInList(uint64_t &storage, int curStorageLength, DNALength newValue, int newValuePos) {
+    void InsertValueInList(uint64_t &storage, int curStorageLength, DNALength newValue,
+                           int newValuePos)
+    {
         /*
          * This simply creates a new list with size 1 larger than before,
          * and inserts the new value into its position that maintains
@@ -153,20 +168,24 @@ public:
         //
         // Copy the values from the old list making space for the new
         // value.
-        // 
+        //
         if (newValuePos > 0) {
-            memcpy(newListPtr, ((DNALength*)storage), newValuePos * sizeof(DNALength));
+            memcpy(newListPtr, ((DNALength *)storage), newValuePos * sizeof(DNALength));
         }
         if (newValuePos < curStorageLength) {
-            memcpy(&newListPtr[newValuePos+1], &((DNALength*)storage)[newValuePos], (curStorageLength - newValuePos)*sizeof(uint32_t));
+            memcpy(&newListPtr[newValuePos + 1], &((DNALength *)storage)[newValuePos],
+                   (curStorageLength - newValuePos) * sizeof(uint32_t));
         }
         assert(curStorageLength < 32);
         newListPtr[newValuePos] = newValue;
-        if (storage){delete[] ((DNALength*)storage);}
+        if (storage) {
+            delete[]((DNALength *)storage);
+        }
         storage = (uint64_t)newListPtr;
     }
 
-    void DirectlyStoreValue(uint64_t &storage, int curStorageLength, DNALength value, int valuePos) {
+    void DirectlyStoreValue(uint64_t &storage, int curStorageLength, DNALength value, int valuePos)
+    {
         /*
          * In this instance, the value may be copied to either the first
          * half or the second half of 'storage', without having to turn
@@ -182,16 +201,14 @@ public:
             // Nothing here, just store the value.
             //
             storage = value;
-        }
-        else if (valuePos == 0) {
+        } else if (valuePos == 0) {
             //
             // Place the value at the beginning of the storage.
             //
             storage = storage << 32;
             storage = storage + value;
-        }
-        else {
-            // 
+        } else {
+            //
             // Place the value at the end of storage.
             //
             uint64_t longValue = value;
@@ -200,12 +217,13 @@ public:
         }
     }
 
-    int AddValue(DNALength pos, DNALength value) {
+    int AddValue(DNALength pos, DNALength value)
+    {
         //
         // The bucket is either a values[pos] that can store up to two
         // values, or it is a pointer to a list of values.  The values are
         // always in order of their corresponding position in the BWT
-        // string. 
+        // string.
         // To add a value to this bucket, first check to see if
         // values[pos] has enough room to simply put it there, otherwise,
         // either a list already exists and the value must be inserted, or
@@ -218,12 +236,12 @@ public:
         //
         UInt bin = pos / BinSize;
         UInt bit = pos & BinModMask;
-        assert((table[bin] & ( 1 << bit)) == 0);
+        assert((table[bin] & (1 << bit)) == 0);
 
         //
         // Now, add the pos and determine where it is in the array.
         //
-        table[bin] = table[bin] + ( 1 << bit);
+        table[bin] = table[bin] + (1 << bit);
 
         //
         // Mask off everything above this bit.
@@ -231,43 +249,43 @@ public:
         UInt mask = (UInt)-1;
         mask >>= (31 - bit);
         UInt lowerBits = table[bin] & mask;
-        int  rank = CountBits(lowerBits) - 1;
-        int  card = CountBits(table[bin]);
+        int rank = CountBits(lowerBits) - 1;
+        int card = CountBits(table[bin]);
 
         if (card < 3) {
-            DirectlyStoreValue(values[bin], card-1, value, rank);
-        }
-        else if (card == 3) {
+            DirectlyStoreValue(values[bin], card - 1, value, rank);
+        } else if (card == 3) {
             ValueToList(values[bin], value, rank);
-        }
-        else {
-            InsertValueInList(values[bin], card-1, value, rank);
+        } else {
+            InsertValueInList(values[bin], card - 1, value, rank);
         }
         return card;
     }
 
-    int LookupValue(DNALength pos, DNALength &value) {
+    int LookupValue(DNALength pos, DNALength &value)
+    {
 
         /* 
          * Check to see if there is a value stored for 'pos'.  If so,
          * store it in value, and return 1 for success.
          */
-        UInt binIndex = pos/BinSize;
-        UInt bin      = table[binIndex];
+        UInt binIndex = pos / BinSize;
+        UInt bin = table[binIndex];
         UInt setBit = bin & (1 << (pos & BinModMask));
         if (setBit == 0) {
             return 0;
         }
 
-        // 
+        //
         // GetSetBitPosition64 returns the position relative to the most
         // significant bit in a 64-bit word, starting at MSB = 1.  This
         // should never be less than 32, since it's counting bits in a 32
-        // bit word.  
+        // bit word.
         //
 
-        int  bitPos     = GetSetBitPosition32(setBit);
-        UInt bitPosMask = ((UInt)-1) >> (32 - bitPos-1);;
+        int bitPos = GetSetBitPosition32(setBit);
+        UInt bitPosMask = ((UInt)-1) >> (32 - bitPos - 1);
+        ;
 
         //
         // Determine how to interpret the value of this bucket.  It is
@@ -275,25 +293,23 @@ public:
         // set in this bucket, it is a pointer.  Otherwise, pick the half
         // of the 64 bit word based on the index in the bucket.
         //
-        int nSet         = CountBits(bin);
-        int bitRank      = CountBits(bin & bitPosMask) - 1;
+        int nSet = CountBits(bin);
+        int bitRank = CountBits(bin & bitPosMask) - 1;
         assert(nSet > 0);
         if (nSet <= 2) {
             // return lower 32 bits
             if (bitRank == 0) {
                 value = ((uint32_t)values[binIndex]);
                 return 1;
-            }
-            else {
-                value = ((uint32_t)(values[binIndex]>>32));
+            } else {
+                value = ((uint32_t)(values[binIndex] >> 32));
                 return 1;
             }
-        }
-        else {
+        } else {
             /*
              * In this instance, values is a pointer rather than a pair of values.
              */
-            value = (uint32_t) ((DNALength*)values[binIndex])[bitRank];
+            value = (uint32_t)((DNALength *)values[binIndex])[bitRank];
             return 1;
         }
         //
@@ -302,7 +318,7 @@ public:
         //
         assert(0);
         return 0;
-    }	
+    }
 
     /*
      * Define binary I/O routines for the packed hash. The sizes of the
@@ -312,39 +328,41 @@ public:
      *
      */
 
-    void Write(std::ostream &out) {
-        out.write((char*) &tableLength,sizeof(tableLength));
+    void Write(std::ostream &out)
+    {
+        out.write((char *)&tableLength, sizeof(tableLength));
         if (tableLength > 0) {
-            out.write((char*) table, tableLength * sizeof(table[0]));
-            out.write((char*) values, tableLength * sizeof(values[0]));
+            out.write((char *)table, tableLength * sizeof(table[0]));
+            out.write((char *)values, tableLength * sizeof(values[0]));
         }
         DNALength tablePos;
         for (tablePos = 0; tablePos < tableLength; tablePos++) {
             int nSetBits = CountBits(table[tablePos]);
-            if( nSetBits > 2) {
-                out.write((char*)values[tablePos], sizeof(uint32_t)*nSetBits);
+            if (nSetBits > 2) {
+                out.write((char *)values[tablePos], sizeof(uint32_t) * nSetBits);
             }
         }
     }
 
-    void Read(std::istream &in) {
+    void Read(std::istream &in)
+    {
         Free();
-        in.read((char*)&tableLength, sizeof(tableLength));
+        in.read((char *)&tableLength, sizeof(tableLength));
         if (tableLength > 0) {
-            table  = ProtectedNew<uint32_t>(tableLength);
+            table = ProtectedNew<uint32_t>(tableLength);
             values = ProtectedNew<uint64_t>(tableLength);
-            in.read((char*)table, sizeof(uint32_t)*tableLength);
-            in.read((char*)values, sizeof(uint64_t)*tableLength);
+            in.read((char *)table, sizeof(uint32_t) * tableLength);
+            in.read((char *)values, sizeof(uint64_t) * tableLength);
             DNALength tablePos;
             for (tablePos = 0; tablePos < tableLength; tablePos++) {
                 int nSetBits = CountBits(table[tablePos]);
                 if (nSetBits > 2) {
                     values[tablePos] = (uint64_t)(ProtectedNew<uint32_t>(nSetBits));
-                    in.read((char*)values[tablePos], nSetBits * sizeof(uint32_t));
+                    in.read((char *)values[tablePos], nSetBits * sizeof(uint32_t));
                 }
             }
         }
     }
 };
 
-#endif // _BLASR_PACKED_HASH_HPP_
+#endif  // _BLASR_PACKED_HASH_HPP_

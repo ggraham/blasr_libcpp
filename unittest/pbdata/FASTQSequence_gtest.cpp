@@ -16,32 +16,29 @@
  * =====================================================================================
  */
 
+#include <climits>
+#include <fstream>
+#include <iostream>
 #include "FASTQSequence.hpp"
 #include "gtest/gtest.h"
-#include <climits>
-#include <iostream>
-#include <fstream>
-
 
 using namespace std;
 
-class FASTQSequenceTest : public ::testing::Test {
+class FASTQSequenceTest : public ::testing::Test
+{
 public:
-    virtual void SetUp() {
-    }
+    virtual void SetUp() {}
 
-    virtual void TearDown() {
-        fastqOne.Free();
-    }
+    virtual void TearDown() { fastqOne.Free(); }
 
     FASTQSequence fastqOne;
 
-    std::streambuf * sbuf;
+    std::streambuf* sbuf;
     ofstream ofs;
 };
 
-
-TEST_F(FASTQSequenceTest, ReverseComplementSelf) {
+TEST_F(FASTQSequenceTest, ReverseComplementSelf)
+{
     EXPECT_TRUE(fastqOne.title == NULL);
     EXPECT_TRUE(fastqOne.titleLength == 0);
     EXPECT_TRUE(fastqOne.seq == NULL);
@@ -68,7 +65,7 @@ TEST_F(FASTQSequenceTest, ReverseComplementSelf) {
 
     fastqOne.qual.Copy(q);
     EXPECT_EQ(fastqOne.qual.ToString(), q);
-    
+
     // Test ReverseComplementSelf()
     fastqOne.ReverseComplementSelf();
     EXPECT_EQ(memcmp(fastqOne.seq, r.c_str(), r.size() * sizeof(char)), 0);

@@ -1,24 +1,26 @@
-#include <iostream>
 #include "HDFCmpExperimentGroup.hpp"
+#include <iostream>
 
 using namespace std;
 
-bool HDFCmpExperimentGroup::Create(HDFGroup &parent, 
-    string experimentGroupName) {
+bool HDFCmpExperimentGroup::Create(HDFGroup &parent, string experimentGroupName)
+{
 
     parent.AddGroup(experimentGroupName);
-    if (experimentGroup.Initialize(parent.group, experimentGroupName) == 0) { return 0; }
+    if (experimentGroup.Initialize(parent.group, experimentGroupName) == 0) {
+        return 0;
+    }
     alignmentArray.Create(experimentGroup, "AlnArray");
     return true;
 }
 
-
-void HDFCmpExperimentGroup::AddAlignment(std::vector<unsigned char> &alignment, 
-    unsigned int &offsetBegin, unsigned int &offsetEnd) {
+void HDFCmpExperimentGroup::AddAlignment(std::vector<unsigned char> &alignment,
+                                         unsigned int &offsetBegin, unsigned int &offsetEnd)
+{
 
     offsetBegin = offsetEnd = 0;
-    if (alignment.size() == 0 ) {
-        // 
+    if (alignment.size() == 0) {
+        //
         // Do not increment anything.
         //
         return;
@@ -29,8 +31,8 @@ void HDFCmpExperimentGroup::AddAlignment(std::vector<unsigned char> &alignment,
     // Pad '0' to the end of the alignment.
     paddedAlignment.push_back(0);
 
-    offsetBegin = alignmentArray.size(); // 0 based, inclusive
-    offsetEnd   = offsetBegin + alignment.size(); // 0 based, exclusive
+    offsetBegin = alignmentArray.size();         // 0 based, inclusive
+    offsetEnd = offsetBegin + alignment.size();  // 0 based, exclusive
     // alignmentArray[offsetEnd] is not a part of the real alignment, it is the padded 0.
     alignmentArray.Write(&paddedAlignment[0], paddedAlignment.size());
 }
@@ -44,8 +46,8 @@ void HDFCmpExperimentGroup::AddAlignment(std::vector<unsigned char> &alignment,
 //  std::vector<T> paddedQualityValues = qualityValues;
 //  paddedQualityValues.push_back(0);
 //  HDFArray<T> *arrayPtr = NULL;
-//  
-//  // This seems to be how we do it 
+//
+//  // This seems to be how we do it
 //  if (fieldName == "DeletionQV") {
 //      arrayPtr = &deletionQV;
 //  } else if (fieldName == "InsertionQV") {
@@ -64,7 +66,7 @@ void HDFCmpExperimentGroup::AddAlignment(std::vector<unsigned char> &alignment,
 //
 //  *offsetBegin = arrayPtr->size();
 //  *offsetEnd = arrayPtr->size() + qualityValues.size();
-//  
+//
 //  arrayPtr->Write(&paddedQualityValues[0], paddedQualityValues.size());
 //}
 //
@@ -77,8 +79,9 @@ void HDFCmpExperimentGroup::AddAlignment(std::vector<unsigned char> &alignment,
 //        const std::vector<UChar>&, const std::string&,
 //        unsigned int*, unsigned int*);
 //
-int HDFCmpExperimentGroup::Initialize(HDFGroup &refGroup, 
-    string experimentGroupName, set<string> &fieldNames) {
+int HDFCmpExperimentGroup::Initialize(HDFGroup &refGroup, string experimentGroupName,
+                                      set<string> &fieldNames)
+{
     //
     // Normal initialization that prepares for reading alignments
     //
@@ -91,25 +94,30 @@ int HDFCmpExperimentGroup::Initialize(HDFGroup &refGroup,
     fieldEnd = fieldNames.end();
     for (fieldNameIt = fieldNames.begin(); fieldNameIt != fieldEnd; ++fieldNameIt) {
         if (supportedFields.find(*fieldNameIt) != supportedFields.end() and
-                experimentGroup.ContainsObject(*fieldNameIt)) {
+            experimentGroup.ContainsObject(*fieldNameIt)) {
             fields[*fieldNameIt]->Initialize(experimentGroup, *fieldNameIt);
-        }
-        else {
-            cout << "Unable to initialize requested field " << *fieldNameIt << " in experiment group " << experimentGroupName << endl;
+        } else {
+            cout << "Unable to initialize requested field " << *fieldNameIt
+                 << " in experiment group " << experimentGroupName << endl;
         }
     }
     return 1;
 }
 
-int HDFCmpExperimentGroup::Initialize(HDFGroup &refGroup, string experimentGroupName) {
+int HDFCmpExperimentGroup::Initialize(HDFGroup &refGroup, string experimentGroupName)
+{
 
-    if (experimentGroup.Initialize(refGroup.group, experimentGroupName) == 0) { return 0; }
-    if (alignmentArray.Initialize(experimentGroup, "AlnArray") == 0) { return 0; }
+    if (experimentGroup.Initialize(refGroup.group, experimentGroupName) == 0) {
+        return 0;
+    }
+    if (alignmentArray.Initialize(experimentGroup, "AlnArray") == 0) {
+        return 0;
+    }
     return 1;
 }
 
-
-HDFCmpExperimentGroup::HDFCmpExperimentGroup() {
+HDFCmpExperimentGroup::HDFCmpExperimentGroup()
+{
     fields["StartTimeOffset"] = &this->startTimeOffset;
     fields["QualityValue"] = &this->qualityValue;
     fields["IPD"] = &this->ipd;
@@ -136,19 +144,20 @@ HDFCmpExperimentGroup::HDFCmpExperimentGroup() {
 }
 
 // Return reference alignment AlnArray size in KB.
-UInt HDFCmpExperimentGroup::GetAlnArraySize() {
-    return alignmentArray.arrayLength / 1024 * sizeof (unsigned char);
+UInt HDFCmpExperimentGroup::GetAlnArraySize()
+{
+    return alignmentArray.arrayLength / 1024 * sizeof(unsigned char);
 }
 
 void HDFCmpExperimentGroup::AddQVs(const std::vector<UChar> &qualityValues,
-                                   const std::string &fieldName,
-                                   unsigned int *offsetBegin,
-                                   unsigned int *offsetEnd) {
+                                   const std::string &fieldName, unsigned int *offsetBegin,
+                                   unsigned int *offsetEnd)
+{
     std::vector<UChar> paddedQualityValues = qualityValues;
     paddedQualityValues.push_back(0);
     HDFArray<UChar> *arrayPtr = NULL;
-    
-    // This seems to be how we do it 
+
+    // This seems to be how we do it
     if (fieldName == "DeletionQV") {
         arrayPtr = &deletionQV;
     } else if (fieldName == "InsertionQV") {
@@ -160,22 +169,22 @@ void HDFCmpExperimentGroup::AddQVs(const std::vector<UChar> &qualityValues,
     } else {
         assert(false);
     }
-    
+
     if (!arrayPtr->isInitialized) arrayPtr->Initialize(experimentGroup, fieldName);
     *offsetBegin = arrayPtr->size();
     *offsetEnd = arrayPtr->size() + qualityValues.size();
-    
+
     arrayPtr->Write(&paddedQualityValues[0], paddedQualityValues.size());
 }
 
 void HDFCmpExperimentGroup::AddTags(const std::vector<char> &qualityValues,
-                                    const std::string &fieldName,
-                                    unsigned int *offsetBegin,
-                                    unsigned int *offsetEnd) {
+                                    const std::string &fieldName, unsigned int *offsetBegin,
+                                    unsigned int *offsetEnd)
+{
     std::vector<char> paddedQualityValues = qualityValues;
     paddedQualityValues.push_back(0);
     HDFArray<char> *arrayPtr = NULL;
-    
+
     if (fieldName == "DeletionTag") {
         arrayPtr = &deletionTag;
     } else if (fieldName == "SubstitutionTag") {
@@ -187,7 +196,6 @@ void HDFCmpExperimentGroup::AddTags(const std::vector<char> &qualityValues,
     if (!arrayPtr->isInitialized) arrayPtr->Initialize(experimentGroup, fieldName);
     *offsetBegin = arrayPtr->size();
     *offsetEnd = arrayPtr->size() + qualityValues.size();
-    
+
     arrayPtr->Write(&paddedQualityValues[0], paddedQualityValues.size());
 }
-

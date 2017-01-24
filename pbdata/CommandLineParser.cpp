@@ -1,66 +1,47 @@
 #include "CommandLineParser.hpp"
 
-CommandLineParser::
-CommandLineParser() {
+CommandLineParser::CommandLineParser()
+{
     lineLength = 80;
     numUnnamedOptions = 0;
     specialVersionFlag = true;
 }
 
-void CommandLineParser::
-SetProgramSummary(std::string summaryp) {
-    programSummary = summaryp;
-}
-	
-void CommandLineParser::
-SetHelp(std::string _help) {
-    helpString = _help;
-}
+void CommandLineParser::SetProgramSummary(std::string summaryp) { programSummary = summaryp; }
 
-void CommandLineParser::
-SetConciseHelp(std::string _conciseHelp) {
-    conciseHelp = _conciseHelp;
-}
+void CommandLineParser::SetHelp(std::string _help) { helpString = _help; }
 
-void CommandLineParser::
-SetProgramName(std::string namep) {
-    programName = namep;
-}
+void CommandLineParser::SetConciseHelp(std::string _conciseHelp) { conciseHelp = _conciseHelp; }
 
-void CommandLineParser::
-SetVersion(std::string versionp) {
+void CommandLineParser::SetProgramName(std::string namep) { programName = namep; }
+
+void CommandLineParser::SetVersion(std::string versionp)
+{
     specialVersionFlag = true;
     version = versionp;
 }
-	
-void CommandLineParser::
-SetVerboseHelp(std::string helpp) {
-    verboseHelp = helpp;
-}
 
-void CommandLineParser::
-SetExamples(std::string examplesp) {
-    examples = examplesp;
-}
+void CommandLineParser::SetVerboseHelp(std::string helpp) { verboseHelp = helpp; }
 
-void CommandLineParser::
-RegisterPreviousFlagsAsHidden() {
-    for (size_t i = 0; i < named.size(); i++ ){ 
+void CommandLineParser::SetExamples(std::string examplesp) { examples = examplesp; }
+
+void CommandLineParser::RegisterPreviousFlagsAsHidden()
+{
+    for (size_t i = 0; i < named.size(); i++) {
         named[i] = false;
     }
     numUnnamedOptions = named.size();
 }
 
-void CommandLineParser::
-RegisterVersionFlag(bool *value) {
+void CommandLineParser::RegisterVersionFlag(bool *value)
+{
     specialVersionFlag = true;
     RegisterFlagOption("version", value, "Print version number.");
 }
 
-
-void CommandLineParser::
-RegisterFlagOption(std::string option, bool *value, 
-    std::string description, bool required) {
+void CommandLineParser::RegisterFlagOption(std::string option, bool *value, std::string description,
+                                           bool required)
+{
 
     named.push_back(true);
     optionList.push_back(option);
@@ -72,9 +53,9 @@ RegisterFlagOption(std::string option, bool *value,
     optionUsed.push_back(false);
 }
 
-void CommandLineParser::
-RegisterIntOption(std::string option, int *value, 
-    std::string description, OptionType type, bool required) {
+void CommandLineParser::RegisterIntOption(std::string option, int *value, std::string description,
+                                          OptionType type, bool required)
+{
 
     named.push_back(true);
     optionList.push_back(option);
@@ -86,9 +67,9 @@ RegisterIntOption(std::string option, int *value,
     optionUsed.push_back(false);
 }
 
-void CommandLineParser::
-RegisterFloatOption(std::string option, float *value, 
-    std::string description, OptionType type, bool required) {
+void CommandLineParser::RegisterFloatOption(std::string option, float *value,
+                                            std::string description, OptionType type, bool required)
+{
 
     named.push_back(true);
     optionList.push_back(option);
@@ -100,9 +81,9 @@ RegisterFloatOption(std::string option, float *value,
     optionUsed.push_back(false);
 }
 
-void CommandLineParser::
-RegisterStringOption(std::string option, std::string *value,
-    std::string description, bool required) {
+void CommandLineParser::RegisterStringOption(std::string option, std::string *value,
+                                             std::string description, bool required)
+{
 
     named.push_back(true);
     optionList.push_back(option);
@@ -114,10 +95,10 @@ RegisterStringOption(std::string option, std::string *value,
     optionUsed.push_back(false);
 }
 
-void CommandLineParser::
-RegisterStringListOption(std::string option, 
-    std::vector<std::string> *value, std::string description, 
-    bool required) {
+void CommandLineParser::RegisterStringListOption(std::string option,
+                                                 std::vector<std::string> *value,
+                                                 std::string description, bool required)
+{
 
     named.push_back(true);
     optionList.push_back(option);
@@ -129,10 +110,9 @@ RegisterStringListOption(std::string option,
     optionUsed.push_back(false);
 }
 
-
-void CommandLineParser::
-RegisterIntListOption(std::string option, std::vector<int> *value, 
-    std::string description, bool required) {
+void CommandLineParser::RegisterIntListOption(std::string option, std::vector<int> *value,
+                                              std::string description, bool required)
+{
 
     named.push_back(true);
     optionList.push_back(option);
@@ -144,35 +124,30 @@ RegisterIntListOption(std::string option, std::vector<int> *value,
     optionUsed.push_back(false);
 }
 
-
-int CommandLineParser::
-IsOption(char *str) {
+int CommandLineParser::IsOption(char *str)
+{
     int len = strlen(str);
     if (len == 0) {
         return 0;
-    }
-    else {
+    } else {
         return str[0] == '-';
     }
 }
 
-int CommandLineParser::
-IsInteger(char *str) {
+int CommandLineParser::IsInteger(char *str)
+{
     int len = strlen(str);
     int i;
-    if (len == 0)
-        return 0;
-    if (!(str[0] == '-' or (str[0] >= '0' and str[0] <= '9')))
-        return 0;
+    if (len == 0) return 0;
+    if (!(str[0] == '-' or (str[0] >= '0' and str[0] <= '9'))) return 0;
     for (i = 1; i < len; i++) {
-        if (!isdigit(str[i]))
-            return 0;
+        if (!isdigit(str[i])) return 0;
     }
     return 1;
 }
 
-int CommandLineParser::
-IsFloat(char *str) {
+int CommandLineParser::IsFloat(char *str)
+{
     int len = strlen(str);
     int i;
     if (len == 0) {
@@ -184,21 +159,18 @@ IsFloat(char *str) {
         if (isdigit(str[i])) nDigit++;
         if (str[i] == '.') nDot++;
     }
-    if (nDot > 1)
-        return 0;
-    if (nDigit == 0)
-        return 0;
-    if (!isdigit(str[0]) and str[0] != '-' and str[0] != '.')
-        return 0;
+    if (nDot > 1) return 0;
+    if (nDigit == 0) return 0;
+    if (!isdigit(str[0]) and str[0] != '-' and str[0] != '.') return 0;
     //
     // passed all checks, ok!
     //
     return 1;
 }
 
-int CommandLineParser::
-FindOption(char *option) {
-    for (size_t i = 0; i < optionList.size(); i++ ){ 
+int CommandLineParser::FindOption(char *option)
+{
+    for (size_t i = 0; i < optionList.size(); i++) {
         if (optionList[i].compare(option) == 0) {
             return i;
         }
@@ -206,47 +178,44 @@ FindOption(char *option) {
     return -1;
 }
 
-void CommandLineParser::
-CommandLineToString(int argc, char* argv[], 
-    std::string& commandLine) {
+void CommandLineParser::CommandLineToString(int argc, char *argv[], std::string &commandLine)
+{
 
     std::stringstream outstrm;
     int i;
-    for (i = 0; i< argc; i++) {
+    for (i = 0; i < argc; i++) {
         outstrm << argv[i] << " ";
     }
     commandLine = outstrm.str();
 }
 
-
-int CommandLineParser::
-ParseCommandLine(int argc, char* argv[], bool isProgramNameOnlyAllowed) {
+int CommandLineParser::ParseCommandLine(int argc, char *argv[], bool isProgramNameOnlyAllowed)
+{
     std::vector<std::string> ufv;
     return ParseCommandLine(argc, argv, ufv, isProgramNameOnlyAllowed);
 }
 
-int CommandLineParser::
-ParseCommandLine(int argc, char* argv[], 
-    std::vector<std::string> &unflaggedValues, bool isProgramNameOnlyAllowed) {
+int CommandLineParser::ParseCommandLine(int argc, char *argv[],
+                                        std::vector<std::string> &unflaggedValues,
+                                        bool isProgramNameOnlyAllowed)
+{
 
     int argi = 1;
     int curUnnamedOption = 0;
-    ErrorValue ev; 
+    ErrorValue ev;
     //
     // Check for a help flag.
     //
     int i;
     for (i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "-h") == 0 or
-            (strcmp(argv[i], "--help") == 0 and 
-            // Check to see if there is non default argument for help
-            IsOption(argv[i]) and !FindOption(&argv[i][1]))) {
+        if (strcmp(argv[i], "-h") == 0 or (strcmp(argv[i], "--help") == 0 and
+                                           // Check to see if there is non default argument for help
+                                           IsOption(argv[i]) and !FindOption(&argv[i][1]))) {
             PrintUsage();
             exit(0);
-        }
-        else if (strcmp(argv[i], "--version") == 0 and specialVersionFlag) {
+        } else if (strcmp(argv[i], "--version") == 0 and specialVersionFlag) {
             //
-            // Using -version is an early exit since programs will print the 
+            // Using -version is an early exit since programs will print the
             // version and then return.
             //
             assert(IsOption(argv[i]) and FindOption(&argv[argi][1]));
@@ -255,31 +224,29 @@ ParseCommandLine(int argc, char* argv[],
         }
     }
 
-    if ( !isProgramNameOnlyAllowed ) {
-        if ( argc == 1 || argc < numUnnamedOptions) {
+    if (!isProgramNameOnlyAllowed) {
+        if (argc == 1 || argc < numUnnamedOptions) {
             if (conciseHelp != "") {
                 std::cout << conciseHelp;
-            }
-            else {
+            } else {
                 PrintUsage();
             }
             exit(0);
         }
     }
 
-    // 
+    //
     // Now parse the (probably optional) options.
     //
-    while (argi < argc){
+    while (argi < argc) {
         if (IsOption(argv[argi])) {
-            // 
+            //
             // Find which option is specified.
             //
             int optionIndex = FindOption(&argv[argi][1]);
             if (optionIndex == -1) {
                 ev = CLBadOption;
-            }
-            else {
+            } else {
                 argi++;
 
                 //
@@ -293,15 +260,13 @@ ParseCommandLine(int argc, char* argv[],
                 PrintErrorMessage(ev, &argv[argi][0]);
                 exit(1);
             }
-        }
-        else {
+        } else {
             unflaggedValues.push_back(argv[argi]);
             if (curUnnamedOption < numUnnamedOptions) {
                 ev = ParseOption(curUnnamedOption, argi, argc, argv);
                 optionUsed[curUnnamedOption] = true;
                 curUnnamedOption++;
-            }
-            else {
+            } else {
                 ++argi;
             }
         }
@@ -316,46 +281,46 @@ ParseCommandLine(int argc, char* argv[],
     return 1;
 }
 
-CommandLineParser::ErrorValue CommandLineParser::
-ParseOption(int optionIndex, int &argi, 
-    int argc, char *argv[]) {
+CommandLineParser::ErrorValue CommandLineParser::ParseOption(int optionIndex, int &argi, int argc,
+                                                             char *argv[])
+{
 
     ErrorValue ev = CLMissingValue;
-    // 
+    //
     // Extract the value type of this option.
     //
     int optionValueIndex = optionValueIndexList[optionIndex];
     OptionType optionType = optionTypeList[optionIndex];
 
-    switch(optionType) {
-        case(Flag):
+    switch (optionType) {
+        case (Flag):
             ev = ParseFlag(optionValueIndex);
             break;
-        case(Integer):
+        case (Integer):
             ev = ParseInteger(optionValueIndex, argi, argc, argv);
             break;
-        case(PositiveInteger):
+        case (PositiveInteger):
             ev = ParsePositiveInteger(optionValueIndex, argi, argc, argv);
             break;
-        case(NonNegativeInteger):
+        case (NonNegativeInteger):
             ev = ParseNonNegativeInteger(optionValueIndex, argi, argc, argv);
             break;
-        case(Float):
+        case (Float):
             ev = ParseFloat(optionValueIndex, argi, argc, argv);
             break;
-        case( PositiveFloat):
+        case (PositiveFloat):
             ev = ParsePositiveFloat(optionValueIndex, argi, argc, argv);
             break;
-        case(NonNegativeFloat):
+        case (NonNegativeFloat):
             ev = ParseNonNegativeFloat(optionValueIndex, argi, argc, argv);
             break;
-        case(String):
+        case (String):
             ev = ParseString(optionValueIndex, argi, argc, argv);
             break;
-        case(StringList):
+        case (StringList):
             ev = ParseStringList(optionValueIndex, argi, argc, argv);
             break;
-        case(IntegerList):
+        case (IntegerList):
             ev = ParseIntList(optionValueIndex, argi, argc, argv);
             break;
     };
@@ -365,63 +330,50 @@ ParseOption(int optionIndex, int &argi,
     return ev;
 }
 
-void CommandLineParser::
-PrintErrorMessage(ErrorValue ev, char *option) {
-    switch(ev) {
-        case(CLBadOption):
-            std::cout << "ERROR: " << option 
-                      << " is not a valid option." << std::endl;
+void CommandLineParser::PrintErrorMessage(ErrorValue ev, char *option)
+{
+    switch (ev) {
+        case (CLBadOption):
+            std::cout << "ERROR: " << option << " is not a valid option." << std::endl;
             break;
-        case(CLMissingValue):
-            std::cout << "ERROR: " << option 
-                      << " requires a value." << std::endl;
+        case (CLMissingValue):
+            std::cout << "ERROR: " << option << " requires a value." << std::endl;
             break;
-        case(CLInvalidInteger):
-            std::cout << "ERROR: " << option  << " requires an "
-                      << "integer value (...,-2,-1,0,1,2,...)" 
-                      << std::endl;
+        case (CLInvalidInteger):
+            std::cout << "ERROR: " << option << " requires an "
+                      << "integer value (...,-2,-1,0,1,2,...)" << std::endl;
             break;
-        case(CLInvalidPositiveInteger):
-            std::cout << "ERROR: " << option 
-                      << " requires an integer greater than 0."
-                      << std::endl;
+        case (CLInvalidPositiveInteger):
+            std::cout << "ERROR: " << option << " requires an integer greater than 0." << std::endl;
             break;
-        case(CLInvalidNonNegativeInteger):
-            std::cout << "ERROR: " << option 
-                      << " requires an interger greater " 
+        case (CLInvalidNonNegativeInteger):
+            std::cout << "ERROR: " << option << " requires an interger greater "
                       << "than or equal to 0." << std::endl;
             break;
-        case(CLInvalidFloat):
-            std::cout << "ERROR: " << option 
-                      << " requires a number as input." << std::endl;
+        case (CLInvalidFloat):
+            std::cout << "ERROR: " << option << " requires a number as input." << std::endl;
             break;
-        case(CLInvalidPositiveFloat):
-            std::cout << "ERROR: " << option 
-                      << " must be greater than 0 (eg. .0001)." 
-                      << std::endl;
+        case (CLInvalidPositiveFloat):
+            std::cout << "ERROR: " << option << " must be greater than 0 (eg. .0001)." << std::endl;
             break;
         case (CLInvalidNonNegativeFloat):
-            std::cout << "ERROR: " << option 
-                      << " must be greater than or equal to 0."
-                      << std::endl;
+            std::cout << "ERROR: " << option << " must be greater than or equal to 0." << std::endl;
             break;
         default:
             break;
     };
 }
 
-
-CommandLineParser::ErrorValue CommandLineParser::
-ParseFlag(int optionValueIndex) {
+CommandLineParser::ErrorValue CommandLineParser::ParseFlag(int optionValueIndex)
+{
 
     *boolValues[optionValueIndex] = !(*boolValues[optionValueIndex]);
     return CLGood;
 }
 
-
-CommandLineParser::ErrorValue CommandLineParser::
-ParseInteger(int optionValueIndex, int &argi, 
-    int argc, char *argv[]) {
+CommandLineParser::ErrorValue CommandLineParser::ParseInteger(int optionValueIndex, int &argi,
+                                                              int argc, char *argv[])
+{
 
     if (argi >= argc) {
         --argi;
@@ -431,18 +383,17 @@ ParseInteger(int optionValueIndex, int &argi,
         *intValues[optionValueIndex] = atoi(argv[argi]);
         ++argi;
         return CLGood;
-    }
-    else {
+    } else {
         // reset argi to the flag that was broken.
         --argi;
         return CLInvalidInteger;
     }
 }
 
-
-CommandLineParser::ErrorValue CommandLineParser::
-ParsePositiveInteger(int optionValueIndex, 
-    int &argi, int argc, char *argv[]) {
+CommandLineParser::ErrorValue CommandLineParser::ParsePositiveInteger(int optionValueIndex,
+                                                                      int &argi, int argc,
+                                                                      char *argv[])
+{
 
     int value;
     if (argi >= argc) {
@@ -450,7 +401,7 @@ ParsePositiveInteger(int optionValueIndex,
         return CLMissingValue;
     }
     if (IsInteger(argv[argi])) {
-        value =  atoi(argv[argi]);
+        value = atoi(argv[argi]);
         if (value > 0) {
             *intValues[optionValueIndex] = value;
             ++argi;
@@ -462,9 +413,10 @@ ParsePositiveInteger(int optionValueIndex,
     return CLInvalidPositiveInteger;
 }
 
-CommandLineParser::ErrorValue CommandLineParser::
-ParseNonNegativeInteger(int optionValueIndex,
-    int &argi, int argc, char *argv[]) {
+CommandLineParser::ErrorValue CommandLineParser::ParseNonNegativeInteger(int optionValueIndex,
+                                                                         int &argi, int argc,
+                                                                         char *argv[])
+{
 
     int value;
     if (argi >= argc) {
@@ -472,7 +424,7 @@ ParseNonNegativeInteger(int optionValueIndex,
         return CLMissingValue;
     }
     if (IsInteger(argv[argi])) {
-        value =  atoi(argv[argi]);
+        value = atoi(argv[argi]);
         if (value >= 0) {
             *intValues[optionValueIndex] = value;
             ++argi;
@@ -484,10 +436,9 @@ ParseNonNegativeInteger(int optionValueIndex,
     return CLInvalidNonNegativeInteger;
 }
 
-
-CommandLineParser::ErrorValue CommandLineParser::
-ParseFloat(int optionValueIndex, 
-    int &argi, int argc, char *argv[]) {
+CommandLineParser::ErrorValue CommandLineParser::ParseFloat(int optionValueIndex, int &argi,
+                                                            int argc, char *argv[])
+{
 
     if (argi >= argc) {
         --argi;
@@ -497,18 +448,16 @@ ParseFloat(int optionValueIndex,
         *floatValues[optionValueIndex] = atof(argv[argi]);
         ++argi;
         return CLGood;
-    }
-    else {
+    } else {
         // reset argi to the flag that was broken.
         --argi;
         return CLInvalidFloat;
     }
 }
 
-
-CommandLineParser::ErrorValue CommandLineParser::
-ParsePositiveFloat(int optionValueIndex, 
-    int &argi, int argc, char *argv[]) {
+CommandLineParser::ErrorValue CommandLineParser::ParsePositiveFloat(int optionValueIndex, int &argi,
+                                                                    int argc, char *argv[])
+{
 
     float value;
     if (argi >= argc) {
@@ -528,10 +477,10 @@ ParsePositiveFloat(int optionValueIndex,
     return CLInvalidPositiveFloat;
 }
 
-
-CommandLineParser::ErrorValue CommandLineParser::
-ParseNonNegativeFloat(int optionValueIndex, 
-    int &argi, int argc, char *argv[]) {
+CommandLineParser::ErrorValue CommandLineParser::ParseNonNegativeFloat(int optionValueIndex,
+                                                                       int &argi, int argc,
+                                                                       char *argv[])
+{
 
     float value;
     if (argi >= argc) {
@@ -545,16 +494,15 @@ ParseNonNegativeFloat(int optionValueIndex,
             ++argi;
             return CLGood;
         }
-    }			
+    }
     // reset argi to the flag that was broken.
     --argi;
     return CLInvalidNonNegativeFloat;
 }
 
-
-CommandLineParser::ErrorValue CommandLineParser::
-ParseString(int optionValueIndex, 
-    int &argi, int argc, char *argv[]) {
+CommandLineParser::ErrorValue CommandLineParser::ParseString(int optionValueIndex, int &argi,
+                                                             int argc, char *argv[])
+{
 
     if (argi >= argc) {
         --argi;
@@ -564,36 +512,28 @@ ParseString(int optionValueIndex,
         *stringValues[optionValueIndex] = argv[argi];
         ++argi;
         return CLGood;
-    }
-    else {
+    } else {
         // reset argi to the flag that was broken.
         --argi;
         return CLMissingValue;
     }
 }
 
-bool CommandLineParser::
-IsValuedOption(OptionType optType) {
-    if (optType == Integer or 
-            optType == PositiveInteger or
-            optType == NonNegativeInteger or
-            optType == Float or 
-            optType == PositiveFloat or 
-            optType == NonNegativeFloat or
-            optType == String or
-            optType == StringList) {
+bool CommandLineParser::IsValuedOption(OptionType optType)
+{
+    if (optType == Integer or optType == PositiveInteger or optType == NonNegativeInteger or
+        optType == Float or optType == PositiveFloat or optType == NonNegativeFloat or
+        optType == String or optType == StringList) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
 
+CommandLineParser::ErrorValue CommandLineParser::ParseIntList(int optionValueIndex, int &argi,
+                                                              int argc, char *argv[])
+{
 
-CommandLineParser::ErrorValue CommandLineParser::
-ParseIntList(int optionValueIndex, 
-    int &argi, int argc, char *argv[]) {
-    
     if (argi >= argc) {
         --argi;
         return CLMissingValue;
@@ -605,8 +545,7 @@ ParseIntList(int optionValueIndex,
             intListValues[optionValueIndex]->push_back(atoi(argv[argi]));
             ++argi;
             ev = CLGood;
-        }
-        else {
+        } else {
             ev = CLInvalidInteger;
             --argi;
             break;
@@ -619,9 +558,9 @@ ParseIntList(int optionValueIndex,
     return ev;
 }
 
-CommandLineParser::ErrorValue CommandLineParser::
-ParseStringList(int optionValueIndex, 
-    int &argi, int argc, char *argv[]) {
+CommandLineParser::ErrorValue CommandLineParser::ParseStringList(int optionValueIndex, int &argi,
+                                                                 int argc, char *argv[])
+{
 
     if (argi >= argc) {
         --argi;
@@ -641,26 +580,19 @@ ParseStringList(int optionValueIndex,
     return ev;
 }
 
+void CommandLineParser::PrintVersion() { std::cout << programName << "\t" << version << std::endl; }
 
-void CommandLineParser::
-PrintVersion() {
-    std::cout << programName << "\t" << version << std::endl;
-}
-
-
-void CommandLineParser::
-PrintUsage() {
+void CommandLineParser::PrintUsage()
+{
     std::ios::fmtflags f = std::cout.flags();
     if (helpString != "") {
         std::cout << helpString << std::endl;
         return;
-    }
-    else {
+    } else {
         if (programSummary.size() > 0) {
             std::cout << programName << " ";
 
-            PrintIndentedText(std::cout, programSummary, 
-                programName.size(), lineLength);
+            PrintIndentedText(std::cout, programSummary, programName.size(), lineLength);
 
             std::cout << std::endl;
         }
@@ -683,13 +615,12 @@ PrintUsage() {
         }
         std::cout << std::endl << std::endl;
         i = 0;
-        while (i < optionList.size() and named[i] == false) { 
+        while (i < optionList.size() and named[i] == false) {
             if (!named[i]) {
-                std::cout << "   " << std::setw(maxOptionLength) 
-                          << std::left << optionList[i] << std::endl;
+                std::cout << "   " << std::setw(maxOptionLength) << std::left << optionList[i]
+                          << std::endl;
 
-                PrintIndentedText(cout, descriptions[i], 15, 
-                    (int)lineLength, 15);
+                PrintIndentedText(cout, descriptions[i], 15, (int)lineLength, 15);
 
                 std::cout << std::endl;
             }
@@ -701,25 +632,23 @@ PrintUsage() {
             if (IsValuedOption(optionTypeList[i])) {
                 wholeName += " value ";
             }
-            std::cout << "  "   << std::setw(maxOptionLength) 
-                      << std::left <<  wholeName << std::endl;
+            std::cout << "  " << std::setw(maxOptionLength) << std::left << wholeName << std::endl;
 
-            PrintIndentedText(cout, descriptions[i], 15, 
-                (int)lineLength, 15);
-            
+            PrintIndentedText(cout, descriptions[i], 15, (int)lineLength, 15);
+
             std::cout << std::endl;
         }
     }
     if (examples.size() > 0) {
         std::cout << std::endl << std::endl;
-        PrintIndentedText(cout, examples, 5, (int) lineLength, 5);
+        PrintIndentedText(cout, examples, 5, (int)lineLength, 5);
         std::cout << std::endl;
     }
     std::cout.flags(f);
 }
 
-int CommandLineParser::
-GetNextWordLength(std::string &text, int pos) {
+int CommandLineParser::GetNextWordLength(std::string &text, int pos)
+{
     int startPos = pos;
     int textLength = text.size();
     while (pos < textLength and (!IsWhitespace(text[pos]))) {
@@ -728,9 +657,9 @@ GetNextWordLength(std::string &text, int pos) {
     return pos - startPos;
 }
 
-void CommandLineParser::
-PrintIndentedText(std::ostream &out, std::string &text, 
-    int allLineIndent, int lineLength, int firstLineIndent) {
+void CommandLineParser::PrintIndentedText(std::ostream &out, std::string &text, int allLineIndent,
+                                          int lineLength, int firstLineIndent)
+{
 
     int textPos = 0;
     std::vector<std::string> words;
@@ -739,8 +668,7 @@ PrintIndentedText(std::ostream &out, std::string &text,
     int i;
     if (firstLineIndent == 0) {
         curLineLength = allLineIndent;
-    }
-    else {
+    } else {
         for (i = 0; i < firstLineIndent; i++) {
             out << " ";
         }
@@ -751,22 +679,20 @@ PrintIndentedText(std::ostream &out, std::string &text,
     int textLength = text.size();
     while (textPos < textLength) {
         // Print some whitespace
-        while (textPos < textLength and 
-               curLineLength < lineLength and 
+        while (textPos < textLength and curLineLength < lineLength and
                IsWhitespace(text[textPos])) {
             out << text[textPos];
-            // Some extra logic in case 
+            // Some extra logic in case
             if (text[textPos] == '\n') {
                 // an extra line was printed, so skip to the next line.
-                curLineLength = lineLength + 1; 
+                curLineLength = lineLength + 1;
                 // done printing this line.
                 curLineLength = 0;
                 if (textPos < textLength) {
                     out << indentation;
                     curLineLength = allLineIndent;
                 }
-            }
-            else {
+            } else {
                 curLineLength++;
                 if (curLineLength == lineLength) {
                     std::cout << std::endl;
@@ -784,25 +710,22 @@ PrintIndentedText(std::ostream &out, std::string &text,
             int nextWordLength = GetNextWordLength(text, textPos);
             if (nextWordLength + curLineLength >= lineLength) {
                 //
-                // The next word runs past the end of this line, 
-                // print it on a newline, or print part of it on 
+                // The next word runs past the end of this line,
+                // print it on a newline, or print part of it on
                 // this line if the whole word wraps.
                 //
                 if (nextWordLength > lineLength) {
                     // This word will never fit on a line, print part of it.
-                    for (; curLineLength < lineLength; 
-                         curLineLength++, textPos++) {
+                    for (; curLineLength < lineLength; curLineLength++, textPos++) {
                         out << text[textPos];
                     }
                 }
                 out << std::endl;
                 out << indentation;
                 curLineLength = allLineIndent;
-            }
-            else {
+            } else {
                 int i;
-                for (i = 0; i < nextWordLength; 
-                     i++, textPos++, curLineLength++) {
+                for (i = 0; i < nextWordLength; i++, textPos++, curLineLength++) {
                     out << text[textPos];
                 }
             }
@@ -810,24 +733,22 @@ PrintIndentedText(std::ostream &out, std::string &text,
     }
 }
 
-unsigned int  CommandLineParser::
-GetMaxOptionLength() {
+unsigned int CommandLineParser::GetMaxOptionLength()
+{
     unsigned int maxLength = 0;
-    for (size_t i = 0; i < optionList.size(); i++ ){
-        if (optionList[i].size() > maxLength)
-            maxLength = optionList[i].size();
+    for (size_t i = 0; i < optionList.size(); i++) {
+        if (optionList[i].size() > maxLength) maxLength = optionList[i].size();
     }
     return maxLength;
 }
 
-
-CommandLineParser::ErrorValue  CommandLineParser::
-PrintErrorOnMissingOptions() {
+CommandLineParser::ErrorValue CommandLineParser::PrintErrorOnMissingOptions()
+{
     ErrorValue ev = CLGood;
-    for (size_t i = 0; i < optionList.size(); i++ ){ 
+    for (size_t i = 0; i < optionList.size(); i++) {
         if (optionRequired[i] and !optionUsed[i]) {
-            std::cout << "ERROR, the option " << optionList[i]
-                      << " must be specified." << std::endl;
+            std::cout << "ERROR, the option " << optionList[i] << " must be specified."
+                      << std::endl;
             ev = CLMissingOption;
         }
     }

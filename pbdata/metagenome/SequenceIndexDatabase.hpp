@@ -1,41 +1,41 @@
 #ifndef _BLASR_SEQUENCE_INDEX_DATABASE_HPP_
 #define _BLASR_SEQUENCE_INDEX_DATABASE_HPP_
 
-#include <fstream>
-#include <iostream>
-#include <vector>
 #include <assert.h>
 #include <stdlib.h>
-#include <sstream>
-#include <cstring>
 #include <algorithm>
-#include "../Types.h"
+#include <cstring>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <vector>
 #include "../DNASequence.hpp"
 #include "../StringUtils.hpp"
-
+#include "../Types.h"
 
 #define SEQUENCE_INDEX_DATABASE_MAGIC 1233211233
 
-template<typename TSeq>
-class SequenceIndexDatabase {
+template <typename TSeq>
+class SequenceIndexDatabase
+{
 public:
     std::vector<DNALength> growableSeqStartPos;
     std::vector<std::string> growableName;
 
-	DNALength *seqStartPos;
-	bool deleteSeqStartPos;
-	char **names;
-	bool deleteNames;
-	int  *nameLengths;
-	bool deleteNameLengths;
-	int  nSeqPos;
-	bool deleteStructures;
+    DNALength *seqStartPos;
+    bool deleteSeqStartPos;
+    char **names;
+    bool deleteNames;
+    int *nameLengths;
+    bool deleteNameLengths;
+    int nSeqPos;
+    bool deleteStructures;
     //
     // This is stored after reading in the sequence.
     //
     std::vector<std::string> md5;
 
-    SequenceIndexDatabase(int final=0);
+    SequenceIndexDatabase(int final = 0);
     ~SequenceIndexDatabase();
 
     DNALength GetLengthOfSeq(int seqIndex);
@@ -57,25 +57,24 @@ public:
 
     int SearchForEndBoundary(DNALength pos);
 
-    DNALength SearchForStartAndEnd(DNALength pos, DNALength &start,
-        DNALength &end);
+    DNALength SearchForStartAndEnd(DNALength pos, DNALength &start, DNALength &end);
 
     void WriteDatabase(ofstream &out);
 
-   	void ReadDatabase(ifstream &in);
+    void ReadDatabase(ifstream &in);
 
-	void SequenceTitleLinesToNames();
+    void SequenceTitleLinesToNames();
 
-   	VectorIndex AddSequence(TSeq &sequence);
+    VectorIndex AddSequence(TSeq &sequence);
 
-   	void Finalize();
+    void Finalize();
 
-	void FreeDatabase();
+    void FreeDatabase();
 };
 
-
-template< typename TSeq >
-class SeqBoundaryFtr {
+template <typename TSeq>
+class SeqBoundaryFtr
+{
 public:
     SequenceIndexDatabase<TSeq> *seqDB;
 

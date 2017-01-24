@@ -8,10 +8,9 @@
 
 void GetSMRTReadCoordinates(FASTQSequence &seq, int &x, int &y);
 
-void GetSpringfieldHoleNumberFromTitle(FASTQSequence &seq,
-                                       unsigned int &holeNumber);
+void GetSpringfieldHoleNumberFromTitle(FASTQSequence &seq, unsigned int &holeNumber);
 
-// Parse a PBIRead name of format movie/holeNumber/s_e, or /movie/holeNumber 
+// Parse a PBIRead name of format movie/holeNumber/s_e, or /movie/holeNumber
 // and get movieName, holeNumber.
 bool ParsePBIReadName(std::string &readName, std::string &movieName, int &holeNumber);
 

@@ -3,12 +3,12 @@
 
 #include <limits.h>
 // pbdata
-#include "../../../pbdata/Types.h"
 #include "../../../pbdata/FASTQSequence.hpp"
+#include "../../../pbdata/Types.h"
 #include "../../../pbdata/matrix/FlatMatrix.hpp"
 
-#include "../../datastructures/alignment/Path.h"
 #include "../../datastructures/alignment/Alignment.hpp"
+#include "../../datastructures/alignment/Path.h"
 
 /*
    Perform gapped alignment that aligns the entire query sequence to
@@ -16,15 +16,12 @@
    The gap between leftTarget and rightTarget is an affine gap. 
    */
 
-template<typename T_QuerySequence, typename T_RefSequence, typename T_ScoreFunction> 
-int OneGapAlign(T_QuerySequence &query, 
-        T_RefSequence &leftTarget, 
-        T_RefSequence &rightTarget, 
-        DNALength   distanceBetweenLeftAndRightTarget,
-        T_ScoreFunction &scoreFn,
-        Alignment   &alignment, 
-        FlatMatrix2D<int> & scoreMat, FlatMatrix2D<Arrow> & pathMat, 
-        FlatMatrix2D<int> &affineScoreMat, FlatMatrix2D<Arrow> &affinePathMat) {
+template <typename T_QuerySequence, typename T_RefSequence, typename T_ScoreFunction>
+int OneGapAlign(T_QuerySequence &query, T_RefSequence &leftTarget, T_RefSequence &rightTarget,
+                DNALength distanceBetweenLeftAndRightTarget, T_ScoreFunction &scoreFn,
+                Alignment &alignment, FlatMatrix2D<int> &scoreMat, FlatMatrix2D<Arrow> &pathMat,
+                FlatMatrix2D<int> &affineScoreMat, FlatMatrix2D<Arrow> &affinePathMat)
+{
 
     /*
        Perform alignment that spans what is effectively two pairs of
@@ -46,19 +43,18 @@ int OneGapAlign(T_QuerySequence &query,
 
 */
 
-
     UInt nQueryRows, nLeftTargetCols, nRightTargetCols;
     UInt nTargetCols;
     nQueryRows = query.length + 1;
-    nLeftTargetCols  = leftTarget.length + 1;
+    nLeftTargetCols = leftTarget.length + 1;
     nRightTargetCols = rightTarget.length;
     nTargetCols = nLeftTargetCols + nRightTargetCols;
 
     //
     // Create the matrices
-    // 
-    affineScoreMat.Grow(nQueryRows,  nTargetCols);
-    affinePathMat.Grow(nQueryRows,  nTargetCols);
+    //
+    affineScoreMat.Grow(nQueryRows, nTargetCols);
+    affinePathMat.Grow(nQueryRows, nTargetCols);
 
     scoreMat.Grow(nQueryRows, nTargetCols);
     pathMat.Grow(nQueryRows, nTargetCols);
@@ -75,30 +71,29 @@ int OneGapAlign(T_QuerySequence &query,
     // Initialize insertion and deletion strips
     UInt i, j;
     scoreMat[0][0] = 0;
-    pathMat[0][0]  = NoArrow;
+    pathMat[0][0] = NoArrow;
     affineScoreMat[0][0] = 0;
     // always drop down to 0,0 at end of affine gap.
-    affinePathMat[0][0]  = AffineDelOpen;
+    affinePathMat[0][0] = AffineDelOpen;
     for (i = 1; i < nQueryRows; i++) {
-        scoreMat[i][0] = scoreMat[i-1][0] + scoreFn.ins;
-        pathMat[i][0]  = Up;
+        scoreMat[i][0] = scoreMat[i - 1][0] + scoreFn.ins;
+        pathMat[i][0] = Up;
         //
         // Affine gaps can only start here.
         //
         affineScoreMat[i][0] = scoreMat[i][0];
-        affinePathMat[i][0]  = AffineDelOpen; 
+        affinePathMat[i][0] = AffineDelOpen;
     }
 
     for (j = 1; j < nTargetCols; j++) {
-        scoreMat[0][j] = scoreMat[0][j-1] + scoreFn.del;
-        pathMat[0][j]  = Left;
+        scoreMat[0][j] = scoreMat[0][j - 1] + scoreFn.del;
+        pathMat[0][j] = Left;
         //
         // Allow free affine transition across first row.
         //
         affineScoreMat[0][j] = 0;
-        affinePathMat[0][j]  = Left;
+        affinePathMat[0][j] = Left;
     }
-
 
     //  Now run the alignment.
     //  i and j index over positions in the query/target sequences, or
@@ -120,45 +115,41 @@ int OneGapAlign(T_QuerySequence &query,
             // scoreMat[i+1][j+1] = position to fill
             // scoreMat[i+1][j] ==> back one column
             // scoreMat[i][j+1] ==> up one row.
-            matchScore = scoreMat[i][j]   + scoreFn.Match(leftTarget, j, query, i);
-            insScore   = scoreMat[i][j+1] + scoreFn.Insertion(leftTarget, j, query, i);
-            delScore   = scoreMat[i+1][j] + scoreFn.Deletion(leftTarget, j, query, i);
+            matchScore = scoreMat[i][j] + scoreFn.Match(leftTarget, j, query, i);
+            insScore = scoreMat[i][j + 1] + scoreFn.Insertion(leftTarget, j, query, i);
+            delScore = scoreMat[i + 1][j] + scoreFn.Deletion(leftTarget, j, query, i);
 
             int minScore = min(matchScore, min(insScore, delScore));
-            scoreMat[i+1][j+1] = minScore;
-
+            scoreMat[i + 1][j + 1] = minScore;
 
             // set path.
-            if (matchScore  == minScore) {
-                pathMat[i+1][j+1]  = Diagonal;
-            }
-            else if (insScore == minScore) {
-                pathMat[i+1][j+1]  = Up;
-            }
-            else {
+            if (matchScore == minScore) {
+                pathMat[i + 1][j + 1] = Diagonal;
+            } else if (insScore == minScore) {
+                pathMat[i + 1][j + 1] = Up;
+            } else {
                 assert(delScore == minScore);
-                pathMat[i+1][j+1]  = Left;
+                pathMat[i + 1][j + 1] = Left;
             }
 
             //
             // Next, assign the affine score
             //
-            if (affineScoreMat[i+1][j] < scoreMat[i+1][j+1]) {
-                affineScoreMat[i+1][j+1] = affineScoreMat[i+1][j];
-                affinePathMat[i+1][j+1]  = Left;
-            }
-            else {
+            if (affineScoreMat[i + 1][j] < scoreMat[i + 1][j + 1]) {
+                affineScoreMat[i + 1][j + 1] = affineScoreMat[i + 1][j];
+                affinePathMat[i + 1][j + 1] = Left;
+            } else {
                 // Allow free gap open... maybe this will change.
-                affineScoreMat[i+1][j+1] = scoreMat[i+1][j+1]; 
-                affinePathMat[i+1][j+1]  = AffineDelOpen;
+                affineScoreMat[i + 1][j + 1] = scoreMat[i + 1][j + 1];
+                affinePathMat[i + 1][j + 1] = AffineDelOpen;
             }
         }
 
         //
-        // Now align the right target, allowing a jump over the divide.  
+        // Now align the right target, allowing a jump over the divide.
         //
         int affineCloseScore;
-        j = 0; 
+        j = 0;
         //
         // A match here may only be preceded by an affine gap close.
         //
@@ -166,67 +157,62 @@ int OneGapAlign(T_QuerySequence &query,
         matchScore = affineScoreMat[i][leftTarget.length] + scoreFn.Match(rightTarget, j, query, i);
         //
         // Cannot have a non-affine deletion here.
-        delScore   = INT_MAX;
+        delScore = INT_MAX;
         //
         // The insertion is a horizontal move, so that is all allowed.
         //
-        insScore   = scoreFn.Insertion(rightTarget, j, query, i - 1);
-
+        insScore = scoreFn.Insertion(rightTarget, j, query, i - 1);
 
         minScore = min(matchScore, insScore);
         UInt targetCol = leftTarget.length;
 
-        assert(scoreMat[i+1][targetCol+1] == 0);
-        assert(pathMat[i+1][targetCol+1] == NoArrow);
-        scoreMat[i+1][targetCol+1] = minScore;      
+        assert(scoreMat[i + 1][targetCol + 1] == 0);
+        assert(pathMat[i + 1][targetCol + 1] == NoArrow);
+        scoreMat[i + 1][targetCol + 1] = minScore;
 
         if (minScore == matchScore) {
-            pathMat[i+1][targetCol+1]  = AffineLongDelClose;
-        }
-        else {
+            pathMat[i + 1][targetCol + 1] = AffineLongDelClose;
+        } else {
             assert(minScore == insScore);
-            pathMat[i+1][targetCol+1]  = Up;
+            pathMat[i + 1][targetCol + 1] = Up;
         }
 
         //
         // The affine matrix on the right side can only progress forward.
         //
-        affineScoreMat[i+1][targetCol+1] = affineScoreMat[i+1][targetCol];
-        affinePathMat[i+1][targetCol+1]  = AffineLongDelLeft;
-
+        affineScoreMat[i + 1][targetCol + 1] = affineScoreMat[i + 1][targetCol];
+        affinePathMat[i + 1][targetCol + 1] = AffineLongDelLeft;
 
         for (j = 1; j < rightTarget.length; j++) {
             targetCol = leftTarget.length + j;
             matchScore = scoreMat[i][targetCol] + scoreFn.Match(rightTarget, j, query, i);
-            insScore   = scoreMat[i][targetCol+1] + scoreFn.Insertion(rightTarget, j, query, i);
-            delScore   = scoreMat[i+1][targetCol] + scoreFn.Deletion(rightTarget, j, query, i);
-            affineCloseScore = affineScoreMat[i][targetCol] + scoreFn.Match(rightTarget, j, query, i);
+            insScore = scoreMat[i][targetCol + 1] + scoreFn.Insertion(rightTarget, j, query, i);
+            delScore = scoreMat[i + 1][targetCol] + scoreFn.Deletion(rightTarget, j, query, i);
+            affineCloseScore =
+                affineScoreMat[i][targetCol] + scoreFn.Match(rightTarget, j, query, i);
 
             minScore = min(matchScore, min(insScore, min(delScore, affineCloseScore)));
 
-            scoreMat[i+1][targetCol+1] = minScore;
+            scoreMat[i + 1][targetCol + 1] = minScore;
             if (minScore == matchScore) {
-                pathMat[i+1][targetCol+1]  = Diagonal;
-            }
-            else if (minScore == insScore) {
-                pathMat[i+1][targetCol+1] = Up;
-            }
-            else if (minScore == delScore) {
-                pathMat[i+1][targetCol+1] = Left;
-            }
-            else {
+                pathMat[i + 1][targetCol + 1] = Diagonal;
+            } else if (minScore == insScore) {
+                pathMat[i + 1][targetCol + 1] = Up;
+            } else if (minScore == delScore) {
+                pathMat[i + 1][targetCol + 1] = Left;
+            } else {
                 assert(minScore == affineCloseScore);
-                pathMat[i+1][targetCol+1] = AffineLongDelClose;
+                pathMat[i + 1][targetCol + 1] = AffineLongDelClose;
             }
 
             //
             // As with before, the affine matrix on the right side can
             // only progress forward.
-            // 
-            affineScoreMat[i+1][targetCol+1] = affineScoreMat[i+1][targetCol];
-            affinePathMat[i+1][targetCol+1]  = Left;
-        } // done aligning right target
-    } // done aligning full query
+            //
+            affineScoreMat[i + 1][targetCol + 1] = affineScoreMat[i + 1][targetCol];
+            affinePathMat[i + 1][targetCol + 1] = Left;
+        }  // done aligning right target
+    }      // done aligning full query
 
     //
     // Now build the alignment string
@@ -236,7 +222,7 @@ int OneGapAlign(T_QuerySequence &query,
     vector<Arrow> optAlignment;
 
     int REGULAR = 0;
-    int AFFINE  = 1;
+    int AFFINE = 1;
 
     int curMatrix = REGULAR;
     Arrow arrow;
@@ -259,31 +245,26 @@ int OneGapAlign(T_QuerySequence &query,
                 optAlignment.push_back(arrow);
                 i--;
                 j--;
-            }
-            else if (arrow == Left) {
+            } else if (arrow == Left) {
                 optAlignment.push_back(arrow);
 
                 j--;
-            }
-            else if (arrow == Up) {
+            } else if (arrow == Up) {
                 optAlignment.push_back(arrow);
                 i--;
-            }
-            else if (arrow == AffineLongDelClose) {
+            } else if (arrow == AffineLongDelClose) {
                 optAlignment.push_back(Left);
                 j--;
                 i--;
                 curMatrix = AFFINE;
             }
-        }
-        else {
+        } else {
             // in affine matrix
             arrow = affinePathMat[i][j];
             if (arrow == Left or arrow == AffineLongDelLeft) {
                 optAlignment.push_back(arrow);
                 j--;
-            }
-            else if (arrow == AffineDelOpen) {
+            } else if (arrow == AffineDelOpen) {
                 //
                 // no change in i nor j, and this does not result in an
                 // arrow.
@@ -298,8 +279,8 @@ int OneGapAlign(T_QuerySequence &query,
         //
         assert(i != UINT_MAX);
         assert(j != UINT_MAX);
-    } // done tracing alignment path.
-    std::reverse(optAlignment.begin(), optAlignment.end());    
+    }  // done tracing alignment path.
+    std::reverse(optAlignment.begin(), optAlignment.end());
     alignment.LongGapArrowPathToAlignment(optAlignment, distanceBetweenLeftAndRightTarget);
     return optScore;
 }
@@ -308,50 +289,38 @@ int OneGapAlign(T_QuerySequence &query,
 // Create a version that does not need reusable mapping buffers.
 //
 
-template<typename T_QuerySequence, typename T_RefSequence, typename T_ScoreFunction>
-int OneGapAlign(T_QuerySequence &query, 
-        T_RefSequence &leftTarget, 
-        T_RefSequence &rightTarget, 
-        DNALength   distanceBetweenLeftAndRightTarget,
-        T_ScoreFunction &scoreFn,
-        Alignment   &alignment) {
+template <typename T_QuerySequence, typename T_RefSequence, typename T_ScoreFunction>
+int OneGapAlign(T_QuerySequence &query, T_RefSequence &leftTarget, T_RefSequence &rightTarget,
+                DNALength distanceBetweenLeftAndRightTarget, T_ScoreFunction &scoreFn,
+                Alignment &alignment)
+{
 
-    FlatMatrix2D<int>   scoreMat;
-    FlatMatrix2D<int>   affineScoreMat;
+    FlatMatrix2D<int> scoreMat;
+    FlatMatrix2D<int> affineScoreMat;
     FlatMatrix2D<Arrow> pathMat;
     FlatMatrix2D<Arrow> affinePathMat;
 
-
-    return OneGapAlign(query, leftTarget, rightTarget, 
-            distanceBetweenLeftAndRightTarget,
-            scoreFn,
-            alignment,
-            scoreMat, pathMat,
-            affineScoreMat, affinePathMat);
+    return OneGapAlign(query, leftTarget, rightTarget, distanceBetweenLeftAndRightTarget, scoreFn,
+                       alignment, scoreMat, pathMat, affineScoreMat, affinePathMat);
 }
 
-
-template<typename T_QuerySequence, typename T_RefSequence, typename T_ScoreFunction, typename T_BufferList> 
-int OneGapAlign(T_QuerySequence &query, 
-        T_RefSequence   &leftTarget, 
-        T_RefSequence   &rightTarget, 
-        DNALength   distanceBetweenLeftAndRightTarget,
-        T_ScoreFunction &scoreFn,
-        T_BufferList &buffers,
-        Alignment   &alignment) {
+template <typename T_QuerySequence, typename T_RefSequence, typename T_ScoreFunction,
+          typename T_BufferList>
+int OneGapAlign(T_QuerySequence &query, T_RefSequence &leftTarget, T_RefSequence &rightTarget,
+                DNALength distanceBetweenLeftAndRightTarget, T_ScoreFunction &scoreFn,
+                T_BufferList &buffers, Alignment &alignment)
+{
     PB_UNUSED(scoreFn);
     return OneGapAlign(query, leftTarget, rightTarget, distanceBetweenLeftAndRightTarget, alignment,
-            buffers.scoreMat, buffers.pathMat,
-            buffers.affineScoreMat, buffers.affinePathMat);
-
+                       buffers.scoreMat, buffers.pathMat, buffers.affineScoreMat,
+                       buffers.affinePathMat);
 }
 
-template<typename T_QuerySequence, typename T_RefSequence, typename T_ScoreFunction, typename T_BufferList> 
-int OneGapAlign(T_QuerySequence &query,
-        T_RefSequence   &reference,
-        T_ScoreFunction &scoreFunction,
-        T_BufferList &buffers,
-        Alignment &alignment) {
+template <typename T_QuerySequence, typename T_RefSequence, typename T_ScoreFunction,
+          typename T_BufferList>
+int OneGapAlign(T_QuerySequence &query, T_RefSequence &reference, T_ScoreFunction &scoreFunction,
+                T_BufferList &buffers, Alignment &alignment)
+{
     (void)(buffers);
 
     T_RefSequence leftReference, rightReference;
@@ -359,19 +328,16 @@ int OneGapAlign(T_QuerySequence &query,
     leftReference.ReferenceSubstring(reference, 0, leftReferenceLength);
 
     UInt rightReferenceLength = min(reference.length - leftReferenceLength, query.length);
-    rightReference.ReferenceSubstring(reference, reference.length - rightReferenceLength, rightReferenceLength);
+    rightReference.ReferenceSubstring(reference, reference.length - rightReferenceLength,
+                                      rightReferenceLength);
 
-    DNALength distanceBetweenLeftAndRight = reference.length - rightReferenceLength - leftReferenceLength;
+    DNALength distanceBetweenLeftAndRight =
+        reference.length - rightReferenceLength - leftReferenceLength;
 
     assert(distanceBetweenLeftAndRight >= 0);
 
-    return OneGapAlign(query, 
-            leftReference, 
-            rightReference, 
-            distanceBetweenLeftAndRight,
-            scoreFunction, alignment);
+    return OneGapAlign(query, leftReference, rightReference, distanceBetweenLeftAndRight,
+                       scoreFunction, alignment);
 }
 
-
-
-#endif // _BLASR_ONEGAP_ALIGNMENT_HPP_
+#endif  // _BLASR_ONEGAP_ALIGNMENT_HPP_

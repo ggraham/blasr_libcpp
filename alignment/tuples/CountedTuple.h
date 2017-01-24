@@ -3,14 +3,11 @@
 
 #include "tuples/DNATuple.h"
 
-class CountedDNATuple : public DNATuple {
- public:
-	int count;
-	int IncrementCount() {
-		count = count + 1;
-	}
-	
+class CountedDNATuple : public DNATuple
+{
+public:
+    int count;
+    int IncrementCount() { count = count + 1; }
 };
-
 
 #endif

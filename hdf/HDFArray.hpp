@@ -6,11 +6,11 @@
 
 #include <H5Cpp.h>
 
-#include "HDFConfig.hpp"
-#include "HDFData.hpp"
-#include "BufferedHDFArray.hpp"
 #include "../pbdata/DNASequence.hpp"
 #include "../pbdata/FASTQSequence.hpp"
+#include "BufferedHDFArray.hpp"
+#include "HDFConfig.hpp"
+#include "HDFData.hpp"
 
 /*
  *
@@ -30,35 +30,40 @@
  *
  */
 
-template<typename T>
-class HDFArray : public BufferedHDFArray<T> {
+template <typename T>
+class HDFArray : public BufferedHDFArray<T>
+{
 public:
-
     HDFArray() : BufferedHDFArray<T>() {}
-    HDFArray(H5::CommonFG* _container, std::string _datasetName) : 
-        BufferedHDFArray<T>(_container, _datasetName) {}
+    HDFArray(H5::CommonFG* _container, std::string _datasetName)
+        : BufferedHDFArray<T>(_container, _datasetName)
+    {
+    }
 
     /*
      *  An unbuffered write is simply a write immediately followed by a flush. 
      */
-    void WriteToPos(const T*data, int dataLength, UInt writePos) {
-        this->writeBuffer = (T*) data;
+    void WriteToPos(const T* data, int dataLength, UInt writePos)
+    {
+        this->writeBuffer = (T*)data;
         this->bufferIndex = dataLength;
-        this->bufferSize  = dataLength;
+        this->bufferSize = dataLength;
         this->Flush(false, writePos);
         ResetBuffer();
     }
 
-    void ResetBuffer() {
+    void ResetBuffer()
+    {
         this->writeBuffer = NULL;
         this->bufferIndex = 0;
-        this->bufferSize  = 0;
+        this->bufferSize = 0;
     }
 
-    void Write(const T *data, int dataLength) {
-        this->writeBuffer = (T*) data;
+    void Write(const T* data, int dataLength)
+    {
+        this->writeBuffer = (T*)data;
         this->bufferIndex = dataLength;
-        this->bufferSize  = dataLength;
+        this->bufferSize = dataLength;
         this->Flush();
         //
         // Reset status of buffer so that no methods are tricked into
@@ -67,17 +72,18 @@ public:
         ResetBuffer();
     }
 
-    ~HDFArray() {} 
+    ~HDFArray() {}
 };
 
-
-class HDFStringArray: public HDFArray<std::string> {
+class HDFStringArray : public HDFArray<std::string>
+{
 public:
-    void Read(DSLength start, DSLength end, std::string* dest) {
+    void Read(DSLength start, DSLength end, std::string* dest)
+    {
         std::vector<char*> tmpDestCharPtrs;
         if (end == start) return;
         assert(end > start);
-        tmpDestCharPtrs.resize(end-start);
+        tmpDestCharPtrs.resize(end - start);
         //  ReadCharArray(start, end, (char**) &tmpDestCharPtrs[0]);
         ReadCharArray(start, end, dest);
     }

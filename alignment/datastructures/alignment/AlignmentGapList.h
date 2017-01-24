@@ -4,21 +4,26 @@
 #include <vector>
 using namespace std;
 
-
-
-class Gap {
- public:
-  enum GapSeq {Query, Target};
-  GapSeq seq;
-  int length;
-  Gap() {
-    seq    = Query;
-    length = 0;
-  }
-  Gap(GapSeq seqP, int lengthP) {
-    seq = seqP;
-    length = lengthP;
-  }
+class Gap
+{
+public:
+    enum GapSeq
+    {
+        Query,
+        Target
+    };
+    GapSeq seq;
+    int length;
+    Gap()
+    {
+        seq = Query;
+        length = 0;
+    }
+    Gap(GapSeq seqP, int lengthP)
+    {
+        seq = seqP;
+        length = lengthP;
+    }
 };
 
 typedef vector<Gap> GapList;

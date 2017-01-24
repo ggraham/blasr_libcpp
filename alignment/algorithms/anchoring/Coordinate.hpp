@@ -3,12 +3,14 @@
 
 #include "../../../pbdata/Types.h"
 
-class Coordinate {
+class Coordinate
+{
 private:
     UInt x;
-    UInt y; 
+    UInt y;
+
 public:
-    inline UInt GetX() const; 
+    inline UInt GetX() const;
     inline UInt GetY() const;
     inline UInt SetX(UInt _x);
     inline UInt SetY(UInt _y);
@@ -22,22 +24,24 @@ public:
     inline Coordinate &operator=(const Coordinate &rhs);
 };
 
-inline UInt Coordinate::GetX() const {return x;}
-inline UInt Coordinate::GetY() const {return y;}
+inline UInt Coordinate::GetX() const { return x; }
+inline UInt Coordinate::GetY() const { return y; }
 
-inline UInt Coordinate::SetX(UInt _x) {return (x = _x);}
-inline UInt Coordinate::SetY(UInt _y) {return (y = _y);}
+inline UInt Coordinate::SetX(UInt _x) { return (x = _x); }
+inline UInt Coordinate::SetY(UInt _y) { return (y = _y); }
 
-inline int  Coordinate::operator<(const Coordinate &rhs) const {
-    if (x == rhs.GetX()) return y < rhs.GetY();
-    else return x < rhs.GetX();
+inline int Coordinate::operator<(const Coordinate &rhs) const
+{
+    if (x == rhs.GetX())
+        return y < rhs.GetY();
+    else
+        return x < rhs.GetX();
 }
 
-inline int Coordinate::operator==(const Coordinate &rhs) const {
-    return this->Equals(rhs);
-}
+inline int Coordinate::operator==(const Coordinate &rhs) const { return this->Equals(rhs); }
 
-inline Coordinate& Coordinate::operator=(const Coordinate &rhs) {
+inline Coordinate &Coordinate::operator=(const Coordinate &rhs)
+{
     this->x = rhs.x;
     this->y = rhs.y;
     return *this;

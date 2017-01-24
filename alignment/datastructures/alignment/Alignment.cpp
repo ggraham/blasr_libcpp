@@ -1,84 +1,91 @@
-#include <cassert>
+#include "Alignment.hpp"
 #include <stdint.h>
-#include <vector>
-#include <string>
-#include <sstream>
 #include <stdlib.h>
+#include <cassert>
+#include <fstream>
 #include <iostream>
 #include <ostream>
-#include <fstream>
-#include "../../../pbdata/Types.h"
+#include <sstream>
+#include <string>
+#include <vector>
 #include "../../../pbdata/DNASequence.hpp"
-#include "Alignment.hpp"
+#include "../../../pbdata/Types.h"
 
 using namespace blasr;
 
-Alignment::Alignment() : AlignmentStats() {
-    qName = ""; tName = "";
+Alignment::Alignment() : AlignmentStats()
+{
+    qName = "";
+    tName = "";
     qStrand = tStrand = 0;
     qPos = tPos = 0;
     qLength = tLength = 0;
 
-    probability   = 0;
-    nCells        = 0;
+    probability = 0;
+    nCells = 0;
     nSampledPaths = 0;
-    zScore        = 0;
+    zScore = 0;
     score = probScore = sumQVScore = 0;
-    qAlignLength  = tAlignLength = 0;
+    qAlignLength = tAlignLength = 0;
 }
 
-void Alignment::CopyStats(Alignment &rhs) {
-    AlignmentStats::CopyStats((AlignmentStats) rhs);
+void Alignment::CopyStats(Alignment &rhs)
+{
+    AlignmentStats::CopyStats((AlignmentStats)rhs);
     probability = rhs.probability;
-    probScore   = rhs.probScore;
-    sumQVScore  = rhs.sumQVScore;
-    nCells      = rhs.nCells;
+    probScore = rhs.probScore;
+    sumQVScore = rhs.sumQVScore;
+    nCells = rhs.nCells;
     nSampledPaths = rhs.nSampledPaths;
 }
 
-void Alignment::Clear() {
+void Alignment::Clear()
+{
     qName = "";
     tName = "";
     blocks.clear();
     gaps.clear();
 }
 
-Alignment& Alignment::operator=(const Alignment &rhs) {
+Alignment &Alignment::operator=(const Alignment &rhs)
+{
     qName = rhs.qName;
     tName = rhs.tName;
-    qStrand = rhs.qStrand; tStrand = rhs.tStrand;
-    qPos = rhs.qPos; tPos = rhs.tPos;
-    qAlignLength = rhs.qAlignLength; tAlignLength = rhs.tAlignLength;
+    qStrand = rhs.qStrand;
+    tStrand = rhs.tStrand;
+    qPos = rhs.qPos;
+    tPos = rhs.tPos;
+    qAlignLength = rhs.qAlignLength;
+    tAlignLength = rhs.tAlignLength;
     qLength = rhs.qLength;
     tLength = rhs.tLength;
     zScore = rhs.zScore;
     blocks.clear();
     blocks = rhs.blocks;
     gaps.clear();
-    gaps   = rhs.gaps;
+    gaps = rhs.gaps;
     nCells = rhs.nCells;
     nSampledPaths = rhs.nSampledPaths;
     AlignmentStats::Assign(rhs);
     return *this;
 }
 
+unsigned int Alignment::size() { return blocks.size(); }
 
-unsigned int Alignment::size() {
-    return blocks.size();
-}
-
-void Alignment::Assign(Alignment &rhs) {
-    ((AlignmentStats*)this)->Assign(rhs);
-    qPos = rhs.qPos; tPos = rhs.tPos;
+void Alignment::Assign(Alignment &rhs)
+{
+    ((AlignmentStats *)this)->Assign(rhs);
+    qPos = rhs.qPos;
+    tPos = rhs.tPos;
     qAlignLength = rhs.qAlignLength;
     tAlignLength = rhs.tAlignLength;
     qLength = rhs.qLength;
-    zScore  = rhs.zScore;
-    qName   = rhs.qName;
-    tName   = rhs.tName;
+    zScore = rhs.zScore;
+    qName = rhs.qName;
+    tName = rhs.tName;
     qStrand = rhs.qStrand;
     tStrand = rhs.tStrand;
-    nCells  = rhs.nCells;
+    nCells = rhs.nCells;
     std::vector<Block> empty;
     blocks.swap(empty);
     blocks.resize(rhs.size());
@@ -86,7 +93,8 @@ void Alignment::Assign(Alignment &rhs) {
         blocks[b].Assign(rhs.blocks[b]);
     }
 }
-int Alignment::ComputeNumAnchors(int minAnchorSize, int &nAnchors, int &nAnchorBases) {
+int Alignment::ComputeNumAnchors(int minAnchorSize, int &nAnchors, int &nAnchorBases)
+{
     nAnchors = 0;
     nAnchorBases = 0;
     for (size_t i = 0; i < blocks.size(); i++) {
@@ -99,19 +107,18 @@ int Alignment::ComputeNumAnchors(int minAnchorSize, int &nAnchors, int &nAnchorB
     return nAnchors;
 }
 
-void Alignment::AllocateBlocks(int nBlocks) {
-    blocks.resize(nBlocks);
-}
+void Alignment::AllocateBlocks(int nBlocks) { blocks.resize(nBlocks); }
 
-void Alignment::AppendAlignmentGaps(Alignment &next, bool mergeFirst) {
+void Alignment::AppendAlignmentGaps(Alignment &next, bool mergeFirst)
+{
     //
-    // append all gaps belonging to ext to the gap list in this 
+    // append all gaps belonging to ext to the gap list in this
     // alignment.  The logic for determining just what the gap should
     // be between two separate alignments is somewhat complicated, and
     // should probably be handled outside this function.  The default
     // to do this is to skip the first gap in the next alignment, and
     // assume that the code has handled computing the gap stored in
-    // the last gap in this alignment correctly. 
+    // the last gap in this alignment correctly.
     //
     // At your own risk, you can simply merge the first gap in next
     // with the last gap in the current alignment.
@@ -125,17 +132,19 @@ void Alignment::AppendAlignmentGaps(Alignment &next, bool mergeFirst) {
     if (mergeFirst) {
         // Merge the gap list in the first gap in next sequence to the
         // last gap in the current sequence.
-        gaps[gaps.size()-1].insert(gaps[gaps.size()-1].end(), secondGapIt->begin(), secondGapIt->end());
+        gaps[gaps.size() - 1].insert(gaps[gaps.size() - 1].end(), secondGapIt->begin(),
+                                     secondGapIt->end());
     }
     // Append all other gaps to the current one.
     secondGapIt++;
     gaps.insert(gaps.end(), secondGapIt, next.gaps.end());
 }
 
-void Alignment::AppendAlignmentBlocks(Alignment &next, int qOffset, int tOffset) {
+void Alignment::AppendAlignmentBlocks(Alignment &next, int qOffset, int tOffset)
+{
     VectorIndex n;
     Block tempBlock;
-    for (n = 0; n < next.blocks.size(); n++ ) {
+    for (n = 0; n < next.blocks.size(); n++) {
         tempBlock = next.blocks[n];
         tempBlock.qPos += qOffset;
         tempBlock.tPos += tOffset;
@@ -143,31 +152,40 @@ void Alignment::AppendAlignmentBlocks(Alignment &next, int qOffset, int tOffset)
     }
 }
 
-void Alignment::AppendAlignment(Alignment &next) {
+void Alignment::AppendAlignment(Alignment &next)
+{
     int qOffset = next.qPos - qPos;
     int tOffset = next.tPos - tPos;
     AppendAlignmentBlocks(next, qOffset, tOffset);
 }
 
-std::string Alignment::BlocksToString(void) const {
+std::string Alignment::BlocksToString(void) const
+{
     std::string ret;
     for (size_t i = 0; i < blocks.size(); i++) {
         ret += blocks[i].ToString();
-        if (i != blocks.size() - 1) { ret += "; "; }
+        if (i != blocks.size() - 1) {
+            ret += "; ";
+        }
     }
     return ret;
 }
 
-std::string Alignment::GapsToString(void) const {
+std::string Alignment::GapsToString(void) const
+{
     std::string ret;
     for (size_t i = 0; i < gaps.size(); i++) {
         ret += "GapList[";
         for (size_t j = 0; j < gaps[i].size(); j++) {
             ret += gaps[i][j].ToString();
-            if (j != gaps[i].size() - 1) { ret += ", "; }
+            if (j != gaps[i].size() - 1) {
+                ret += ", ";
+            }
         }
         ret += "]";
-        if (i != gaps.size() - 1) { ret += "; "; }
+        if (i != gaps.size() - 1) {
+            ret += "; ";
+        }
     }
     return ret;
 }
@@ -180,10 +198,12 @@ std::string Alignment::GapsToString(void) const {
    the gap blocks are tracked in addition to the match blocks.
    */
 
-void Alignment::ArrowPathToAlignment(std::vector<Arrow> &optPath) {
+void Alignment::ArrowPathToAlignment(std::vector<Arrow> &optPath)
+{
     int q, t;
     VectorIndex a = 1;
-    q = 0; t = 0;
+    q = 0;
+    t = 0;
     Block b;
     a = 0;
     bool beforeFirstBlock = true;
@@ -198,7 +218,7 @@ void Alignment::ArrowPathToAlignment(std::vector<Arrow> &optPath) {
                 b.qPos = q;
                 b.tPos = t;
                 b.length = 0;
-                while(a < optPath.size() and optPath[a] == Diagonal) {
+                while (a < optPath.size() and optPath[a] == Diagonal) {
                     b.length++;
                     a++;
                     t++;
@@ -214,21 +234,18 @@ void Alignment::ArrowPathToAlignment(std::vector<Arrow> &optPath) {
         // is possible there are multiple stretches of ins/del/ins/del
         // patterns, so have to loop over all of these.
         //
-        while (a < optPath.size() and 
-                (optPath[a] == Left or 
-                 optPath[a] == Up)) {
+        while (a < optPath.size() and (optPath[a] == Left or optPath[a] == Up)) {
             if (a < optPath.size() and optPath[a] == Left) {
                 int gapStart = a;
-                while(a < optPath.size() and optPath[a] == Left) {
+                while (a < optPath.size() and optPath[a] == Left) {
                     t++;
                     a++;
                 }
                 gaps[curGapList].push_back(Gap(Gap::Query, a - gapStart));
                 continue;
-            }
-            else if (a < optPath.size() and optPath[a] == Up) {
+            } else if (a < optPath.size() and optPath[a] == Up) {
                 int gapStart = a;
-                while(a < optPath.size() and optPath[a] == Up) {
+                while (a < optPath.size() and optPath[a] == Up) {
                     q++;
                     a++;
                 }
@@ -253,29 +270,29 @@ void Alignment::ArrowPathToAlignment(std::vector<Arrow> &optPath) {
 // produces the same scoring alignment, however it is reordered so
 // that Picard / samtools accepts the alignments.
 //
-void Alignment::OrderGapsByType() {
+void Alignment::OrderGapsByType()
+{
     //
     // Gaps at the beginning and end of the sequence are hard to deal
-    // with. Just get rid of them. 
+    // with. Just get rid of them.
     //
     RemoveEndGaps();
     //
     // Start at 1 since the gaps at the beginning of the sequence are
     // removed.
     //
-    for (size_t g = 1; g < gaps.size(); g++ ) {
+    for (size_t g = 1; g < gaps.size(); g++) {
         if (gaps[g].size() <= 1) {
             continue;
         }
         Gap queryGap, targetGap;
         GapList condensedGapList;
         targetGap.seq = Gap::Target;
-        queryGap.seq  = Gap::Query;
+        queryGap.seq = Gap::Query;
         for (size_t gi = 0; gi < gaps[g].size(); gi++) {
             if (gaps[g][gi].seq == Gap::Target) {
                 targetGap.length += gaps[g][gi].length;
-            }
-            else {
+            } else {
                 queryGap.length += gaps[g][gi].length;
             }
         }
@@ -285,19 +302,17 @@ void Alignment::OrderGapsByType() {
             targetGap.length -= queryGap.length;
             gaps[g].push_back(targetGap);
             matchExtend = queryGap.length;
-        }
-        else if (queryGap.length > targetGap.length) {
+        } else if (queryGap.length > targetGap.length) {
             queryGap.length -= targetGap.length;
             gaps[g].push_back(queryGap);
             matchExtend = targetGap.length;
-        }
-        else {
+        } else {
             matchExtend = targetGap.length;
         }
 
         if (matchExtend > 0) {
-            assert(g>0);
-            blocks[g-1].length += matchExtend;
+            assert(g > 0);
+            blocks[g - 1].length += matchExtend;
         }
         //
         // When targetGap.length == queryGap.length, there is no gap, so
@@ -310,9 +325,8 @@ void Alignment::OrderGapsByType() {
 // Transform an alignment that has up to one long gap in it to a
 // block based alignment.
 
-void 
-Alignment::LongGapArrowPathToAlignment(
-    std::vector<Arrow> &optPath, DNALength lengthOfLongGap)  {
+void Alignment::LongGapArrowPathToAlignment(std::vector<Arrow> &optPath, DNALength lengthOfLongGap)
+{
 
     int numLongGaps = 0;
 
@@ -321,15 +335,13 @@ Alignment::LongGapArrowPathToAlignment(
     // the case on the input.
     //
     for (size_t i = 0; i < optPath.size(); i++) {
-        if (optPath[i] == AffineLongDelLeft or
-                optPath[i] == AffineLongDelClose) {
+        if (optPath[i] == AffineLongDelLeft or optPath[i] == AffineLongDelClose) {
             numLongGaps++;
         }
     }
 
     if (numLongGaps > 1) {
-        std::cout << "ERROR. Only one long gap per alignment is allowed." 
-                  << std::endl;
+        std::cout << "ERROR. Only one long gap per alignment is allowed." << std::endl;
         exit(1);
     }
 
@@ -337,28 +349,25 @@ Alignment::LongGapArrowPathToAlignment(
     // First locate the position of the gap.
     // Also, change the gap to a normal arrow.
     //
-    size_t indexOfLongGap; // undefined until one is found
+    size_t indexOfLongGap;  // undefined until one is found
     bool aLongGapWasFound = false;
     size_t numBlocksBeforeGap = 0;
     size_t indexOfLastMatchBeforeGap = 0;
-    // Now locate both the type of type of the arrow, and the 
-    // position 
+    // Now locate both the type of type of the arrow, and the
+    // position
     for (size_t i = 0; i < optPath.size(); i++) {
         //
         // Count the number of blocks. This will tell us where to insert
         // the gap.
         //
-        if ( i > 0 and 
-                optPath[i-1] == Diagonal and 
-                optPath[i] != Diagonal ) {
+        if (i > 0 and optPath[i - 1] == Diagonal and optPath[i] != Diagonal) {
             numBlocksBeforeGap++;
             indexOfLastMatchBeforeGap = i;
         }
         //
         // Look for the gap.
         //
-        if (optPath[i] == AffineLongDelLeft or
-                optPath[i] == AffineLongDelClose) {
+        if (optPath[i] == AffineLongDelLeft or optPath[i] == AffineLongDelClose) {
             aLongGapWasFound = true;
             indexOfLongGap = i;
             optPath[i] = Left;
@@ -367,7 +376,7 @@ Alignment::LongGapArrowPathToAlignment(
     }
 
     //
-    // Next transform the path into an alignment that lacks the gap. 
+    // Next transform the path into an alignment that lacks the gap.
     //
     ArrowPathToAlignment(optPath);
 
@@ -414,7 +423,7 @@ Alignment::LongGapArrowPathToAlignment(
         // accounting of the gap.
         gaps[gapIndex][gi].length += lengthOfLongGap - 1;
 
-        // 
+        //
         // Now fix the offsets of the positions of the rest of the
         // blocks in the sequence.
         //
@@ -428,30 +437,30 @@ Alignment::LongGapArrowPathToAlignment(
 //
 // The length of the aligned sequence in the query.
 //
-DNALength Alignment::QEnd() const {
+DNALength Alignment::QEnd() const
+{
     if (blocks.size() > 0) {
-        return blocks[blocks.size()-1].QEnd();
+        return blocks[blocks.size() - 1].QEnd();
+    } else {
+        return 0;
     }
-    else { return 0; }
 }
 
 //
 // The lenght of the aligned sequence in the target.
 //
-DNALength Alignment::TEnd() const {
+DNALength Alignment::TEnd() const
+{
     if (blocks.size() > 0) {
-        return blocks[blocks.size()-1].TEnd();
+        return blocks[blocks.size() - 1].TEnd();
+    } else {
+        return 0;
     }
-    else { return 0; }
 }
 
-DNALength Alignment::GenomicTBegin() const {
-    return tPos;
-}
+DNALength Alignment::GenomicTBegin() const { return tPos; }
 
-DNALength Alignment::GenomicTEnd() const {
-    return tPos + TEnd();
-}
+DNALength Alignment::GenomicTEnd() const { return tPos + TEnd(); }
 
 //
 // Some programs do not accept alignments that have gaps at their
@@ -459,96 +468,90 @@ DNALength Alignment::GenomicTEnd() const {
 // if the structure represents an acceptable alignment).
 //
 
-void Alignment::RemoveEndGaps() {
+void Alignment::RemoveEndGaps()
+{
     if (gaps.size() > 0 and gaps[0].size() > 0) {
         for (size_t i = 0; i < gaps[0].size(); i++) {
             if (gaps[0][i].seq == Gap::Target) {
                 qPos += gaps[0][i].length;
-            }
-            else {
+            } else {
                 tPos += gaps[0][i].length;
             }
         }
         gaps[0].clear();
     }
 
-    if (gaps.size() > 1 ) {
+    if (gaps.size() > 1) {
         int lastGap = gaps.size() - 1;
         gaps[lastGap].clear();
     }
 }
 
-
-MatchedAlignment& MatchedAlignment::Assign(MatchedAlignment &rhs) {
-    ((Alignment*)(this))->Assign(rhs);
+MatchedAlignment &MatchedAlignment::Assign(MatchedAlignment &rhs)
+{
+    ((Alignment *)(this))->Assign(rhs);
     refIndex = rhs.refIndex;
     readIndex = rhs.readIndex;
-    tStart   = rhs.tStart;
-    tEnd     = rhs.tEnd;
-    qStart   = rhs.qStart;
-    qEnd     = rhs.qEnd;
+    tStart = rhs.tStart;
+    tEnd = rhs.tEnd;
+    qStart = rhs.qStart;
+    qEnd = rhs.qEnd;
     tChromOffset = rhs.tChromOffset;
     return *this;
 }
 
-Block::Block() : qPos(0), tPos(0), length(0)
-{ }
+Block::Block() : qPos(0), tPos(0), length(0) {}
 
-Block::Block(const DNALength & queryPos,
-             const DNALength & targetPos,
-             const DNALength & blockLength)
-    : qPos(queryPos)
-    , tPos(targetPos)
-    , length(blockLength)
-{ }
+Block::Block(const DNALength &queryPos, const DNALength &targetPos, const DNALength &blockLength)
+    : qPos(queryPos), tPos(targetPos), length(blockLength)
+{
+}
 
-Block& Block::operator=(const Block &rhs) {
+Block &Block::operator=(const Block &rhs)
+{
     qPos = rhs.qPos;
     tPos = rhs.tPos;
     length = rhs.length;
     return *this;
 }
 
-std::string Block::ToString() const {
+std::string Block::ToString() const
+{
     std::stringstream ss;
     ss << "Block(" << qPos << ", " << tPos << ", " << length << ")";
     return ss.str();
 }
 
-std::ostream& operator<<(std::ostream &out, const Block &b) {
-    return out << b.ToString();
-}
+std::ostream &operator<<(std::ostream &out, const Block &b) { return out << b.ToString(); }
 
-Block& Block::Assign(Block &rhs) {
+Block &Block::Assign(Block &rhs)
+{
     qPos = rhs.qPos;
     tPos = rhs.tPos;
     length = rhs.length;
     return *this;
 }
 
-DNALength Block::QEnd() const {
-    return qPos + length;
-}
+DNALength Block::QEnd() const { return qPos + length; }
 
-DNALength Block::TEnd() const {
-    return tPos + length;
-}
+DNALength Block::TEnd() const { return tPos + length; }
 
-void Block::Clear() {
-    qPos = tPos =  length = 0;
-}
+void Block::Clear() { qPos = tPos = length = 0; }
 
-Gap::Gap() {
-    seq    = Query;
+Gap::Gap()
+{
+    seq = Query;
     length = 0;
 }
 
-Gap::Gap(GapSeq seqP, int lengthP) {
+Gap::Gap(GapSeq seqP, int lengthP)
+{
     seq = seqP;
     length = lengthP;
 }
 
-std::string Gap::ToString() const {
+std::string Gap::ToString() const
+{
     std::stringstream ss;
     if (seq == Gap::GapSeq::Query) {
         ss << "Gap(Q, " << length << ")";

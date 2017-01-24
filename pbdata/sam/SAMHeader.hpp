@@ -5,14 +5,20 @@
 
 #include "SAMKeywordValuePair.hpp"
 
-class SAMHeader {
- public:
-  string formatVersion;
-  enum SortingOrder {unknown, sorted , queryname, coordinate};
-  SortingOrder sortingOrder;
+class SAMHeader
+{
+public:
+    string formatVersion;
+    enum SortingOrder
+    {
+        unknown,
+        sorted,
+        queryname,
+        coordinate
+    };
+    SortingOrder sortingOrder;
 
-  void StoreValues(std::vector<SAMKeywordValuePair> &kvPairs, int lineNumber = 0);
+    void StoreValues(std::vector<SAMKeywordValuePair> &kvPairs, int lineNumber = 0);
 };
-
 
 #endif

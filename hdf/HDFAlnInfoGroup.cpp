@@ -2,12 +2,14 @@
 
 using namespace std;
 
-int HDFAlnInfoGroup::InitializeNumPasses() {
+int HDFAlnInfoGroup::InitializeNumPasses()
+{
     numPasses.Initialize(alnInfoGroup, "NumPasses");
     return 1;
 }
 
-void HDFAlnInfoGroup::InitializeDefaultColumnNames(vector<string> &defaultColumnNames) {
+void HDFAlnInfoGroup::InitializeDefaultColumnNames(vector<string> &defaultColumnNames)
+{
     defaultColumnNames.push_back("AlnID");
     defaultColumnNames.push_back("AlnGroupID");
     defaultColumnNames.push_back("MovieID");
@@ -32,10 +34,13 @@ void HDFAlnInfoGroup::InitializeDefaultColumnNames(vector<string> &defaultColumn
     defaultColumnNames.push_back("nReadOverlap");
 }
 
-bool HDFAlnInfoGroup::Create(HDFGroup &parent) {
+bool HDFAlnInfoGroup::Create(HDFGroup &parent)
+{
     parent.AddGroup("AlnInfo");
     // Make sure it was created, and intialize this group to reference the newly created one.
-    if (alnInfoGroup.Initialize(parent.group, "AlnInfo") == 0) { return 0; }
+    if (alnInfoGroup.Initialize(parent.group, "AlnInfo") == 0) {
+        return 0;
+    }
     vector<string> defaultColumnNames;
     InitializeDefaultColumnNames(defaultColumnNames);
     columnNames.Create(alnInfoGroup.group, "ColumnNames", defaultColumnNames);
@@ -44,9 +49,14 @@ bool HDFAlnInfoGroup::Create(HDFGroup &parent) {
     return true;
 }
 
-int HDFAlnInfoGroup::Initialize(HDFGroup &rootGroup) {
-    if (alnInfoGroup.Initialize(rootGroup.group, "AlnInfo") == 0) { return 0; }
-    if (alnIndexArray.Initialize(alnInfoGroup, "AlnIndex") == 0) { return 0; }
+int HDFAlnInfoGroup::Initialize(HDFGroup &rootGroup)
+{
+    if (alnInfoGroup.Initialize(rootGroup.group, "AlnInfo") == 0) {
+        return 0;
+    }
+    if (alnIndexArray.Initialize(alnInfoGroup, "AlnIndex") == 0) {
+        return 0;
+    }
     /*
      * This functionality should go into the python.
      if (!alnIndexArray.ContainsAttribute("ColumnNames")) {
@@ -64,16 +74,16 @@ int HDFAlnInfoGroup::Initialize(HDFGroup &rootGroup) {
     return 1;
 }
 
-HDFAlnInfoGroup::~HDFAlnInfoGroup() {
-    alnInfoGroup.Close();
-}
+HDFAlnInfoGroup::~HDFAlnInfoGroup() { alnInfoGroup.Close(); }
 
 // Return size of /AlnInfo/AlnIndex in KB
-UInt HDFAlnInfoGroup::GetAlnIndexSize() {
-    return alnIndexArray.GetNRows() / 1024 * sizeof (unsigned int) * NCols;
+UInt HDFAlnInfoGroup::GetAlnIndexSize()
+{
+    return alnIndexArray.GetNRows() / 1024 * sizeof(unsigned int) * NCols;
 }
 
-void HDFAlnInfoGroup::Read(AlnInfo &alnInfo) {
+void HDFAlnInfoGroup::Read(AlnInfo &alnInfo)
+{
 
     UInt nAlignments = alnIndexArray.GetNRows();
     alnInfo.alignments.resize(nAlignments);
@@ -86,16 +96,16 @@ void HDFAlnInfoGroup::Read(AlnInfo &alnInfo) {
     }
 }
 
-int HDFAlnInfoGroup::GetNAlignments() {
-    return alnIndexArray.GetNRows();
-}
+int HDFAlnInfoGroup::GetNAlignments() { return alnIndexArray.GetNRows(); }
 
-unsigned int HDFAlnInfoGroup::WriteAlnIndex(vector<unsigned int> &aln) {
+unsigned int HDFAlnInfoGroup::WriteAlnIndex(vector<unsigned int> &aln)
+{
     alnIndexArray.WriteRow(&aln[0], aln.size());
     return alnIndexArray.GetNRows();
 }
 
-void HDFAlnInfoGroup::ReadCmpAlignment(UInt alignmentIndex, CmpAlignment &cmpAlignment) {
+void HDFAlnInfoGroup::ReadCmpAlignment(UInt alignmentIndex, CmpAlignment &cmpAlignment)
+{
     UInt alignmentRow[NCols];
     alnIndexArray.Read(alignmentIndex, alignmentIndex + 1, alignmentRow);
     cmpAlignment.StoreAlignmentIndex(alignmentRow, NCols);

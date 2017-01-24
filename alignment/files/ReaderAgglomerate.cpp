@@ -1,11 +1,10 @@
 #include "ReaderAgglomerate.hpp"
 
-void ReaderAgglomerate::SetToUpper() {
-    fastaReader.SetToUpper();
-}
+void ReaderAgglomerate::SetToUpper() { fastaReader.SetToUpper(); }
 
-void ReaderAgglomerate::InitializeParameters() {
-    start  = 0;
+void ReaderAgglomerate::InitializeParameters()
+{
+    start = 0;
     stride = 1;
     subsample = 1.1;
     readQuality = 1;
@@ -20,61 +19,59 @@ void ReaderAgglomerate::InitializeParameters() {
     sequentialZmwQueryPtr = nullptr;
     pbiFilterZmwQueryPtr = nullptr;
     // the following two for unrolling
-    VPReader = nullptr;     // for PBBAM
-    VPCReader = nullptr;    // for PBDATASET
+    VPReader = nullptr;   // for PBBAM
+    VPCReader = nullptr;  // for PBDATASET
 #endif
 }
 
 // Constructors
 
-ReaderAgglomerate::ReaderAgglomerate() {
-    InitializeParameters();
-}
+ReaderAgglomerate::ReaderAgglomerate() { InitializeParameters(); }
 
-ReaderAgglomerate::ReaderAgglomerate(float _subsample) {
+ReaderAgglomerate::ReaderAgglomerate(float _subsample)
+{
     this->InitializeParameters();
     subsample = _subsample;
 }
 
-ReaderAgglomerate::ReaderAgglomerate(int _stride) {
+ReaderAgglomerate::ReaderAgglomerate(int _stride)
+{
     this->InitializeParameters();
     stride = _stride;
 }
 
-ReaderAgglomerate::ReaderAgglomerate(int _start, int _stride) {
+ReaderAgglomerate::ReaderAgglomerate(int _start, int _stride)
+{
     this->InitializeParameters();
-    start  = _start;
+    start = _start;
     stride = _stride;
 }
 
 // End of Constructors
 
-void ReaderAgglomerate::GetMovieName(string &movieName) {
+void ReaderAgglomerate::GetMovieName(string &movieName)
+{
     if (fileType == FileType::Fasta || fileType == FileType::Fastq) {
         movieName = fileName;
-    }
-    else if (fileType == FileType::HDFPulse || fileType == FileType::HDFBase) {
+    } else if (fileType == FileType::HDFPulse || fileType == FileType::HDFBase) {
         movieName = hdfBasReader.GetMovieName();
-    } 
-    else if (fileType == FileType::HDFCCS || fileType == FileType::HDFCCSONLY) {
+    } else if (fileType == FileType::HDFCCS || fileType == FileType::HDFCCSONLY) {
         movieName = hdfCcsReader.GetMovieName();
-    }
-    else if (fileType == FileType::PBBAM  || fileType == FileType::PBDATASET) {
+    } else if (fileType == FileType::PBBAM || fileType == FileType::PBDATASET) {
 #ifdef USE_PBBAM
         assert("Reading movie name from BAM using ReaderAgglomerate is not supported." == 0);
-#endif 
+#endif
     }
 }
 
-void ReaderAgglomerate::GetChemistryTriple(string & bindingKit, 
-        string & sequencingKit, string & baseCallerVersion) {
+void ReaderAgglomerate::GetChemistryTriple(string &bindingKit, string &sequencingKit,
+                                           string &baseCallerVersion)
+{
     if (fileType == FileType::HDFPulse || fileType == FileType::HDFBase) {
         hdfBasReader.GetChemistryTriple(bindingKit, sequencingKit, baseCallerVersion);
-    }
-    else if (fileType == FileType::HDFCCS || fileType == FileType::HDFCCSONLY) {
+    } else if (fileType == FileType::HDFCCS || fileType == FileType::HDFCCSONLY) {
         hdfCcsReader.GetChemistryTriple(bindingKit, sequencingKit, baseCallerVersion);
-    }
-    else if (fileType == FileType::PBBAM || fileType == FileType::PBDATASET) {
+    } else if (fileType == FileType::PBBAM || fileType == FileType::PBDATASET) {
 #ifdef USE_PBBAM
         assert("Reading chemistry triple from BAM using ReaderAgglomerate is not supported." == 0);
 #endif
@@ -83,47 +80,43 @@ void ReaderAgglomerate::GetChemistryTriple(string & bindingKit,
     }
 }
 
-void ReaderAgglomerate::SetReadType(const ReadType::ReadTypeEnum & readType_) {
+void ReaderAgglomerate::SetReadType(const ReadType::ReadTypeEnum &readType_)
+{
     readType = readType_;
 }
 
-ReadType::ReadTypeEnum ReaderAgglomerate::GetReadType() {
-    return readType;
-}
+ReadType::ReadTypeEnum ReaderAgglomerate::GetReadType() { return readType; }
 
-bool ReaderAgglomerate::FileHasZMWInformation() {
-    return (fileType == FileType::HDFPulse || fileType == FileType::HDFBase || 
+bool ReaderAgglomerate::FileHasZMWInformation()
+{
+    return (fileType == FileType::HDFPulse || fileType == FileType::HDFBase ||
             fileType == FileType::HDFCCS || fileType == FileType::HDFCCSONLY);
 }
 
-void ReaderAgglomerate::SkipReadQuality() {
-    readQuality = 0;
-}
+void ReaderAgglomerate::SkipReadQuality() { readQuality = 0; }
 
-void ReaderAgglomerate::IgnoreCCS() {
-    ignoreCCS = true;
-}
-  
-void ReaderAgglomerate::UseCCS() {
+void ReaderAgglomerate::IgnoreCCS() { ignoreCCS = true; }
+
+void ReaderAgglomerate::UseCCS()
+{
     ignoreCCS = false;
     hdfBasReader.SetReadBasesFromCCS();
 }
 
-void ReaderAgglomerate::SetScrapsFileName(string &pFileName) {
-    scrapsFileName = pFileName;
-}
+void ReaderAgglomerate::SetScrapsFileName(string &pFileName) { scrapsFileName = pFileName; }
 
-bool ReaderAgglomerate::SetReadFileName(string &pFileName) {
+bool ReaderAgglomerate::SetReadFileName(string &pFileName)
+{
     if (DetermineFileTypeByExtension(pFileName, fileType)) {
         fileName = pFileName;
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
 
-int ReaderAgglomerate::Initialize(string &pFileName) {
+int ReaderAgglomerate::Initialize(string &pFileName)
+{
     if (DetermineFileTypeByExtension(pFileName, fileType)) {
         fileName = pFileName;
         return Initialize();
@@ -131,17 +124,19 @@ int ReaderAgglomerate::Initialize(string &pFileName) {
     return false;
 }
 
-int ReaderAgglomerate::Initialize(FileType &pFileType, string &pFileName) {
+int ReaderAgglomerate::Initialize(FileType &pFileType, string &pFileName)
+{
     SetFiles(pFileType, pFileName);
     return Initialize();
 }
 
-#define UNREACHABLE() \
+#define UNREACHABLE()                                                                 \
     cout << "ERROR! Hit unreachable code in " << __FILE__ << ':' << __LINE__ << endl; \
     assert(0)
 
-bool ReaderAgglomerate::HasRegionTable() {
-    switch(fileType) {
+bool ReaderAgglomerate::HasRegionTable()
+{
+    switch (fileType) {
         case FileType::PBBAM:
         case FileType::PBDATASET:
         case FileType::Fasta:
@@ -166,43 +161,71 @@ bool ReaderAgglomerate::HasRegionTable() {
 
 #ifdef USE_PBBAM
 
-#define GET_NEXT_FROM_BAM() \
-    numRecords = 0; \
-    while (entireFileIterator != entireFileQueryPtr->end()) { \
-        if (not SMRTSequence::IsValid(*entireFileIterator)) { \
-            std::cerr << "Skipping an invalid read " << (*entireFileIterator).FullName() << std::endl;\
-            entireFileIterator++; \
-        } else { \
-            numRecords = 1; seq.Copy(*entireFileIterator); \
-            entireFileIterator++; break; \
-        } \
-    } 
-
-#define GET_NEXT_FROM_DATASET() \
-    numRecords = 0; \
-    while (pbiFilterIterator != pbiFilterQueryPtr->end()) { \
-        if (not SMRTSequence::IsValid(*pbiFilterIterator)) { \
-            std::cerr << "Skipping an invalid read " << (*pbiFilterIterator).FullName() << std::endl; \
-            pbiFilterIterator++; \
-        } else { \
-            numRecords = 1; seq.Copy(*pbiFilterIterator); \
-            pbiFilterIterator++; break; \
-        } \
+#define GET_NEXT_FROM_BAM()                                                              \
+    numRecords = 0;                                                                      \
+    while (entireFileIterator != entireFileQueryPtr->end()) {                            \
+        if (not SMRTSequence::IsValid(*entireFileIterator)) {                            \
+            std::cerr << "Skipping an invalid read " << (*entireFileIterator).FullName() \
+                      << std::endl;                                                      \
+            entireFileIterator++;                                                        \
+        } else {                                                                         \
+            numRecords = 1;                                                              \
+            seq.Copy(*entireFileIterator);                                               \
+            entireFileIterator++;                                                        \
+            break;                                                                       \
+        }                                                                                \
     }
 
-#define RESET_PBBAM_PTRS() \
-    if (dataSetPtr != nullptr) {delete dataSetPtr; dataSetPtr = nullptr;} \
-    if (entireFileQueryPtr) {delete entireFileQueryPtr; entireFileQueryPtr = nullptr;} \
-    if (pbiFilterQueryPtr) {delete pbiFilterQueryPtr; pbiFilterQueryPtr = nullptr;} \
-    if (sequentialZmwQueryPtr) {delete sequentialZmwQueryPtr; sequentialZmwQueryPtr = nullptr;} \
-    if (pbiFilterZmwQueryPtr) {delete pbiFilterZmwQueryPtr; pbiFilterZmwQueryPtr = nullptr;} \
-    if (VPReader) { delete VPReader; VPReader = nullptr;} \
-    if (VPCReader) { delete VPCReader; VPCReader = nullptr;}
+#define GET_NEXT_FROM_DATASET()                                                         \
+    numRecords = 0;                                                                     \
+    while (pbiFilterIterator != pbiFilterQueryPtr->end()) {                             \
+        if (not SMRTSequence::IsValid(*pbiFilterIterator)) {                            \
+            std::cerr << "Skipping an invalid read " << (*pbiFilterIterator).FullName() \
+                      << std::endl;                                                     \
+            pbiFilterIterator++;                                                        \
+        } else {                                                                        \
+            numRecords = 1;                                                             \
+            seq.Copy(*pbiFilterIterator);                                               \
+            pbiFilterIterator++;                                                        \
+            break;                                                                      \
+        }                                                                               \
+    }
+
+#define RESET_PBBAM_PTRS()               \
+    if (dataSetPtr != nullptr) {         \
+        delete dataSetPtr;               \
+        dataSetPtr = nullptr;            \
+    }                                    \
+    if (entireFileQueryPtr) {            \
+        delete entireFileQueryPtr;       \
+        entireFileQueryPtr = nullptr;    \
+    }                                    \
+    if (pbiFilterQueryPtr) {             \
+        delete pbiFilterQueryPtr;        \
+        pbiFilterQueryPtr = nullptr;     \
+    }                                    \
+    if (sequentialZmwQueryPtr) {         \
+        delete sequentialZmwQueryPtr;    \
+        sequentialZmwQueryPtr = nullptr; \
+    }                                    \
+    if (pbiFilterZmwQueryPtr) {          \
+        delete pbiFilterZmwQueryPtr;     \
+        pbiFilterZmwQueryPtr = nullptr;  \
+    }                                    \
+    if (VPReader) {                      \
+        delete VPReader;                 \
+        VPReader = nullptr;              \
+    }                                    \
+    if (VPCReader) {                     \
+        delete VPCReader;                \
+        VPCReader = nullptr;             \
+    }
 #endif
 
-int ReaderAgglomerate::Initialize(bool unrolled_mode) {
+int ReaderAgglomerate::Initialize(bool unrolled_mode)
+{
     int init = 1;
-    switch(fileType) {
+    switch (fileType) {
         case FileType::Fasta:
             init = fastaReader.Init(fileName);
             break;
@@ -226,46 +249,43 @@ int ReaderAgglomerate::Initialize(bool unrolled_mode) {
                 hdfCcsReader.InitializeDefaultIncludedFields();
                 init = hdfCcsReader.Initialize(fileName);
                 if (init == 0) return 0;
-            }
-            else {
+            } else {
                 hdfBasReader.InitializeDefaultIncludedFields();
                 init = hdfBasReader.Initialize(fileName);
                 //
-                // This code is added so that meaningful names are printed 
+                // This code is added so that meaningful names are printed
                 // when running on simulated data that contains the coordinate
                 // information.
                 if (init == 0) return 0;
             }
             break;
-        case FileType::PBBAM: 
-        case FileType::PBDATASET: 
+        case FileType::PBBAM:
+        case FileType::PBDATASET:
 #ifdef USE_PBBAM
             RESET_PBBAM_PTRS();
-            unrolled = unrolled_mode; 
+            unrolled = unrolled_mode;
             // create dataset , common for both unrolled and regular modes
             try {
                 dataSetPtr = new PacBio::BAM::DataSet(fileName);
             } catch (std::exception e) {
-                cout << "ERROR! Failed to open " << fileName
-                     << ": " << e.what() << endl;
+                cout << "ERROR! Failed to open " << fileName << ": " << e.what() << endl;
                 return 0;
             }
             if (unrolled) {
                 if (fileType == FileType::PBBAM) {
-                    // Handle PBBAM here , use scrapFileName 
+                    // Handle PBBAM here , use scrapFileName
                     VPReader = new PacBio::BAM::ZmwReadStitcher(fileName, scrapsFileName);
                     assert(VPReader != nullptr);
-                    // 
+                    //
                 } else if (fileType == FileType::PBDATASET) {
                     dataSetPtr = new PacBio::BAM::DataSet(fileName);
                     // No need in setting filters for PolymeraseReads
                     // prefiltering, in a form it is currently implemented migght crate Polymerase reads
-                    // with skipped subreads, which defies the whole purpose of unrolled mode 
-		    VPCReader = new PacBio::BAM::ZmwReadStitcher(*dataSetPtr);
+                    // with skipped subreads, which defies the whole purpose of unrolled mode
+                    VPCReader = new PacBio::BAM::ZmwReadStitcher(*dataSetPtr);
                     assert(VPCReader != nullptr);
                 }
-            }
-            else {
+            } else {
                 if (fileType == FileType::PBBAM) {
                     entireFileQueryPtr = new PacBio::BAM::EntireFileQuery(*dataSetPtr);
                     assert(entireFileQueryPtr != nullptr);
@@ -275,12 +295,14 @@ int ReaderAgglomerate::Initialize(bool unrolled_mode) {
                     assert(sequentialZmwQueryPtr != nullptr);
                     sequentialZmwIterator = sequentialZmwQueryPtr->begin();
                 } else if (fileType == FileType::PBDATASET) {
-                    const PacBio::BAM::PbiFilter filter = PacBio::BAM::PbiFilter::FromDataSet(*dataSetPtr);
+                    const PacBio::BAM::PbiFilter filter =
+                        PacBio::BAM::PbiFilter::FromDataSet(*dataSetPtr);
                     pbiFilterQueryPtr = new PacBio::BAM::PbiFilterQuery(filter, *dataSetPtr);
                     assert(pbiFilterQueryPtr != nullptr);
                     pbiFilterIterator = pbiFilterQueryPtr->begin();
- 
-                    pbiFilterZmwQueryPtr = new PacBio::BAM::PbiFilterZmwGroupQuery(filter, *dataSetPtr);
+
+                    pbiFilterZmwQueryPtr =
+                        new PacBio::BAM::PbiFilterZmwGroupQuery(filter, *dataSetPtr);
                     assert(pbiFilterZmwQueryPtr != nullptr);
                     pbiFilterZmwIterator = pbiFilterZmwQueryPtr->begin();
                 }
@@ -294,39 +316,43 @@ int ReaderAgglomerate::Initialize(bool unrolled_mode) {
             break;
     }
     readGroupId = "";
-    if (init == 0 || (start > 0 && Advance(start) == 0) ){
+    if (init == 0 || (start > 0 && Advance(start) == 0)) {
         return 0;
     };
     if (fileType != FileType::PBBAM and fileType != FileType::PBDATASET) {
-        // All reads from a non-PBBAM file must have the same read group id. 
+        // All reads from a non-PBBAM file must have the same read group id.
         // Reads from a PABBAM file may come from different read groups.
         // We have sync reader.readGroupId and SMRTSequence.readGroupId everytime
         // GetNext() is called.
-        string movieName; GetMovieName(movieName);
+        string movieName;
+        GetMovieName(movieName);
         readGroupId = MakeReadGroupId(movieName, readType);
     }
     return 1;
 }
 
-ReaderAgglomerate & ReaderAgglomerate::operator=(ReaderAgglomerate &rhs) {
-    fileType     = rhs.fileType;
+ReaderAgglomerate &ReaderAgglomerate::operator=(ReaderAgglomerate &rhs)
+{
+    fileType = rhs.fileType;
     fileName = rhs.fileName;
     return *this;
 }
 
-bool ReaderAgglomerate::Subsample(float rate) {
+bool ReaderAgglomerate::Subsample(float rate)
+{
     bool retVal = true;
-    while( (rand() % 100 + 1) > (rate * 100) and (retVal = Advance(1)));
+    while ((rand() % 100 + 1) > (rate * 100) and (retVal = Advance(1)))
+        ;
     return retVal;
 }
 
-
-int ReaderAgglomerate::GetNext(FASTASequence &seq) {
+int ReaderAgglomerate::GetNext(FASTASequence &seq)
+{
     int numRecords = 0;
     if (Subsample(subsample) == 0) {
         return 0;
     }
-    switch(fileType) {
+    switch (fileType) {
         case FileType::Fasta:
             numRecords = fastaReader.GetNext(seq);
             break;
@@ -361,12 +387,13 @@ int ReaderAgglomerate::GetNext(FASTASequence &seq) {
     return numRecords;
 }
 
-int ReaderAgglomerate::GetNext(FASTQSequence &seq) {
+int ReaderAgglomerate::GetNext(FASTQSequence &seq)
+{
     int numRecords = 0;
     if (Subsample(subsample) == 0) {
         return 0;
     }
-    switch(fileType) {
+    switch (fileType) {
         case FileType::Fasta:
             numRecords = fastaReader.GetNext(seq);
             break;
@@ -397,12 +424,12 @@ int ReaderAgglomerate::GetNext(FASTQSequence &seq) {
             UNREACHABLE();
             break;
     }
-    if (stride > 1)
-        Advance(stride-1);
+    if (stride > 1) Advance(stride - 1);
     return numRecords;
 }
 
-int ReaderAgglomerate::GetNext(vector<SMRTSequence> & reads) {
+int ReaderAgglomerate::GetNext(vector<SMRTSequence> &reads)
+{
     int numRecords = 0;
     reads.clear();
 
@@ -411,24 +438,24 @@ int ReaderAgglomerate::GetNext(vector<SMRTSequence> & reads) {
     }
     if (fileType == FileType::PBBAM) {
 #ifdef USE_PBBAM
-        // no need to check for unrolled mode, vector of SMRTS is being received 
+        // no need to check for unrolled mode, vector of SMRTS is being received
         while (sequentialZmwIterator != sequentialZmwQueryPtr->end()) {
-            const vector<PacBio::BAM::BamRecord> & records = *sequentialZmwIterator;
+            const vector<PacBio::BAM::BamRecord> &records = *sequentialZmwIterator;
             // bug 30566, short term solution, ignore bad record.
             bool OK = true;
-            for (size_t i=0; i < records.size(); i++) {
+            for (size_t i = 0; i < records.size(); i++) {
                 if (not SMRTSequence::IsValid(records[i])) {
                     OK = false;
-                    std::cerr << "Skipping all subreads in " << records[i].MovieName()
-                              << "/" << records[i].HoleNumber() << ", because "
-                              << records[i].FullName() << " is invalid." << std::endl;
+                    std::cerr << "Skipping all subreads in " << records[i].MovieName() << "/"
+                              << records[i].HoleNumber() << ", because " << records[i].FullName()
+                              << " is invalid." << std::endl;
                     break;
                 }
             }
             if (OK) {
                 numRecords = records.size();
                 reads.resize(numRecords);
-                for (size_t i=0; i < records.size(); i++) {
+                for (size_t i = 0; i < records.size(); i++) {
                     reads[i].Copy(records[i]);
                 }
                 sequentialZmwIterator++;
@@ -440,23 +467,23 @@ int ReaderAgglomerate::GetNext(vector<SMRTSequence> & reads) {
 #endif
     } else if (fileType == FileType::PBDATASET) {
 #ifdef USE_PBBAM
-        // no need to check for unrolled mode, vector of SMRTS is being received 
+        // no need to check for unrolled mode, vector of SMRTS is being received
         while (pbiFilterZmwIterator != pbiFilterZmwQueryPtr->end()) {
-            const vector<PacBio::BAM::BamRecord> & records = *pbiFilterZmwIterator;
+            const vector<PacBio::BAM::BamRecord> &records = *pbiFilterZmwIterator;
             bool OK = true;
-            for (size_t i=0; i < records.size(); i++) {
+            for (size_t i = 0; i < records.size(); i++) {
                 if (not SMRTSequence::IsValid(records[i])) {
                     OK = false;
-                    std::cerr << "Skipping all subreads in " << records[i].MovieName()
-                              << "/" << records[i].HoleNumber() << ", because "
-                              << records[i].FullName() << " is invalid." << std::endl;
+                    std::cerr << "Skipping all subreads in " << records[i].MovieName() << "/"
+                              << records[i].HoleNumber() << ", because " << records[i].FullName()
+                              << " is invalid." << std::endl;
                     break;
                 }
             }
             if (OK) {
                 numRecords = records.size();
                 reads.resize(numRecords);
-                for (size_t i=0; i < records.size(); i++) {
+                for (size_t i = 0; i < records.size(); i++) {
                     reads[i].Copy(records[i]);
                 }
                 pbiFilterZmwIterator++;
@@ -474,13 +501,14 @@ int ReaderAgglomerate::GetNext(vector<SMRTSequence> & reads) {
 }
 
 // for now the only one which might be in unrolled mode: obtains SMRTSequence scalar
-int ReaderAgglomerate::GetNext(SMRTSequence &seq) {
+int ReaderAgglomerate::GetNext(SMRTSequence &seq)
+{
     int numRecords = 0;
 
     if (Subsample(subsample) == 0) {
         return 0;
     }
-    switch(fileType) {
+    switch (fileType) {
         case FileType::Fasta:
             numRecords = fastaReader.GetNext(seq);
             break;
@@ -503,17 +531,16 @@ int ReaderAgglomerate::GetNext(SMRTSequence &seq) {
         case FileType::PBDATASET:
 #ifdef USE_PBBAM
             if (unrolled) {
-                if ( VPCReader->HasNext() ) {
+                if (VPCReader->HasNext()) {
                     // TODO check for length mismatch (as temporary fix)
 
                     PacBio::BAM::VirtualZmwBamRecord record = VPCReader->Next();
 
-                    numRecords = 1;   // a single record only 
-                    seq.Copy(record); // need to copy into seq
-	            // denote, no iterator so no need to advance anything. HasNext advances to ath next VPBR
-                } 
-            }
-            else {
+                    numRecords = 1;    // a single record only
+                    seq.Copy(record);  // need to copy into seq
+                    // denote, no iterator so no need to advance anything. HasNext advances to ath next VPBR
+                }
+            } else {
                 GET_NEXT_FROM_DATASET();
             }
             break;
@@ -522,17 +549,16 @@ int ReaderAgglomerate::GetNext(SMRTSequence &seq) {
 #ifdef USE_PBBAM
             // TODO unrolled
             if (unrolled) {
-                if ( VPReader->HasNext() ) {
+                if (VPReader->HasNext()) {
                     // TODO check for length mismatch (as temporary fix)
 
                     PacBio::BAM::VirtualZmwBamRecord record = VPReader->Next();
 
-                    numRecords = 1;   // a single record only 
-                    seq.Copy(record); // need to copy into seq
-	            // denote, no iterator so no need to advance anything. HasNext advances to ath next VPBR
-                } 
-            }
-            else {
+                    numRecords = 1;    // a single record only
+                    seq.Copy(record);  // need to copy into seq
+                    // denote, no iterator so no need to advance anything. HasNext advances to ath next VPBR
+                }
+            } else {
                 GET_NEXT_FROM_BAM();
             }
             break;
@@ -542,26 +568,27 @@ int ReaderAgglomerate::GetNext(SMRTSequence &seq) {
             UNREACHABLE();
             break;
     }
-    // A sequence read from a Non-BAM files does not have read group id 
-    // and should be empty, use this->readGroupId instead. Otherwise, 
-    // read group id should be loaded from BamRecord to SMRTSequence, 
+    // A sequence read from a Non-BAM files does not have read group id
+    // and should be empty, use this->readGroupId instead. Otherwise,
+    // read group id should be loaded from BamRecord to SMRTSequence,
     // update this->readGroupId accordingly.
-    if (fileType != FileType::PBBAM and fileType != FileType::PBDATASET) seq.ReadGroupId(readGroupId);
-    else readGroupId = seq.ReadGroupId();
+    if (fileType != FileType::PBBAM and fileType != FileType::PBDATASET)
+        seq.ReadGroupId(readGroupId);
+    else
+        readGroupId = seq.ReadGroupId();
 
-    if (stride > 1)
-        Advance(stride-1);
+    if (stride > 1) Advance(stride - 1);
     return numRecords;
 }
 
-
-int ReaderAgglomerate::GetNextBases(SMRTSequence &seq, bool readQVs) {
+int ReaderAgglomerate::GetNextBases(SMRTSequence &seq, bool readQVs)
+{
     int numRecords = 0;
 
     if (Subsample(subsample) == 0) {
         return 0;
     }
-    switch(fileType) {
+    switch (fileType) {
         case FileType::Fasta:
             cout << "ERROR! Can not GetNextBases from a Fasta File." << endl;
             assert(0);
@@ -593,21 +620,23 @@ int ReaderAgglomerate::GetNextBases(SMRTSequence &seq, bool readQVs) {
             break;
     }
 
-    if (fileType != FileType::PBBAM and fileType != FileType::PBDATASET) seq.ReadGroupId(readGroupId);
-    else readGroupId = seq.ReadGroupId();
+    if (fileType != FileType::PBBAM and fileType != FileType::PBDATASET)
+        seq.ReadGroupId(readGroupId);
+    else
+        readGroupId = seq.ReadGroupId();
 
-    if (stride > 1)
-        Advance(stride-1);
+    if (stride > 1) Advance(stride - 1);
     return numRecords;
 }
 
-int ReaderAgglomerate::GetNext(CCSSequence &seq) {
+int ReaderAgglomerate::GetNext(CCSSequence &seq)
+{
     int numRecords = 0;
     if (Subsample(subsample) == 0) {
         return 0;
     }
 
-    switch(fileType) {
+    switch (fileType) {
         case FileType::Fasta:
             // This just reads in the fasta sequence as if it were a ccs sequence
             numRecords = fastaReader.GetNext(seq);
@@ -636,17 +665,18 @@ int ReaderAgglomerate::GetNext(CCSSequence &seq) {
             break;
     }
 
-    if (fileType != FileType::PBBAM and fileType != FileType::PBDATASET) seq.ReadGroupId(readGroupId);
-    else readGroupId = seq.ReadGroupId();
+    if (fileType != FileType::PBBAM and fileType != FileType::PBDATASET)
+        seq.ReadGroupId(readGroupId);
+    else
+        readGroupId = seq.ReadGroupId();
 
-    if (stride > 1)
-        Advance(stride-1);
+    if (stride > 1) Advance(stride - 1);
     return numRecords;
 }
 
-
-int ReaderAgglomerate::Advance(int nSteps) {
-    switch(fileType) {
+int ReaderAgglomerate::Advance(int nSteps)
+{
+    switch (fileType) {
         case FileType::Fasta:
             return fastaReader.Advance(nSteps);
         case FileType::HDFPulse:
@@ -667,8 +697,9 @@ int ReaderAgglomerate::Advance(int nSteps) {
     return false;
 }
 
-void ReaderAgglomerate::Close() {
-    switch(fileType) {
+void ReaderAgglomerate::Close()
+{
+    switch (fileType) {
         case FileType::Fasta:
             fastaReader.Close();
             break;
@@ -695,4 +726,3 @@ void ReaderAgglomerate::Close() {
             break;
     }
 }
-

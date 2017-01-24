@@ -1,26 +1,19 @@
 // Author: Mark Chaisson
 
-#include <vector>
-#include <algorithm>
 #include "PulseBaseCommon.hpp"
+#include <algorithm>
+#include <vector>
 
-float PulseBaseCommon::GetFrameRate() {
-    return scanData.frameRate;
-}
+float PulseBaseCommon::GetFrameRate() { return scanData.frameRate; }
 
-unsigned int PulseBaseCommon::GetNumFrames() {
-    return scanData.numFrames;
-}
+unsigned int PulseBaseCommon::GetNumFrames() { return scanData.numFrames; }
 
-std::string PulseBaseCommon::GetMovieName() {
-    return scanData.movieName;
-}
+std::string PulseBaseCommon::GetMovieName() { return scanData.movieName; }
 
-std::map<char, size_t> PulseBaseCommon::GetBaseMap() {
-    return scanData.baseMap;
-}
+std::map<char, size_t> PulseBaseCommon::GetBaseMap() { return scanData.baseMap; }
 
-bool PulseBaseCommon::LookupReadIndexByHoleNumber(uint32_t holeNumber, int &readIndex) {
+bool PulseBaseCommon::LookupReadIndexByHoleNumber(uint32_t holeNumber, int &readIndex)
+{
     std::vector<uint32_t>::iterator holeIt;
     if (holeNumbers.size() == 0) {
         return false;
@@ -32,8 +25,7 @@ bool PulseBaseCommon::LookupReadIndexByHoleNumber(uint32_t holeNumber, int &read
     if (*holeIt == holeNumber) {
         readIndex = holeIt - holeNumbers.begin();
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }

@@ -22,9 +22,10 @@
  *
  * 
  */
-template<typename T_Point>
-class PSTVertex {
-public: 
+template <typename T_Point>
+class PSTVertex
+{
+public:
     unsigned int leftChildIndex;
     unsigned int rightChildIndex;
     unsigned int isALeaf;
@@ -35,33 +36,31 @@ public:
     PSTVertex();
 };
 
-template<typename T_Point>
-class PrioritySearchTree {
+template <typename T_Point>
+class PrioritySearchTree
+{
 private:
     std::vector<PSTVertex<T_Point> > tree;
-    std::vector<PSTVertex<T_Point> > * treePtr;
-	int GetMedianIndex(int start, int end);
+    std::vector<PSTVertex<T_Point> > *treePtr;
+    int GetMedianIndex(int start, int end);
 
-	inline KeyType CreateTree(std::vector<T_Point> &points, 
-        int start, int end, unsigned int &iterativeIndex);
+    inline KeyType CreateTree(std::vector<T_Point> &points, int start, int end,
+                              unsigned int &iterativeIndex);
 
-	int FindIndexOfMaxPoint(int curVertexIndex, std::vector<T_Point> &points, 
-        KeyType maxKey, int &maxPointValue, 
-        int &maxPointIndex);
+    int FindIndexOfMaxPoint(int curVertexIndex, std::vector<T_Point> &points, KeyType maxKey,
+                            int &maxPointValue, int &maxPointIndex);
 
 public:
     PrioritySearchTree();
 
-	void CreateTree(std::vector<T_Point> &points, 
-        std::vector<PSTVertex<T_Point> > *bufTreePtr=NULL);
+    void CreateTree(std::vector<T_Point> &points,
+                    std::vector<PSTVertex<T_Point> > *bufTreePtr = NULL);
 
-	int FindPoint(KeyType pointKey, 
-        int curVertexIndex, int &pointVertexIndex);
+    int FindPoint(KeyType pointKey, int curVertexIndex, int &pointVertexIndex);
 
-	void Activate(std::vector<T_Point> &points, int pointIndex);
+    void Activate(std::vector<T_Point> &points, int pointIndex);
 
-	int FindIndexOfMaxPoint(std::vector<T_Point> &points, 
-        KeyType maxPointKey, int &maxPointIndex);
+    int FindIndexOfMaxPoint(std::vector<T_Point> &points, KeyType maxPointKey, int &maxPointIndex);
 };
 
 #include "PrioritySearchTreeImpl.hpp"

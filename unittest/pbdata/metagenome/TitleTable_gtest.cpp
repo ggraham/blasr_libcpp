@@ -20,7 +20,8 @@
 #include "metagenome/TitleTable.hpp"
 #include "pbdata/testdata.h"
 
-TEST(TitleTable, Read) {
+TEST(TitleTable, Read)
+{
     TitleTable tt;
     string fn = titleTable1;
     tt.Read(fn);
@@ -29,4 +30,3 @@ TEST(TitleTable, Read) {
     EXPECT_EQ(tt.tableLength, 2);
     tt.Free();
 }
-

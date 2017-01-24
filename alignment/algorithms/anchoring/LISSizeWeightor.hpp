@@ -3,10 +3,11 @@
 
 #include "../../../pbdata/Types.h"
 
-template<typename T_MatchList>
-class LISSizeWeightor {
+template <typename T_MatchList>
+class LISSizeWeightor
+{
 public:
-	MatchWeight operator()(T_MatchList &matchList);
+    MatchWeight operator()(T_MatchList &matchList);
 };
 
 #include "LISSizeWeightorImpl.hpp"

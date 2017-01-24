@@ -1,11 +1,11 @@
 #ifndef SPARSE_DYNAMIC_PROGRAMMING_H_
 #define SPARSE_DYNAMIC_PROGRAMMING_H_
 
-#include <vector>
 #include <string>
+#include <vector>
+#include "../../../../pbdata/DNASequence.hpp"
 #include "../../../../pbdata/Types.h"
 #include "../../../../pbdata/defs.h"
-#include "../../../../pbdata/DNASequence.hpp"
 #include "../../../datastructures/alignment/Alignment.hpp"
 #include "../AlignmentUtils.hpp"
 
@@ -20,17 +20,16 @@
  *  
  ******************************************************************************/
 
-int IndelPenalty(int x1, int y1, int x2, int y2, int insertion, int deletion); 
+int IndelPenalty(int x1, int y1, int x2, int y2, int insertion, int deletion);
 
-template<typename T_Fragment>
+template <typename T_Fragment>
 void StoreAbove(std::vector<T_Fragment> &fragmentSet, DNALength fragmentLength);
 
-template<typename T_Fragment>
-int SDPLongestCommonSubsequence(DNALength queryLength,
-        std::vector<T_Fragment> &fragmentSet, 
-        DNALength fragmentLength,
-        int insertion, int deletion, int match,
-        std::vector<int> &maxFragmentChain, AlignmentType alignType=Global); 
+template <typename T_Fragment>
+int SDPLongestCommonSubsequence(DNALength queryLength, std::vector<T_Fragment> &fragmentSet,
+                                DNALength fragmentLength, int insertion, int deletion, int match,
+                                std::vector<int> &maxFragmentChain,
+                                AlignmentType alignType = Global);
 
 #include "SparseDynamicProgrammingImpl.hpp"
 

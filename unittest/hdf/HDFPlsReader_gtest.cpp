@@ -23,21 +23,22 @@
 using namespace std;
 using namespace H5;
 
-class HDFPlsReaderTEST : public ::testing::Test {
+class HDFPlsReaderTEST : public ::testing::Test
+{
 public:
-    virtual void SetUp() {
+    virtual void SetUp()
+    {
         fileName = plsFile1;
         ASSERT_EQ(reader.Initialize(fileName), 1);
     }
-    virtual void TearDown() {
-        reader.Close();
-    }
+    virtual void TearDown() { reader.Close(); }
     string fileName;
-    HDFPlsReader reader; 
+    HDFPlsReader reader;
 };
 
-TEST_F(HDFPlsReaderTEST, ReadToPulseFile) {
-    PulseFile  pulseFile;
+TEST_F(HDFPlsReaderTEST, ReadToPulseFile)
+{
+    PulseFile pulseFile;
     reader.IncludeField("NumEvent");
     reader.IncludeField("StartFrame");
     reader.ReadPulseFileInit(pulseFile);
@@ -46,5 +47,3 @@ TEST_F(HDFPlsReaderTEST, ReadToPulseFile) {
     ASSERT_EQ(pulseFile.platformId, 2);
     ASSERT_EQ(pulseFile.startFrame.size(), 197626964);
 }
-
-

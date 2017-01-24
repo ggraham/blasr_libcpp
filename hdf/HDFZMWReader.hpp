@@ -1,14 +1,15 @@
 #ifndef _BLASR_HDF_ZMW_READER_HPP_
 #define _BLASR_HDF_ZMW_READER_HPP_
 
-#include <cstdint>
 #include <H5Cpp.h>
+#include <cstdint>
 #include "../pbdata/reads/ZMWGroupEntry.hpp"
-#include "HDFArray.hpp"
 #include "HDF2DArray.hpp"
+#include "HDFArray.hpp"
 #include "HDFGroup.hpp"
 
-class HDFZMWReader {
+class HDFZMWReader
+{
 public:
     HDFGroup *parentGroupPtr;
     HDFGroup zmwGroup;
@@ -21,25 +22,25 @@ public:
     bool readNumEvent;
     UInt curZMW;
     UInt nZMWEntries;
-    bool  closeFileOnExit;
+    bool closeFileOnExit;
     H5::H5File hdfPlsFile;
 
-    HDFZMWReader(); 
+    HDFZMWReader();
 
-    int Initialize(HDFGroup *parentGroupP); 
+    int Initialize(HDFGroup *parentGroupP);
 
-    int Initialize(); 
+    int Initialize();
 
-    int Advance(UInt nSteps); 
+    int Advance(UInt nSteps);
 
-    bool GetNext(ZMWGroupEntry &groupEntry); 
+    bool GetNext(ZMWGroupEntry &groupEntry);
 
-    void Close(); 
-    
+    void Close();
+
     // Return true if get hole number at ZMW/HoleNumber[index].
-    bool GetHoleNumberAt(UInt index, UInt & holeNumber);
+    bool GetHoleNumberAt(UInt index, UInt &holeNumber);
 
-    ~HDFZMWReader(); 
+    ~HDFZMWReader();
 };
 
 #endif

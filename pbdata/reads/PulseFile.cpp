@@ -2,64 +2,51 @@
 
 #include "PulseFile.hpp"
 
-void PulseFile::CopySignal(HalfWord *signalData, // either a vector or matrix
+void PulseFile::CopySignal(HalfWord *signalData,  // either a vector or matrix
                            int signalNDims,
-                           DSLength pulseStartPos, // 0 if baseToPulseIndex maps to abs position
-                           int *baseToPulseIndex,
-                           Nucleotide *readSeq,
-                           DNALength readLength,
-                           HalfWord *readData) {
+                           DSLength pulseStartPos,  // 0 if baseToPulseIndex maps to abs position
+                           int *baseToPulseIndex, Nucleotide *readSeq, DNALength readLength,
+                           HalfWord *readData)
+{
     // if baseToPulseIndex maps bases to absolute pulse postions
-    // pulseStartPos must be 0; 
+    // pulseStartPos must be 0;
     // otherwise, pulseStartPos is pulseStartPositions[holeIndex]
 
     std::map<char, size_t> baseMap = GetBaseMap();
     if (signalNDims == 1) {
         for (DNALength i = 0; i < readLength; i++) {
-            readData[i] = signalData[pulseStartPos + baseToPulseIndex[i] ];
+            readData[i] = signalData[pulseStartPos + baseToPulseIndex[i]];
         }
-    }
-    else {
+    } else {
         for (DNALength i = 0; i < readLength; i++) {
-            readData[i] = signalData[baseToPulseIndex[i]*4 + baseMap[readSeq[i]]];
+            readData[i] = signalData[baseToPulseIndex[i] * 4 + baseMap[readSeq[i]]];
         }
     }
 }
 
-void PulseFile::CopyReadAt(uint32_t plsReadIndex, int *baseToPulseIndex, SMRTSequence &read) {
+void PulseFile::CopyReadAt(uint32_t plsReadIndex, int *baseToPulseIndex, SMRTSequence &read)
+{
     DSLength pulseStartPos = pulseStartPositions[plsReadIndex];
     bool OK = true;
     if (midSignal.size() > 0) {
-    assert(midSignal.size() > pulseStartPos);
-    OK = Realloc(read.midSignal, read.length);
-    CopySignal(&midSignal[0], 
-                midSignalNDims, 
-                pulseStartPos,
-                baseToPulseIndex,
-                read.seq, read.length,
-                read.midSignal);
+        assert(midSignal.size() > pulseStartPos);
+        OK = Realloc(read.midSignal, read.length);
+        CopySignal(&midSignal[0], midSignalNDims, pulseStartPos, baseToPulseIndex, read.seq,
+                   read.length, read.midSignal);
     }
 
     if (maxSignal.size() > 0) {
-        assert(maxSignal.size() > pulseStartPos); 
+        assert(maxSignal.size() > pulseStartPos);
         OK = OK and Realloc(read.maxSignal, read.length);
-        CopySignal(&maxSignal[0], 
-                    maxSignalNDims, 
-                    pulseStartPos,
-                    baseToPulseIndex,
-                    read.seq, read.length,
-                    read.maxSignal);
+        CopySignal(&maxSignal[0], maxSignalNDims, pulseStartPos, baseToPulseIndex, read.seq,
+                   read.length, read.maxSignal);
     }
 
     if (meanSignal.size() > 0) {
-        assert(meanSignal.size() > pulseStartPos); 
+        assert(meanSignal.size() > pulseStartPos);
         OK = OK and Realloc(read.meanSignal, read.length);
-        CopySignal(&meanSignal[0], 
-                    meanSignalNDims, 
-                    pulseStartPos,
-                    baseToPulseIndex,
-                    read.seq, read.length,
-                    read.meanSignal);
+        CopySignal(&meanSignal[0], meanSignalNDims, pulseStartPos, baseToPulseIndex, read.seq,
+                   read.length, read.meanSignal);
     }
     if (plsWidthInFrames.size() > 0) {
         OK = OK and Realloc(read.widthInFrames, read.length);

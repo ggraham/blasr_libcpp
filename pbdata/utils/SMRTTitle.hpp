@@ -1,12 +1,13 @@
 #ifndef _BLASR_SMRT_TITLE_HPP_
 #define _BLASR_SMRT_TITLE_HPP_
+#include <sstream>
 #include <string>
 #include <vector>
-#include <sstream>
-#include "../Types.h"
 #include "../StringUtils.hpp"
+#include "../Types.h"
 
-class SMRTTitle {
+class SMRTTitle
+{
 public:
     std::string movieName;
     UInt holeNumber;
@@ -15,7 +16,7 @@ public:
     // if input name is a smrt title.
     bool isSMRTTitle;
 
-    SMRTTitle(const std::string & name);
+    SMRTTitle(const std::string& name);
 
     /// \returns smrt title movie/zmw/s_e, if input read is a smrt title;
     /// otherwise, return an empty string.
@@ -29,10 +30,10 @@ public:
     inline operator bool(void) const;
 };
 
-inline std::string SMRTTitle::MovieName(void) const {return movieName;}
-inline UInt SMRTTitle::HoleNumber(void) const {return holeNumber;}
-inline DNALength SMRTTitle::Start(void) const {return start;}
-inline DNALength SMRTTitle::End(void) const {return end;}
-inline SMRTTitle::operator bool(void) const {return isSMRTTitle;}
+inline std::string SMRTTitle::MovieName(void) const { return movieName; }
+inline UInt SMRTTitle::HoleNumber(void) const { return holeNumber; }
+inline DNALength SMRTTitle::Start(void) const { return start; }
+inline DNALength SMRTTitle::End(void) const { return end; }
+inline SMRTTitle::operator bool(void) const { return isSMRTTitle; }
 
 #endif

@@ -1,28 +1,32 @@
 #ifndef UTILS_CHANGELIST_ID_H_
 #define UTILS_CHANGELIST_ID_H_
 
-#include <string>
-#include <vector>
 #include <stdlib.h>
 #include <sstream>
+#include <string>
+#include <vector>
 
 #ifndef _QVScale_
 #define _QVScale_
-enum QVScale {POverOneMinusP, // popularized by Illumina
-              PHRED};
+enum QVScale
+{
+    POverOneMinusP,  // popularized by Illumina
+    PHRED
+};
 #endif
 
-class ChangeListID {
+class ChangeListID
+{
 public:
     std::string idString;
     std::vector<std::string> strVer;
     std::vector<int> intVer;
     ChangeListID();
-    ChangeListID(std::string &idStringP); 
+    ChangeListID(std::string &idStringP);
 
-    void StoreString(std::string &idStringP); 
+    void StoreString(std::string &idStringP);
 
-    int LessThan(ChangeListID &rhs, int depth = 0); 
+    int LessThan(ChangeListID &rhs, int depth = 0);
 
     QVScale DetermineQVScaleFromChangeListID();
 
@@ -30,9 +34,8 @@ public:
     /// changeListID "2.3.0.144058" --> Version "2.3".
     /// \returns version string
     std::string GetVersion();
-
 };
 
-void AppendPerforceChangelist(std::string perforceVersionString, std::string &version); 
+void AppendPerforceChangelist(std::string perforceVersionString, std::string &version);
 
 #endif

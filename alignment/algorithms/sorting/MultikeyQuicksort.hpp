@@ -14,36 +14,36 @@
  */
 
 #include <limits.h>
-#include <vector>
 #include <algorithm>
+#include <vector>
 // pbdata
-#include "../../../pbdata/NucConversion.hpp"
 #include "../../../pbdata/FASTASequence.hpp"
+#include "../../../pbdata/NucConversion.hpp"
 #include "../../../pbdata/Types.h"
 
 typedef unsigned int UInt;
 
-void UIntSwap(unsigned int &a, unsigned int &b); 
+void UIntSwap(unsigned int &a, unsigned int &b);
 
-void VecSwap( UInt i, UInt j, UInt n, UInt index[]); 
+void VecSwap(UInt i, UInt j, UInt n, UInt index[]);
 
-unsigned char ComputeMedianValue(unsigned char text[], UInt index[], int length, 
-        UInt low, UInt high, int offset, UInt maxPossible, UInt *freq ); 
+unsigned char ComputeMedianValue(unsigned char text[], UInt index[], int length, UInt low,
+                                 UInt high, int offset, UInt maxPossible, UInt *freq);
 
-UInt FindFirstOf(unsigned char text[], UInt index[],
-        UInt low, UInt high, int offset, Nucleotide nuc);
+UInt FindFirstOf(unsigned char text[], UInt index[], UInt low, UInt high, int offset,
+                 Nucleotide nuc);
 
 void SwapIndices(UInt &a, UInt &b);
 
-void TransformSequenceForSorting(unsigned char text[], UInt textLength, int bound); 
+void TransformSequenceForSorting(unsigned char text[], UInt textLength, int bound);
 
-void TransformBackSequence(Nucleotide text[], UInt textLength); 
+void TransformBackSequence(Nucleotide text[], UInt textLength);
 
 /*
  * depth: the current depth of how much is sorted.
  * bound: how far to sort.
  */
-void MediankeyBoundedQuicksort(unsigned char text[], UInt index[], UInt length,
-        UInt low, UInt high, int depth, int bound, UInt maxChar= 0, UInt *freq=NULL); 
+void MediankeyBoundedQuicksort(unsigned char text[], UInt index[], UInt length, UInt low, UInt high,
+                               int depth, int bound, UInt maxChar = 0, UInt *freq = NULL);
 
-#endif // _BLASR_MULTIKEY_QUICKSORT_HPP_
+#endif  // _BLASR_MULTIKEY_QUICKSORT_HPP_

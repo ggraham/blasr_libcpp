@@ -15,11 +15,12 @@
 
 typedef unsigned int PackedDNAWord;
 
-class PackedDNASequence {
+class PackedDNASequence
+{
 public:
-    static const PackedDNAWord Mask2All = 613566756; //100100100...
-    static const PackedDNAWord Mask1All = 306783378; //010010010...
-    static const PackedDNAWord Mask0All = 153391689; //001001001...
+    static const PackedDNAWord Mask2All = 613566756;  //100100100...
+    static const PackedDNAWord Mask1All = 306783378;  //010010010...
+    static const PackedDNAWord Mask0All = 153391689;  //001001001...
     static const PackedDNAWord xorMask[];
     static const PackedDNAWord NucPosMask[];
     static const PackedDNAWord NegMask[];
@@ -33,28 +34,28 @@ public:
     DNALength length;
     DNALength arrayLength;
 
-    Nucleotide Get(DNALength pos); 
+    Nucleotide Get(DNALength pos);
 
     Nucleotide operator[](DNALength pos);
 
-    PackedDNASequence(); 
-    ~PackedDNASequence(); 
+    PackedDNASequence();
+    ~PackedDNASequence();
 
-    void Allocate(DNALength numberOfNucleotides); 
+    void Allocate(DNALength numberOfNucleotides);
 
-    void CreateFromDNASequence(DNASequence &dnaSeq); 
+    void CreateFromDNASequence(DNASequence &dnaSeq);
 
-    void Set(DNALength pos, Nucleotide threeBitValue); 
+    void Set(DNALength pos, Nucleotide threeBitValue);
 
-    DNALength CountInWord(PackedDNAWord word, PackedDNAWord wordMask, Nucleotide nuc); 
+    DNALength CountInWord(PackedDNAWord word, PackedDNAWord wordMask, Nucleotide nuc);
 
-    DNALength CountNuc(DNALength start, DNALength end, Nucleotide nuc); 
+    DNALength CountNuc(DNALength start, DNALength end, Nucleotide nuc);
 
-    void Write(std::ostream &out); 
+    void Write(std::ostream &out);
 
-    void Read(std::istream &in); 
+    void Read(std::istream &in);
 
-    void PrintUnpacked(std::ostream &out, int lineLength = 50); 
+    void PrintUnpacked(std::ostream &out, int lineLength = 50);
 };
 
-#endif // _BLASR_PACKED_DNA_SEQUENCE_HPP_
+#endif  // _BLASR_PACKED_DNA_SEQUENCE_HPP_

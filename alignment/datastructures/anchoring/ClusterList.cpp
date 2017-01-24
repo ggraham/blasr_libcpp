@@ -1,6 +1,7 @@
 #include "ClusterList.hpp"
 
-ClusterList::ClusterList() {
+ClusterList::ClusterList()
+{
     lowerSizeLimit = 20;
     lowerSizeLimitNumAnchors = 1;
     curp = cure = 0;
@@ -8,26 +9,26 @@ ClusterList::ClusterList() {
     curIndex = 0;
 }
 
-void ClusterList::Clear() {
+void ClusterList::Clear()
+{
     onContigStart = true;
     numBases.clear();
     startPos.clear();
     numAnchors.clear();
 }
 
-bool ClusterList::Store(int n, DNALength p, DNALength e, int b) {
+bool ClusterList::Store(int n, DNALength p, DNALength e, int b)
+{
     bool intervalIsEclipsed = true;
-    bool intervalEclipses   = false;
+    bool intervalEclipses = false;
     if (onContigStart == true) {
         curp = p;
         cure = e;
-        intervalIsEclipsed = false;      
-    }
-    else {
+        intervalIsEclipsed = false;
+    } else {
         if (curp <= p and cure >= e) {
             intervalIsEclipsed = true;
-        }
-        else {
+        } else {
             if (p <= curp and e >= cure) {
                 intervalEclipses = true;
             }
@@ -36,7 +37,7 @@ bool ClusterList::Store(int n, DNALength p, DNALength e, int b) {
     }
     if (intervalIsEclipsed == false) {
         //
-        // The current interval is unique: it does not eclipse any 
+        // The current interval is unique: it does not eclipse any
         // other intervals and is not eclipsed by any.
         //
         if (n >= lowerSizeLimit) {
@@ -51,17 +52,18 @@ bool ClusterList::Store(int n, DNALength p, DNALength e, int b) {
                 // current interval to make sure they are not overlapping
                 // other intervals.
                 //
-                curp = p; cure = e;
-            }
-            else {
+                curp = p;
+                cure = e;
+            } else {
                 //
                 // The new interval eclipses the last one added.
                 //
-                if (n > numBases[numBases.size()-1]) {
-                    numBases[numBases.size()-1] = n;
-                    startPos[startPos.size()-1] = p;
-                    numAnchors[numAnchors.size()-1] = b;
-                    curp = p; cure = e;
+                if (n > numBases[numBases.size() - 1]) {
+                    numBases[numBases.size() - 1] = n;
+                    startPos[startPos.size() - 1] = p;
+                    numAnchors[numAnchors.size() - 1] = b;
+                    curp = p;
+                    cure = e;
                 }
             }
         }
@@ -69,7 +71,4 @@ bool ClusterList::Store(int n, DNALength p, DNALength e, int b) {
     return !intervalIsEclipsed;
 }
 
-void ClusterList::ResetCoordinates() {
-    onContigStart = true;
-}
-
+void ClusterList::ResetCoordinates() { onContigStart = true; }

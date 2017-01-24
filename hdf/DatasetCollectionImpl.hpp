@@ -2,8 +2,9 @@
 #define _BLASR_DATASET_COLLECTION_IMPL_HPP_
 
 template <typename T_Dataset>
-bool DatasetCollection::InitializeDataset(HDFGroup &group, 
-    T_Dataset &dataset, std::string datasetName) {
+bool DatasetCollection::InitializeDataset(HDFGroup &group, T_Dataset &dataset,
+                                          std::string datasetName)
+{
 
     //
     // Perform initialization of the dataset in a way that keep track
@@ -13,8 +14,7 @@ bool DatasetCollection::InitializeDataset(HDFGroup &group,
         if (dataset.Initialize(group, datasetName) == false) {
             if (requiredFields[datasetName]) {
                 return false;
-            }
-            else {
+            } else {
                 //
                 // This field was supposed to be included but it either does
                 // not exist or there was a problem otherwise in creating

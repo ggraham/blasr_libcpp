@@ -20,21 +20,22 @@
 
 using namespace std;
 
-string standard   = "Standard";
-string ccs        = "CCS";
-string rccs       = "RCCS";
+string standard = "Standard";
+string ccs = "CCS";
+string rccs = "RCCS";
 string noreadtype = "standard";
 
-string subread    = "SUBREAD";
+string subread = "SUBREAD";
 string polymerase = "POLYMERASE";
-string hqregion   = "HQREGION";
-string scarp      = "SCARP";
-string unknown    = "UNKNOWN";
+string hqregion = "HQREGION";
+string scarp = "SCARP";
+string unknown = "UNKNOWN";
 
-TEST(ReadTypeTest, ParseReadType) {
+TEST(ReadTypeTest, ParseReadType)
+{
     EXPECT_EQ(ReadType::ParseReadType(standard), ReadType::Standard);
-    EXPECT_EQ(ReadType::ParseReadType(ccs),      ReadType::CCS);
-    EXPECT_EQ(ReadType::ParseReadType(rccs),     ReadType::RCCS);
+    EXPECT_EQ(ReadType::ParseReadType(ccs), ReadType::CCS);
+    EXPECT_EQ(ReadType::ParseReadType(rccs), ReadType::RCCS);
     EXPECT_EQ(ReadType::ParseReadType(noreadtype), ReadType::NoReadType);
 
     EXPECT_EQ(ReadType::ParseReadType(subread), ReadType::SUBREAD);
@@ -43,8 +44,8 @@ TEST(ReadTypeTest, ParseReadType) {
     EXPECT_EQ(ReadType::ParseReadType(unknown), ReadType::UNKNOWN);
 }
 
-
-TEST(ReadTypeTest, ToString) {
+TEST(ReadTypeTest, ToString)
+{
     EXPECT_EQ(ReadType::ToString(ReadType::Standard), standard);
     EXPECT_EQ(ReadType::ToString(ReadType::CCS), ccs);
     EXPECT_EQ(ReadType::ToString(ReadType::RCCS), rccs);

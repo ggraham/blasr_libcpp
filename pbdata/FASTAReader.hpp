@@ -5,11 +5,12 @@
 #include "FASTASequence.hpp"
 #include "metagenome/SequenceIndexDatabase.hpp"
 
-class FASTAReader {
+class FASTAReader
+{
 protected:
     GenomeLength fileSize;
     int fileDes;
-    char* filePtr;
+    char *filePtr;
     GenomeLength curPos;
     int padding;
     char endOfReadDelim;
@@ -19,40 +20,41 @@ protected:
     //
     // Quick check to see how much to read.
     //
-    void SetFileSize(); 
+    void SetFileSize();
 
-    void ReadTitle(GenomeLength &p, char *&title, int &titleLength); 
+    void ReadTitle(GenomeLength &p, char *&title, int &titleLength);
 
 public:
     bool computeMD5;
     std::string curReadMD5;
 
-    void Init(); 
+    void Init();
 
-    FASTAReader(); 
+    FASTAReader();
 
-    FASTAReader(std::string &fileName); 
+    FASTAReader(std::string &fileName);
 
-    void SetSpacePadding(int _padding); 
+    void SetSpacePadding(int _padding);
 
-    void SetToUpper(); 
-    
+    void SetToUpper();
+
     //
     // Synonym for Init() for consistency.
     //
-    int Initialize(std::string &seqInName); 
+    int Initialize(std::string &seqInName);
 
-    int Init(std::string &seqInName, int passive=0); 
+    int Init(std::string &seqInName, int passive = 0);
 
-    void AdvanceToTitleStart(GenomeLength &p, char delim='>'); 
+    void AdvanceToTitleStart(GenomeLength &p, char delim = '>');
 
-    void CheckValidTitleStart(GenomeLength &p, char delim='>'); 
+    void CheckValidTitleStart(GenomeLength &p, char delim = '>');
 
-    GenomeLength ReadAllSequencesIntoOne(FASTASequence &seq, SequenceIndexDatabase<FASTASequence> *seqDBPtr=NULL); 
+    GenomeLength ReadAllSequencesIntoOne(FASTASequence &seq,
+                                         SequenceIndexDatabase<FASTASequence> *seqDBPtr = NULL);
 
-    void ReadTitle(GenomeLength &p, FASTASequence & seq);
+    void ReadTitle(GenomeLength &p, FASTASequence &seq);
 
-    int GetNext(FASTASequence &seq); 
+    int GetNext(FASTASequence &seq);
     /*
        Advance to the read nSeq forward.
 
@@ -64,17 +66,15 @@ a new sequence.
 A return value of 0 will signal that the file is done being processed if it is 
 iterting over reads.
 */
-    int Advance(int nSeq); 
+    int Advance(int nSeq);
 
-    int CriticalGetNext(FASTASequence &seq); 
-    
-    int ConcatenateNext(FASTASequence &cur); 
+    int CriticalGetNext(FASTASequence &seq);
 
-    void Close(); 
+    int ConcatenateNext(FASTASequence &cur);
 
-    void ReadAllSequences(vector<FASTASequence> &sequences); 
+    void Close();
 
-}; 
+    void ReadAllSequences(vector<FASTASequence> &sequences);
+};
 
-
-#endif // _BLASR_FASTA_READER_HPP_
+#endif  // _BLASR_FASTA_READER_HPP_

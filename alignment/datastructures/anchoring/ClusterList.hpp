@@ -4,7 +4,8 @@
 #include <vector>
 #include "../../../pbdata/DNASequence.hpp"
 
-class ClusterList {
+class ClusterList
+{
 public:
     std::vector<int> numBases;
     std::vector<int> numAnchors;
@@ -12,7 +13,7 @@ public:
     std::vector<int> indices;
     int lowerSizeLimit;
     int lowerSizeLimitNumAnchors;
-    DNALength curp, cure; // cur - p, and cur - e.
+    DNALength curp, cure;  // cur - p, and cur - e.
     int curIndex;
     bool onContigStart;
 

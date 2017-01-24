@@ -4,50 +4,45 @@
 #include <cstddef>
 #include "../pbdata/utils.hpp"
 
-template<typename T>
-class HDFWriteBuffer {
+template <typename T>
+class HDFWriteBuffer
+{
 public:
-    T         *writeBuffer;
-    int       bufferIndex;
-    DSLength       bufferSize;
+    T *writeBuffer;
+    int bufferIndex;
+    DSLength bufferSize;
 
-    HDFWriteBuffer() {
+    HDFWriteBuffer()
+    {
         writeBuffer = NULL;
         bufferIndex = 0;
-        bufferSize  = 0;
+        bufferSize = 0;
     }
 
-    void InitializeBuffer(int pBufferSize) {
-        Free(); // Free before reusing the buffer.
+    void InitializeBuffer(int pBufferSize)
+    {
+        Free();  // Free before reusing the buffer.
         bufferSize = pBufferSize;
         if (bufferSize > 0) {
             writeBuffer = ProtectedNew<T>(bufferSize);
-        }
-        else {
+        } else {
             writeBuffer = NULL;
         }
-    }		
+    }
 
-    void Free() {
+    void Free()
+    {
         if (writeBuffer) {
             delete[] writeBuffer;
             writeBuffer = NULL;
         }
     }
 
-    ~HDFWriteBuffer() {
-        Free();
-    }
+    ~HDFWriteBuffer() { Free(); }
 
-    void ResetWriteBuffer() {
-        bufferIndex = 0;
-    }
+    void ResetWriteBuffer() { bufferIndex = 0; }
 
-    bool WriteBufferEmpty() {
-        return (bufferIndex == 0);
-    }
-
+    bool WriteBufferEmpty() { return (bufferIndex == 0); }
 };
-
 
 #endif

@@ -3,23 +3,24 @@
 
 #include "TupleMetrics.hpp"
 
-class BaseTuple {
+class BaseTuple
+{
 public:
     TupleData tuple;
 
     TupleData HashPowerOfFour(int nBits, TupleMetrics &tm);
 
-    bool operator<(const BaseTuple &rhs) const; 
+    bool operator<(const BaseTuple &rhs) const;
 
-    bool operator==(const BaseTuple &rhs) const; 
+    bool operator==(const BaseTuple &rhs) const;
 
     bool operator!=(const BaseTuple &rhs) const;
 
-    BaseTuple & ShiftLeft(TupleMetrics &tm, int shift=1); 
+    BaseTuple &ShiftLeft(TupleMetrics &tm, int shift = 1);
 
-    BaseTuple & ShiftRight(int shift=1); 
+    BaseTuple &ShiftRight(int shift = 1);
 
-    BaseTuple & Append(TupleData val, TupleMetrics &tm, int nBits); 
+    BaseTuple &Append(TupleData val, TupleMetrics &tm, int nBits);
 
     operator TupleData() const;
 };

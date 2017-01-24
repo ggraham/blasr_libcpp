@@ -1,10 +1,10 @@
 #include "../../pbdata/libconfig.h"
 #ifdef USE_PBBAM
-#ifndef PBIFILTER_ZMWGROUPQUERY_H 
+#ifndef PBIFILTER_ZMWGROUPQUERY_H
 #define PBIFILTER_ZMWGROUPQUERY_H
 
-#include <pbbam/internal/QueryBase.h>
 #include <pbbam/PbiFilter.h>
+#include <pbbam/internal/QueryBase.h>
 #include <memory>
 
 namespace PacBio {
@@ -30,8 +30,8 @@ private:
     std::unique_ptr<PbiFilterZmwGroupQueryPrivate> d_;
 };
 
-} // namespace BAM
-} // namespace PacBio
+}  // namespace BAM
+}  // namespace PacBio
 
-#endif // PBIFILTER_ZMWGROUPQUERY_H
+#endif  // PBIFILTER_ZMWGROUPQUERY_H
 #endif

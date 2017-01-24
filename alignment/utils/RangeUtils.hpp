@@ -21,36 +21,36 @@
 #include "../../pbdata/StringUtils.hpp"
 #include "../../pbdata/Types.h"
 
-class Range {
+class Range
+{
 public:
     UInt start;  // Start position of a range, inclusive
     UInt end;    // End position of a range, inclusive
 
-    Range(UInt pStart); 
+    Range(UInt pStart);
 
-    Range(UInt pStart, UInt pEnd); 
+    Range(UInt pStart, UInt pEnd);
 
-    bool contains(const UInt & query); 
+    bool contains(const UInt& query);
 
-    bool operator < (const Range & pRange) const; 
+    bool operator<(const Range& pRange) const;
 };
 
 // Input is a comma-delimited string of ranges.
 // e.g. 1,2,3,10-20
-bool ParseRanges(string & rangesStr, vector<Range> & ranges); 
+bool ParseRanges(string& rangesStr, vector<Range>& ranges);
 
-class Ranges {
+class Ranges
+{
 public:
     std::vector<Range> ranges;
-    Ranges(std::string rangesStr=""); 
+    Ranges(std::string rangesStr = "");
 
-    bool setRanges(std::string rangesStr); 
-    
-    int size(); 
+    bool setRanges(std::string rangesStr);
 
-    UInt max(); 
+    int size();
 
-    bool contains(const UInt & query); 
+    UInt max();
+
+    bool contains(const UInt& query);
 };
-
-

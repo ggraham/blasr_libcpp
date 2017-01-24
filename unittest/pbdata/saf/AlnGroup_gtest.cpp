@@ -21,12 +21,13 @@
 using namespace std;
 
 //Test AlnGroup.FindPath();
-TEST(AlnGroupTest, FindPath) {
+TEST(AlnGroupTest, FindPath)
+{
     AlnGroup alnGroup;
     unsigned int ids[10] = {3, 4, 6, 1, 2, 8, 9, 12, 11, 7};
     string paths[10] = {"path1", "path2", "path3", "path4", "path5",
                         "path6", "path7", "path8", "path9", "path10"};
-    for(int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++) {
         alnGroup.id.push_back(ids[i]);
         alnGroup.path.push_back(paths[i]);
     }
@@ -36,9 +37,7 @@ TEST(AlnGroupTest, FindPath) {
     EXPECT_EQ(val, paths[0]);
     EXPECT_EQ(ret, 1);
 
-    
     ret = alnGroup.FindPath(100, val1);
     EXPECT_EQ(ret, 0);
     EXPECT_EQ(val1, "");
-
 }

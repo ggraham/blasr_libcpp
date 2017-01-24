@@ -1,9 +1,11 @@
 #ifndef _BLASR_FIND_MAX_INTERVAL_IMPL_HPP_
 #define _BLASR_FIND_MAX_INTERVAL_IMPL_HPP_
 
-template<typename T_Sequence, typename T_AnchorList>
-float DefaultWeightFunction<T_Sequence, T_AnchorList>::operator() (
-    T_Sequence &text, T_Sequence &read, T_AnchorList matchPosList) {
+template <typename T_Sequence, typename T_AnchorList>
+float DefaultWeightFunction<T_Sequence, T_AnchorList>::operator()(T_Sequence &text,
+                                                                  T_Sequence &read,
+                                                                  T_AnchorList matchPosList)
+{
     PB_UNUSED(text);
     PB_UNUSED(read);
     int i;
@@ -14,18 +16,19 @@ float DefaultWeightFunction<T_Sequence, T_AnchorList>::operator() (
     return weight;
 }
 
-template<typename T_Pos>
-int MatchPosQueryOrderFunctor<T_Pos>::operator()(T_Pos &pos) {
+template <typename T_Pos>
+int MatchPosQueryOrderFunctor<T_Pos>::operator()(T_Pos &pos)
+{
     return pos.q;
 }
 
-template<typename T_MatchList>
-void PrintLIS(T_MatchList &matchList, DNALength curPos, 
-    DNALength curGenomePos, DNALength nextGenomePos, 
-    DNALength clp, DNALength cle) {
+template <typename T_MatchList>
+void PrintLIS(T_MatchList &matchList, DNALength curPos, DNALength curGenomePos,
+              DNALength nextGenomePos, DNALength clp, DNALength cle)
+{
     int i;
-    cout << curPos << " " << curGenomePos << " " 
-        << nextGenomePos << " " << clp << " " << cle << endl;
+    cout << curPos << " " << curGenomePos << " " << nextGenomePos << " " << clp << " " << cle
+         << endl;
     for (i = 0; i < matchList.size(); i++) {
         cout.width(8);
         cout << matchList[i].l << " ";
@@ -34,7 +37,7 @@ void PrintLIS(T_MatchList &matchList, DNALength curPos,
     for (i = 0; i < matchList.size(); i++) {
         cout.width(8);
         cout << matchList[i].q << " ";
-    }  
+    }
     cout << endl;
     for (i = 0; i < matchList.size(); i++) {
         cout.width(8);
@@ -43,11 +46,10 @@ void PrintLIS(T_MatchList &matchList, DNALength curPos,
     cout << endl << endl;
 }
 
-
-template<typename T_MatchList, typename T_SequenceDB>
-void FilterMatchesAsLIMSTemplateSquare(T_MatchList &matches, 
-    DNALength queryLength, DNALength limsTemplateLength, 
-    T_SequenceDB &seqDB) {
+template <typename T_MatchList, typename T_SequenceDB>
+void FilterMatchesAsLIMSTemplateSquare(T_MatchList &matches, DNALength queryLength,
+                                       DNALength limsTemplateLength, T_SequenceDB &seqDB)
+{
     int seqIndex;
     //
     // Make sure there is sequence coordinate information.
@@ -57,19 +59,17 @@ void FilterMatchesAsLIMSTemplateSquare(T_MatchList &matches,
     }
     int matchIndex = 0;
     for (seqIndex = 1; seqIndex < seqDB.nSeqPos; seqIndex++) {
-        DNALength refLength = seqDB.seqStartPos[seqIndex] - 
-            seqDB.seqStartPos[seqIndex - 1];
+        DNALength refLength = seqDB.seqStartPos[seqIndex] - seqDB.seqStartPos[seqIndex - 1];
         // account for indel error.
-        refLength = queryLength * 1.15 + limsTemplateLength; 
+        refLength = queryLength * 1.15 + limsTemplateLength;
 
         //
         // Flag matches that are beyond the (rough) square with the length
         // of the query for removal.
         //
-        while (matchIndex < matches.size() and 
-                matches[matchIndex].t < seqDB.seqStartPos[seqIndex]) {
-            if (matches[matchIndex].t > seqDB.seqStartPos[seqIndex-1] 
-                + refLength) {
+        while (matchIndex < matches.size() and
+               matches[matchIndex].t < seqDB.seqStartPos[seqIndex]) {
+            if (matches[matchIndex].t > seqDB.seqStartPos[seqIndex - 1] + refLength) {
                 matches[matchIndex].l = 0;
             }
             matchIndex++;
@@ -86,30 +86,30 @@ void FilterMatchesAsLIMSTemplateSquare(T_MatchList &matches,
     }
 }
 
-template<typename T_MatchList, typename T_SequenceBoundaryDB>
-void AdvanceIndexToPastInterval(T_MatchList &pos, DNALength nPos,
-    DNALength intervalLength, DNALength contigLength,
-    T_SequenceBoundaryDB &SeqBoundary,
-    DNALength startIndex, DNALength startIntervalBoundary,
-    DNALength &index, DNALength &indexIntervalBoundary) {
+template <typename T_MatchList, typename T_SequenceBoundaryDB>
+void AdvanceIndexToPastInterval(T_MatchList &pos, DNALength nPos, DNALength intervalLength,
+                                DNALength contigLength, T_SequenceBoundaryDB &SeqBoundary,
+                                DNALength startIndex, DNALength startIntervalBoundary,
+                                DNALength &index, DNALength &indexIntervalBoundary)
+{
     (void)(contigLength);
     if (index >= pos.size()) {
         return;
     }
     indexIntervalBoundary = SeqBoundary(pos[index].t);
     DNALength boundaryIndex = SeqBoundary.GetIndex(pos[index].t);
-    DNALength nextBoundary  = SeqBoundary.GetStartPos(boundaryIndex + 1);
+    DNALength nextBoundary = SeqBoundary.GetStartPos(boundaryIndex + 1);
     (void)(nextBoundary);
-    while (// index is not past the end of the genome
-            index < nPos and 
-            //
-            // Stop when the index goes too far ahead.
-            //
-            pos[index].t - pos[startIndex].t <= intervalLength and
-            //
-            // Still searching in the current contig.
-            //
-            indexIntervalBoundary == startIntervalBoundary) {
+    while (  // index is not past the end of the genome
+        index < nPos and
+        //
+        // Stop when the index goes too far ahead.
+        //
+        pos[index].t - pos[startIndex].t <= intervalLength and
+        //
+        // Still searching in the current contig.
+        //
+        indexIntervalBoundary == startIntervalBoundary) {
         index++;
         if (index < nPos) {
             indexIntervalBoundary = SeqBoundary(pos[index].t);
@@ -117,9 +117,9 @@ void AdvanceIndexToPastInterval(T_MatchList &pos, DNALength nPos,
     }
 }
 
-
-template<typename T_MatchList>  
-int RemoveZeroLengthAnchors(T_MatchList &matchList) {       
+template <typename T_MatchList>
+int RemoveZeroLengthAnchors(T_MatchList &matchList)
+{
     int origSize = matchList.size();
     int cur = 0;
     for (size_t m = 0; m < matchList.size(); m++) {
@@ -132,41 +132,38 @@ int RemoveZeroLengthAnchors(T_MatchList &matchList) {
     return origSize - cur;
 }
 
-template<typename T_MatchList>
-int RemoveOverlappingAnchors(T_MatchList &matchList) {       
-  int m;
-  int n;
-  for (m = int(matchList.size()); m > 0; m--) {
-    n = m - 1;
-    //
-    // Skip past repeats in the query.
-    while (n > 0 and matchList[n].t == matchList[m].t) {
-      n--;
-    }
+template <typename T_MatchList>
+int RemoveOverlappingAnchors(T_MatchList &matchList)
+{
+    int m;
+    int n;
+    for (m = int(matchList.size()); m > 0; m--) {
+        n = m - 1;
+        //
+        // Skip past repeats in the query.
+        while (n > 0 and matchList[n].t == matchList[m].t) {
+            n--;
+        }
 
-    bool mergeFound = false;
-    int ni = n;
-    while (mergeFound == false and 
-           n > 0 and 
-           matchList[n].t == matchList[ni].t) {
-      if (matchList[n].q < matchList[m].q and
-          matchList[n].t < matchList[m].t and
-          matchList[n].l + matchList[n].q >= 
-          matchList[m].l + matchList[m].q and
-          matchList[n].l + matchList[n].t >= 
-          matchList[m].l + matchList[m].t) {
-        matchList[m].l = 0;
-        mergeFound = true;
-      }
-      n--;
+        bool mergeFound = false;
+        int ni = n;
+        while (mergeFound == false and n > 0 and matchList[n].t == matchList[ni].t) {
+            if (matchList[n].q < matchList[m].q and matchList[n].t < matchList[m].t and
+                matchList[n].l + matchList[n].q >= matchList[m].l + matchList[m].q and
+                matchList[n].l + matchList[n].t >= matchList[m].l + matchList[m].t) {
+                matchList[m].l = 0;
+                mergeFound = true;
+            }
+            n--;
+        }
     }
-  }
-  int numRemoved = RemoveZeroLengthAnchors(matchList);
-  return numRemoved;
+    int numRemoved = RemoveZeroLengthAnchors(matchList);
+    return numRemoved;
 }
 
-template<typename T_MatchList>
-int SumAnchors(T_MatchList &pos, int start, int end) {
+template <typename T_MatchList>
+int SumAnchors(T_MatchList &pos, int start, int end)
+{
     int sum = 0;
     int i;
     for (i = start; i < end; i++) {
@@ -175,20 +172,17 @@ int SumAnchors(T_MatchList &pos, int start, int end) {
     return sum;
 }
 
-template<typename T_MatchList,
-         typename T_SequenceBoundaryDB>
-void StoreLargestIntervals(
-    T_MatchList &pos, 
-    // End search for intervals at boundary positions
-    // stored in seqBoundaries
-	T_SequenceBoundaryDB & ContigStartPos,
-	// parameters
-	// How many values to search through for a max set.
-	DNALength intervalLength,  
-	// How many sets to keep track of
-	int minSize,
-	vector<DNALength> &start,
-	vector<DNALength> &end) {
+template <typename T_MatchList, typename T_SequenceBoundaryDB>
+void StoreLargestIntervals(T_MatchList &pos,
+                           // End search for intervals at boundary positions
+                           // stored in seqBoundaries
+                           T_SequenceBoundaryDB &ContigStartPos,
+                           // parameters
+                           // How many values to search through for a max set.
+                           DNALength intervalLength,
+                           // How many sets to keep track of
+                           int minSize, vector<DNALength> &start, vector<DNALength> &end)
+{
 
     if (pos.size() == 0) {
         return;
@@ -208,7 +202,7 @@ void StoreLargestIntervals(
     PB_UNUSED(endOfCurrentInterval);
 
     curBoundary = ContigStartPos(pos[cur].t);
-    nextBoundary = ContigStartPos(pos[next].t);  
+    nextBoundary = ContigStartPos(pos[next].t);
 
     //
     // Advance next until the anchor is outside the interval that
@@ -219,8 +213,8 @@ void StoreLargestIntervals(
     DNALength curIntervalLength = NumRemainingBases(pos[cur].q, intervalLength);
     PB_UNUSED(curIntervalLength);
 
-    AdvanceIndexToPastInterval(pos, nPos, intervalLength, contigLength, ContigStartPos,
-            cur, curBoundary, next, nextBoundary);
+    AdvanceIndexToPastInterval(pos, nPos, intervalLength, contigLength, ContigStartPos, cur,
+                               curBoundary, next, nextBoundary);
 
     DNALength maxStart = cur, maxEnd = next;
     int maxSize = SumAnchors(pos, cur, next);
@@ -229,33 +223,32 @@ void StoreLargestIntervals(
         start.push_back(cur);
         end.push_back(next);
     }
-    while ( cur < nPos ) {
-        // 
+    while (cur < nPos) {
+        //
         // This interval overlaps with a possible max start
         //
 
-        if (pos[cur].t >= pos[maxStart].t and maxEnd > 0 and pos[cur].t < pos[maxEnd-1].t) {
+        if (pos[cur].t >= pos[maxStart].t and maxEnd > 0 and pos[cur].t < pos[maxEnd - 1].t) {
             if (curSize > maxSize) {
                 maxSize = curSize;
                 maxStart = cur;
-                maxEnd   = next;
+                maxEnd = next;
             }
-        }
-        else {
+        } else {
             if (maxSize > minSize) {
                 start.push_back(maxStart);
                 end.push_back(maxEnd);
             }
             maxStart = cur;
-            maxEnd   = next;
-            maxSize  = curSize;
+            maxEnd = next;
+            maxSize = curSize;
         }
 
         //
         // Done scoring current interval.  At this point the range
         // pos[cur...next) has been searched for a max increasing
         // interval.  Find a new range that will possibly yield a new
-        // maximum interval.  
+        // maximum interval.
         // There are a few cases to consider:
         //
         //
@@ -273,24 +266,23 @@ void StoreLargestIntervals(
         // Case 2.  The range on the target pos[cur+1 ... next] is not a
         // valid interval, and it is much longer than the length of the
         // read.  This implies that it is impossible to increase the score
-        // of the read by including both 
+        // of the read by including both
         //
         // genome  |---+----+--------------------------------+-----+---|
         //            cur  cur+1                             next next+1
-        // read interval   ==================== 
+        // read interval   ====================
         //
         // Advance the interval until it includes the next anchor
         //
         // genome  |---+----+------------------+-------------+-----+---|
         //            cur  cur+1             cur+n          next next+1
-        // read interval                     ==================== 
-        // 
+        // read interval                     ====================
+        //
 
         // First advance pointer in anchor list.  If this advances to the
         // end, done and no need for further logic checking (break now).
 
-
-        // 
+        //
         // If the next position is not within the same contig as the current,
         // advance the current to the next since it is impossible to find
         // any more intervals in the current pos.
@@ -307,8 +299,7 @@ void StoreLargestIntervals(
             if (next < nPos) {
                 next = cur + 1;
             }
-        }
-        else {
+        } else {
 
             //
             // The next interval is in the same contig as the current interval.
@@ -318,8 +309,7 @@ void StoreLargestIntervals(
             curSize -= pos[cur].l;
 
             cur++;
-            if (cur >= nPos)
-                break;
+            if (cur >= nPos) break;
 
             //
             // Advance the next to outside this interval.
@@ -356,8 +346,8 @@ void StoreLargestIntervals(
             // position in the next contig.
             //
             VectorIndex prevNext = next;
-            AdvanceIndexToPastInterval(pos, nPos, intervalLength, contigLength, ContigStartPos,
-                                       cur, curBoundary, next, nextBoundary);
+            AdvanceIndexToPastInterval(pos, nPos, intervalLength, contigLength, ContigStartPos, cur,
+                                       curBoundary, next, nextBoundary);
             if (prevNext != next or recountInterval) {
                 curSize = SumAnchors(pos, cur, next);
             }
@@ -373,7 +363,7 @@ void StoreLargestIntervals(
         //
 
         curBoundary = ContigStartPos(pos[cur].t);
-        contigLength  = ContigStartPos.Length(pos[cur].t);
+        contigLength = ContigStartPos.Length(pos[cur].t);
 
         //
         // Previously tried to advance half.  This is being removed since
@@ -386,67 +376,52 @@ void StoreLargestIntervals(
     }
 }
 
-template<typename T_MatchList,
-         typename T_PValueFunction, 
-         typename T_WeightFunction,
-         typename T_SequenceBoundaryDB,
-         typename T_ReferenceSequence,
-         typename T_Sequence>
+template <typename T_MatchList, typename T_PValueFunction, typename T_WeightFunction,
+          typename T_SequenceBoundaryDB, typename T_ReferenceSequence, typename T_Sequence>
 int FindMaxIncreasingInterval(
     // Input
-    // readDir is used to indicate if the interval that is being stored is 
-    // in the forward or reverse strand.  This is important later when 
-    // refining alignments so that the correct sequence is aligned back 
+    // readDir is used to indicate if the interval that is being stored is
+    // in the forward or reverse strand.  This is important later when
+    // refining alignments so that the correct sequence is aligned back
     // to the reference.
-    int readDir, 
-    T_MatchList &pos, 
+    int readDir, T_MatchList &pos,
     // How many values to search through for a max set.
-    DNALength intervalLength,  
+    DNALength intervalLength,
     // How many sets to keep track of
-    VectorIndex nBest, 
+    VectorIndex nBest,
     // End search for intervals at boundary positions
     // stored in seqBoundaries
-    T_SequenceBoundaryDB & ContigStartPos,
+    T_SequenceBoundaryDB &ContigStartPos,
     // First rand intervals by their p-value
-    T_PValueFunction &MatchPValueFunction,  
-    // When ranking intervals, sum over weights determined by 
+    T_PValueFunction &MatchPValueFunction,
+    // When ranking intervals, sum over weights determined by
     // MatchWeightFunction
-    T_WeightFunction &MatchWeightFunction,  
+    T_WeightFunction &MatchWeightFunction,
     // Output.
-    // The increasing interval coordinates, 
+    // The increasing interval coordinates,
     // in order by queue weight.
-    WeightedIntervalSet &intervalQueue, 
-    T_ReferenceSequence &reference, 
-    T_Sequence &query,
-    IntervalSearchParameters &params,
-    vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer,
-    ClusterList &clusterList,
-    VarianceAccumulator<float> &accumPValue, 
-    VarianceAccumulator<float> &accumWeight,
-    VarianceAccumulator<float> &accumNumAnchorBases) {
+    WeightedIntervalSet &intervalQueue, T_ReferenceSequence &reference, T_Sequence &query,
+    IntervalSearchParameters &params, vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer,
+    ClusterList &clusterList, VarianceAccumulator<float> &accumPValue,
+    VarianceAccumulator<float> &accumWeight, VarianceAccumulator<float> &accumNumAnchorBases)
+{
     (void)(accumNumAnchorBases);
 
     int maxLISSize = 0;
     if (params.fastMaxInterval) {
         maxLISSize = FastFindMaxIncreasingInterval(
-                readDir, pos, intervalLength,
-                nBest, ContigStartPos, 
-                MatchPValueFunction, MatchWeightFunction,
-                intervalQueue, reference, query,
-                params, chainEndpointBuffer, clusterList,
-                accumPValue, accumWeight);
+            readDir, pos, intervalLength, nBest, ContigStartPos, MatchPValueFunction,
+            MatchWeightFunction, intervalQueue, reference, query, params, chainEndpointBuffer,
+            clusterList, accumPValue, accumWeight);
     } else {
         maxLISSize = ExhaustiveFindMaxIncreasingInterval(
-                readDir, pos, intervalLength,
-                nBest, ContigStartPos, 
-                MatchPValueFunction, MatchWeightFunction,
-                intervalQueue, reference, query,
-                params, chainEndpointBuffer, clusterList,
-                accumPValue, accumWeight);
+            readDir, pos, intervalLength, nBest, ContigStartPos, MatchPValueFunction,
+            MatchWeightFunction, intervalQueue, reference, query, params, chainEndpointBuffer,
+            clusterList, accumPValue, accumWeight);
     }
 
     if (params.aggressiveIntervalCut and intervalQueue.size() >= 3) {
-        // aggressiveIntervalCut mode: 
+        // aggressiveIntervalCut mode:
         // only pick up the most promising intervals if we can classify
         // intervals into 'promising' and 'non-promising' clusters.
         WeightedIntervalSet::iterator it = intervalQueue.begin();
@@ -456,29 +431,28 @@ int FindMaxIncreasingInterval(
         ddPValues.resize(sz);
         float sumPValue = 0;
         int i = 0;
-        for(; it != intervalQueue.end(); i++,it++) {
+        for (; it != intervalQueue.end(); i++, it++) {
             sumPValue += (*it).pValue;
             pValues[i] = (*it).pValue;
         }
-        //We will attemp to divide intervals into two clusters, promising 
+        //We will attemp to divide intervals into two clusters, promising
         //and non-promising.
         float prevSumPValue = pValues[0];
-        // ddPValue[i], where i in [1...n-2] is the difference of 
+        // ddPValue[i], where i in [1...n-2] is the difference of
         //    (1) (mean pvalue of [0...i-1] minus pvalue[i])
-        // and 
+        // and
         //    (2) (pvalue[i] minus mean pvalue of [i+1...n-1])
         // pValues are all negative, the lower the better.
         // if ddPValue is negative, interval i is closer to cluster [i+1...n-1],
         // otherwise, interval i is closer to cluster [0..i-1].
         it = intervalQueue.begin();
-        it ++; //both it and i should point to the second interval in intervalQueue.
-        for(i = 1; i < sz - 1; i++,it++) {
+        it++;  //both it and i should point to the second interval in intervalQueue.
+        for (i = 1; i < sz - 1; i++, it++) {
             ddPValues[i] = (prevSumPValue / i) +
-                           (sumPValue - prevSumPValue - pValues[i]) / (sz - i - 1) -
-                           2 * pValues[i];
+                           (sumPValue - prevSumPValue - pValues[i]) / (sz - i - 1) - 2 * pValues[i];
             if (ddPValues[i] <= params.ddPValueThreshold) {
                 // PValue of interval i is much closer to cluster [i+1...n-1] than
-                // to cluster [0...i-1]. Mean pValue of cluster [0..i-1] 
+                // to cluster [0...i-1]. Mean pValue of cluster [0..i-1]
                 // minus mean pvalue of cluster [i+1...n-1] < 2 * -500
                 break;
             }
@@ -491,7 +465,7 @@ int FindMaxIncreasingInterval(
             accumPValue.Reset();
             accumWeight.Reset();
             clusterList.Clear();
-            for(it = intervalQueue.begin(); it != intervalQueue.end(); it++) {
+            for (it = intervalQueue.begin(); it != intervalQueue.end(); it++) {
                 accumPValue.Append((*it).pValue);
                 accumWeight.Append((*it).size);
                 clusterList.Store((*it).totalAnchorSize, (*it).start, (*it).end, (*it).nAnchors);
@@ -501,43 +475,37 @@ int FindMaxIncreasingInterval(
     return maxLISSize;
 }
 
-template<typename T_MatchList,
-         typename T_PValueFunction, 
-         typename T_WeightFunction,
-         typename T_SequenceBoundaryDB,
-         typename T_ReferenceSequence,
-         typename T_Sequence>
+template <typename T_MatchList, typename T_PValueFunction, typename T_WeightFunction,
+          typename T_SequenceBoundaryDB, typename T_ReferenceSequence, typename T_Sequence>
 int FastFindMaxIncreasingInterval(
-        // Input
-        // readDir is used to indicate if the interval that is being stored is in the forward
-        // or reverse strand.  This is important later when refining alignments so that the
-        // correct sequene is aligned back to the reference.
-        int readDir, 
-        T_MatchList &pos, 
-        // How many values to search through for a max set.
-        DNALength intervalLength,  
-        // How many sets to keep track of
-        VectorIndex nBest, 
-        // End search for intervals at boundary positions
-        // stored in seqBoundaries
-        T_SequenceBoundaryDB & ContigStartPos,
-        // First rand intervals by their p-value
-        T_PValueFunction &MatchPValueFunction,  
-        // When ranking intervals, sum over weights determined by MatchWeightFunction
-        T_WeightFunction &MatchWeightFunction,  
-        // Output.
-        // The increasing interval coordinates, 
-        // in order by queue weight.
-        WeightedIntervalSet &intervalQueue, 
-        T_ReferenceSequence &reference, 
-        T_Sequence &query,
-        IntervalSearchParameters &params,
-        vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer,
-        ClusterList &clusterList,
-        VarianceAccumulator<float> &accumPValue, 
-        VarianceAccumulator<float> &accumWeight) {
-    (void)(nBest); (void)(query); (void)(reference);
- 
+    // Input
+    // readDir is used to indicate if the interval that is being stored is in the forward
+    // or reverse strand.  This is important later when refining alignments so that the
+    // correct sequene is aligned back to the reference.
+    int readDir, T_MatchList &pos,
+    // How many values to search through for a max set.
+    DNALength intervalLength,
+    // How many sets to keep track of
+    VectorIndex nBest,
+    // End search for intervals at boundary positions
+    // stored in seqBoundaries
+    T_SequenceBoundaryDB &ContigStartPos,
+    // First rand intervals by their p-value
+    T_PValueFunction &MatchPValueFunction,
+    // When ranking intervals, sum over weights determined by MatchWeightFunction
+    T_WeightFunction &MatchWeightFunction,
+    // Output.
+    // The increasing interval coordinates,
+    // in order by queue weight.
+    WeightedIntervalSet &intervalQueue, T_ReferenceSequence &reference, T_Sequence &query,
+    IntervalSearchParameters &params, vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer,
+    ClusterList &clusterList, VarianceAccumulator<float> &accumPValue,
+    VarianceAccumulator<float> &accumWeight)
+{
+    (void)(nBest);
+    (void)(query);
+    (void)(reference);
+
     WeightedIntervalSet sdpiq;
     VectorIndex cur = 0;
     vector<VectorIndex> lisIndices;
@@ -563,7 +531,9 @@ int FastFindMaxIncreasingInterval(
     DNALength curBoundary = 0, nextBoundary = 0;
     DNALength contigLength = ContigStartPos.Length(pos[cur].t);
     DNALength endOfCurrentInterval = curBoundary + contigLength;
-    (void)(curBoundary); (void)(nextBoundary); (void)(endOfCurrentInterval);
+    (void)(curBoundary);
+    (void)(nextBoundary);
+    (void)(endOfCurrentInterval);
 
     vector<UInt> scores, prevOpt;
     vector<DNALength> start, end;
@@ -573,7 +543,7 @@ int FastFindMaxIncreasingInterval(
     VectorIndex i;
     VectorIndex posi;
     int maxLISSize = 0;
-    
+
     for (posi = 0; posi < start.size(); posi++) {
         lis.clear();
         lisIndices.clear();
@@ -585,45 +555,43 @@ int FastFindMaxIncreasingInterval(
             //
             lisSize = 0;
             lisIndices.push_back(0);
-        }
-        else {
+        } else {
             //
             // Find the largest set of increasing intervals that do not overlap.
             //
             if (params.globalChainType == 0) {
-                lisSize = GlobalChain<ChainedMatchPos, BasicEndpoint<ChainedMatchPos> >(pos, cur, next, 
-                        lisIndices, chainEndpointBuffer);
-            }
-            else {
+                lisSize = GlobalChain<ChainedMatchPos, BasicEndpoint<ChainedMatchPos> >(
+                    pos, cur, next, lisIndices, chainEndpointBuffer);
+            } else {
                 //
                 //  A different call that allows for indel penalties.
                 //
-                lisSize = RestrictedGlobalChain(&pos[cur],next - cur, 0.1, lisIndices, scores, prevOpt);
+                lisSize =
+                    RestrictedGlobalChain(&pos[cur], next - cur, 0.1, lisIndices, scores, prevOpt);
             }
         }
 
         // Maybe this should become a function?
         for (i = 0; i < lisIndices.size(); i++) {
-            lis.push_back(pos[lisIndices[i]+cur]);
+            lis.push_back(pos[lisIndices[i] + cur]);
         }
 
-        // 
+        //
         // Compute pvalue of this match.
         //
         if (lis.size() > 0) {
             lisPValue = MatchPValueFunction.ComputePValue(lis, noOvpLisNBases, noOvpLisSize);
-        }
-        else {
+        } else {
             lisPValue = 0;
         }
 
         if (lisSize > maxLISSize) {
-            maxLISSize  = lisSize;
+            maxLISSize = lisSize;
         }
 
         //
-        // Insert the interval into the interval queue maintaining only the 
-        // top 'nBest' intervals. 
+        // Insert the interval into the interval queue maintaining only the
+        // top 'nBest' intervals.
         //
         //WeightedIntervalSet::iterator lastIt = intervalQueue.begin();
         MatchWeight lisWeight = MatchWeightFunction(lis);
@@ -633,60 +601,54 @@ int FastFindMaxIncreasingInterval(
         accumWeight.Append(lisWeight);
 
         if (lisPValue < params.maxPValue and lisSize > 0) {
-            WeightedInterval weightedInterval(lisWeight, noOvpLisSize, noOvpLisNBases, 
-                    lis[0].t, lis[lisEnd].t + lis[lisEnd].GetLength(), 
-                    readDir, lisPValue, 
-                    lis[0].q, lis[lisEnd].q + lis[lisEnd].GetLength(), 
-                    lis);
+            WeightedInterval weightedInterval(lisWeight, noOvpLisSize, noOvpLisNBases, lis[0].t,
+                                              lis[lisEnd].t + lis[lisEnd].GetLength(), readDir,
+                                              lisPValue, lis[0].q,
+                                              lis[lisEnd].q + lis[lisEnd].GetLength(), lis);
             intervalQueue.insert(weightedInterval);
             if (weightedInterval.isOverlapping == false) {
-                clusterList.Store((float)noOvpLisNBases, lis[0].t, lis[lis.size()-1].t, noOvpLisSize);
+                clusterList.Store((float)noOvpLisNBases, lis[0].t, lis[lis.size() - 1].t,
+                                  noOvpLisSize);
             }
             if (params.verbosity > 1) {
-                cout << "Weighted Interval to insert:"<< endl << weightedInterval << endl;
-                cout << "Interval Queue:"<< endl << intervalQueue << endl;
+                cout << "Weighted Interval to insert:" << endl << weightedInterval << endl;
+                cout << "Interval Queue:" << endl << intervalQueue << endl;
             }
         }
     }
     return maxLISSize;
 }
 
-template<typename T_MatchList,
-         typename T_PValueFunction, 
-         typename T_WeightFunction,
-         typename T_SequenceBoundaryDB,
-         typename T_ReferenceSequence,
-         typename T_Sequence>
+template <typename T_MatchList, typename T_PValueFunction, typename T_WeightFunction,
+          typename T_SequenceBoundaryDB, typename T_ReferenceSequence, typename T_Sequence>
 int ExhaustiveFindMaxIncreasingInterval(
-        // Input
-        // readDir is used to indicate if the interval that is being stored is in the forward
-        // or reverse strand.  This is important later when refining alignments so that the
-        // correct sequene is aligned back to the reference.
-        int readDir, 
-        T_MatchList &pos, 
-        // How many values to search through for a max set.
-        DNALength intervalLength,  
-        // How many sets to keep track of
-        VectorIndex nBest, 
-        // End search for intervals at boundary positions
-        // stored in seqBoundaries
-        T_SequenceBoundaryDB & ContigStartPos,
-        // First rand intervals by their p-value
-        T_PValueFunction &MatchPValueFunction,  
-        // When ranking intervals, sum over weights determined by MatchWeightFunction
-        T_WeightFunction &MatchWeightFunction,  
-        // Output.
-        // The increasing interval coordinates, 
-        // in order by queue weight.
-        WeightedIntervalSet &intervalQueue, 
-        T_ReferenceSequence &reference, 
-        T_Sequence &query,
-        IntervalSearchParameters &params,
-        vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer,
-        ClusterList &clusterList,
-        VarianceAccumulator<float> &accumPValue, 
-        VarianceAccumulator<float> &accumWeight) {
-    (void)(nBest); (void)(query); (void)(reference);
+    // Input
+    // readDir is used to indicate if the interval that is being stored is in the forward
+    // or reverse strand.  This is important later when refining alignments so that the
+    // correct sequene is aligned back to the reference.
+    int readDir, T_MatchList &pos,
+    // How many values to search through for a max set.
+    DNALength intervalLength,
+    // How many sets to keep track of
+    VectorIndex nBest,
+    // End search for intervals at boundary positions
+    // stored in seqBoundaries
+    T_SequenceBoundaryDB &ContigStartPos,
+    // First rand intervals by their p-value
+    T_PValueFunction &MatchPValueFunction,
+    // When ranking intervals, sum over weights determined by MatchWeightFunction
+    T_WeightFunction &MatchWeightFunction,
+    // Output.
+    // The increasing interval coordinates,
+    // in order by queue weight.
+    WeightedIntervalSet &intervalQueue, T_ReferenceSequence &reference, T_Sequence &query,
+    IntervalSearchParameters &params, vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer,
+    ClusterList &clusterList, VarianceAccumulator<float> &accumPValue,
+    VarianceAccumulator<float> &accumWeight)
+{
+    (void)(nBest);
+    (void)(query);
+    (void)(reference);
 
     WeightedIntervalSet sdpiq;
     VectorIndex cur = 0;
@@ -713,10 +675,12 @@ int ExhaustiveFindMaxIncreasingInterval(
     DNALength curBoundary = 0, nextBoundary = 0;
     DNALength contigLength = ContigStartPos.Length(pos[cur].t);
     DNALength endOfCurrentInterval = curBoundary + contigLength;
-    (void)(curBoundary); (void)(nextBoundary); (void)(endOfCurrentInterval);
+    (void)(curBoundary);
+    (void)(nextBoundary);
+    (void)(endOfCurrentInterval);
 
     curBoundary = ContigStartPos(pos[cur].t);
-    nextBoundary = ContigStartPos(pos[next].t);  
+    nextBoundary = ContigStartPos(pos[next].t);
     vector<UInt> scores, prevOpt;
 
     //
@@ -728,15 +692,14 @@ int ExhaustiveFindMaxIncreasingInterval(
     DNALength curIntervalLength = NumRemainingBases(pos[cur].q, intervalLength);
     (void)(curIntervalLength);
 
-    AdvanceIndexToPastInterval(pos, nPos, intervalLength, contigLength, ContigStartPos,
-    cur, curBoundary, next, nextBoundary);
-
+    AdvanceIndexToPastInterval(pos, nPos, intervalLength, contigLength, ContigStartPos, cur,
+                               curBoundary, next, nextBoundary);
 
     vector<VectorIndex> lisIndices;
     VectorIndex i;
 
     //
-    // Do some preprocessing.  If the number of anchors considered for this hit is 1, 
+    // Do some preprocessing.  If the number of anchors considered for this hit is 1,
     // the global chain is this sole ancor.  Don't bother calling GlobalChain
     // since it allocates and deallocates extra memory.
     //
@@ -747,7 +710,7 @@ int ExhaustiveFindMaxIncreasingInterval(
     // Search intervals until cur reaches the end of the list of
     // anchors.
     //
-    while ( cur < nPos ) {
+    while (cur < nPos) {
         //
         // Search the local interval for a LIS larger than a previous LIS.
         //
@@ -760,39 +723,39 @@ int ExhaustiveFindMaxIncreasingInterval(
             //
             lisSize = 1;
             lisIndices.push_back(0);
-        }
-        else {
+        } else {
             //
             // Find the largest set of increasing intervals that do not overlap.
             //
             if (params.globalChainType == 0) {
-                lisSize = GlobalChain<ChainedMatchPos, BasicEndpoint<ChainedMatchPos> >(pos, cur, next, 
-                        lisIndices, chainEndpointBuffer);
-            }
-            else {
+                lisSize = GlobalChain<ChainedMatchPos, BasicEndpoint<ChainedMatchPos> >(
+                    pos, cur, next, lisIndices, chainEndpointBuffer);
+            } else {
                 //
                 //  A different call that allows for indel penalties.
                 //
-                lisSize = RestrictedGlobalChain(&pos[cur],next - cur, 0.1, lisIndices, scores, prevOpt);
+                lisSize =
+                    RestrictedGlobalChain(&pos[cur], next - cur, 0.1, lisIndices, scores, prevOpt);
             }
         }
 
         // Maybe this should become a function?
-        for (i = 0; i < lisIndices.size(); i++) {    lis.push_back(pos[lisIndices[i]+cur]); }
+        for (i = 0; i < lisIndices.size(); i++) {
+            lis.push_back(pos[lisIndices[i] + cur]);
+        }
 
-
-        // 
+        //
         // Compute pvalue of this match.
         //
         lisPValue = MatchPValueFunction.ComputePValue(lis, noOvpLisNBases, noOvpLisSize);
 
         if (lisSize > maxLISSize) {
-            maxLISSize  = lisSize;
+            maxLISSize = lisSize;
         }
 
         //
-        // Insert the interval into the interval queue maintaining only the 
-        // top 'nBest' intervals. 
+        // Insert the interval into the interval queue maintaining only the
+        // top 'nBest' intervals.
         //
 
         //WeightedIntervalSet::iterator lastIt = intervalQueue.begin();
@@ -803,18 +766,18 @@ int ExhaustiveFindMaxIncreasingInterval(
         accumWeight.Append(lisWeight);
 
         if (lisPValue < params.maxPValue and lisSize > 0) {
-            WeightedInterval weightedInterval(lisWeight, noOvpLisSize, noOvpLisNBases, 
-                    lis[0].t, lis[lisEnd].t + lis[lisEnd].GetLength(), 
-                    readDir, lisPValue, 
-                    lis[0].q, lis[lisEnd].q + lis[lisEnd].GetLength(), 
-                    lis);
+            WeightedInterval weightedInterval(lisWeight, noOvpLisSize, noOvpLisNBases, lis[0].t,
+                                              lis[lisEnd].t + lis[lisEnd].GetLength(), readDir,
+                                              lisPValue, lis[0].q,
+                                              lis[lisEnd].q + lis[lisEnd].GetLength(), lis);
             intervalQueue.insert(weightedInterval);
             if (weightedInterval.isOverlapping == false) {
-                clusterList.Store((float)noOvpLisNBases, lis[0].t, lis[lis.size()-1].t, noOvpLisSize);
+                clusterList.Store((float)noOvpLisNBases, lis[0].t, lis[lis.size() - 1].t,
+                                  noOvpLisSize);
             }
             if (params.verbosity > 1) {
-                cout << "Weighted Interval to insert:"<< endl << weightedInterval << endl;
-                cout << "Interval Queue:"<< endl << intervalQueue << endl;
+                cout << "Weighted Interval to insert:" << endl << weightedInterval << endl;
+                cout << "Interval Queue:" << endl << intervalQueue << endl;
             }
         }
 
@@ -822,7 +785,7 @@ int ExhaustiveFindMaxIncreasingInterval(
         // Done scoring current interval.  At this point the range
         // pos[cur...next) has been searched for a max increasing
         // interval.  Find a new range that will possibly yield a new
-        // maximum interval.  
+        // maximum interval.
         // There are a few cases to consider:
         //
         //
@@ -840,24 +803,23 @@ int ExhaustiveFindMaxIncreasingInterval(
         // Case 2.  The range on the target pos[cur+1 ... next] is not a
         // valid interval, and it is much longer than the length of the
         // read.  This implies that it is impossible to increase the score
-        // of the read by including both 
+        // of the read by including both
         //
         // genome  |---+----+--------------------------------+-----+---|
         //            cur  cur+1                             next next+1
-        // read interval   ==================== 
+        // read interval   ====================
         //
         // Advance the interval until it includes the next anchor
         //
         // genome  |---+----+------------------+-------------+-----+---|
         //            cur  cur+1             cur+n          next next+1
-        // read interval                     ==================== 
-        // 
+        // read interval                     ====================
+        //
 
         // First advance pointer in anchor list.  If this advances to the
         // end, done and no need for further logic checking (break now).
 
-
-        // 
+        //
         // If the next position is not within the same contig as the current,
         // advance the current to the next since it is impossible to find
         // any more intervals in the current pos.
@@ -873,11 +835,9 @@ int ExhaustiveFindMaxIncreasingInterval(
             if (next < nPos) {
                 next = cur + 1;
             }
-        }
-        else {
+        } else {
             cur++;
-            if (cur >= nPos)
-                break;
+            if (cur >= nPos) break;
 
             //
             //  Look for need to advance the interval within the same
@@ -885,17 +845,15 @@ int ExhaustiveFindMaxIncreasingInterval(
             //  length of this read, keep moving forward matches until it is
             //  possible to include the next interval in the matches for
             //  this read.
-            // 
+            //
             if (params.warp) {
-                while (cur < next and 
-                        next < nPos and 
-                        pos[next].t - pos[cur].t >= intervalLength) {
+                while (cur < next and next < nPos and pos[next].t - pos[cur].t >= intervalLength) {
                     //
                     // It is impossible to increase the max interval weight any more
                     // using pos[cur] when pos[next] is too far away from
                     // pos[cur].  This is because the same set of anchors are used
                     // when clustering pos[cur+1] ... pos[next] as
-                    // pos[cur] ... pos[next].  
+                    // pos[cur] ... pos[next].
                     // Advance cur until pos[cur] is close enough to matter again.
                     cur++;
                 }
@@ -922,8 +880,8 @@ int ExhaustiveFindMaxIncreasingInterval(
             // just after where the interval starting at cur is, or the first
             // position in the next contig.
             //
-            AdvanceIndexToPastInterval(pos, nPos, intervalLength, contigLength, ContigStartPos,
-                    cur, curBoundary, next, nextBoundary);
+            AdvanceIndexToPastInterval(pos, nPos, intervalLength, contigLength, ContigStartPos, cur,
+                                       curBoundary, next, nextBoundary);
         }
         // if next >= nPos, the boundary stays the same.
         //
@@ -934,7 +892,7 @@ int ExhaustiveFindMaxIncreasingInterval(
         //
 
         curBoundary = ContigStartPos(pos[cur].t);
-        contigLength  = ContigStartPos.Length(pos[cur].t);
+        contigLength = ContigStartPos.Length(pos[cur].t);
 
         //
         // Previously tried to advance half.  This is being removed since
@@ -942,7 +900,7 @@ int ExhaustiveFindMaxIncreasingInterval(
         //
     }
 
-    return  maxLISSize;
+    return maxLISSize;
 }
 
 #endif

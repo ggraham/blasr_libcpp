@@ -5,15 +5,13 @@
 #include <iostream>
 #include "../algorithms/alignment/AlignmentUtils.hpp"
 
-namespace CompareSequencesOutput{
+namespace CompareSequencesOutput {
 
 void PrintHeader(std::ostream &out);
 
-template<typename T_Alignment, typename T_QuerySequence, typename T_TargetSequence>
-void Print(T_Alignment &alignment, 
-    T_QuerySequence &qseq, T_TargetSequence &tseq, 
-    std::ostream &out, bool refForward=true);
-
+template <typename T_Alignment, typename T_QuerySequence, typename T_TargetSequence>
+void Print(T_Alignment &alignment, T_QuerySequence &qseq, T_TargetSequence &tseq, std::ostream &out,
+           bool refForward = true);
 }
 
 #include "CompareSequencesPrinterImpl.hpp"

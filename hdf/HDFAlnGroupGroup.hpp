@@ -2,26 +2,26 @@
 #define _BLASR_HDF_ALN_GROUP_HPP_
 
 #include <string>
+#include "../pbdata/saf/AlnGroup.hpp"
 #include "HDFArray.hpp"
 #include "HDFGroup.hpp"
-#include "../pbdata/saf/AlnGroup.hpp"
 
-class HDFAlnGroupGroup {
+class HDFAlnGroupGroup
+{
 public:
     HDFGroup alnGroup;
     HDFArray<unsigned int> idArray;
     HDFStringArray pathArray;
 
-    bool Create(HDFGroup &parent); 
+    bool Create(HDFGroup &parent);
 
-    int AddPath(std::string path); 
+    int AddPath(std::string path);
 
-    int Initialize(HDFGroup &parent); 
+    int Initialize(HDFGroup &parent);
 
-    void Read(AlnGroup &aln); 
+    void Read(AlnGroup &aln);
 
-    ~HDFAlnGroupGroup(); 
+    ~HDFAlnGroupGroup();
 };
-
 
 #endif

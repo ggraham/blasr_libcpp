@@ -3,9 +3,10 @@
 
 #include "../../pbdata/Types.h"
 
-class TupleMetrics {
+class TupleMetrics
+{
 public:
-    int tupleSize; // Number of bits in a tuple.
+    int tupleSize;  // Number of bits in a tuple.
     TupleData tupleMask;
 
     TupleMetrics();
@@ -15,5 +16,4 @@ public:
     void Initialize(int pTupleSize);
 };
 
-
-#endif //_BLASR_TUPLE_METRICS_HPP_
+#endif  //_BLASR_TUPLE_METRICS_HPP_
