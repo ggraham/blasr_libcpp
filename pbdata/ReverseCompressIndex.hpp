@@ -1,6 +1,8 @@
 #ifndef _BLASR_REVERSE_COMPRESS_INDEX_HPP_
 #define _BLASR_REVERSE_COMPRESS_INDEX_HPP_
 
+#include <fstream>
+
 class ReverseCompressIndex
 {
 public:

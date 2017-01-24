@@ -2,7 +2,9 @@
 #define _BLASR_FLAT_MATRIX_HPP_
 
 #define rc2index(r, c, rowSize) ((r) * (rowSize) + c)
+#include <fstream>
 #include <iosfwd>
+#include <vector>
 #include "../Types.h"  // UInt
 
 template <typename T>

@@ -1,6 +1,7 @@
 #ifndef _BLASR_ALIGNMENT_MAP_HPP_
 #define _BLASR_ALIGNMENT_MAP_HPP_
 
+#include <string>
 #include <vector>
 
 class AlignmentMap
