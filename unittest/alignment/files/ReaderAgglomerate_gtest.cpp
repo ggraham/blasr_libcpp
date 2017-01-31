@@ -88,7 +88,7 @@ TEST_F(ReaderAgglomerateTest, GetMovieName)
     string movieName = "";
     // Fasta
     GET_MOVIE_NAME(fastaFile1)
-    EXPECT_EQ(movieName, "/mnt/secondary-siv/testdata/BlasrTestData/utest/data/read.fasta");
+    EXPECT_EQ(movieName, "/pbi/dept/secondary/siv/testdata/BlasrTestData/utest/data/read.fasta");
 
     // Bax
     GET_MOVIE_NAME(baxFile1)
