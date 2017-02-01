@@ -84,13 +84,6 @@ int ProcessMatch(std::vector<int> &lengths, std::vector<char> &ops, size_t &opIn
     return blockLength;
 }
 
-void CIGAROpsToBlocks(std::vector<int> &lengths, std::vector<char> &ops, size_t cigarStart,
-                      size_t cigarEnd, AlignmentCandidate<> &aln)
-{
-    cigarStart = 0;
-    cigarEnd = lengths.size();
-    CIGAROpsToBlocks(lengths, ops, cigarStart, cigarEnd, aln);
-}
 
 int AdvancePosToAlignmentEnd(std::vector<char> &ops, size_t &pos)
 {
