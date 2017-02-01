@@ -35,9 +35,6 @@ int AdvancePastSkipped(std::vector<int> &lengths, std::vector<char> &ops, size_t
 
 int ProcessMatch(std::vector<int> &lengths, std::vector<char> &ops, int &opIndex, int opEnd);
 
-void CIGAROpsToBlocks(std::vector<int> &lengths, std::vector<char> &ops, size_t cigarStart,
-                      size_t cigarEnd, AlignmentCandidate<> &aln);
-
 int AdvancePosToAlignmentEnd(std::vector<char> &ops, int &pos);
 
 int GetAlignedQueryLengthByCIGARSum(std::vector<char> &ops, std::vector<int> &lengths);
