@@ -84,7 +84,6 @@ int ProcessMatch(std::vector<int> &lengths, std::vector<char> &ops, size_t &opIn
     return blockLength;
 }
 
-
 int AdvancePosToAlignmentEnd(std::vector<char> &ops, size_t &pos)
 {
     size_t start = pos;
