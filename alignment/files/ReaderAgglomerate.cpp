@@ -12,6 +12,7 @@ void ReaderAgglomerate::InitializeParameters()
     ignoreCCS = true;
     readType = ReadType::SUBREAD;
     unrolled = false;  // indicate unrolled mode , needed by GetNext
+    polymerase = false;
 #ifdef USE_PBBAM
     dataSetPtr = nullptr;
     entireFileQueryPtr = nullptr;
@@ -222,7 +223,7 @@ bool ReaderAgglomerate::HasRegionTable()
     }
 #endif
 
-int ReaderAgglomerate::Initialize(bool unrolled_mode)
+int ReaderAgglomerate::Initialize(bool unrolled_mode, bool polymerase_mode)
 {
     int init = 1;
     switch (fileType) {
@@ -264,6 +265,7 @@ int ReaderAgglomerate::Initialize(bool unrolled_mode)
 #ifdef USE_PBBAM
             RESET_PBBAM_PTRS();
             unrolled = unrolled_mode;
+            polymerase = polymerase_mode;
             // create dataset , common for both unrolled and regular modes
             try {
                 dataSetPtr = new PacBio::BAM::DataSet(fileName);
@@ -530,15 +532,29 @@ int ReaderAgglomerate::GetNext(SMRTSequence &seq)
             break;
         case FileType::PBDATASET:
 #ifdef USE_PBBAM
-            if (unrolled) {
+            if (unrolled && !polymerase) {
                 if (VPCReader->HasNext()) {
-                    // TODO check for length mismatch (as temporary fix)
-
                     PacBio::BAM::VirtualZmwBamRecord record = VPCReader->Next();
 
                     numRecords = 1;    // a single record only
                     seq.Copy(record);  // need to copy into seq
                     // denote, no iterator so no need to advance anything. HasNext advances to ath next VPBR
+                }
+            } else if (unrolled && polymerase) {
+                bool lookingForPolyRead = true;
+                while (lookingForPolyRead && VPCReader->HasNext()) {
+                    PacBio::BAM::VirtualZmwBamRecord record = VPCReader->Next();
+                    using VRT = PacBio::BAM::VirtualRegionType;
+                    if (record.HasVirtualRegionType(VRT::HQREGION)) {
+                        lookingForPolyRead = false;
+                        numRecords = 1;  // a single record only
+                        const auto hqs = record.VirtualRegionsTable(VRT::HQREGION);
+                        if (hqs.size() > 1)
+                            cout << "Read has multiple HQ regions. Will only use first." << endl;
+                        const auto hq = hqs.front();
+                        record.Clip(PacBio::BAM::ClipType::CLIP_TO_QUERY, hq.beginPos, hq.endPos);
+                        seq.Copy(record);  // need to copy into seq
+                    }
                 }
             } else {
                 GET_NEXT_FROM_DATASET();

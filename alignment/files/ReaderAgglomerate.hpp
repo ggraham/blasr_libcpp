@@ -39,6 +39,7 @@ class ReaderAgglomerate : public BaseSequenceIO
     bool ignoreCCS;
     ReadType::ReadTypeEnum readType;
     bool unrolled;  // indicate if unrolled mode; needed because GetNext() must know about the mode
+    bool polymerase;
     std::string scrapsFileName;  // Needed for unrolled to initiate if in PBBAM
 
 public:
@@ -96,9 +97,9 @@ public:
 
     bool HasRegionTable();
 
-    int Initialize(
-        bool unrolled_mode =
-            false);  // add unrolled mode, to indicate we need to initialize VP/VPC|Reader
+    // add unrolled mode, to indicate we need to initialize VP/VPC|Reader
+    // polymerase mode will only work with BAM records
+    int Initialize(bool unrolled_mode = false, bool polymerase_mode = false);
 
     ReaderAgglomerate &operator=(ReaderAgglomerate &rhs);
 
