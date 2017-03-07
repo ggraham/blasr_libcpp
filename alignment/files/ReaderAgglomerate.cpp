@@ -546,9 +546,11 @@ int ReaderAgglomerate::GetNext(SMRTSequence &seq)
                     PacBio::BAM::VirtualZmwBamRecord record = VPCReader->Next();
                     using VRT = PacBio::BAM::VirtualRegionType;
                     if (record.HasVirtualRegionType(VRT::HQREGION)) {
+                        const auto hqs = record.VirtualRegionsTable(VRT::HQREGION);
+                        if (hqs.empty()) continue;
+
                         lookingForPolyRead = false;
                         numRecords = 1;  // a single record only
-                        const auto hqs = record.VirtualRegionsTable(VRT::HQREGION);
                         if (hqs.size() > 1)
                             cout << "Read has multiple HQ regions. Will only use first." << endl;
                         const auto hq = hqs.front();
