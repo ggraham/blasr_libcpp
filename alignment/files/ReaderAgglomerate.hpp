@@ -139,9 +139,8 @@ public:
     PacBio::BAM::SequentialZmwGroupQuery::iterator sequentialZmwIterator;
     PacBio::BAM::PbiFilterZmwGroupQuery *pbiFilterZmwQueryPtr;
     PacBio::BAM::PbiFilterZmwGroupQuery::iterator pbiFilterZmwIterator;
-    // the following to added to support Polymerase reads in unrolled mode
-    PacBio::BAM::ZmwReadStitcher *VPReader;   // new interface
-    PacBio::BAM::ZmwReadStitcher *VPCReader;  // new interface
+    // the following to added to support ZMW reads in unrolled mode
+    PacBio::BAM::ZmwReadStitcher *VPReader;  // new interface
 #endif
 };
 
