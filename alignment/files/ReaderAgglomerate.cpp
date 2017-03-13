@@ -12,6 +12,7 @@ void ReaderAgglomerate::InitializeParameters()
     ignoreCCS = true;
     readType = ReadType::SUBREAD;
     unrolled = false;  // indicate unrolled mode , needed by GetNext
+    polymerase = false;
 #ifdef USE_PBBAM
     dataSetPtr = nullptr;
     entireFileQueryPtr = nullptr;
@@ -19,8 +20,7 @@ void ReaderAgglomerate::InitializeParameters()
     sequentialZmwQueryPtr = nullptr;
     pbiFilterZmwQueryPtr = nullptr;
     // the following two for unrolling
-    VPReader = nullptr;   // for PBBAM
-    VPCReader = nullptr;  // for PBDATASET
+    VPReader = nullptr;  // for PBBAM
 #endif
 }
 
@@ -215,14 +215,10 @@ bool ReaderAgglomerate::HasRegionTable()
     if (VPReader) {                      \
         delete VPReader;                 \
         VPReader = nullptr;              \
-    }                                    \
-    if (VPCReader) {                     \
-        delete VPCReader;                \
-        VPCReader = nullptr;             \
     }
 #endif
 
-int ReaderAgglomerate::Initialize(bool unrolled_mode)
+int ReaderAgglomerate::Initialize(bool unrolled_mode, bool polymerase_mode)
 {
     int init = 1;
     switch (fileType) {
@@ -264,6 +260,7 @@ int ReaderAgglomerate::Initialize(bool unrolled_mode)
 #ifdef USE_PBBAM
             RESET_PBBAM_PTRS();
             unrolled = unrolled_mode;
+            polymerase = polymerase_mode;
             // create dataset , common for both unrolled and regular modes
             try {
                 dataSetPtr = new PacBio::BAM::DataSet(fileName);
@@ -280,10 +277,9 @@ int ReaderAgglomerate::Initialize(bool unrolled_mode)
                 } else if (fileType == FileType::PBDATASET) {
                     dataSetPtr = new PacBio::BAM::DataSet(fileName);
                     // No need in setting filters for PolymeraseReads
-                    // prefiltering, in a form it is currently implemented migght crate Polymerase reads
-                    // with skipped subreads, which defies the whole purpose of unrolled mode
-                    VPCReader = new PacBio::BAM::ZmwReadStitcher(*dataSetPtr);
-                    assert(VPCReader != nullptr);
+                    // prefiltering,
+                    VPReader = new PacBio::BAM::ZmwReadStitcher(*dataSetPtr);
+                    assert(VPReader != nullptr);
                 }
             } else {
                 if (fileType == FileType::PBBAM) {
@@ -529,37 +525,50 @@ int ReaderAgglomerate::GetNext(SMRTSequence &seq)
             numRecords = hdfBasReader.GetNext(seq);
             break;
         case FileType::PBDATASET:
-#ifdef USE_PBBAM
-            if (unrolled) {
-                if (VPCReader->HasNext()) {
-                    // TODO check for length mismatch (as temporary fix)
-
-                    PacBio::BAM::VirtualZmwBamRecord record = VPCReader->Next();
-
-                    numRecords = 1;    // a single record only
-                    seq.Copy(record);  // need to copy into seq
-                    // denote, no iterator so no need to advance anything. HasNext advances to ath next VPBR
-                }
-            } else {
-                GET_NEXT_FROM_DATASET();
-            }
-            break;
-#endif
         case FileType::PBBAM:
 #ifdef USE_PBBAM
-            // TODO unrolled
             if (unrolled) {
-                if (VPReader->HasNext()) {
-                    // TODO check for length mismatch (as temporary fix)
+                using VZBR = PacBio::BAM::VirtualZmwBamRecord;
+                using VRT = PacBio::BAM::VirtualRegionType;
 
-                    PacBio::BAM::VirtualZmwBamRecord record = VPReader->Next();
+                std::unique_ptr<VZBR> record;
+                if (!polymerase) {
+                    if (VPReader->HasNext())
+                        record = std::unique_ptr<VZBR>(new VZBR(VPReader->Next()));
+                } else {
+                    while (VPReader->HasNext()) {
+                        record = std::unique_ptr<VZBR>(new VZBR(VPReader->Next()));
+                        if (!record->HasVirtualRegionType(VRT::HQREGION) ||
+                            !record->HasVirtualRegionType(VRT::SUBREAD))
+                            continue;
 
-                    numRecords = 1;    // a single record only
-                    seq.Copy(record);  // need to copy into seq
-                    // denote, no iterator so no need to advance anything. HasNext advances to ath next VPBR
+                        const auto hqs = record->VirtualRegionsTable(VRT::HQREGION);
+                        if (hqs.empty()) continue;
+
+                        if (record->VirtualRegionsTable(VRT::SUBREAD).empty()) continue;
+
+                        const auto hq = hqs.front();
+                        record->Clip(PacBio::BAM::ClipType::CLIP_TO_QUERY, hq.beginPos, hq.endPos);
+                        record->UpdateName();
+
+                        break;  // Found a ZMW read with HQ-region, break out of while loop
+                    }
+                }
+                if (record) {
+                    numRecords = 1;
+                    seq.Copy(*record);
                 }
             } else {
-                GET_NEXT_FROM_BAM();
+                switch (fileType) {
+                    case FileType::PBDATASET:
+                        GET_NEXT_FROM_DATASET();
+                        break;
+                    case FileType::PBBAM:
+                        GET_NEXT_FROM_BAM();
+                        break;
+                    default:
+                        throw std::runtime_error("Unknown state. Aborting.");
+                }
             }
             break;
 #endif

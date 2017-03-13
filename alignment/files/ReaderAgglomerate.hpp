@@ -39,6 +39,7 @@ class ReaderAgglomerate : public BaseSequenceIO
     bool ignoreCCS;
     ReadType::ReadTypeEnum readType;
     bool unrolled;  // indicate if unrolled mode; needed because GetNext() must know about the mode
+    bool polymerase;
     std::string scrapsFileName;  // Needed for unrolled to initiate if in PBBAM
 
 public:
@@ -96,9 +97,9 @@ public:
 
     bool HasRegionTable();
 
-    int Initialize(
-        bool unrolled_mode =
-            false);  // add unrolled mode, to indicate we need to initialize VP/VPC|Reader
+    // add unrolled mode, to indicate we need to initialize VP/VPC|Reader
+    // polymerase mode will only work with BAM records
+    int Initialize(bool unrolled_mode = false, bool polymerase_mode = false);
 
     ReaderAgglomerate &operator=(ReaderAgglomerate &rhs);
 
@@ -138,9 +139,8 @@ public:
     PacBio::BAM::SequentialZmwGroupQuery::iterator sequentialZmwIterator;
     PacBio::BAM::PbiFilterZmwGroupQuery *pbiFilterZmwQueryPtr;
     PacBio::BAM::PbiFilterZmwGroupQuery::iterator pbiFilterZmwIterator;
-    // the following to added to support Polymerase reads in unrolled mode
-    PacBio::BAM::ZmwReadStitcher *VPReader;   // new interface
-    PacBio::BAM::ZmwReadStitcher *VPCReader;  // new interface
+    // the following to added to support ZMW reads in unrolled mode
+    PacBio::BAM::ZmwReadStitcher *VPReader;  // new interface
 #endif
 };
 
