@@ -71,7 +71,7 @@ file(GLOB_RECURSE TEST_CPP "${BLASRLIBCPP_RootDir}/unittest/*/*.cpp")
 
 add_executable(libcpptest ${TEST_CPP})
 target_include_directories(libcpptest PUBLIC ${BLASRLIBCPP_RootDir}/unittest)
-target_link_libraries(libcpptest gtest_main libcpp hdf5 hdf5_cpp)
+target_link_libraries(libcpptest gtest_main libcpp hdf5 hdf5_cpp ${ZLIB_LDFLAGS})
 add_test(libcpptest libcpptest)
 
 set_target_properties(libcpptest PROPERTIES COMPILE_FLAGS "${BLASRLIBCPP_COMPIPLE_FLAGS}")
