@@ -1,7 +1,7 @@
 #ifndef _BLASR_TUPLE_LIST_HPP_
 #define _BLASR_TUPLE_LIST_HPP_
 
-#include <stdint.h>
+#include <cstdint>
 #include <algorithm>
 #include <fstream>
 #include <iostream>

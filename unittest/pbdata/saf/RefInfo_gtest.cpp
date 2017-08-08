@@ -19,13 +19,11 @@
 #include "gtest/gtest.h"
 #include "saf/RefInfo.hpp"
 
-using namespace std;
-
 TEST(RefInfoTEST, RefIdToIndex)
 {
     RefInfo ri;
 
-    string names[] = {"ref1", "ref3 description", "ref4 chr1 1:100"};
+    std::string names[] = {"ref1", "ref3 description", "ref4 chr1 1:100"};
     ri.fullName.insert(ri.fullName.begin(), names, names + 3);
 
     int id[] = {10, 7, 5};

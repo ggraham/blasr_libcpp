@@ -1,7 +1,7 @@
 #ifndef _BLASR_STAT_UTILS_IMPL_HPP_
 #define _BLASR_STAT_UTILS_IMPL_HPP_
 
-#include <time.h>
+#include <ctime>
 #include <vector>
 
 inline int Choose(int a, int b)

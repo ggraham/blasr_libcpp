@@ -1,7 +1,7 @@
 #ifndef _BLASR_BASE_FILE_HPP_
 #define _BLASR_BASE_FILE_HPP_
 
-#include <stdint.h>
+#include <cstdint>
 #include <vector>
 #include "../Enumerations.h"
 #include "../SMRTSequence.hpp"

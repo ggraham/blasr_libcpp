@@ -1,7 +1,7 @@
 #ifndef _BLASR_COMPRESSED_DNA_SEQUENCE_HPP_
 #define _BLASR_COMPRESSED_DNA_SEQUENCE_HPP_
 
-#include <string.h>
+#include <cstring>
 #include "Compare4BitCompressed.hpp"
 #include "DNASequence.hpp"
 #include "FASTASequence.hpp"
@@ -73,7 +73,7 @@ public:
 
     void SortHomopolymerQualities()
     {
-        cout << "qualities are not implemented for compressed sequences." << endl;
+        std::cout << "qualities are not implemented for compressed sequences." << std::endl;
         assert(0);
     }
 };

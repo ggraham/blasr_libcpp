@@ -1,9 +1,9 @@
 #ifndef SPARSE_DYNAMIC_PROGRAMMING_IMPL_HPP_
 #define SPARSE_DYNAMIC_PROGRAMMING_IMPL_HPP_
 
-#include <limits.h>
-#include <stdint.h>
-#include <stdlib.h>
+#include <climits>
+#include <cstdint>
+#include <cstdlib>
 #include <algorithm>
 #include <cassert>
 #include <ostream>
@@ -176,7 +176,7 @@ int SDPLongestCommonSubsequence(DNALength queryLength, std::vector<T_Fragment> &
         //
         fSweep = startF;
         while (fSweep < fragmentSetSize and fragmentSet[fSweep].x == sweepRow) {
-            //			cout << "inserting sweep set with index" << fragmentSet[fSweep].index << endl;
+            //			std::cout << "inserting sweep set with index" << fragmentSet[fSweep].index << std::endl;
             sweepSet.Insert(fragmentSet[fSweep]);
             ++fSweep;
         }

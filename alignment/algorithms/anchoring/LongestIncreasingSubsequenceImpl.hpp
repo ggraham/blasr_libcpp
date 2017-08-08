@@ -2,10 +2,8 @@
 #define _BLASR_LONGEST_INCREASING_SUBSEQUENCE_IMPL_HPP_
 #include "../../../pbdata/Types.h"
 
-using namespace std;
-
 template <typename T, typename F_IntValue>
-int BinarySearch(T *x, vector<int> &m, int i, int lenM, F_IntValue IntValue)
+int BinarySearch(T *x, std::vector<int> &m, int i, int lenM, F_IntValue IntValue)
 {
     //
     // Binary search for the largest
@@ -51,8 +49,8 @@ int BinarySearch(T *x, vector<int> &m, int i, int lenM, F_IntValue IntValue)
 }
 
 template <typename T, typename F_IntValue>
-int LongestIncreasingSubset(T *x, int xLength, vector<int> &subsetIndices, vector<int> &m,
-                            vector<int> &p, F_IntValue IntValue, int start, int end)
+int LongestIncreasingSubset(T *x, int xLength, std::vector<int> &subsetIndices, std::vector<int> &m,
+                            std::vector<int> &p, F_IntValue IntValue, int start, int end)
 {
     PB_UNUSED(start);
     PB_UNUSED(end);
@@ -124,10 +122,10 @@ int LongestIncreasingSubset(T *x, int xLength, vector<int> &subsetIndices, vecto
 }
 
 template <typename T, typename F_IntValue>
-int LongestIncreasingSubset(T *x, int &xLength, vector<int> &subsetIndices)
+int LongestIncreasingSubset(T *x, int &xLength, std::vector<int> &subsetIndices)
 {
-    vector<int> p;
-    vector<int> m;
+    std::vector<int> p;
+    std::vector<int> m;
     return LongestIncreasingSubset(x, xLength, subsetIndices, m, p);
 }
 

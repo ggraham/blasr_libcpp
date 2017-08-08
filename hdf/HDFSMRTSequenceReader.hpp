@@ -12,7 +12,7 @@ class HDFSMRTSequenceReader : public HDFBasReader
 public:
     HDFZMWReader zmwReader;
     bool readQuality;
-    int Initialize(string hdfBasFileName, bool _readQuality = true,
+    int Initialize(std::string hdfBasFileName, bool _readQuality = true,
                    const H5::FileAccPropList &fileAccProplist = H5::FileAccPropList::DEFAULT)
     {
         HDFBasReader::Initialize(hdfBasFileName, fileAccPropList);

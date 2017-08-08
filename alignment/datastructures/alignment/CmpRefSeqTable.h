@@ -3,7 +3,6 @@
 
 #include <string>
 #include <vector>
-using namespace std;
 
 class CmpRefSeqTable
 {
@@ -13,8 +12,8 @@ public:
         refSeqNameIds.resize(size);
         refSeqNames.resize(size);
     }
-    vector<int> refSeqNameIds;
-    vector<string> refSeqNames;
+    std::vector<int> refSeqNameIds;
+    std::vector<std::string> refSeqNames;
     int lastRow;
 };
 

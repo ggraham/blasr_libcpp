@@ -1,7 +1,7 @@
 #ifndef _BLASR_MAPPING_METRICS_HPP_
 #define _BLASR_MAPPING_METRICS_HPP_
 
-#include <time.h>
+#include <ctime>
 #include <iostream>
 #include <map>
 #include <vector>
@@ -9,7 +9,7 @@
 #ifdef __APPLE__
 #include <AvailabilityMacros.h>
 #if MAC_OS_X_VERSION_MAX_ALLOWED < 101200
-#include <errno.h>
+#include <cerrno>
 #include <mach/clock.h>
 #include <mach/mach.h>
 #include <mach/mach_time.h>

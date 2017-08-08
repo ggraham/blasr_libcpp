@@ -18,9 +18,9 @@ public:
     HDFArray<int> refSeqNameIdArray;
     HDFStringArray refSeqNameArray;
     static const int NCols = 22;
-    vector<HDFAtom<std::string> > colNameAtoms;
-    vector<HDFCmpRefAlignmentGroup *> refAlignGroups;
-    map<std::string, int> nameToAlignmentGroupIndex;
+    std::vector<HDFAtom<std::string> > colNameAtoms;
+    std::vector<HDFCmpRefAlignmentGroup *> refAlignGroups;
+    std::map<std::string, int> nameToAlignmentGroupIndex;
     static const char *colNameIds[];
 
     void Close() { hdfCmpFile.close(); }

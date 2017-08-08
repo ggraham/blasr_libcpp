@@ -1,4 +1,4 @@
-#include <assert.h>   //assert
+#include <cassert>   //assert
 #include <algorithm>  //max
 #include <utility>    //swap
 

@@ -21,7 +21,7 @@ int CreateVulgarString(T_Alignment &alignment, std::string &vstring)
         qGap = (alignment.blocks[b + 1].qPos -
                 (alignment.blocks[b].length + alignment.blocks[b].qPos));
         if (tGap > 0 and qGap > 0)
-            cGap = abs(tGap - qGap);
+            cGap = std::abs(tGap - qGap);
         else
             cGap = 0;
         tGap -= cGap;

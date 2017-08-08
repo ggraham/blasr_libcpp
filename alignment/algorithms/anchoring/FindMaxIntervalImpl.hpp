@@ -27,23 +27,23 @@ void PrintLIS(T_MatchList &matchList, DNALength curPos, DNALength curGenomePos,
               DNALength nextGenomePos, DNALength clp, DNALength cle)
 {
     int i;
-    cout << curPos << " " << curGenomePos << " " << nextGenomePos << " " << clp << " " << cle
-         << endl;
+    std::cout << curPos << ' ' << curGenomePos << ' ' << nextGenomePos << ' ' << clp << ' ' << cle
+         << std::endl;
     for (i = 0; i < matchList.size(); i++) {
-        cout.width(8);
-        cout << matchList[i].l << " ";
+        std::cout.width(8);
+        std::cout << matchList[i].l << ' ';
     }
-    cout << endl;
+    std::cout << std::endl;
     for (i = 0; i < matchList.size(); i++) {
-        cout.width(8);
-        cout << matchList[i].q << " ";
+        std::cout.width(8);
+        std::cout << matchList[i].q << ' ';
     }
-    cout << endl;
+    std::cout << std::endl;
     for (i = 0; i < matchList.size(); i++) {
-        cout.width(8);
-        cout << matchList[i].t << " ";
+        std::cout.width(8);
+        std::cout << matchList[i].t << ' ';
     }
-    cout << endl << endl;
+    std::cout << std::endl << std::endl;
 }
 
 template <typename T_MatchList, typename T_SequenceDB>
@@ -181,7 +181,7 @@ void StoreLargestIntervals(T_MatchList &pos,
                            // How many values to search through for a max set.
                            DNALength intervalLength,
                            // How many sets to keep track of
-                           int minSize, vector<DNALength> &start, vector<DNALength> &end)
+                           int minSize, std::vector<DNALength> &start, std::vector<DNALength> &end)
 {
 
     if (pos.size() == 0) {
@@ -228,7 +228,7 @@ void StoreLargestIntervals(T_MatchList &pos,
         // This interval overlaps with a possible max start
         //
 
-        if (pos[cur].t >= pos[maxStart].t and maxEnd > 0 and pos[cur].t < pos[maxEnd - 1].t) {
+        if (pos[cur].t >= pos[maxStart].t && maxEnd > 0 && pos[cur].t < pos[maxEnd - 1].t) {
             if (curSize > maxSize) {
                 maxSize = curSize;
                 maxStart = cur;
@@ -401,7 +401,7 @@ int FindMaxIncreasingInterval(
     // The increasing interval coordinates,
     // in order by queue weight.
     WeightedIntervalSet &intervalQueue, T_ReferenceSequence &reference, T_Sequence &query,
-    IntervalSearchParameters &params, vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer,
+    IntervalSearchParameters &params, std::vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer,
     ClusterList &clusterList, VarianceAccumulator<float> &accumPValue,
     VarianceAccumulator<float> &accumWeight, VarianceAccumulator<float> &accumNumAnchorBases)
 {
@@ -420,13 +420,13 @@ int FindMaxIncreasingInterval(
             clusterList, accumPValue, accumWeight);
     }
 
-    if (params.aggressiveIntervalCut and intervalQueue.size() >= 3) {
+    if (params.aggressiveIntervalCut && intervalQueue.size() >= 3) {
         // aggressiveIntervalCut mode:
         // only pick up the most promising intervals if we can classify
         // intervals into 'promising' and 'non-promising' clusters.
         WeightedIntervalSet::iterator it = intervalQueue.begin();
         int sz = intervalQueue.size();
-        vector<float> pValues, ddPValues;
+        std::vector<float> pValues, ddPValues;
         pValues.resize(sz);
         ddPValues.resize(sz);
         float sumPValue = 0;
@@ -498,7 +498,7 @@ int FastFindMaxIncreasingInterval(
     // The increasing interval coordinates,
     // in order by queue weight.
     WeightedIntervalSet &intervalQueue, T_ReferenceSequence &reference, T_Sequence &query,
-    IntervalSearchParameters &params, vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer,
+    IntervalSearchParameters &params, std::vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer,
     ClusterList &clusterList, VarianceAccumulator<float> &accumPValue,
     VarianceAccumulator<float> &accumWeight)
 {
@@ -508,7 +508,7 @@ int FastFindMaxIncreasingInterval(
 
     WeightedIntervalSet sdpiq;
     VectorIndex cur = 0;
-    vector<VectorIndex> lisIndices;
+    std::vector<VectorIndex> lisIndices;
     //
     // Initialize the first interval.
     //
@@ -535,8 +535,8 @@ int FastFindMaxIncreasingInterval(
     (void)(nextBoundary);
     (void)(endOfCurrentInterval);
 
-    vector<UInt> scores, prevOpt;
-    vector<DNALength> start, end;
+    std::vector<UInt> scores, prevOpt;
+    std::vector<DNALength> start, end;
 
     StoreLargestIntervals(pos, ContigStartPos, intervalLength, 30, start, end);
 
@@ -611,8 +611,8 @@ int FastFindMaxIncreasingInterval(
                                   noOvpLisSize);
             }
             if (params.verbosity > 1) {
-                cout << "Weighted Interval to insert:" << endl << weightedInterval << endl;
-                cout << "Interval Queue:" << endl << intervalQueue << endl;
+                std::cout << "Weighted Interval to insert:" << std::endl << weightedInterval << std::endl;
+                std::cout << "Interval Queue:" << std::endl << intervalQueue << std::endl;
             }
         }
     }
@@ -642,7 +642,7 @@ int ExhaustiveFindMaxIncreasingInterval(
     // The increasing interval coordinates,
     // in order by queue weight.
     WeightedIntervalSet &intervalQueue, T_ReferenceSequence &reference, T_Sequence &query,
-    IntervalSearchParameters &params, vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer,
+    IntervalSearchParameters &params, std::vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer,
     ClusterList &clusterList, VarianceAccumulator<float> &accumPValue,
     VarianceAccumulator<float> &accumWeight)
 {
@@ -681,7 +681,7 @@ int ExhaustiveFindMaxIncreasingInterval(
 
     curBoundary = ContigStartPos(pos[cur].t);
     nextBoundary = ContigStartPos(pos[next].t);
-    vector<UInt> scores, prevOpt;
+    std::vector<UInt> scores, prevOpt;
 
     //
     // Advance next until the anchor is outside the interval that
@@ -695,7 +695,7 @@ int ExhaustiveFindMaxIncreasingInterval(
     AdvanceIndexToPastInterval(pos, nPos, intervalLength, contigLength, ContigStartPos, cur,
                                curBoundary, next, nextBoundary);
 
-    vector<VectorIndex> lisIndices;
+    std::vector<VectorIndex> lisIndices;
     VectorIndex i;
 
     //
@@ -765,7 +765,7 @@ int ExhaustiveFindMaxIncreasingInterval(
         accumPValue.Append(lisPValue);
         accumWeight.Append(lisWeight);
 
-        if (lisPValue < params.maxPValue and lisSize > 0) {
+        if (lisPValue < params.maxPValue && lisSize > 0) {
             WeightedInterval weightedInterval(lisWeight, noOvpLisSize, noOvpLisNBases, lis[0].t,
                                               lis[lisEnd].t + lis[lisEnd].GetLength(), readDir,
                                               lisPValue, lis[0].q,
@@ -776,8 +776,8 @@ int ExhaustiveFindMaxIncreasingInterval(
                                   noOvpLisSize);
             }
             if (params.verbosity > 1) {
-                cout << "Weighted Interval to insert:" << endl << weightedInterval << endl;
-                cout << "Interval Queue:" << endl << intervalQueue << endl;
+                std::cout << "Weighted Interval to insert:" << std::endl << weightedInterval << std::endl;
+                std::cout << "Interval Queue:" << std::endl << intervalQueue << std::endl;
             }
         }
 

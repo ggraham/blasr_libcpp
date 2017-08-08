@@ -152,7 +152,7 @@ class SAMHeaderSQ : public SAMHeaderGroup
 public:
     SAMHeaderSQ(const std::string& sn, const DNALength& ln, const std::string& md5);
 
-    SAMHeaderSQ(const std::string& sn, const string& ln, const std::string& md5);
+    SAMHeaderSQ(const std::string& sn, const std::string& ln, const std::string& md5);
 
     SAMHeaderSQ(const std::string& fromString);
 };

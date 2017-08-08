@@ -22,8 +22,6 @@
 #include "pbdata/testdata.h"
 #include "reads/RegionTable.hpp"
 
-using namespace std;
-
 class CCSIteratorTestFixture : public testing::Test
 {
 public:
@@ -51,7 +49,7 @@ public:
 
     ~CCSIteratorTestFixture() {}
 
-    string fileName;
+    std::string fileName;
     HDFRegionTableReader* reader;
     CCSSequence* ccs;
     RegionTable* rgn;

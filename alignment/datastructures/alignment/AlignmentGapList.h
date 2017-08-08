@@ -2,7 +2,6 @@
 #define DATASTRUCTURES_ALIGNMENT_GAP_LIST_H_
 
 #include <vector>
-using namespace std;
 
 class Gap
 {
@@ -26,6 +25,6 @@ public:
     }
 };
 
-typedef vector<Gap> GapList;
+typedef std::vector<Gap> GapList;
 
 #endif

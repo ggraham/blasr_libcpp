@@ -15,7 +15,6 @@
 #include "HDFWriterBase.hpp"
 
 using namespace H5;
-using namespace std;
 
 class HDFRegionsWriter : public HDFWriterBase
 {
@@ -35,7 +34,7 @@ private:
     /// \{
     HDFGroup &parentGroup_;  //< parent hdf group
 
-    /// A vector of strings of region types for RegionTypeIndex to look up. Order matters!
+    /// A vector of std::string's of region types for RegionTypeIndex to look up. Order matters!
     std::vector<std::string> regionTypes_;
 
     HDF2DArray<int> regionsArray_;  //< HDF2DArray for writing regions to hdf

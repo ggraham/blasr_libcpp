@@ -19,10 +19,9 @@
 #include <climits>
 #include <fstream>
 #include <iostream>
+
 #include "FASTASequence.hpp"
 #include "gtest/gtest.h"
-
-using namespace std;
 
 class FASTASequenceTest : public ::testing::Test
 {
@@ -41,7 +40,7 @@ public:
     FASTASequence fastaThree;
 
     std::streambuf* sbuf;
-    ofstream ofs;
+    std::ofstream ofs;
 };
 
 //Test FASTASequence
@@ -61,13 +60,13 @@ TEST_F(FASTASequenceTest, ALLFUNC)
     dna.length = 10;
 
     int titleLength = 22;
-    string title("fasta_seq_one comments");
+    std::string title("fasta_seq_one comments");
     fastaOne.title = new char[titleLength];
     memcpy(fastaOne.title, title.c_str(), titleLength);
 
     fastaOne.titleLength = titleLength;
 
-    EXPECT_EQ(fastaOne.GetName(), string("fasta_seq_one"));
+    EXPECT_EQ(fastaOne.GetName(), std::string("fasta_seq_one"));
     fastaOne.seq = thisNuc;
     fastaOne.length = 10;
 
@@ -77,15 +76,15 @@ TEST_F(FASTASequenceTest, ALLFUNC)
     // EXPECT_EQ(fastaTwo.title, fastaOne.title);
 
     // Test AppendToTitle
-    fastaOne.AppendToTitle(string("XXX"));
+    fastaOne.AppendToTitle(std::string("XXX"));
     EXPECT_EQ(fastaOne.titleLength, 26);
 
-    string newTitle = "fasta_seq_one commentsXXX";
+    std::string newTitle = "fasta_seq_one commentsXXX";
     EXPECT_STREQ(fastaOne.title, newTitle.c_str());
 
     // Test ReverseComplementSelf()
     fastaOne.ReverseComplementSelf();
-    string rcSeq = "GAGCATGCAT";
+    std::string rcSeq = "GAGCATGCAT";
     for (int i = 0; i < rcSeq.size(); i++) {
         EXPECT_EQ(fastaOne.seq[i], rcSeq[i]);
     }
@@ -104,9 +103,9 @@ TEST_F(FASTASequenceTest, ALLFUNC)
     fastaOne.MakeRC(fastaThree);
 
     // Test PrintSeq
-    stringstream ss;
+    std::stringstream ss;
     fastaThree.PrintSeq(ss);
-    string thisTitle, thisComment, thisSeq;
+    std::string thisTitle, thisComment, thisSeq;
     ss >> thisTitle;
     ss >> thisComment;
     ss >> thisSeq;
@@ -118,8 +117,8 @@ TEST_F(FASTASequenceTest, ALLFUNC)
 
 TEST_F(FASTASequenceTest, CopyFromString)
 {
-    string name = "read_name";
-    string seq = "ATGGGCGC";
+    std::string name = "read_name";
+    std::string seq = "ATGGGCGC";
     fastaOne.Copy(name, seq);
     EXPECT_EQ(fastaOne.title, name);
     EXPECT_EQ(fastaOne.length, seq.size());
@@ -129,7 +128,7 @@ TEST_F(FASTASequenceTest, CopyFromString)
     }
 
     // Copy sequence from another string.
-    string seq2 = "GGTTGTG";
+    std::string seq2 = "GGTTGTG";
     fastaOne.Copy(seq2);
     // Name not changed.
     EXPECT_EQ(fastaOne.title, name);

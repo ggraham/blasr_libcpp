@@ -73,7 +73,7 @@ DEFINE_TYPED_CREATE_ARRAY(float, H5::PredType::NATIVE_FLOAT)
 DEFINE_TYPED_CREATE_ARRAY(uint16_t, H5::PredType::NATIVE_UINT16)
 
 template <>
-void BufferedHDFArray<string>::TypedCreate(H5::DataSpace &space, H5::DSetCreatPropList &cparms)
+void BufferedHDFArray<std::string>::TypedCreate(H5::DataSpace &space, H5::DSetCreatPropList &cparms)
 {
     H5::StrType varStrType(0, H5T_VARIABLE);
     dataset = container->createDataSet(datasetName.c_str(), varStrType, space, cparms);

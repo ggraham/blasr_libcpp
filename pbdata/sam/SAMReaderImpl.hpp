@@ -1,5 +1,6 @@
 #ifndef _BLASR_SAM_READER_IMPL_HPP_
 #define _BLASR_SAM_READER_IMPL_HPP_
+
 #include <iostream>
 #include "SAMReader.hpp"
 
@@ -28,7 +29,7 @@ template <typename T_ReferenceSequence, typename T_ReadGroup, typename T_SAMAlig
 void SAMReader<T_ReferenceSequence, T_ReadGroup, T_SAMAlignment>::GetLine(std::istream &in,
                                                                           std::string &line)
 {
-    getline(in, line);
+    std::getline(in, line);
 }
 
 template <typename T_ReferenceSequence, typename T_ReadGroup, typename T_SAMAlignment>
@@ -144,7 +145,7 @@ std::vector<std::string> SAMReader<T_ReferenceSequence, T_ReadGroup, T_SAMAlignm
     LineType lineType;
     lineNumber = 0;
     while (*samFilePtr and PeekLineIsHeader(*samFilePtr)) {
-        getline(*samFilePtr, line);
+        std::getline(*samFilePtr, line);
         lineType = GetLineType(line);
         if (LineTypeIsHeader(lineType)) {
             allHeaders.push_back(line);
@@ -152,7 +153,7 @@ std::vector<std::string> SAMReader<T_ReferenceSequence, T_ReadGroup, T_SAMAlignm
             std::string tag;
             strm >> tag;
             std::string remainder;
-            getline(strm, remainder);
+            std::getline(strm, remainder);
             std::vector<SAMKeywordValuePair> kvPairs;
             StoreKVPairs(remainder, kvPairs);
             if (lineType == HSHeader) {
@@ -180,18 +181,18 @@ void SAMReader<T_ReferenceSequence, T_ReadGroup, T_SAMAlignment>::Read(
     LineType lineType;
     lineNumber = 0;
     ReadHeader(alignments);
-    while (getline(*samFilePtr, line)) {
+    while (std::getline(*samFilePtr, line)) {
         lineType = GetLineType(line);
         if (LineTypeIsHeader(lineType)) {
             std::cout << "ERROR! Header line found outside of the header at " << lineNumber
                       << std::endl;
-            exit(1);
+            exit(EXIT_FAILURE);
         } else if (lineType == Alignment) {
             StoreAlignment(line, alignments);
         } else {
             std::cout << "Error, line type unknown at " << lineNumber << std::endl;
             std::cout << line << std::endl;
-            exit(1);
+            exit(EXIT_FAILURE);
         }
         ++lineNumber;
     }
@@ -203,7 +204,7 @@ bool SAMReader<T_ReferenceSequence, T_ReadGroup, T_SAMAlignment>::GetNextAlignme
 {
     if (*samFilePtr) {
         std::string line;
-        if (getline(*samFilePtr, line)) {
+        if (std::getline(*samFilePtr, line)) {
             alignment.StoreValues(line, lineNumber);
             ++lineNumber;
             return true;

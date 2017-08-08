@@ -74,7 +74,7 @@ HitPolicy::HitPolicy(const std::string& hitPolicyStr, const ScoreSign& sign)
     } else {
         std::cout << "ERROR, the specified multiple hit policy " << hitPolicyStr
                   << " is not supported." << std::endl;
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     _sign = sign;
@@ -147,7 +147,7 @@ std::vector<T_AlignmentCandidate*> HitPolicy::Apply(
     ScoreSign sign = this->Sign();
     if (sign == ScoreSign::POSITIVE) {
         std::cout << "ERROR: ScoreSign POSITIVE not supported yet." << std::endl;
-        exit(1);
+        exit(EXIT_FAILURE);
     }
     std::sort(ret.begin(), ret.end(), SortAlignmentPointersByScore());
 
@@ -180,7 +180,7 @@ std::vector<AlignmentCandidate<>> HitPolicy::Apply(std::vector<AlignmentCandidat
     assert(records.size() > 0);
 
     if (IsRandom) {
-        //records = vector<AlignmentCandidate>({records[
+        //records = std::vector<AlignmentCandidate>({records[
     }
 }
 */
@@ -217,7 +217,7 @@ std::vector<PacBio::BAM::BamRecord> HitPolicy::Apply(
     if (records.empty() or IsAll()) return records;
 
     int rint = createRand ? rand() : passedRand;
-    //cout << "FilterCriteria " << ", " << records[0].FullName() << ", " << rint << endl;
+    //std::cout << "FilterCriteria " << ", " << records[0].FullName() << ", " << rint << std::endl;
     if (IsRandom()) {
         return std::vector<PacBio::BAM::BamRecord>({records[rint % records.size()]});
     }

@@ -1,7 +1,7 @@
 #ifndef _BLASR_QVS_QUALITY_TRANSFORM_HPP_
 #define _BLASR_QVS_QUALITY_TRANSFORM_HPP_
 
-#include <math.h>
+#include <cmath>
 #include "QualityValue.hpp"
 
 /*

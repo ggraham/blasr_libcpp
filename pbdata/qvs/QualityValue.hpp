@@ -1,7 +1,7 @@
 #ifndef _BLASR_QUALITY_VALUE_HPP_
 #define _BLASR_QUALITY_VALUE_HPP_
 
-#include <stdint.h>
+#include <cstdint>
 #include "../ChangeListID.hpp"
 
 typedef unsigned char QualityValue;

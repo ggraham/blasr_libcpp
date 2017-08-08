@@ -16,15 +16,16 @@
  * =====================================================================================
  */
 
+#include <fstream>
+#include <string>
+
 #include "gtest/gtest.h"
 #include "utils.hpp"
 
-using namespace std;
-
 TEST(UTILS, CrucialOpen)
 {
-    ifstream ifs;
-    string filename = "/nonexistingdir/nonexistingfile";
+    std::ifstream ifs;
+    std::string filename = "/nonexistingdir/nonexistingfile";
     //Expected behavour: exit with a message.
     EXPECT_EXIT(CrucialOpen(filename, ifs, std::ios::in), ::testing::ExitedWithCode(1), "");
 }

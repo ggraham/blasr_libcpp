@@ -1,7 +1,7 @@
 #ifndef _BLASR_HDF_NEW_BAS_READER_HPP_
 #define _BLASR_HDF_NEW_BAS_READER_HPP_
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <sstream>
 #include <vector>
 

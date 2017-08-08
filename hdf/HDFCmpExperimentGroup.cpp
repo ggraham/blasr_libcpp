@@ -1,9 +1,7 @@
 #include "HDFCmpExperimentGroup.hpp"
 #include <iostream>
 
-using namespace std;
-
-bool HDFCmpExperimentGroup::Create(HDFGroup &parent, string experimentGroupName)
+bool HDFCmpExperimentGroup::Create(HDFGroup &parent, std::string experimentGroupName)
 {
 
     parent.AddGroup(experimentGroupName);
@@ -27,7 +25,7 @@ void HDFCmpExperimentGroup::AddAlignment(std::vector<unsigned char> &alignment,
     }
 
     // Make a copy of alignment.
-    vector<unsigned char> paddedAlignment = alignment;
+    std::vector<unsigned char> paddedAlignment = alignment;
     // Pad '0' to the end of the alignment.
     paddedAlignment.push_back(0);
 
@@ -79,8 +77,8 @@ void HDFCmpExperimentGroup::AddAlignment(std::vector<unsigned char> &alignment,
 //        const std::vector<UChar>&, const std::string&,
 //        unsigned int*, unsigned int*);
 //
-int HDFCmpExperimentGroup::Initialize(HDFGroup &refGroup, string experimentGroupName,
-                                      set<string> &fieldNames)
+int HDFCmpExperimentGroup::Initialize(HDFGroup &refGroup, std::string experimentGroupName,
+                                      std::set<std::string> &fieldNames)
 {
     //
     // Normal initialization that prepares for reading alignments
@@ -90,21 +88,21 @@ int HDFCmpExperimentGroup::Initialize(HDFGroup &refGroup, string experimentGroup
     //
     // Field initialization for reading in pulse/quality information.
     //
-    set<string>::iterator fieldNameIt, fieldEnd;
+    std::set<std::string>::iterator fieldNameIt, fieldEnd;
     fieldEnd = fieldNames.end();
     for (fieldNameIt = fieldNames.begin(); fieldNameIt != fieldEnd; ++fieldNameIt) {
         if (supportedFields.find(*fieldNameIt) != supportedFields.end() and
             experimentGroup.ContainsObject(*fieldNameIt)) {
             fields[*fieldNameIt]->Initialize(experimentGroup, *fieldNameIt);
         } else {
-            cout << "Unable to initialize requested field " << *fieldNameIt
-                 << " in experiment group " << experimentGroupName << endl;
+            std::cout << "Unable to initialize requested field " << *fieldNameIt
+                 << " in experiment group " << experimentGroupName << std::endl;
         }
     }
     return 1;
 }
 
-int HDFCmpExperimentGroup::Initialize(HDFGroup &refGroup, string experimentGroupName)
+int HDFCmpExperimentGroup::Initialize(HDFGroup &refGroup, std::string experimentGroupName)
 {
 
     if (experimentGroup.Initialize(refGroup.group, experimentGroupName) == 0) {

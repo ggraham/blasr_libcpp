@@ -23,7 +23,7 @@ public:
     void StoreReadType(std::string &readTypeStringP);
 
     CmpIndexedStringTable readGroupTable, movieNameTable, refSeqTable;
-    vector<string> colNames;
+    std::vector<std::string> colNames;
     PlatformId platformId;
     AlnGroup alnGroup;
     AlnInfo alnInfo;

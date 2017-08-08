@@ -82,7 +82,7 @@ public:
             // only handle ACTGN, $==6, so skip counting that.
             if (nuc > AlphabetSize) continue;
             if (p % majorBinSize == 0) {  //majorBinSize-1) {
-                //				cout << "storing at " << p<< " " << binIndex << std::endl;
+                //				std::cout << "storing at " << p<< " " << binIndex << std::endl;
                 int n;
                 for (n = 0; n < AlphabetSize; n++) {
                     major[binIndex][n] = runningTotal[n];

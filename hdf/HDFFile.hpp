@@ -2,9 +2,11 @@
 #define _BLASR_HDF_FILE_HPP_
 
 #include <H5Cpp.h>
+
 #include <iostream>
 #include <string>
 #include <vector>
+
 #include "HDFConfig.hpp"
 #include "HDFGroup.hpp"
 
@@ -22,7 +24,7 @@ public:
     //  read/write mode.  The only other flag that is allowed is
     //  H5F_ACC_TRUNC, which will truncate the file to zero size.
     //
-    void Open(string fileName, unsigned int flags = H5F_ACC_RDWR,
+    void Open(std::string fileName, unsigned int flags = H5F_ACC_RDWR,
               const H5::FileAccPropList& fileAccPropList = H5::FileAccPropList::DEFAULT);
 
     void Close();

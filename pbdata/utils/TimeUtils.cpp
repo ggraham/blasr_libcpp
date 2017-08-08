@@ -1,5 +1,5 @@
 #include "TimeUtils.hpp"
-#include <time.h>
+#include <ctime>
 #include <iomanip>  // std::setfill setd::setw
 #include <sstream>
 

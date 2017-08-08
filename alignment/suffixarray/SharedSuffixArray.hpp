@@ -1,7 +1,7 @@
 #ifndef _BLASR_SHARED_SUFFIX_ARRAY_HPP_
 #define _BLASR_SHARED_SUFFIX_ARRAY_HPP_
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <fstream>
 #include <sstream>
 #include "../algorithms/compare/CompareStrings.hpp"

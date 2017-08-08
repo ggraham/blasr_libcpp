@@ -6,7 +6,7 @@
 //
 // This includes values that both pulse and base files must have.
 //
-#include <stdint.h>
+#include <cstdint>
 #include "ScanData.hpp"
 
 class PulseBaseCommon

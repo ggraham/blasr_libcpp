@@ -49,7 +49,7 @@ ReaderAgglomerate::ReaderAgglomerate(int _start, int _stride)
 
 // End of Constructors
 
-void ReaderAgglomerate::GetMovieName(string &movieName)
+void ReaderAgglomerate::GetMovieName(std::string &movieName)
 {
     if (fileType == FileType::Fasta || fileType == FileType::Fastq) {
         movieName = fileName;
@@ -64,8 +64,8 @@ void ReaderAgglomerate::GetMovieName(string &movieName)
     }
 }
 
-void ReaderAgglomerate::GetChemistryTriple(string &bindingKit, string &sequencingKit,
-                                           string &baseCallerVersion)
+void ReaderAgglomerate::GetChemistryTriple(std::string &bindingKit, std::string &sequencingKit,
+                                           std::string &baseCallerVersion)
 {
     if (fileType == FileType::HDFPulse || fileType == FileType::HDFBase) {
         hdfBasReader.GetChemistryTriple(bindingKit, sequencingKit, baseCallerVersion);
@@ -103,9 +103,9 @@ void ReaderAgglomerate::UseCCS()
     hdfBasReader.SetReadBasesFromCCS();
 }
 
-void ReaderAgglomerate::SetScrapsFileName(string &pFileName) { scrapsFileName = pFileName; }
+void ReaderAgglomerate::SetScrapsFileName(std::string &pFileName) { scrapsFileName = pFileName; }
 
-bool ReaderAgglomerate::SetReadFileName(string &pFileName)
+bool ReaderAgglomerate::SetReadFileName(std::string &pFileName)
 {
     if (DetermineFileTypeByExtension(pFileName, fileType)) {
         fileName = pFileName;
@@ -115,7 +115,7 @@ bool ReaderAgglomerate::SetReadFileName(string &pFileName)
     }
 }
 
-int ReaderAgglomerate::Initialize(string &pFileName)
+int ReaderAgglomerate::Initialize(std::string &pFileName)
 {
     if (DetermineFileTypeByExtension(pFileName, fileType)) {
         fileName = pFileName;
@@ -124,14 +124,14 @@ int ReaderAgglomerate::Initialize(string &pFileName)
     return false;
 }
 
-int ReaderAgglomerate::Initialize(FileType &pFileType, string &pFileName)
+int ReaderAgglomerate::Initialize(FileType &pFileType, std::string &pFileName)
 {
     SetFiles(pFileType, pFileName);
     return Initialize();
 }
 
 #define UNREACHABLE()                                                                 \
-    cout << "ERROR! Hit unreachable code in " << __FILE__ << ':' << __LINE__ << endl; \
+    std::cout << "ERROR! Hit unreachable code in " << __FILE__ << ':' << __LINE__ << std::endl; \
     assert(0)
 
 bool ReaderAgglomerate::HasRegionTable()
@@ -265,7 +265,7 @@ int ReaderAgglomerate::Initialize(bool unrolled_mode, bool polymerase_mode)
             try {
                 dataSetPtr = new PacBio::BAM::DataSet(fileName);
             } catch (std::exception e) {
-                cout << "ERROR! Failed to open " << fileName << ": " << e.what() << endl;
+                std::cout << "ERROR! Failed to open " << fileName << ": " << e.what() << std::endl;
                 return 0;
             }
             if (unrolled) {
@@ -320,7 +320,7 @@ int ReaderAgglomerate::Initialize(bool unrolled_mode, bool polymerase_mode)
         // Reads from a PABBAM file may come from different read groups.
         // We have sync reader.readGroupId and SMRTSequence.readGroupId everytime
         // GetNext() is called.
-        string movieName;
+        std::string movieName;
         GetMovieName(movieName);
         readGroupId = MakeReadGroupId(movieName, readType);
     }
@@ -361,7 +361,7 @@ int ReaderAgglomerate::GetNext(FASTASequence &seq)
             break;
         case FileType::HDFCCSONLY:
         case FileType::HDFCCS:
-            cout << "ERROR! Reading CCS into a structure that cannot handle it." << endl;
+            std::cout << "ERROR! Reading CCS into a structure that cannot handle it." << std::endl;
             assert(0);
             break;
         case FileType::PBDATASET:
@@ -412,7 +412,7 @@ int ReaderAgglomerate::GetNext(FASTQSequence &seq)
 #endif
         case FileType::HDFCCSONLY:
         case FileType::HDFCCS:
-            cout << "ERROR! Reading CCS into a structure that cannot handle it." << endl;
+            std::cout << "ERROR! Reading CCS into a structure that cannot handle it." << std::endl;
             assert(0);
             break;
         case FileType::Fourbit:
@@ -424,7 +424,7 @@ int ReaderAgglomerate::GetNext(FASTQSequence &seq)
     return numRecords;
 }
 
-int ReaderAgglomerate::GetNext(vector<SMRTSequence> &reads)
+int ReaderAgglomerate::GetNext(std::vector<SMRTSequence> &reads)
 {
     int numRecords = 0;
     reads.clear();
@@ -436,7 +436,7 @@ int ReaderAgglomerate::GetNext(vector<SMRTSequence> &reads)
 #ifdef USE_PBBAM
         // no need to check for unrolled mode, vector of SMRTS is being received
         while (sequentialZmwIterator != sequentialZmwQueryPtr->end()) {
-            const vector<PacBio::BAM::BamRecord> &records = *sequentialZmwIterator;
+            const std::vector<PacBio::BAM::BamRecord> &records = *sequentialZmwIterator;
             // bug 30566, short term solution, ignore bad record.
             bool OK = true;
             for (size_t i = 0; i < records.size(); i++) {
@@ -465,7 +465,7 @@ int ReaderAgglomerate::GetNext(vector<SMRTSequence> &reads)
 #ifdef USE_PBBAM
         // no need to check for unrolled mode, vector of SMRTS is being received
         while (pbiFilterZmwIterator != pbiFilterZmwQueryPtr->end()) {
-            const vector<PacBio::BAM::BamRecord> &records = *pbiFilterZmwIterator;
+            const std::vector<PacBio::BAM::BamRecord> &records = *pbiFilterZmwIterator;
             bool OK = true;
             for (size_t i = 0; i < records.size(); i++) {
                 if (not SMRTSequence::IsValid(records[i])) {
@@ -516,7 +516,7 @@ int ReaderAgglomerate::GetNext(SMRTSequence &seq)
             numRecords = hdfBasReader.GetNext(seq);
             break;
         case FileType::HDFCCSONLY:
-            cout << "ERROR! Reading CCS into a structure that cannot handle it." << endl;
+            std::cout << "ERROR! Reading CCS into a structure that cannot handle it." << std::endl;
             assert(0);
             break;
         case FileType::HDFCCS:
@@ -599,11 +599,11 @@ int ReaderAgglomerate::GetNextBases(SMRTSequence &seq, bool readQVs)
     }
     switch (fileType) {
         case FileType::Fasta:
-            cout << "ERROR! Can not GetNextBases from a Fasta File." << endl;
+            std::cout << "ERROR! Can not GetNextBases from a Fasta File." << std::endl;
             assert(0);
             break;
         case FileType::Fastq:
-            cout << "ERROR! Can not GetNextBases from a Fastq File." << endl;
+            std::cout << "ERROR! Can not GetNextBases from a Fastq File." << std::endl;
             assert(0);
             break;
         case FileType::HDFPulse:
@@ -611,17 +611,17 @@ int ReaderAgglomerate::GetNextBases(SMRTSequence &seq, bool readQVs)
             numRecords = hdfBasReader.GetNextBases(seq, readQVs);
             break;
         case FileType::HDFCCSONLY:
-            cout << "ERROR! Reading CCS into a structure that cannot handle it." << endl;
+            std::cout << "ERROR! Reading CCS into a structure that cannot handle it." << std::endl;
             assert(0);
             break;
         case FileType::HDFCCS:
-            cout << "ERROR! Can not GetNextBases from a CCS File." << endl;
+            std::cout << "ERROR! Can not GetNextBases from a CCS File." << std::endl;
             assert(0);
             break;
         case FileType::PBBAM:
         case FileType::PBDATASET:
 #ifdef USE_PBBAM
-            cout << "ERROR! Can not GetNextBases from a BAM File." << endl;
+            std::cout << "ERROR! Can not GetNextBases from a BAM File." << std::endl;
 #endif
         case FileType::Fourbit:
         case FileType::None:
@@ -666,7 +666,7 @@ int ReaderAgglomerate::GetNext(CCSSequence &seq)
         case FileType::PBBAM:
         case FileType::PBDATASET:
 #ifdef USE_PBBAM
-            cout << "ERROR! Could not read BamRecord as CCSSequence" << endl;
+            std::cout << "ERROR! Could not read BamRecord as CCSSequence" << std::endl;
 #endif
         case FileType::Fourbit:
         case FileType::None:

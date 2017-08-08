@@ -1,6 +1,6 @@
 #include "../pbdata/libconfig.h"
 #ifdef USE_PBBAM
-#include <ctype.h>
+#include <cctype>
 #include <algorithm>
 #include <cmath>
 #include <sstream>

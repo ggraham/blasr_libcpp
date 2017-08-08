@@ -5,7 +5,7 @@
 #include "DNATuple.h"
 
 template <typename Sequence>
-DNALength StoreTuplePosList(Sequence seq, TupleMetrics &tm, vector<PositionDNATuple> &tupleList)
+DNALength StoreTuplePosList(Sequence seq, TupleMetrics &tm, std::vector<PositionDNATuple> &tupleList)
 {
     //
     // Do this faster later on with a suffix tree -- faster than n log n construction time.
@@ -30,7 +30,7 @@ DNALength StoreTuplePosList(Sequence seq, TupleMetrics &tm, vector<PositionDNATu
     return tupleList.size();
 }
 
-void WriteTuplePosList(vector<PositionDNATuple> &tupleList, int tupleSize, ofstream &out)
+void WriteTuplePosList(std::vector<PositionDNATuple> &tupleList, int tupleSize, std::ofstream &out)
 {
     DNALength tupleListLength = tupleList.size();
     out.write((char *)&tupleSize, sizeof(tupleSize));
@@ -38,7 +38,7 @@ void WriteTuplePosList(vector<PositionDNATuple> &tupleList, int tupleSize, ofstr
     out.write((char *)&tupleList[0], sizeof(PositionDNATuple) * tupleList.size());
 }
 
-void ReadTuplePosList(ifstream &in, vector<PositionDNATuple> &tupleList, int &tupleSize)
+void ReadTuplePosList(std::ifstream &in, std::vector<PositionDNATuple> &tupleList, int &tupleSize)
 {
     DNALength tupleListLength;
     in.read((char *)&tupleSize, sizeof(int));

@@ -12,7 +12,7 @@ void AlignmentSet<T_ReferenceSequence, T_ReadGroup, T_Alignment>::RearrangeRefer
         if (it != fastaRefToIndex.end()) {
             std::cout << "Error, reference with name \"" << fastaReferences[i].GetName()
                       << "\" in the reference genome is not unique" << std::endl;
-            exit(1);
+            exit(EXIT_FAILURE);
         }
         fastaRefToIndex[fastaReferences[i].GetName()] = i;
     }
@@ -25,7 +25,7 @@ void AlignmentSet<T_ReferenceSequence, T_ReadGroup, T_Alignment>::RearrangeRefer
         if (it == fastaRefToIndex.end()) {
             std::cout << "Error, can not find reference name " << references[i].sequenceName
                       << " in the reference genome." << std::endl;
-            exit(1);
+            exit(EXIT_FAILURE);
         }
         newreferences[(*it).second] = references[i];
     }

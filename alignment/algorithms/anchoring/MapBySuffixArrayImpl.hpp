@@ -1,5 +1,6 @@
 #ifndef _BLASR_MAP_BY_SUFFIX_ARRAY_IMPL_HPP_
 #define _BLASR_MAP_BY_SUFFIX_ARRAY_IMPL_HPP_
+
 #include "../../../pbdata/defs.h"
 #include "MapBySuffixArray.hpp"
 
@@ -45,7 +46,7 @@ int LocateAnchorBoundsInSuffixArray(T_RefSequence &reference, T_SuffixArray &sa,
     std::fill(matchLength.begin(), matchLength.end(), 0);
     std::fill(matchLow.begin(), matchLow.end(), 0);
     std::fill(matchHigh.begin(), matchHigh.end(), 0);
-    vector<SAIndex> lowMatchBound, highMatchBound;
+    std::vector<SAIndex> lowMatchBound, highMatchBound;
 
     for (m = 0, p = read.SubreadStart(); p < matchEnd; p++, m++) {
         lowMatchBound.clear();
@@ -69,7 +70,7 @@ int LocateAnchorBoundsInSuffixArray(T_RefSequence &reference, T_SuffixArray &sa,
                     *params.lcpBoundsOutPtr << " ";
                 }
             }
-            *params.lcpBoundsOutPtr << endl;
+            *params.lcpBoundsOutPtr << std::endl;
         }
 
         //
@@ -194,11 +195,11 @@ int LocateAnchorBoundsInSuffixArray(T_RefSequence &reference, T_SuffixArray &sa,
 
 template <typename T_SuffixArray, typename T_RefSequence, typename T_Sequence, typename T_MatchPos>
 int MapReadToGenome(T_RefSequence &reference, T_SuffixArray &sa, T_Sequence &read,
-                    unsigned int minPrefixMatchLength, vector<T_MatchPos> &matchPosList,
+                    unsigned int minPrefixMatchLength, std::vector<T_MatchPos> &matchPosList,
                     AnchorParameters &anchorParameters)
 {
 
-    vector<DNALength> matchLow, matchHigh, matchLength;
+    std::vector<DNALength> matchLow, matchHigh, matchLength;
 
     DNALength minMatchLen = anchorParameters.minMatchLength;
     if (read.SubreadLength() < minMatchLen) {
@@ -216,8 +217,8 @@ int MapReadToGenome(T_RefSequence &reference, T_SuffixArray &sa, T_Sequence &rea
     assert(matchLow.size() == matchHigh.size());
 
     DNASequence evalQrySeq, evalRefSeq;
-    vector<Arrow> pathMat;
-    vector<int> scoreMat;
+    std::vector<Arrow> pathMat;
+    std::vector<int> scoreMat;
     Alignment alignment;
 
     //
@@ -225,7 +226,7 @@ int MapReadToGenome(T_RefSequence &reference, T_SuffixArray &sa, T_Sequence &rea
     // if there are any.
     //
     if (anchorParameters.removeEncompassedMatches) {
-        vector<bool> removed;
+        std::vector<bool> removed;
         removed.resize(read.length);
         std::fill(removed.begin(), removed.end(), false);
         size_t i;

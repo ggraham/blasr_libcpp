@@ -26,7 +26,7 @@ public:
         return true;
     }
 
-    void AddRefInfo(string &fullName, unsigned int id, unsigned int length, string md5)
+    void AddRefInfo(std::string &fullName, unsigned int id, unsigned int length, std::string md5)
     {
         fullNameArray.Write(&fullName, 1);
         idArray.Write(&id, 1);
@@ -34,7 +34,7 @@ public:
         md5Array.Write(&md5, 1);
     }
 
-    unsigned int AddRefInfo(string &fullName, unsigned int length, string md5)
+    unsigned int AddRefInfo(std::string &fullName, unsigned int length, std::string md5)
     {
         unsigned int numRefs = fullNameArray.size();
         unsigned int id = numRefs + 1;  // refInfo Id is 1 based
@@ -77,9 +77,9 @@ public:
     if (refInfo.fullName.size() != refInfo.id.size() or
         refInfo.id.size() != refInfo.length.size() or
         refInfo.length.size() != refInfo.md5.size()) {
-      cout << "Error with the RefInfo group in a cmp.h5 file.  The datasets " << endl
-           << "are of different lengths but should be the same." << endl;
-      exit(1);
+      std::cout << "Error with the RefInfo group in a cmp.h5 file.  The datasets " << std::endl
+           << "are of different lengths but should be the same." << std::endl;
+      exit(EXIT_FAILURE);
     }
     */
         size_t i;

@@ -36,6 +36,7 @@
 
 #ifndef _LOADPULSES_MovieAlnIndexLookupTable_HPP_
 #define _LOADPULSES_MovieAlnIndexLookupTable_HPP_
+
 #include <iostream>
 #include <string>
 
@@ -89,7 +90,7 @@ public:
     // = index of this hole number in PulseCalls/ZMW/HoleNumbers
     // = pulseFile.LookupReadIndexByHoleNumber(holeNumber, out=plsReadIndex)
 
-    // vector<int> baseToAlignmentMap;
+    // std::vector<int> baseToAlignmentMap;
     // keep all the baseToAlignmentMap in memory for now
     // Note that baseToAlignmentMap is not initialized when
     // BuildLookupTable is called.

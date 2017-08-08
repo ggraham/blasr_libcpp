@@ -1,7 +1,7 @@
 #ifndef _BLASR_SCORE_ANCHORS_HPP_
 #define _BLASR_SCORE_ANCHORS_HPP_
 
-#include <math.h>
+#include <cmath>
 #include "../../statistics/cdfs.hpp"
 #include "../../statistics/pdfs.hpp"
 #include "../../tuples/DNATuple.hpp"

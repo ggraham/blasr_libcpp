@@ -8,8 +8,6 @@
 
 #include "PrioritySearchTree.hpp"
 
-using namespace std;
-
 template <typename T_Fragment, typename T_Endpoint>
 void FragmentSetToEndpoints(T_Fragment *fragments, int nFragments,
                             std::vector<T_Endpoint> &endpoints)
@@ -28,8 +26,8 @@ void FragmentSetToEndpoints(T_Fragment *fragments, int nFragments,
 
 template <typename T_Fragment>
 UInt RestrictedGlobalChain(T_Fragment *fragments, DNALength nFragments, float maxIndelRate,
-                           vector<VectorIndex> &optFragmentChainIndices, vector<UInt> &scores,
-                           vector<UInt> &prevOpt)
+                           std::vector<VectorIndex> &optFragmentChainIndices, std::vector<UInt> &scores,
+                           std::vector<UInt> &prevOpt)
 {
     // assume fragments are sorted by t
 
@@ -51,7 +49,7 @@ UInt RestrictedGlobalChain(T_Fragment *fragments, DNALength nFragments, float ma
             //  Check to see if the fragments may be connected within the
             //  expected indel rate.
             //
-            if (fragments[f2].GetQ() > fragments[f1].GetQ() + fragments[f1].GetW() and
+            if (fragments[f2].GetQ() > fragments[f1].GetQ() + fragments[f1].GetW() &&
                 fragments[f2].GetT() > fragments[f1].GetT() + fragments[f1].GetW()) {
                 //
                 // Compute drift from diagonal.
@@ -59,8 +57,8 @@ UInt RestrictedGlobalChain(T_Fragment *fragments, DNALength nFragments, float ma
                 UInt tDiff, qDiff;
                 tDiff = fragments[f2].GetT() - (fragments[f1].GetT() + fragments[f1].GetW());
                 qDiff = fragments[f2].GetQ() - (fragments[f1].GetQ() + fragments[f1].GetW());
-                UInt maxDiff = max(tDiff, qDiff);
-                UInt minDiff = min(tDiff, qDiff);
+                UInt maxDiff = std::max(tDiff, qDiff);
+                UInt minDiff = std::min(tDiff, qDiff);
                 if (maxDiff - minDiff < minDiff * maxIndelRate) {
                     //
                     // The fragment is sufficiently close to the diagonal to
@@ -96,7 +94,7 @@ UInt RestrictedGlobalChain(T_Fragment *fragments, DNALength nFragments, float ma
 
 template <typename T_Fragment, typename T_Endpoint>
 int GlobalChain(T_Fragment *fragments, DNALength nFragments,
-                vector<VectorIndex> &optFragmentChainIndices, vector<T_Endpoint> *bufEndpointsPtr)
+                std::vector<VectorIndex> &optFragmentChainIndices, std::vector<T_Endpoint> *bufEndpointsPtr)
 {
 
     //
@@ -115,8 +113,8 @@ int GlobalChain(T_Fragment *fragments, DNALength nFragments,
     // Add the start/end points of each fragment. This allows separate
     // scoring of start points and activation of endpoints.
     //
-    vector<T_Endpoint> endpoints;
-    vector<T_Endpoint> *endpointsPtr;
+    std::vector<T_Endpoint> endpoints;
+    std::vector<T_Endpoint> *endpointsPtr;
     if (bufEndpointsPtr != NULL) {
         endpointsPtr = bufEndpointsPtr;
     } else {
@@ -195,15 +193,15 @@ int GlobalChain(T_Fragment *fragments, DNALength nFragments,
 }
 
 template <typename T_Fragment, typename T_Endpoint>
-int GlobalChain(vector<T_Fragment> &fragments, vector<VectorIndex> &optFragmentChainIndices)
+int GlobalChain(std::vector<T_Fragment> &fragments, std::vector<VectorIndex> &optFragmentChainIndices)
 {
     return GlobalChain<T_Fragment, T_Endpoint>(&fragments[0], fragments.size(),
                                                optFragmentChainIndices);
 }
 
 template <typename T_Fragment, typename T_Endpoint>
-int GlobalChain(vector<T_Fragment> &fragments, DNALength start, DNALength end,
-                vector<VectorIndex> &optFragmentChainIndices, vector<T_Endpoint> *bufEndpointsPtr)
+int GlobalChain(std::vector<T_Fragment> &fragments, DNALength start, DNALength end,
+                std::vector<VectorIndex> &optFragmentChainIndices, std::vector<T_Endpoint> *bufEndpointsPtr)
 {
     return GlobalChain<T_Fragment, T_Endpoint>(&fragments[start], end - start,
                                                optFragmentChainIndices, bufEndpointsPtr);

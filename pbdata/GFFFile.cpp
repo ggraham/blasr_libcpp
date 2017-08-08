@@ -21,7 +21,7 @@ void GFFFile::ReadAll(std::string& gffFileName)
     CrucialOpen(gffFileName, gffIn, std::ios::in);
     while (gffIn) {
         std::string line;
-        getline(gffIn, line);
+        std::getline(gffIn, line);
         std::stringstream linestrm(line);
         std::string name, source, type;
         UInt start, end;

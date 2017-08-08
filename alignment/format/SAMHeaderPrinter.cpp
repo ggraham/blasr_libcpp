@@ -1,5 +1,5 @@
 #include "SAMHeaderPrinter.hpp"
-#include <assert.h>
+#include <cassert>
 
 const std::string SAMVERSION("1.5");
 const std::string PBBAMVERSION("3.0.1");
@@ -39,17 +39,17 @@ std::string SAMHeaderItem::ToString()
 SAMHeaderTag::SAMHeaderTag(const std::string& fromString)
 {
     size_t pos = fromString.find(":");
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
         _tagName = fromString.substr(0, pos);
-        string tagValue = fromString.substr(pos + 1);
+        std::string tagValue = fromString.substr(pos + 1);
         if (tagValue.find("=") != std::string::npos) {
             AddItems(tagValue);
         } else {
             _tagValue = tagValue;
         }
     } else {
-        cout << "Unable to parse SAM/BAM header" << fromString << endl;
-        exit(1);
+        std::cout << "Unable to parse SAM/BAM header" << fromString << std::endl;
+        exit(EXIT_FAILURE);
     }
 }
 
@@ -197,7 +197,7 @@ SAMHeaderSQ::SAMHeaderSQ(const std::string& sn, const DNALength& ln, const std::
 {
 }
 
-SAMHeaderSQ::SAMHeaderSQ(const std::string& sn, const string& ln, const std::string& md5)
+SAMHeaderSQ::SAMHeaderSQ(const std::string& sn, const std::string& ln, const std::string& md5)
     : SAMHeaderGroup()
 {
     _groupName = "SQ";
@@ -281,7 +281,7 @@ SAMHeaderSQs SAMHeaderPrinter::MakeSQs(SequenceIndexDatabase<FASTASequence>& seq
         if (static_cast<int>(seqdb.md5.size()) == seqdb.nSeqPos - 1) {
             md5 = seqdb.md5[i];
         }
-        string seqName;
+        std::string seqName;
         seqdb.GetName(i, seqName);
         sqs.Add(SAMHeaderSQ(seqName, seqdb.GetLengthOfSeq(i), md5));
     }
@@ -339,7 +339,7 @@ SAMHeaderRGs SAMHeaderPrinter::MakeRGs(const std::vector<std::string>& readsFile
             std::string movieName;
             reader->GetMovieName(movieName);
 
-            string bindingKit, sequencingKit, baseCallerVersion;
+            std::string bindingKit, sequencingKit, baseCallerVersion;
             reader->GetChemistryTriple(bindingKit, sequencingKit, baseCallerVersion);
             reader->Close();
 

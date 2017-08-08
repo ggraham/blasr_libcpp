@@ -1,17 +1,16 @@
-#include "FASTQSequence.hpp"
-#include <stdint.h>
+#include <cstdint>
 #include <algorithm>
 #include <cassert>
 #include <cstring>
 #include <iomanip>
 #include <iostream>
 #include <vector>
+
+#include "FASTQSequence.hpp"
 #include "DNASequence.hpp"
 #include "Enumerations.h"
 #include "NucConversion.hpp"
 #include "Types.h"
-
-using namespace std;
 
 //
 // Initialize a read with quality probabilities from one with quality values.
@@ -358,21 +357,21 @@ void FASTQSequence::Assign(FASTQSequence &rhs)
     FASTQSequence::CopyQualityValues(rhs);
 }
 
-void FASTQSequence::PrintFastq(ostream &out, int lineLength) const
+void FASTQSequence::PrintFastq(std::ostream &out, int lineLength) const
 {
     PrintSeq(out, lineLength, '@');
     if (lineLength == 0) {
-        out << endl;
+        out << std::endl;
     }
     PrintFastqQuality(out, lineLength);
     if (lineLength == 0) {
-        out << endl;
+        out << std::endl;
     }
 }
 
-void FASTQSequence::PrintFastqQuality(ostream &out, int lineLength) const
+void FASTQSequence::PrintFastqQuality(std::ostream &out, int lineLength) const
 {
-    out << "+" << endl;
+    out << "+" << std::endl;
     PrintAsciiQual(out, lineLength);
 }
 
@@ -449,13 +448,13 @@ bool FASTQSequence::GetQVs(const std::string &qvName, std::string &qvsStr, bool 
 {
     std::vector<uint8_t> qvs;
     bool OK = GetQVs(qvName, qvs, reverse);
-    qvsStr = string(qvs.begin(), qvs.end());
+    qvsStr = std::string(qvs.begin(), qvs.end());
     return OK;
 }
 
-void FASTQSequence::PrintAsciiRichQuality(ostream &out, int whichQuality, int lineLength) const
+void FASTQSequence::PrintAsciiRichQuality(std::ostream &out, int whichQuality, int lineLength) const
 {
-    vector<uint8_t> qvs;
+    std::vector<uint8_t> qvs;
     bool OK = GetQVs(static_cast<QVIndex>(whichQuality), qvs);
 
     DNALength i;
@@ -478,37 +477,37 @@ void FASTQSequence::PrintAsciiRichQuality(ostream &out, int whichQuality, int li
             }
             assert(lineLength != 0);
             if (i > 0 and (i + 1) % lineLength == 0) {
-                out << endl;
+                out << std::endl;
             }
         }
         if (i == 0 or i % lineLength != 0) {
-            out << endl;
+            out << std::endl;
         }
     }
 }
 
-void FASTQSequence::PrintAsciiQual(ostream &out, int lineLength) const
+void FASTQSequence::PrintAsciiQual(std::ostream &out, int lineLength) const
 {
     PrintAsciiRichQuality(out, 0, lineLength);
 }
 
-void FASTQSequence::PrintQual(ostream &out, int lineLength) const
+void FASTQSequence::PrintQual(std::ostream &out, int lineLength) const
 {
-    out << ">" << this->title << endl;
+    out << ">" << this->title << std::endl;
     DNALength i;
     for (i = 0; i < length; i++) {
         out << (int)qual[i];
         if (i > 0 and (i + 1) % lineLength == 0)
-            out << endl;
+            out << std::endl;
         else
             out << " ";
     }
     if (i == 0 or i % lineLength != 0) {
-        out << endl;
+        out << std::endl;
     }
 }
 
-void FASTQSequence::PrintQualSeq(ostream &out, int lineLength) const
+void FASTQSequence::PrintQualSeq(std::ostream &out, int lineLength) const
 {
     FASTASequence::PrintSeq(out, lineLength);
     lineLength /= 4;
@@ -628,7 +627,7 @@ void FASTQSequence::LowerCaseMask(int qThreshold)
 
     for (DNALength i = 0; i < length; i++) {
         if (qual[i] < qThreshold) {
-            seq[i] = tolower(seq[i]);
+            seq[i] = std::tolower(seq[i]);
         }
     }
 }

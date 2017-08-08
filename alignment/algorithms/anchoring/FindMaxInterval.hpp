@@ -1,10 +1,11 @@
 #ifndef _BLASR_FIND_MAX_INTERVAL_HPP_
 #define _BLASR_FIND_MAX_INTERVAL_HPP_
 
-#include <math.h>
+#include <cmath>
 #include <semaphore.h>
 #include <fstream>
 #include <iostream>
+
 #include "../../datastructures/anchoring/ClusterList.hpp"
 #include "../../datastructures/anchoring/MatchPos.hpp"
 #include "../../datastructures/anchoring/WeightedInterval.hpp"
@@ -76,7 +77,7 @@ void StoreLargestIntervals(T_MatchList &pos,
                            // How many values to search through for a max set.
                            DNALength intervalLength,
                            // How many sets to keep track of
-                           int minSize, vector<DNALength> &start, vector<DNALength> &end);
+                           int minSize, std::vector<DNALength> &start, std::vector<DNALength> &end);
 
 template <typename T_MatchList, typename T_PValueFunction, typename T_WeightFunction,
           typename T_SequenceBoundaryDB, typename T_ReferenceSequence, typename T_Sequence>

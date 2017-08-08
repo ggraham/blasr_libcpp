@@ -1,12 +1,13 @@
 #ifndef _BLASR_SUFFIX_ARRAY_HPP_
 #define _BLASR_SUFFIX_ARRAY_HPP_
 
-#include <assert.h>
-#include <string.h>
+#include <cassert>
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
+
 #include "../../pbdata/DNASequence.hpp"
 #include "../../pbdata/NucConversion.hpp"
 #include "../../pbdata/defs.h"
@@ -18,6 +19,7 @@
 #include "../tuples/CompressedDNATuple.hpp"
 #include "../tuples/DNATuple.hpp"
 #include "LCPTable.hpp"
+
 /*
  * Suffix array implementation, with a Manber and Meyers sort, but
  * that is typically not used.
@@ -84,7 +86,7 @@ public:
     static const int FullSearch = -1;
     int componentList[ComponentListLength];
 
-    // vector<SAIndex> leftBound, rightBound;
+    // std::vector<SAIndex> leftBound, rightBound;
 
     inline int LengthLongestCommonPrefix(T *a, int alen, T *b, int blen)
     {
@@ -537,7 +539,7 @@ public:
     {
         PB_UNUSED(out);
         std::cout << "NOT YET IMPLEMENTED." << std::endl;
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     void Write(std::string &outFileName)
@@ -554,7 +556,7 @@ public:
         suffixArrayOut.open(outFileName.c_str(), std::ios::binary);
         if (!suffixArrayOut.good()) {
             std::cout << "Could not open " << outFileName << std::endl;
-            exit(1);
+            exit(EXIT_FAILURE);
         }
         WriteMagicNumber(suffixArrayOut);
         // write the preamble
@@ -632,7 +634,7 @@ public:
     {
         PB_UNUSED(in);
         std::cout << " NOT YET IMPLEMENTED!!!" << std::endl;
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     bool LightRead(std::string &inFileName)
@@ -679,7 +681,7 @@ public:
                   DNALength &lcpLength, DNALength maxlcp)
     {
         PB_UNUSED(maxlcp);
-        //		cout << "searching lcp with query of length: " << queryLength << endl;
+        //		std::cout << "searching lcp with query of length: " << queryLength << std::endl;
         lcpLength = 0;
         if (startPosTable != NULL and queryLength >= lookupPrefixLength) {
             Tuple lookupTuple;
@@ -1176,7 +1178,7 @@ public:
         low = high;
         diff = ((long)high) - ((long)low);
         return low;
-        //		cout << "search low took: " << numSteps << endl;
+        //		std::cout << "search low took: " << numSteps << std::endl;
     }
 
     int SearchHigh(T *target, T *query, DNALength queryLength, SAIndex l, SAIndex r, SAIndex &high,
@@ -1224,7 +1226,7 @@ public:
         // the last spot where query could be inserted after and not wreck the ordering of the array.
         //
         high = low;
-        //		cout << "search high took: " << numSteps << " steps." << endl;
+        //		std::cout << "search high took: " << numSteps << " steps." << std::endl;
     }
 };
 

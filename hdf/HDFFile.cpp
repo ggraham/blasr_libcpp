@@ -1,7 +1,6 @@
 #include "HDFFile.hpp"
 
 using namespace H5;
-using namespace std;
 
 HDFFile::HDFFile() {}
 
@@ -10,11 +9,11 @@ HDFFile::HDFFile() {}
 //  read/write mode.  The only other flag that is allowed is
 //  H5F_ACC_TRUNC, which will truncate the file to zero size.
 //
-void HDFFile::Open(string fileName, unsigned int flags, const FileAccPropList& fileAccPropList)
+void HDFFile::Open(std::string fileName, unsigned int flags, const FileAccPropList& fileAccPropList)
 {
 
     assert(flags == H5F_ACC_RDWR || flags == H5F_ACC_TRUNC || flags == H5F_ACC_RDONLY);
-    ifstream testIn(fileName.c_str());
+    std::ifstream testIn(fileName.c_str());
     bool fileExists = static_cast<bool>(testIn);
     bool flagsIsNotTrunc = flags != H5F_ACC_TRUNC;
 
@@ -22,8 +21,8 @@ void HDFFile::Open(string fileName, unsigned int flags, const FileAccPropList& f
         try {
             hdfFile.openFile(fileName.c_str(), flags, fileAccPropList);
         } catch (FileIException e) {
-            cout << "Error opening file " << fileName << endl;
-            exit(1);
+            std::cout << "Error opening file " << fileName << std::endl;
+            exit(EXIT_FAILURE);
         }
     } else {
         try {
@@ -34,13 +33,13 @@ void HDFFile::Open(string fileName, unsigned int flags, const FileAccPropList& f
             filePropList.setUserblock(512);
             hdfFile = H5File(fileName.c_str(), H5F_ACC_TRUNC, filePropList);
         } catch (FileIException fileException) {
-            cout << "Error creating file " << fileName << endl;
-            exit(1);
+            std::cout << "Error creating file " << fileName << std::endl;
+            exit(EXIT_FAILURE);
         }
     }
     if (rootGroup.Initialize(hdfFile, "/") != 1) {
-        cout << "Error initializing the root group for file " << fileName << endl;
-        exit(1);
+        std::cout << "Error initializing the root group for file " << fileName << std::endl;
+        exit(EXIT_FAILURE);
     }
 }
 

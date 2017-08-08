@@ -5,6 +5,7 @@
 #include <map>
 #include <set>
 #include <vector>
+
 #include "../pbdata/Types.h"
 #include "HDFArray.hpp"
 #include "HDFCmpSupportedFields.hpp"
@@ -42,7 +43,7 @@ public:
     HDFGroup experimentGroup;
     HDFArray<unsigned char> alignmentArray;
 
-    bool Create(HDFGroup &parent, string experimentGroupName);
+    bool Create(HDFGroup &parent, std::string experimentGroupName);
 
     void AddAlignment(std::vector<unsigned char> &alignment, unsigned int &offsetBegin,
                       unsigned int &offsetEnd);
@@ -57,7 +58,7 @@ public:
                  unsigned int *offsetBegin, unsigned int *offsetEnd);
 
     int Initialize(HDFGroup &refGroup, std::string experimentGroupName,
-                   std::set<string> &fieldNames);
+                   std::set<std::string> &fieldNames);
 
     int Initialize(HDFGroup &refGroup, std::string experimentGroupName);
 

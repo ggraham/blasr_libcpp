@@ -1,10 +1,11 @@
 #ifndef _LOADPULSES_METRICFIELD_HPP_
 #define _LOADPULSES_METRICFIELD_HPP_
+
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "../Types.h"
 
@@ -114,7 +115,7 @@ public:
     //               IPD[i] = StartFrame[i] - StartFrame[i-1] - WidthInFrames[i-1]
     //                                                for i in [1 ... n-1]
     //
-    //void GetRequiredFieldsForMetric(const string & metric, FieldType & field){
+    //void GetRequiredFieldsForMetric(const std::string & metric, FieldType & field){
     FieldsRequirement(const std::string &m);
 };
 

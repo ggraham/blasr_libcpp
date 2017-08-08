@@ -11,7 +11,7 @@ template <typename T_Tuple>
 HashedTupleList<T_Tuple>::HashedTupleList(int _hashLength)
 {
     Initialize(_hashLength);
-    cout << hashTable.size() << endl;
+    std::cout << hashTable.size() << std::endl;
 }
 
 template <typename T_Tuple>
@@ -103,8 +103,8 @@ int HashedTupleList<T_Tuple>::Find(T_Tuple tuple, int &hashValue, int &index)
 
 template <typename T_Tuple>
 void HashedTupleList<T_Tuple>::FindAll(T_Tuple &tuple,
-                                       typename vector<T_Tuple>::const_iterator &firstPos,
-                                       typename vector<T_Tuple>::const_iterator &endPos)
+                                       typename std::vector<T_Tuple>::const_iterator &firstPos,
+                                       typename std::vector<T_Tuple>::const_iterator &endPos)
 {
     int hashValue;
     hashValue = tuple.tuple & mask;

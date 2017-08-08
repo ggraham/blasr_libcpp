@@ -1,8 +1,8 @@
 #ifndef _BLASR_SEQUENCE_INDEX_DATABASE_HPP_
 #define _BLASR_SEQUENCE_INDEX_DATABASE_HPP_
 
-#include <assert.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdlib>
 #include <algorithm>
 #include <cstring>
 #include <fstream>
@@ -59,9 +59,9 @@ public:
 
     DNALength SearchForStartAndEnd(DNALength pos, DNALength &start, DNALength &end);
 
-    void WriteDatabase(ofstream &out);
+    void WriteDatabase(std::ofstream &out);
 
-    void ReadDatabase(ifstream &in);
+    void ReadDatabase(std::ifstream &in);
 
     void SequenceTitleLinesToNames();
 

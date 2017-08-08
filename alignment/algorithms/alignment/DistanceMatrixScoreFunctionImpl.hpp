@@ -1,6 +1,6 @@
 #ifndef _BLASR_DISTANCE_MATRIX_SCORE_FUNCTION_IMPL_HPP_
 #define _BLASR_DISTANCE_MATRIX_SCORE_FUNCTION_IMPL_HPP_
-#include <stdint.h>
+#include <cstdint>
 #include <cstring>
 #include <iostream>
 #include <ostream>

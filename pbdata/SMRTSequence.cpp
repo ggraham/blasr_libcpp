@@ -1,10 +1,8 @@
 // Author: Mark Chaisson
 
 #include "SMRTSequence.hpp"
-#include <stdlib.h>
+#include <cstdlib>
 #include "utils/SMRTTitle.hpp"
-
-using namespace std;
 
 SMRTSequence::SMRTSequence()
     : FASTQSequence()
@@ -39,8 +37,8 @@ void SMRTSequence::Allocate(DNALength length)
 {
     // Assert *this has no allocated space.
     if (not(seq == NULL && preBaseFrames == NULL && widthInFrames == NULL and pulseIndex == NULL)) {
-        cout << "ERROR, trying to double-allocate memory for a SMRTSequence." << endl;
-        exit(1);
+        std::cout << "ERROR, trying to double-allocate memory for a SMRTSequence." << std::endl;
+        exit(EXIT_FAILURE);
     }
 
     FASTQSequence::AllocateQualitySpace(length);
@@ -85,7 +83,7 @@ void SMRTSequence::CompactAllocate(const DNALength length, const bool hasInserti
 void SMRTSequence::SetSubreadTitle(SMRTSequence &subread, DNALength subreadStart,
                                    DNALength subreadEnd)
 {
-    stringstream titleStream;
+    std::stringstream titleStream;
     titleStream << title << "/" << subreadStart << "_" << subreadEnd;
     subread.CopyTitle(titleStream.str());
 }
@@ -198,10 +196,10 @@ void SMRTSequence::Copy(const SMRTSequence &rhs, DNALength rhsPos, DNALength rhs
 #endif
 }
 
-void SMRTSequence::Print(ostream &out) const
+void SMRTSequence::Print(std::ostream &out) const
 {
     out << "SMRTSequence for zmw " << HoleNumber() << ", [" << SubreadStart() << ", "
-        << SubreadEnd() << ")" << endl;
+        << SubreadEnd() << ")" << std::endl;
     DNASequence::Print(out);
 }
 
@@ -351,13 +349,13 @@ void SMRTSequence::MadeFromSubreadsAsPolymerase(const std::vector<SMRTSequence> 
     bool hasInsDel = true, hasSubstitution = true;
     // Compute hqStart, hqEnd and which QVs to use over all subreads.
     for (auto subread : subreads) {
-        hqStart = min(DNALength(subread.SubreadStart()), hqStart);
-        hqEnd = max(DNALength(subread.SubreadEnd()), hqEnd);
-        if (subread.insertionQV.Empty() or subread.deletionQV.Empty() or
+        hqStart = std::min(DNALength(subread.SubreadStart()), hqStart);
+        hqEnd = std::max(DNALength(subread.SubreadEnd()), hqEnd);
+        if (subread.insertionQV.Empty() || subread.deletionQV.Empty() ||
             subread.deletionTag == nullptr) {
             hasInsDel = false;
         }
-        if (subread.substitutionTag == nullptr or subread.substitutionQV.Empty()) {
+        if (subread.substitutionTag == nullptr || subread.substitutionQV.Empty()) {
             hasSubstitution = false;
         }
     }
@@ -370,8 +368,8 @@ void SMRTSequence::MadeFromSubreadsAsPolymerase(const std::vector<SMRTSequence> 
     this->highQualityRegionScore = subreads[0].highQualityRegionScore;
     this->HoleNumber(subreads[0].HoleNumber());
     // Make title.
-    stringstream ss;
-    ss << SMRTTitle(subreads[0].GetTitle()).MovieName() << "/" << subreads[0].HoleNumber();
+    std::stringstream ss;
+    ss << SMRTTitle(subreads[0].GetTitle()).MovieName() << '/' << subreads[0].HoleNumber();
     this->CopyTitle(ss.str());
 
     // Copy subreads content to this polymerase read.

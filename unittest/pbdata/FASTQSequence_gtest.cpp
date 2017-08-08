@@ -22,8 +22,6 @@
 #include "FASTQSequence.hpp"
 #include "gtest/gtest.h"
 
-using namespace std;
-
 class FASTQSequenceTest : public ::testing::Test
 {
 public:
@@ -34,7 +32,7 @@ public:
     FASTQSequence fastqOne;
 
     std::streambuf* sbuf;
-    ofstream ofs;
+    std::ofstream ofs;
 };
 
 TEST_F(FASTQSequenceTest, ReverseComplementSelf)

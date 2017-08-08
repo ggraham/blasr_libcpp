@@ -1,7 +1,7 @@
 #ifndef _BLASR_SAM_KVPAIR_HPP_
 #define _BLASR_SAM_KVPAIR_HPP_
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include <iostream>
 #include <string>

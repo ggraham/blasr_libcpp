@@ -13,7 +13,7 @@
  * speed up sorts on modern architectures. 
  */
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <vector>
 // pbdata

@@ -1,5 +1,5 @@
 #include "BaseTuple.hpp"
-#include <stdint.h>
+#include <cstdint>
 #include "../../pbdata/Types.h"
 #include "TupleMask.h"
 #include "TupleMetrics.hpp"

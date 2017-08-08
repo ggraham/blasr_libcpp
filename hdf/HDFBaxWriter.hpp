@@ -16,7 +16,6 @@
 #include "HDFWriterBase.hpp"
 
 using namespace H5;
-using namespace std;
 
 class HDFBaxWriter : public HDFWriterBase
 {

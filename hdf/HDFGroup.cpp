@@ -1,11 +1,10 @@
 #include "HDFGroup.hpp"
 
 using namespace H5;
-using namespace std;
 
 HDFGroup::HDFGroup() : HDFAttributable() { groupIsInitialized = false; }
 
-void HDFGroup::AddGroup(string groupName)
+void HDFGroup::AddGroup(std::string groupName)
 {
     group.createGroup(groupName);
     return;
@@ -13,7 +12,7 @@ void HDFGroup::AddGroup(string groupName)
 
 H5Location *HDFGroup::GetObject() { return &group; }
 
-int HDFGroup::Initialize(CommonFG &fg, string groupName)
+int HDFGroup::Initialize(CommonFG &fg, std::string groupName)
 {
     try {
         group = fg.openGroup(groupName.c_str());
@@ -29,12 +28,12 @@ int HDFGroup::Initialize(CommonFG &fg, string groupName)
     return 1;
 }
 
-int HDFGroup::Initialize(HDFGroup &parentGroup, string groupName)
+int HDFGroup::Initialize(HDFGroup &parentGroup, std::string groupName)
 {
     return Initialize(parentGroup.group, groupName);
 }
 
-bool HDFGroup::ContainsObject(string queryObjectName)
+bool HDFGroup::ContainsObject(std::string queryObjectName)
 {
     hsize_t objIdx;
     hsize_t numGroupObjs = group.getNumObjs();

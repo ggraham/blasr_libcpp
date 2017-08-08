@@ -1,7 +1,7 @@
 #ifndef UTILS_CHANGELIST_ID_H_
 #define UTILS_CHANGELIST_ID_H_
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <sstream>
 #include <string>
 #include <vector>

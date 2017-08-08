@@ -3,7 +3,6 @@
 
 #include <string>
 #include <vector>
-using namespace std;
 
 class CmpReadGroupTable
 {
@@ -13,8 +12,8 @@ public:
         readGroupNameIds.resize(size);
         readGroupNames.resize(size);
     }
-    vector<int> readGroupNameIds;
-    vector<string> readGroupNames;
+    std::vector<int> readGroupNameIds;
+    std::vector<std::string> readGroupNames;
     int lastRow;
 };
 

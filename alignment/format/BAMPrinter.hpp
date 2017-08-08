@@ -4,7 +4,7 @@
 #ifdef USE_PBBAM
 #include <pbbam/BamHeader.h>
 #include <pbbam/BamWriter.h>
-#include <stdint.h>
+#include <cstdint>
 #include <sstream>
 #include "SAMPrinter.hpp"
 

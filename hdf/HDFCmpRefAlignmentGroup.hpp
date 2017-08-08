@@ -3,21 +3,20 @@
 
 #include <map>
 #include <string>
+
 #include "H5Cpp.h"
 #include "HDFCmpExperimentGroup.hpp"
 #include "HDFData.hpp"
 #include "HDFGroup.hpp"
 
-using namespace std;
-
 class HDFCmpRefAlignmentGroup
 {
 public:
     HDFGroup refGroup;
-    string refGroupName;
-    vector<HDFCmpExperimentGroup*> readGroups;
-    HDFAtom<string> annotationStringAtom;
-    map<string, int> experimentNameToIndex;
+    std::string refGroupName;
+    std::vector<HDFCmpExperimentGroup*> readGroups;
+    HDFAtom<std::string> annotationStringAtom;
+    std::map<std::string, int> experimentNameToIndex;
     // A RefAlignmentGroup may contain one or more
     // ExperimentGroups. The following shows a
     // RefAlignmentGroup containing two ExperimentGroups.
@@ -30,7 +29,7 @@ public:
     // /ref00001/rg8953-0
     // /ref00001/rg2453-1
 
-    int Initialize(H5::CommonFG& group, string _refGroupName)
+    int Initialize(H5::CommonFG& group, std::string _refGroupName)
     {
         refGroupName = _refGroupName;
         refGroup.Initialize(group, _refGroupName);
@@ -38,19 +37,19 @@ public:
         return 1;
     }
 
-    void Create(HDFGroup parent, string refGroupNameP)
+    void Create(HDFGroup parent, std::string refGroupNameP)
     {
         refGroupName = refGroupNameP;
         parent.AddGroup(refGroupName);
         refGroup.Initialize(parent, refGroupName);
     }
 
-    HDFCmpExperimentGroup* GetExperimentGroup(string readGroupName)
+    HDFCmpExperimentGroup* GetExperimentGroup(std::string readGroupName)
     {
         //
         // In contrast to initialization, only create one group.
         //
-        map<string, int>::iterator it = experimentNameToIndex.find(readGroupName);
+        std::map<std::string, int>::iterator it = experimentNameToIndex.find(readGroupName);
         if (it != experimentNameToIndex.end()) {
             assert(it->second < int(readGroups.size()));
             return readGroups[it->second];
@@ -62,8 +61,8 @@ public:
         int newReadGroupIndex = readGroups.size();
         HDFCmpExperimentGroup* readGroupPtr = new HDFCmpExperimentGroup;
         if (readGroupPtr == nullptr) {
-            cout << "ERROR, failed to allocate memory for HDFCmpExperimentGroup!" << endl;
-            exit(1);
+            std::cout << "ERROR, failed to allocate memory for HDFCmpExperimentGroup!" << std::endl;
+            exit(EXIT_FAILURE);
         }
         readGroups.push_back(readGroupPtr);
         experimentNameToIndex[readGroupName] = newReadGroupIndex;
@@ -79,23 +78,23 @@ public:
         return readGroupPtr;
     }
 
-    bool ContainsExperimentGroup(string readGroupName)
+    bool ContainsExperimentGroup(std::string readGroupName)
     {
         return experimentNameToIndex.find(readGroupName) != experimentNameToIndex.end();
     }
 
-    HDFCmpExperimentGroup* InitializeExperimentGroup(string experimentGroupName,
-                                                     set<string>& includedFields)
+    HDFCmpExperimentGroup* InitializeExperimentGroup(std::string experimentGroupName,
+                                                     std::set<std::string>& includedFields)
     {
         if (refGroup.ContainsObject(experimentGroupName)) {
             HDFCmpExperimentGroup* newGroup = new HDFCmpExperimentGroup;
             if (newGroup == nullptr) {
-                cout << "ERROR, failed to allocate memory for HDFCmpExperimentGroup!" << endl;
-                exit(1);
+                std::cout << "ERROR, failed to allocate memory for HDFCmpExperimentGroup!" << std::endl;
+                exit(EXIT_FAILURE);
             }
             if (newGroup->Initialize(refGroup, experimentGroupName, includedFields) == 0) {
-                cout << "ERROR, could not initialize the exp group." << endl;
-                exit(1);
+                std::cout << "ERROR, could not initialize the exp group." << std::endl;
+                exit(EXIT_FAILURE);
             }
             experimentNameToIndex[experimentGroupName] = readGroups.size();
             readGroups.push_back(newGroup);
@@ -105,9 +104,9 @@ public:
         }
     }
 
-    HDFCmpExperimentGroup* InitializeExperimentGroup(string experimentGroupName)
+    HDFCmpExperimentGroup* InitializeExperimentGroup(std::string experimentGroupName)
     {
-        set<string> EMPTYIncludedFields;
+        std::set<std::string> EMPTYIncludedFields;
         return InitializeExperimentGroup(experimentGroupName, EMPTYIncludedFields);
     }
 };

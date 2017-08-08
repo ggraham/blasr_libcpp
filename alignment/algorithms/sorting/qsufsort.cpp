@@ -11,7 +11,7 @@
    the code must be clearly marked. No warranty is given regarding the quality
    of this software.*/
 
-#include <limits.h>
+#include <climits>
 
 static int *I, /* group array, ultimately suffix array.*/
     *V,        /* inverse array, ultimately inverse of I.*/

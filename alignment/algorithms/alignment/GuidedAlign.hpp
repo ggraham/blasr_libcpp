@@ -1,7 +1,7 @@
 #ifndef _BLASR_GUIDE_ALIGNMENT_HPP_
 #define _BLASR_GUIDE_ALIGNMENT_HPP_
 
-#include <limits.h>
+#include <climits>
 #include <cmath>
 #include <ostream>
 #include <vector>
@@ -105,8 +105,8 @@ int GuidedAlign(QSequence &origQSeq, TSequence &origTSeq, blasr::Alignment &guid
      Matrix<float> probMatrix;
      probMatrix.Resize(qSeq.length, tSeq.length);
      probMatrix.Initialize(0);
-     ofstream matrixOut;
-     stringstream matrixOutNameStrm;
+     std::ofstream matrixOut;
+     std::stringstream matrixOutNameStrm;
      matrixOutNameStrm << "probMatrix_"<< runIndex << ".dat";
      matrixOut.open(matrixOutNameStrm.str().c_str());
      */
@@ -427,7 +427,7 @@ int GuidedAlign(QSequence &origQSeq, TSequence &origTSeq, blasr::Alignment &guid
             std::cout << "tseq: " << std::endl;
             (static_cast<DNASequence *>(&tSeq))->PrintSeq(std::cout);
             std::cout << "ERROR, this path has gone awry at " << q << " " << t << " !" << std::endl;
-            exit(1);
+            exit(EXIT_FAILURE);
         }
         optAlignment.push_back(arrow);
         if (arrow == Diagonal) {
