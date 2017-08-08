@@ -1,6 +1,6 @@
 #ifndef _BLASR_COMPRESSED_SEQUENCE_HPP_
 #define _BLASR_COMPRESSED_SEQUENCE_HPP_
-#include <stdint.h>
+#include <cstdint>
 #include <cassert>
 #include <cstring>
 #include <fstream>

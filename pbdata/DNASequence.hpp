@@ -1,8 +1,8 @@
 #ifndef _BLASR_DNA_SEQUENCE_HPP_
 #define _BLASR_DNA_SEQUENCE_HPP_
 
-#include <stdint.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstdlib>
 #include <cassert>
 #include <iostream>
 #include <string>
@@ -143,7 +143,7 @@ inline void DNASequence::CheckBeforeCopyOrReference(const DNASequence &rhs, std:
 
     if (seq == rhs.seq and seq != NULL and deleteOnExit) {
         std::cout << "ERROR, trying to copying a " << seqType << " to itself." << std::endl;
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 }
 

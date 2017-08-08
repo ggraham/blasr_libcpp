@@ -1,4 +1,4 @@
-#include <stdint.h>
+#include <cstdint>
 #include <algorithm>
 #include <iostream>
 #include <ostream>
@@ -293,8 +293,8 @@ int SWAlign(T_QuerySequence &qSeq, T_TargetSequence &tSeq, std::vector<int> &sco
         minRow = nRows - 1;
     }
     /*
-       PrintFlatMatrix(&scoreMat[0], nRows, nCols, cout);
-       PrintFlatMatrix(&pathMat[0], nRows,nCols, cout);
+       PrintFlatMatrix(&scoreMat[0], nRows, nCols, std::cout);
+       PrintFlatMatrix(&pathMat[0], nRows,nCols, std::cout);
        */
     if (alignType != ScoreGlobal and alignType != ScoreLocal and alignType != ScoreQueryFit and
         alignType != ScoreOverlap and alignType != ScoreTPrefixQSuffix and

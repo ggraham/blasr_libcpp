@@ -1,6 +1,6 @@
 #ifndef _BLASR_MATRIX_IMPL_HPP
 #define _BLASR_MATRIX_IMPL_HPP
-#include <stdint.h>
+#include <cstdint>
 #include <cassert>
 #include <fstream>
 #include <iostream>

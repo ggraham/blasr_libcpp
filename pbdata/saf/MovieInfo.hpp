@@ -3,18 +3,17 @@
 
 #include <string>
 #include <vector>
-#include "../Types.h"
 
-using namespace std;
+#include "../Types.h"
 
 class MovieInfo
 {
 public:
-    vector<string> name;
-    vector<UInt> run;
-    vector<UInt> experiment;
-    vector<UInt> id;
-    int FindMovie(UInt idKey, string &nameVal);
+    std::vector<std::string> name;
+    std::vector<UInt> run;
+    std::vector<UInt> experiment;
+    std::vector<UInt> id;
+    int FindMovie(UInt idKey, std::string &nameVal);
 };
 
 #endif

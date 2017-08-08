@@ -14,14 +14,18 @@
  *
  * ==================================================================
  */
+
+#include <string>
+#include <vector>
+
 #include "gtest/gtest.h"
+
 #define private public
+
 #include "reads/RegionTypeMap.hpp"
 
-using namespace std;
-
 // Adater - 0, Insert - 1, HQRegion - 2
-const vector<RegionType> TYPES = {Adapter, Insert, HQRegion};
+const std::vector<RegionType> TYPES = {Adapter, Insert, HQRegion};
 
 TEST(RegionTypeMapTest, ToString)
 {

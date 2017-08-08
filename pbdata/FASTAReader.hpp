@@ -1,6 +1,6 @@
 #ifndef _BLASR_FASTA_READER_HPP_
 #define _BLASR_FASTA_READER_HPP_
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include "FASTASequence.hpp"
 #include "metagenome/SequenceIndexDatabase.hpp"
@@ -74,7 +74,7 @@ iterting over reads.
 
     void Close();
 
-    void ReadAllSequences(vector<FASTASequence> &sequences);
+    void ReadAllSequences(std::vector<FASTASequence> &sequences);
 };
 
 #endif  // _BLASR_FASTA_READER_HPP_

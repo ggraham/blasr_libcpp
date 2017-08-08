@@ -1,5 +1,5 @@
 #include "PhredUtils.hpp"
-#include <math.h>
+#include <cmath>
 
 double InversePhred(double phred)
 {

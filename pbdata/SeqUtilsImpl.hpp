@@ -1,4 +1,4 @@
-#include <stdint.h>
+#include <cstdint>
 #include <iostream>
 #include <vector>
 #include "DNASequence.hpp"

@@ -34,7 +34,7 @@ TEST(RangeTest, Ranges)
     UInt queryInRange[11] = {1, 2, 3, 4, 10, 11, 12, 13, 14, 15, 20};
     UInt queryNotInRange[8] = {0, 16, 17, 18, 19, 30, 5, 100000};
 
-    Ranges ranges1(string("1,2,3,4,10-15,20-20"));
+    Ranges ranges1(std::string("1,2,3,4,10-15,20-20"));
 
     for (int i = 0; i < 11; i++) {
         EXPECT_TRUE(ranges1.contains(queryInRange[i]));

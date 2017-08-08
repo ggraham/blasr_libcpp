@@ -19,12 +19,10 @@
 #include "qvs/QualityValue.hpp"
 #include "qvs/QualityValueVector.hpp"
 
-using namespace std;
+const std::string qvstr = "!#$%0123:;ABab{|}~";
+std::vector<uint8_t> data = {0, 2, 3, 4, 15, 16, 17, 18, 25, 26, 32, 33, 64, 65, 90, 91, 92, 93};
 
-const string qvstr = "!#$%0123:;ABab{|}~";
-vector<uint8_t> data = {0, 2, 3, 4, 15, 16, 17, 18, 25, 26, 32, 33, 64, 65, 90, 91, 92, 93};
-
-vector<uint8_t> data2 = {1, 1, 17, 18, 25, 26, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+std::vector<uint8_t> data2 = {1, 1, 17, 18, 25, 26, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
 TEST(QualityValueVectorTest, Copy)
 {

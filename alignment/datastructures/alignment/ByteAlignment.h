@@ -1,17 +1,18 @@
 #ifndef DATASTRUCTURES_ALIGNMENT_BYTE_ALIGNMENT_H_
 #define DATASTRUCTURES_ALIGNMENT_BYTE_ALIGNMENT_H_
+
 #include <vector>
+
 #include "../../../pbdata/DNASequence.hpp"
 #include "../../algorithms/alignment/AlignmentUtils.hpp"
 
-using namespace std;
 /*
  * These arrays are for going from the HDF byte alignment format to characters, or
  * from characters to the upper or lower nybble for translating from character 
  * alignments to byte alignments.
  */
 
-typedef vector<unsigned char> ByteAlignment;
+typedef std::vector<unsigned char> ByteAlignment;
 static char QueryChar[256] = {
     ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',  //0
     ' ', ' ', ' ', ' ', ' ', ' ', 'A', 'A', 'A', 'A',  //10
@@ -117,7 +118,7 @@ void ByteAlignmentToRefString(const unsigned char *byteAlignment, UInt length, c
     }
 }
 
-void RemoveGaps(string &gappedStr, string &ungappedStr)
+void RemoveGaps(std::string &gappedStr, std::string &ungappedStr)
 {
     ungappedStr = gappedStr;
     size_t i, i2;
@@ -131,7 +132,7 @@ void RemoveGaps(string &gappedStr, string &ungappedStr)
     ungappedStr.resize(i2);
 }
 
-void GappedStringsToAlignment(string &gappedQuery, string &gappedRef, Alignment &alignment)
+void GappedStringsToAlignment(std::string &gappedQuery, std::string &gappedRef, Alignment &alignment)
 {
     size_t qPos = 0, rPos = 0;
     size_t i = 0;  // position in alignment string
@@ -158,9 +159,9 @@ void GappedStringsToAlignment(string &gappedQuery, string &gappedRef, Alignment 
     }
 }
 
-void ByteAlignmentToAlignment(vector<unsigned char> &byteAlignment, Alignment &alignment)
+void ByteAlignmentToAlignment(std::vector<unsigned char> &byteAlignment, Alignment &alignment)
 {
-    string readSequence, refSequence;
+    std::string readSequence, refSequence;
     readSequence.resize(byteAlignment.size());
     refSequence.resize(byteAlignment.size());
 
@@ -170,9 +171,9 @@ void ByteAlignmentToAlignment(vector<unsigned char> &byteAlignment, Alignment &a
 }
 
 void AlignmentToByteAlignment(Alignment &alignment, DNASequence &querySeq, DNASequence &refSeq,
-                              vector<unsigned char> &byteAlignment)
+                              std::vector<unsigned char> &byteAlignment)
 {
-    string refStr, alignStr, queryStr;
+    std::string refStr, alignStr, queryStr;
     CreateAlignmentStrings(alignment, querySeq, refSeq, refStr, alignStr, queryStr);
     byteAlignment.resize(refStr.size());
     for (size_t i = 0; i < refStr.size(); i++) {
@@ -181,7 +182,7 @@ void AlignmentToByteAlignment(Alignment &alignment, DNASequence &querySeq, DNASe
     }
 }
 
-bool IsMatch(vector<unsigned char> &byteAlignment, int i)
+bool IsMatch(std::vector<unsigned char> &byteAlignment, int i)
 {
     if (QueryChar[byteAlignment[i]] != ' ' and RefChar[byteAlignment[i]] != ' ' and
         (QueryChar[byteAlignment[i]] == RefChar[byteAlignment[i]])) {
@@ -191,7 +192,7 @@ bool IsMatch(vector<unsigned char> &byteAlignment, int i)
     }
 }
 
-void CountStats(vector<unsigned char> &byteAlignment, int &nMatch, int &nMismatch, int &nIns,
+void CountStats(std::vector<unsigned char> &byteAlignment, int &nMatch, int &nMismatch, int &nIns,
                 int &nDel, int start = 0, int end = -1)
 {
     int i;
@@ -214,7 +215,7 @@ void CountStats(vector<unsigned char> &byteAlignment, int &nMatch, int &nMismatc
     }
 }
 
-int CountBasesInReference(vector<unsigned char> &byteAlignment)
+int CountBasesInReference(std::vector<unsigned char> &byteAlignment)
 {
     int nBases = 0;
     for (size_t i = 0; i < byteAlignment.size(); i++) {
@@ -225,7 +226,7 @@ int CountBasesInReference(vector<unsigned char> &byteAlignment)
     return nBases;
 }
 
-int CountBasesInQuery(vector<unsigned char> &byteAlignment)
+int CountBasesInQuery(std::vector<unsigned char> &byteAlignment)
 {
     int nBases = 0;
     for (size_t i = 0; i < byteAlignment.size(); i++) {
@@ -236,7 +237,7 @@ int CountBasesInQuery(vector<unsigned char> &byteAlignment)
     return nBases;
 }
 
-int CountNMatches(vector<unsigned char> &byteAlignment)
+int CountNMatches(std::vector<unsigned char> &byteAlignment)
 {
     int nMatches = 0;
     for (size_t i = 0; i < byteAlignment.size(); i++) {
@@ -247,7 +248,7 @@ int CountNMatches(vector<unsigned char> &byteAlignment)
     return nMatches;
 }
 
-float ComputePacBioAccuracy(vector<unsigned char> &byteAlignment)
+float ComputePacBioAccuracy(std::vector<unsigned char> &byteAlignment)
 {
     int m, mm, i, d;
     CountStats(byteAlignment, m, mm, d, i);
@@ -255,14 +256,14 @@ float ComputePacBioAccuracy(vector<unsigned char> &byteAlignment)
     return 1 - (1.0 * mm + d + i) / readLength;
 }
 
-float ComputePercentIdentity(vector<unsigned char> &byteAlignment)
+float ComputePercentIdentity(std::vector<unsigned char> &byteAlignment)
 {
     int nMatch = CountNMatches(byteAlignment);
     return (1.0 * nMatch) / byteAlignment.size();
 }
 
-void CreateSequenceToAlignmentMap(vector<unsigned char> &byteAlignment,
-                                  vector<int> &baseToAlignmentMap)
+void CreateSequenceToAlignmentMap(std::vector<unsigned char> &byteAlignment,
+                                  std::vector<int> &baseToAlignmentMap)
 {
     int alignPos, ungappedAlignPos;
     int alignmentLength = byteAlignment.size();
@@ -277,8 +278,8 @@ void CreateSequenceToAlignmentMap(vector<unsigned char> &byteAlignment,
     baseToAlignmentMap.resize(ungappedAlignPos);
 }
 
-void CreateAlignmentToSequenceMap(vector<unsigned char> &byteAlignment,
-                                  vector<int> &alignmentToBaseMap)
+void CreateAlignmentToSequenceMap(std::vector<unsigned char> &byteAlignment,
+                                  std::vector<int> &alignmentToBaseMap)
 {
     int alignPos, ungappedAlignPos;
     int alignmentLength = byteAlignment.size();

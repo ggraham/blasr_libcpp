@@ -1,8 +1,8 @@
 #ifndef _BLASR_COMMAND_LINE_PARSER_HPP_
 #define _BLASR_COMMAND_LINE_PARSER_HPP_
 
-#include <assert.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdlib>
 #include <cstring>
 #include <iomanip>
 #include <iostream>

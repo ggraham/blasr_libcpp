@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+
 // pbdata/
 #include "../pbdata/Enumerations.h"
 #include "../pbdata/reads/ScanData.hpp"
@@ -82,7 +83,7 @@ public:
 
     int LoadMovieName(std::string &movieName);
 
-    int LoadBaseMap(map<char, size_t> &baseMap);
+    int LoadBaseMap(std::map<char, size_t> &baseMap);
 
     std::map<char, size_t> BaseMap(void) const { return baseMap_; }
 

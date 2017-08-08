@@ -34,7 +34,7 @@ float VarianceAccumulator<T>::GetNStdDev(T value)
     T variance = GetVariance();
     T mean = GetMean();
     if (variance > 0) {
-        return fabs(value - mean) / (sqrt(variance));
+        return std::fabs(value - mean) / (std::sqrt(variance));
     } else {
         return 0;
     }

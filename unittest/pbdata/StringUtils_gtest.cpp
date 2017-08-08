@@ -14,18 +14,17 @@
  *
  * ==================================================================
  */
+
 #include "StringUtils.hpp"
 #include "gtest/gtest.h"
 #include "reads/ReadType.hpp"
 
-using namespace std;
-
 TEST(StringUtilTest, MakeReadGroupId)
 {
 
-    string movieName = "m140905_042212_sidney_c100564852550000001823085912221377_s1_X0";
+    std::string movieName = "m140905_042212_sidney_c100564852550000001823085912221377_s1_X0";
     ReadType::ReadTypeEnum readType = ReadType::SUBREAD;
-    string expectedReadGroupId = "b89a4406";
+    std::string expectedReadGroupId = "b89a4406";
     EXPECT_EQ(MakeReadGroupId(movieName, readType), expectedReadGroupId);
 
     movieName = "movie32";
@@ -36,46 +35,46 @@ TEST(StringUtilTest, MakeReadGroupId)
 
 TEST(StringUtilTest, Splice)
 {
-    vector<string> tokens;
+    std::vector<std::string> tokens;
 
     Splice("movie/zmw/0_1", "/", tokens);
-    vector<string> exp = {"movie", "zmw", "0_1"};
+    std::vector<std::string> exp = {"movie", "zmw", "0_1"};
     EXPECT_EQ(tokens, exp);
 
-    string test = "abc,ef,12,4";
+    std::string test = "abc,ef,12,4";
     Splice(test, ",", tokens);
-    exp = vector<string>{"abc", "ef", "12", "4"};
+    exp = std::vector<std::string>{"abc", "ef", "12", "4"};
     EXPECT_EQ(tokens, exp);
 
     Splice(test, "ef,", tokens);
-    exp = vector<string>{"abc,", "12,4"};
+    exp = std::vector<std::string>{"abc,", "12,4"};
     EXPECT_EQ(tokens, exp);
 
     Splice("", ",", tokens);
-    exp = vector<string>{""};
+    exp = std::vector<std::string>{""};
     EXPECT_EQ(tokens, exp);
 
     Splice(",", ",", tokens);
-    exp = vector<string>{"", ""};
+    exp = std::vector<std::string>{"", ""};
     EXPECT_EQ(tokens, exp);
 
     Splice(",abc,", ",", tokens);
-    exp = vector<string>{"", "abc", ""};
+    exp = std::vector<std::string>{"", "abc", ""};
     EXPECT_EQ(tokens, exp);
 
     Splice("abc,", ",", tokens);
-    exp = vector<string>{"abc", ""};
+    exp = std::vector<std::string>{"abc", ""};
     EXPECT_EQ(tokens, exp);
 
     Splice(",abc", ",", tokens);
-    exp = vector<string>{"", "abc"};
+    exp = std::vector<std::string>{"", "abc"};
     EXPECT_EQ(tokens, exp);
 
     Splice("abc", "abc", tokens);
-    exp = vector<string>{"", ""};
+    exp = std::vector<std::string>{"", ""};
     EXPECT_EQ(tokens, exp);
 
     Splice("a\tb\tc", "\t", tokens);
-    exp = vector<string>{"a", "b", "c"};
+    exp = std::vector<std::string>{"a", "b", "c"};
     EXPECT_EQ(tokens, exp);
 }

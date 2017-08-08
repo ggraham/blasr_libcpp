@@ -11,7 +11,7 @@ bool RefGroup::IdToIndex(uint32_t idKey, uint32_t &idIndex)
     return false;
 }
 
-int RefGroup::FindPath(uint32_t idKey, string &pathVal, string &groupNameVal)
+int RefGroup::FindPath(uint32_t idKey, std::string &pathVal, std::string &groupNameVal)
 {
     for (size_t i = 0; i < id.size(); i++) {
         if (id[i] == idKey) {

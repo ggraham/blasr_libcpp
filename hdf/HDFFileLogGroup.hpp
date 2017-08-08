@@ -1,5 +1,6 @@
 #ifndef HDF_FILE_LOG_GROUP_H_
 #define HDF_FILE_LOG_GROUP_H_
+
 #include "HDFArray.hpp"
 #include "HDFGroup.hpp"
 
@@ -29,7 +30,7 @@ public:
         return ret;
     }
 
-    void AddEntry(string command, string log, string program, string timestamp, string version)
+    void AddEntry(std::string command, std::string log, std::string program, std::string timestamp, std::string version)
     {
         commandLineArray.Write(&command, 1);
         versionArray.Write(&version, 1);

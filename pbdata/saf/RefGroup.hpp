@@ -3,20 +3,18 @@
 
 #include <string>
 #include <vector>
+#include <cstdint>
 
-#include <stdint.h>
-
-using namespace std;
 class RefGroup
 {
 public:
-    vector<uint32_t> id;
-    vector<string> path;
-    vector<string> refGroupName;
-    vector<uint32_t> refInfoId;
+    std::vector<uint32_t> id;
+    std::vector<std::string> path;
+    std::vector<std::string> refGroupName;
+    std::vector<uint32_t> refInfoId;
 
     bool IdToIndex(uint32_t idKey, uint32_t &idIndex);
-    int FindPath(uint32_t idKey, string &pathVal, string &groupNameVal);
+    int FindPath(uint32_t idKey, std::string &pathVal, std::string &groupNameVal);
 };
 
 #endif

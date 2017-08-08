@@ -1,11 +1,11 @@
 #ifndef _BLASR_STAT_UTILS_HPP_
 #define _BLASR_STAT_UTILS_HPP_
 
-#include <assert.h>
-#include <limits.h>
-#include <math.h>
-#include <stdlib.h>
-#include <time.h>
+#include <cassert>
+#include <climits>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
 #include <algorithm>
 #include <vector>
 

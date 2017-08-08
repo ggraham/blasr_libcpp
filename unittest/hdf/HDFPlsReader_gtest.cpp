@@ -20,7 +20,6 @@
 #include "gtest/gtest.h"
 #include "pbdata/testdata.h"
 
-using namespace std;
 using namespace H5;
 
 class HDFPlsReaderTEST : public ::testing::Test
@@ -32,7 +31,7 @@ public:
         ASSERT_EQ(reader.Initialize(fileName), 1);
     }
     virtual void TearDown() { reader.Close(); }
-    string fileName;
+    std::string fileName;
     HDFPlsReader reader;
 };
 

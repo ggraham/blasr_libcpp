@@ -17,7 +17,7 @@ public:
 
     void MakeFieldRequired(std::string &fieldName);
 
-    void MakeFieldOptional(string &fieldName);
+    void MakeFieldOptional(std::string &fieldName);
 
     void InitializeAllFields(bool value);
 

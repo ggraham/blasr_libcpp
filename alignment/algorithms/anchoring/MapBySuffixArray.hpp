@@ -2,6 +2,7 @@
 #define _BLASR_MAP_BY_SUFFIX_ARRAY_HPP_
 
 #include <algorithm>
+
 #include "../../algorithms/alignment/SWAlign.hpp"
 #include "../../algorithms/alignment/ScoreMatrices.hpp"
 #include "../../datastructures/anchoring/AnchorParameters.hpp"
@@ -31,7 +32,7 @@ int LocateAnchorBoundsInSuffixArray(T_RefSequence &reference, T_SuffixArray &sa,
 
 template <typename T_SuffixArray, typename T_RefSequence, typename T_Sequence, typename T_MatchPos>
 int MapReadToGenome(T_RefSequence &reference, T_SuffixArray &sa, T_Sequence &read,
-                    unsigned int minPrefixMatchLength, vector<T_MatchPos> &matchPosList,
+                    unsigned int minPrefixMatchLength, std::vector<T_MatchPos> &matchPosList,
                     AnchorParameters &anchorParameters);
 
 #include "MapBySuffixArrayImpl.hpp"

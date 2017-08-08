@@ -18,11 +18,11 @@ class ScanData
     friend class HDFScanDataWriter;
 
 public:
-    // Convert base map from a map<char, size_t> to a string.
+    // Convert base map from a std::map<char, size_t> to a std::string.
     // e.g., {{'A', 2}, {'C', 1}, {'T', 0}, {'G', 3}} --> TCAG
     static std::string BaseMapToStr(const std::map<char, size_t>& baseMap);
 
-    // Convert base map from a string to a map<char, size_t>.
+    // Convert base map from a std::string to a std::map<char, size_t>.
     // e.g., TCAG --> {{'A', 2}, {'C', 1}, {'T', 0}, {'G', 3}}
     static std::map<char, size_t> StrToBaseMap(const std::string& baseMapStr);
 

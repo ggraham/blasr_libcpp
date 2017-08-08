@@ -1,9 +1,9 @@
 #ifndef _BLASR_HOLE_XY_HPP_
 #define _BLASR_HOLE_XY_HPP_
 
-#include <stdlib.h>
+#include <cstdlib>
 #ifndef int16_t
-#include <stdint.h>
+#include <cstdint>
 #endif
 
 class HoleXY

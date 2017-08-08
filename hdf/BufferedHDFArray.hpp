@@ -140,7 +140,7 @@ DECLARE_TYPED_READ_ARRAY(char *, H5::PredType::C_S1)
 
 #define DECLARE_TYPED_READ_DATASET(T, Pred) \
     template <>                             \
-    void BufferedHDFArray<T>::ReadDataset(vector<T> &dest);
+    void BufferedHDFArray<T>::ReadDataset(std::vector<T> &dest);
 
 DECLARE_TYPED_READ_DATASET(int, H5::PredType::NATIVE_INT)
 DECLARE_TYPED_READ_DATASET(char, H5::PredType::NATIVE_INT8)

@@ -257,7 +257,7 @@ void MappingMetrics::PrintFullList(std::ostream &out)
     int i;
     for (i = 0; i < clocks.GetSize(); i++) {
         clocks.PrintList(out, i);
-        //      out << mappedBases[i] << " " << cellsPerAlignment[i] << endl;
+        //      out << mappedBases[i] << " " << cellsPerAlignment[i] << std::endl;
     }
 }
 

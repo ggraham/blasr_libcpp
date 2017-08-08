@@ -19,8 +19,8 @@
 #include <set>
 #include <sstream>
 #include <vector>
+
 using namespace H5;
-using namespace std;
 /*
  * Interface for reading pulse information from a .pls.h5 file.
  * To read both pls and bas information, use the HDFBasReader.
@@ -62,7 +62,7 @@ public:
 
     int InitializeCommon() { return 1; }
 
-    int Initialize(string hdfPlsFileName,
+    int Initialize(std::string hdfPlsFileName,
                    const H5::FileAccPropList &fileAccPropList = H5::FileAccPropList::DEFAULT)
     {
         /*
@@ -125,7 +125,7 @@ public:
 
     DSLength GetStartFrameSize() { return startFrameArray.arrayLength; }
 
-    void GetAllMeanSignal(vector<uint16_t> &meanSignal)
+    void GetAllMeanSignal(std::vector<uint16_t> &meanSignal)
     {
         if (meanSignalNDims == 1) {
             CheckMemoryAllocation(meanSignalArray.arrayLength, maxAllocNElements, "MeanSignal");
@@ -139,7 +139,7 @@ public:
         }
     }
 
-    void GetAllMidSignal(vector<uint16_t> &midSignal)
+    void GetAllMidSignal(std::vector<uint16_t> &midSignal)
     {
         if (midSignalNDims == 1) {
             CheckMemoryAllocation(midSignalArray.arrayLength, maxAllocNElements, "MidSignal");
@@ -153,7 +153,7 @@ public:
         }
     }
 
-    void GetAllMaxSignal(vector<uint16_t> &maxSignal)
+    void GetAllMaxSignal(std::vector<uint16_t> &maxSignal)
     {
         if (maxSignalNDims == 1) {
             CheckMemoryAllocation(maxSignalArray.arrayLength, maxAllocNElements, "MaxSignal");
@@ -167,14 +167,14 @@ public:
         }
     }
 
-    void GetAllStartFrames(vector<UInt> &startFrame)
+    void GetAllStartFrames(std::vector<UInt> &startFrame)
     {
         CheckMemoryAllocation(startFrameArray.arrayLength, maxAllocNElements, "StartFrame");
         startFrame.resize(startFrameArray.arrayLength);
         startFrameArray.Read(0, startFrameArray.arrayLength, &startFrame[0]);
     }
 
-    void GetAllPlsWidthInFrames(vector<uint16_t> &widthInFrames)
+    void GetAllPlsWidthInFrames(std::vector<uint16_t> &widthInFrames)
     {
         CheckMemoryAllocation(plsWidthInFramesArray.arrayLength, maxAllocNElements,
                               "WidthInFrames (pulse)");
@@ -182,7 +182,7 @@ public:
         plsWidthInFramesArray.Read(0, plsWidthInFramesArray.arrayLength, &widthInFrames[0]);
     }
 
-    void GetAllClassifierQV(vector<float> &classifierQV)
+    void GetAllClassifierQV(std::vector<float> &classifierQV)
     {
         CheckMemoryAllocation(classifierQVArray.arrayLength, maxAllocNElements,
                               "ClassifierQV (pulse)");
@@ -190,7 +190,7 @@ public:
         classifierQVArray.Read(0, classifierQVArray.arrayLength, &classifierQV[0]);
     }
 
-    void GetAllNumEvent(vector<DNALength> &numEvent)
+    void GetAllNumEvent(std::vector<DNALength> &numEvent)
     {
         CheckMemoryAllocation(zmwReader.numEventArray.arrayLength, maxAllocNElements,
                               "NumEvent (pulse)");
@@ -255,11 +255,11 @@ public:
     //
     // Return size of the entire field in KB.
     //
-    UInt GetFieldSize(const string &field)
+    UInt GetFieldSize(const std::string &field)
     {
         if (not includedFields[field]) {
-            cout << "ERROR, field " << field << " is not included in the pulse file. " << endl;
-            exit(1);
+            std::cout << "ERROR, field " << field << " is not included in the pulse file. " << std::endl;
+            exit(EXIT_FAILURE);
         }
         if (field == "StartFrame") {
             return startFrameArray.arrayLength / 1024 * sizeof(unsigned int);
@@ -276,19 +276,19 @@ public:
         } else if (field == "ClassifierQV") {
             return classifierQVArray.arrayLength / 1024 * sizeof(float);
         } else {
-            cout << "ERROR, field [" << field << "] is not supported. " << endl;
-            exit(1);
+            std::cout << "ERROR, field [" << field << "] is not supported. " << std::endl;
+            exit(EXIT_FAILURE);
         }
     }
 
     //
     // Read the entire field to memory
     //
-    void ReadField(PulseFile &pulseFile, const string &field)
+    void ReadField(PulseFile &pulseFile, const std::string &field)
     {
         if (not includedFields[field]) {
-            cout << "ERROR, field " << field << " is not included in the pulse file. " << endl;
-            exit(1);
+            std::cout << "ERROR, field " << field << " is not included in the pulse file. " << std::endl;
+            exit(EXIT_FAILURE);
         }
         if (field == "StartFrame") {
             GetAllStartFrames(pulseFile.startFrame);
@@ -311,14 +311,14 @@ public:
             // memory check
             GetAllClassifierQV(pulseFile.classifierQV);
         } else {
-            cout << "ERROR, field [" << field << "] is not supported. " << endl;
-            exit(1);
+            std::cout << "ERROR, field [" << field << "] is not supported. " << std::endl;
+            exit(EXIT_FAILURE);
         }
     }
 
     // Copy a field for a hole
-    void CopyFieldAt(PulseFile &pulseFile, const string &field, int holeIndex, int *basToPlsIndex,
-                     void *dest, int destLength, const string &destSequence = "")
+    void CopyFieldAt(PulseFile &pulseFile, const std::string &field, int holeIndex, int *basToPlsIndex,
+                     void *dest, int destLength, const std::string &destSequence = "")
     {
 
         Nucleotide *destSeqCopy = NULL;
@@ -330,8 +330,8 @@ public:
         }
 
         if (not includedFields[field]) {
-            cout << "ERROR, field " << field << " is not included in the pulse file. " << endl;
-            exit(1);
+            std::cout << "ERROR, field " << field << " is not included in the pulse file. " << std::endl;
+            exit(EXIT_FAILURE);
         }
         UInt pulseStartPos = pulseFile.pulseStartPositions[holeIndex];
 
@@ -372,11 +372,11 @@ public:
             StoreField(pulseFile.classifierQV, basToPlsIndex, (float *)dest, destLength);
 
         } else if (field == "NumEvent") {
-            cout << "ERROR, control of copying numEvent should not go here." << endl;
-            exit(1);
+            std::cout << "ERROR, control of copying numEvent should not go here." << std::endl;
+            exit(EXIT_FAILURE);
         } else {
-            cout << "ERROR, field [" << field << "] is not supported. " << endl;
-            exit(1);
+            std::cout << "ERROR, field [" << field << "] is not supported. " << std::endl;
+            exit(EXIT_FAILURE);
         }
 
         if (destSeqCopy != NULL) {
@@ -385,11 +385,11 @@ public:
     }
 
     // Clear memory allocated for the specified field
-    void ClearField(PulseFile &pulseFile, const string &field)
+    void ClearField(PulseFile &pulseFile, const std::string &field)
     {
         if (not includedFields[field]) {
-            cout << "ERROR, field " << field << " is not included in the pulse file. " << endl;
-            exit(1);
+            std::cout << "ERROR, field " << field << " is not included in the pulse file. " << std::endl;
+            exit(EXIT_FAILURE);
         }
         if (field == "StartFrame") {
             ClearMemory(pulseFile.startFrame);
@@ -409,8 +409,8 @@ public:
         } else if (field == "ClassifierQV") {
             ClearMemory(pulseFile.classifierQV);
         } else {
-            cout << "ERROR, field [" << field << "] is not supported. " << endl;
-            exit(1);
+            std::cout << "ERROR, field [" << field << "] is not supported. " << std::endl;
+            exit(EXIT_FAILURE);
         }
     }
 
@@ -426,7 +426,7 @@ public:
     }
 
     template <typename T_FieldType>
-    void StoreField(vector<T_FieldType> &source, int *basToPlsIndex, T_FieldType *dest,
+    void StoreField(std::vector<T_FieldType> &source, int *basToPlsIndex, T_FieldType *dest,
                     int destLength)
     {
         int i;
@@ -435,13 +435,13 @@ public:
         }
     }
 
-    void ReadSignal(string fieldName, HDFArray<HalfWord> &signalArray,
+    void ReadSignal(std::string fieldName, HDFArray<HalfWord> &signalArray,
                     HDF2DArray<HalfWord> &signalMatrix, int plsSeqLength, int nDims,
                     Nucleotide *basSeq, int basSeqLength, int *basToPlsIndex, HalfWord *dest)
     {
 
         if (includedFields[fieldName]) {
-            vector<HalfWord> signal;
+            std::vector<HalfWord> signal;
             if (nDims == 2) {
                 signal.resize(plsSeqLength * 4);
                 signalMatrix.Read(curPos, curPos + plsSeqLength, &signal[0]);  // read off one row.
@@ -476,7 +476,7 @@ public:
             zmwReader.numEventArray.Read(curRead, curRead + 1, &seqLength);
 
             if (includedFields["StartFrame"]) {
-                vector<unsigned int> pulseStartFrame;
+                std::vector<unsigned int> pulseStartFrame;
                 pulseStartFrame.resize(seqLength);
                 startFrameArray.Read(curPos, curPos + seqLength, &pulseStartFrame[0]);
                 if (read.startFrame) {
@@ -488,7 +488,7 @@ public:
             }
 
             if (includedFields["WidthInFrames"]) {
-                vector<HalfWord> pulseWidthInFrames;
+                std::vector<HalfWord> pulseWidthInFrames;
                 pulseWidthInFrames.resize(seqLength);
                 plsWidthInFramesArray.Read(curPos, curPos + seqLength, &pulseWidthInFrames[0]);
                 if (read.widthInFrames) {
@@ -530,7 +530,7 @@ public:
             }
 
             if (includedFields["ClassifierQV"]) {
-                vector<float> pulseClassifierQV;
+                std::vector<float> pulseClassifierQV;
                 pulseClassifierQV.resize(seqLength);
                 classifierQVArray.Read(curPos, curPos + seqLength, &pulseClassifierQV[0]);
                 if (read.classifierQV) {
@@ -544,9 +544,9 @@ public:
             curRead++;
             curPos += seqLength;
         } catch (DataSetIException e) {
-            cout << "ERROR, could not read pulse metrics for SMRTSequence " << read.GetName()
-                 << endl;
-            exit(1);
+            std::cout << "ERROR, could not read pulse metrics for SMRTSequence " << read.GetName()
+                 << std::endl;
+            exit(EXIT_FAILURE);
         }
         return 1;
     }

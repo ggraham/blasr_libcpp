@@ -1,5 +1,5 @@
 #include "TupleMetrics.hpp"
-#include <stdint.h>
+#include <cstdint>
 #include "TupleMask.h"
 
 TupleMetrics::TupleMetrics() : tupleSize(0), tupleMask(0) {}

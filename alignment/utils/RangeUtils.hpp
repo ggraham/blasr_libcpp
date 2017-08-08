@@ -16,7 +16,7 @@
  *
  * ============================================================================
  */
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include "../../pbdata/StringUtils.hpp"
 #include "../../pbdata/Types.h"
@@ -38,7 +38,7 @@ public:
 
 // Input is a comma-delimited string of ranges.
 // e.g. 1,2,3,10-20
-bool ParseRanges(string& rangesStr, vector<Range>& ranges);
+bool ParseRanges(std::string& rangesStr, std::vector<Range>& ranges);
 
 class Ranges
 {

@@ -171,7 +171,7 @@ void SAMOutput::CreateNoClippingCigarOps(T_AlignmentCandidate &alignment, std::v
                 tGap = alignment.blocks[b + 1].tPos - alignment.blocks[b].tPos -
                        alignment.blocks[b].length;
                 int commonGap;
-                commonGap = abs(qGap - tGap);
+                commonGap = std::abs(qGap - tGap);
                 qGap -= commonGap;
                 tGap -= commonGap;
                 matchLength += commonGap;

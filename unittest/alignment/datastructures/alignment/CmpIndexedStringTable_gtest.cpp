@@ -15,11 +15,12 @@
  *
  * =====================================================================================
  */
+
 #include "datastructures/alignment/CmpIndexedStringTable.h"
 #include "gtest/gtest.h"
 
 int ids[5] = {1, 2, 3, 30, 5};
-string names[5] = {"n1", "n2", "n3", "n30", "n5"};
+std::string names[5] = {"n1", "n2", "n3", "n30", "n5"};
 class CmpIndexedStringTableTest : public ::testing::Test
 {
 public:
@@ -99,7 +100,7 @@ TEST_F(CmpIndexedStringTableTest, GetIndexOfId)
 }
 
 //
-// Test GetNameAtIndex(int index, string & name)
+// Test GetNameAtIndex(int index, std::string & name)
 //
 TEST_F(CmpIndexedStringTableTest, GetNameAtIndex)
 {
@@ -107,7 +108,7 @@ TEST_F(CmpIndexedStringTableTest, GetNameAtIndex)
     // is confusing"
 
     int index;
-    string name;
+    std::string name;
     bool found;
 
     index = 1;

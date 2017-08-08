@@ -1,6 +1,7 @@
 #ifndef _BLASR_K_BAND_ALIGN_HPP_
 #define _BLASR_K_BAND_ALIGN_HPP_
-#include <limits.h>
+
+#include <climits>
 #include <algorithm>
 #include <iosfwd>
 #include <vector>
@@ -293,8 +294,8 @@ int KBandAlign(T_QuerySequence &qSeq, T_TargetSequence &tSeq, int matchMat[5][5]
     /*
 	PrintFlatMatrix(&pathMat[0], qLen + 1, nCols, debugOut);
 	std::cout << std::endl;
-  ofstream debugOut;
-  stringstream debugOutName;
+  std::ofstream debugOut;
+  std::stringstream debugOutName;
   debugOutName << "kband_" << kbandcounter << ".table";
   debugOut.open(debugOutName.str().c_str());
 	PrintFlatMatrix(&scoreMat[0], qLen + 1, nCols, debugOut);

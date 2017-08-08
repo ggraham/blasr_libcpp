@@ -1,7 +1,7 @@
 #ifndef _BLASR_BIT_UTILS_HPP_
 #define _BLASR_BIT_UTILS_HPP_
 
-#include <stdint.h>
+#include <cstdint>
 #include <bitset>
 #include "../Types.h"
 

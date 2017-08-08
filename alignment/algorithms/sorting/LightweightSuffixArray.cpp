@@ -47,9 +47,9 @@ UInt DiffCoverMu::operator()(const UInt k)
     UInt di = k % diffCoverSize;
     UInt j = k / diffCoverSize;
     UInt i = diffCoverReverseLookup[di];
-    //		return (textSize/diffCoverSize)*i + min(i,h) + j;
+    //		return (textSize/diffCoverSize)*i + std::min(i,h) + j;
     //		return (textSize/diffCoverSize)*i + i + j;
-    //		return min(i,h)*(1 + textSize / diffCoverSize) + (i > h ? i - h : 0)*(textSize/diffCoverSize) + j;
+    //		return std::min(i,h)*(1 + textSize / diffCoverSize) + (i > h ? i - h : 0)*(textSize/diffCoverSize) + j;
     return (textSize / diffCoverSize) * i + std::min(i, h + 1) + j;
 }
 
@@ -269,7 +269,7 @@ bool LightweightSuffixSort(unsigned char text[], UInt textLength, UInt *index, i
     if (InitializeDifferenceCover(diffCoverSize, diffCoverLength, diffCover) == 0) {
         std::cout << "ERROR! There is no difference cover of size " << diffCoverSize
                   << " that is precomputed." << std::endl;
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     DiffCoverDelta delta;

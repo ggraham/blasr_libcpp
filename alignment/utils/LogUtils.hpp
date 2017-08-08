@@ -1,7 +1,7 @@
 #ifndef _BLASR_UTILS_SUM_OF_LOG_HPP_
 #define _BLASR_UTILS_SUM_OF_LOG_HPP_
 
-#include <math.h>
+#include <cmath>
 
 #define LOG_EPSILON -30
 #define LOG_EPSILON2 -8

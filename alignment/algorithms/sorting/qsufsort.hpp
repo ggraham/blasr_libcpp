@@ -1,6 +1,6 @@
 #ifndef _BLASR_QSUFSORT_HPP_
 #define _BLASR_QSUFSORT_HPP_
-#include <assert.h>
+#include <cassert>
 #include "../../../pbdata/utils.hpp"
 
 void suffixsort(int *x, int *p, int n, int k, int l);
@@ -18,7 +18,7 @@ void suffixsort(int *x, int *p, int n, int k, int l);
    the code must be clearly marked. No warranty is given regarding the quality
    of this software.*/
 
-#include <limits.h>
+#include <climits>
 
 #define KEY(p) (V[*(p) + (h)])
 

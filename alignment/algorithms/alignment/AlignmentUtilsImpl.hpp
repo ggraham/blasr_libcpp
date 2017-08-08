@@ -56,7 +56,7 @@ int ComputeAlignmentScore(std::string &queryStr, std::string &textStr, T_ScoreFn
     if (queryStr.size() != textStr.size()) {
         std::cout << "Computing alignment score using invalid alignment string." << std::endl;
         std::cout << "Bailing out." << std::endl;
-        exit(1);
+        exit(EXIT_FAILURE);
     }
     VectorIndex i;
     int score = 0;
@@ -444,7 +444,7 @@ int ComputeDrift(T_Alignment &alignment)
     for (b = 0; b < alignment.blocks.size() - 1; b++) {
         driftBetweenBlocks = ComputeDrift(alignment.blocks[b], alignment.blocks[b + 1]);
         drift += driftBetweenBlocks;
-        if (abs(drift) > maxDrift) maxDrift = abs(drift);
+        if (std::abs(drift) > maxDrift) maxDrift = std::abs(drift);
     }
     return maxDrift;
 }

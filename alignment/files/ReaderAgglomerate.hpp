@@ -48,9 +48,9 @@ public:
     //
     T_HDFBasReader<SMRTSequence> hdfBasReader;
     HDFCCSReader<CCSSequence> hdfCcsReader;
-    vector<SMRTSequence> readBuffer;
-    vector<CCSSequence> ccsBuffer;
-    string readGroupId;
+    std::vector<SMRTSequence> readBuffer;
+    std::vector<CCSSequence> ccsBuffer;
+    std::string readGroupId;
 
 public:
     void SetToUpper();
@@ -64,7 +64,7 @@ public:
 
     ReaderAgglomerate(int _start, int _stride);
 
-    void GetMovieName(string &movieName);
+    void GetMovieName(std::string &movieName);
 
     /// Get BindingKit, SequencingKit and Base Caller Version from h5.
     ///
@@ -77,7 +77,7 @@ public:
     /// /param [out] baseCallerVersion - Base Caller Version
     /// from /PulseData/BaseCalls/ChangeListID.
     ///
-    void GetChemistryTriple(string &bindingKit, string &sequencingKit, string &baseCallerVersion);
+    void GetChemistryTriple(std::string &bindingKit, std::string &sequencingKit, std::string &baseCallerVersion);
 
     bool FileHasZMWInformation();
 
@@ -87,13 +87,13 @@ public:
 
     void UseCCS();
 
-    int Initialize(string &pFileName);
+    int Initialize(std::string &pFileName);
 
-    bool SetReadFileName(string &pFileName);
+    bool SetReadFileName(std::string &pFileName);
 
-    void SetScrapsFileName(string &pFileName);  // needed for unrolled
+    void SetScrapsFileName(std::string &pFileName);  // needed for unrolled
 
-    int Initialize(FileType &pFileType, string &pFileName);
+    int Initialize(FileType &pFileType, std::string &pFileName);
 
     bool HasRegionTable();
 
@@ -116,7 +116,7 @@ public:
     int GetNext(FASTQSequence &seq);
     int GetNext(SMRTSequence &seq);
     int GetNext(CCSSequence &seq);
-    int GetNext(vector<SMRTSequence> &reads);
+    int GetNext(std::vector<SMRTSequence> &reads);
 
     template <typename T_Sequence>
     int GetNext(T_Sequence &seq, int &randNum);
@@ -145,10 +145,10 @@ public:
 };
 
 template <typename T_Sequence>
-int ReadChunkByNReads(ReaderAgglomerate &reader, vector<T_Sequence> &reads, int maxNReads);
+int ReadChunkByNReads(ReaderAgglomerate &reader, std::vector<T_Sequence> &reads, int maxNReads);
 
 template <typename T_Sequence>
-int ReadChunkBySize(ReaderAgglomerate &reader, vector<T_Sequence> &reads, int maxMemorySize);
+int ReadChunkBySize(ReaderAgglomerate &reader, std::vector<T_Sequence> &reads, int maxMemorySize);
 
 #include "ReaderAgglomerateImpl.hpp"
 

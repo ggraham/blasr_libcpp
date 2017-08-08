@@ -1,7 +1,7 @@
 #ifndef _BLASR_SMRT_READ_UTILS_HPP_
 #define _BLASR_SMRT_READ_UTILS_HPP_
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "../FASTQSequence.hpp"
 #include "../StringUtils.hpp"

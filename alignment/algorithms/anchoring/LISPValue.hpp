@@ -1,7 +1,7 @@
 #ifndef _BLASR_LISPVALUE_HPP_
 #define _BLASR_LISPVALUE_HPP_
 
-#include <math.h>
+#include <cmath>
 #include "../../datastructures/anchoring/MatchPos.hpp"
 #include "../../tuples/TupleCountTable.hpp"
 #include "ScoreAnchors.hpp"

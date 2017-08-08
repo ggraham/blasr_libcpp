@@ -233,7 +233,7 @@ Bad input
 	could be dropped if you like to live dangerously.
 */
 
-#include <stdlib.h>
+#include <cstdlib>
 #include "../../pbdata/utils.hpp"
 
 enum

@@ -16,15 +16,18 @@
  * =====================================================================================
  */
 
+#include <vector>
+#include <string>
+
 #include "gtest/gtest.h"
+
 #define private public
+
 #include "HDFRegionTableReader.hpp"
 #include "files/CCSIterator.hpp"
 #include "files/FragmentCCSIterator.hpp"
 #include "pbdata/testdata.h"
 #include "reads/RegionTable.hpp"
-
-using namespace std;
 
 static const UInt HOLENUMBER = 76772;
 

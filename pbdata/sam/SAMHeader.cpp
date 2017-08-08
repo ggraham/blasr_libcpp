@@ -7,7 +7,7 @@ void SAMHeader::StoreValues(std::vector<SAMKeywordValuePair> &kvPairs, int lineN
         if (kvPairs[i].key == "VN") {
             formatVersion = kvPairs[i].value;
         } else if (kvPairs[i].key == "SO") {
-            string value = kvPairs[i].value;
+            std::string value = kvPairs[i].value;
             std::transform(value.begin(), value.end(), value.begin(), ::tolower);
             if (value == "unknown" || value == "unsorted") {
                 sortingOrder = unknown;

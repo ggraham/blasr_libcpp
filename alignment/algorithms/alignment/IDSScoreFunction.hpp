@@ -47,7 +47,7 @@ public:
         PB_UNUSED(pos);
         std::cout << "IDS. For now, deletion must be specialized with FASTQ or FASTA Sequences. "
                   << std::endl;
-        exit(1);
+        exit(EXIT_FAILURE);
         return 0;
     }
     int Deletion(T_RefSequence &refSeq, DNALength refPos, T_QuerySequence &querySeq,
@@ -60,7 +60,7 @@ public:
         std::cout << "IDS. For now, this function must be specialized with either FASTQ or FASTA "
                      "sequences"
                   << std::endl;
-        exit(1);
+        exit(EXIT_FAILURE);
     }
     int Match(T_RefSequence &ref, DNALength refPos, T_QuerySequence &query, DNALength queryPos)
     {
@@ -72,7 +72,7 @@ public:
                      "sequences"
                   << std::endl;
         return 0;
-        exit(1);
+        exit(EXIT_FAILURE);
     }
     int Insertion(T_RefSequence &refSeq, DNALength refPos, T_QuerySequence &querySeq,
                   DNALength queryPos)
@@ -84,7 +84,7 @@ public:
         std::cout << "IDS. For now, this function must be specialized with either FASTQ or FASTA "
                      "sequences"
                   << std::endl;
-        exit(1);
+        exit(EXIT_FAILURE);
     }
     int Insertion(T_QuerySequence &seq, DNALength pos)
     {
@@ -94,7 +94,7 @@ public:
                      "sequences"
                   << std::endl;
         return 0;
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     float NormalizedMatch(T_RefSequence &ref, DNALength refPos, T_QuerySequence &query,

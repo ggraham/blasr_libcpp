@@ -1,7 +1,7 @@
 #ifndef _BLASR_HDF_ARRAY_HPP_
 #define _BLASR_HDF_ARRAY_HPP_
 
-#include <assert.h>
+#include <cassert>
 #include <iostream>
 
 #include <H5Cpp.h>

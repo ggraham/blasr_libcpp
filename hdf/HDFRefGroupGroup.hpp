@@ -29,7 +29,7 @@ public:
         return true;
     }
 
-    int AddPath(string path, unsigned int refInfoId)
+    int AddPath(std::string path, unsigned int refInfoId)
     {
         pathArray.Write(&path, 1);
         unsigned int numPath = pathArray.size();

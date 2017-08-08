@@ -9,7 +9,7 @@ int ReaderAgglomerate::GetNext(T_Sequence &seq, int &randNum)
 }
 
 template <typename T_Sequence>
-int ReadChunkByNReads(ReaderAgglomerate &reader, vector<T_Sequence> &reads, int maxNReads)
+int ReadChunkByNReads(ReaderAgglomerate &reader, std::vector<T_Sequence> &reads, int maxNReads)
 {
     T_Sequence seq;
     int nReads = 0;
@@ -25,7 +25,7 @@ int ReadChunkByNReads(ReaderAgglomerate &reader, vector<T_Sequence> &reads, int 
 }
 
 template <typename T_Sequence>
-int ReadChunkBySize(ReaderAgglomerate &reader, vector<T_Sequence> &reads, int maxMemorySize)
+int ReadChunkBySize(ReaderAgglomerate &reader, std::vector<T_Sequence> &reads, int maxMemorySize)
 {
     T_Sequence seq;
     int nReads = 0;

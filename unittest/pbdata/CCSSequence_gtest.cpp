@@ -16,10 +16,12 @@
  * =====================================================================================
  */
 
+#include <sstream>
+#include <string>
+#include <vector>
+
 #include "CCSSequence.hpp"
 #include "gtest/gtest.h"
-
-using namespace std;
 
 Nucleotide sr0[] = "ATATGGGGATTAGGGGATA";
 Nucleotide sr1[] = "TAATCCCGTAATCCCGGTAT";  //rc = TAATCCCGTAATCCCGGTAT
@@ -48,7 +50,7 @@ public:
         smrt.SubreadStart(start);
         smrt.SubreadEnd(end);
 
-        stringstream ss;
+        std::stringstream ss;
     }
 
     void SetUp()
@@ -63,7 +65,7 @@ public:
         CreateSMRTSequence(subreads[2], &sr2[0], 1, s, s + sz2);
 
         //Create ccs
-        stringstream ss;
+        std::stringstream ss;
         subreads[0].Print(ss);
 
         CreateSMRTSequence(ccs.unrolledRead, &unrolled_seq[0], 1, 0, unrolledsz);
@@ -90,28 +92,28 @@ public:
     }
 
     CCSSequence ccs;
-    vector<SMRTSequence> subreads;
+    std::vector<SMRTSequence> subreads;
 };
 
 TEST_F(CCSSequenceTest, Print)
 {
-    stringstream ss, ss1;
+    std::stringstream ss, ss1;
     ccs.Print(ss);
     ccs.unrolledRead.Print(ss1);
-    ASSERT_EQ(ss.str(), (string("SMRTSequence for zmw 1, [0, 19)\nATATGGGGATTAGGGGATA\n")));
+    ASSERT_EQ(ss.str(), (std::string("SMRTSequence for zmw 1, [0, 19)\nATATGGGGATTAGGGGATA\n")));
     ASSERT_EQ(
         ss1.str(),
-        (string("SMRTSequence for zmw 1, [0, "
+        (std::string("SMRTSequence for zmw 1, [0, "
                 "66)\nATATGGGGATTAGGGGATACCCTAATCCCGTAATCCCGGTATCCCATAGG\nGGGATTAGGGGATTCA\n")));
 }
 
 TEST_F(CCSSequenceTest, Explode)
 {
-    vector<SMRTSequence> exploded_subreads;
+    std::vector<SMRTSequence> exploded_subreads;
 
     ccs.Explode(exploded_subreads);
     for (int i = 0; i < numSubreads; i++) {
-        stringstream ss, ss1;
+        std::stringstream ss, ss1;
         subreads[i].PrintSeq(ss);
         exploded_subreads[i].PrintSeq(ss1);
         ASSERT_EQ(ss.str(), ss1.str());

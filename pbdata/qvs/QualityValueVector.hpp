@@ -1,6 +1,6 @@
 #ifndef _BLASR_QUALITY_VALUE_VECTOR_HPP_
 #define _BLASR_QUALITY_VALUE_VECTOR_HPP_
-#include <stdint.h>
+#include <cstdint>
 #include <cstddef>
 #include <cstring>
 #include <ostream>

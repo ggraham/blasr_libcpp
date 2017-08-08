@@ -1,5 +1,5 @@
 #include "AlignmentUtils.hpp"
-#include <stdint.h>
+#include <cstdint>
 #include <cassert>
 #include <cstdlib>
 #include <fstream>
@@ -36,7 +36,7 @@ int ComputeDrift(Block &cur, Block &next)
     int commonGap = 0;
 
     if (tGap > 0 and qGap > 0) {
-        commonGap = abs(tGap - qGap);
+        commonGap = std::abs(tGap - qGap);
     }
     tGap -= commonGap;
     qGap -= commonGap;

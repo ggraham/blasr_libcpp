@@ -46,7 +46,7 @@ bool SAMAlignment::StoreValues(std::string& line, int lineNumber)
     fill(usedFields.begin(), usedFields.end(), false);
     std::string kvPair;
     bool parseError = false;
-    SAMAlignmentRequiredFields field;
+    SAMAlignmentRequiredFields field{};
     //
     // Define a temporary mapqv value that gets over a GMAP bug that prints a mapqv < 0.
     //
@@ -110,7 +110,7 @@ bool SAMAlignment::StoreValues(std::string& line, int lineNumber)
     if (parseError) {
         std::cout << "Error parsing alignment line " << lineNumber << ". Missing or error in field "
                   << SAMAlignmentRequiredFieldNames[field] << std::endl;
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     //

@@ -1,14 +1,12 @@
 #include "HDFAlnInfoGroup.hpp"
 
-using namespace std;
-
 int HDFAlnInfoGroup::InitializeNumPasses()
 {
     numPasses.Initialize(alnInfoGroup, "NumPasses");
     return 1;
 }
 
-void HDFAlnInfoGroup::InitializeDefaultColumnNames(vector<string> &defaultColumnNames)
+void HDFAlnInfoGroup::InitializeDefaultColumnNames(std::vector<std::string> &defaultColumnNames)
 {
     defaultColumnNames.push_back("AlnID");
     defaultColumnNames.push_back("AlnGroupID");
@@ -41,7 +39,7 @@ bool HDFAlnInfoGroup::Create(HDFGroup &parent)
     if (alnInfoGroup.Initialize(parent.group, "AlnInfo") == 0) {
         return 0;
     }
-    vector<string> defaultColumnNames;
+    std::vector<std::string> defaultColumnNames;
     InitializeDefaultColumnNames(defaultColumnNames);
     columnNames.Create(alnInfoGroup.group, "ColumnNames", defaultColumnNames);
 
@@ -61,7 +59,7 @@ int HDFAlnInfoGroup::Initialize(HDFGroup &rootGroup)
      * This functionality should go into the python.
      if (!alnIndexArray.ContainsAttribute("ColumnNames")) {
      try {
-     vector<string> defaultColumnNames;
+     std::vector<std::string> defaultColumnNames;
      InitializeDefaultColumnNames(defaultColumnNames);
      columnNames.Create(alnIndexArray.dataset, "ColumnNames", defaultColumnNames);
      }
@@ -98,7 +96,7 @@ void HDFAlnInfoGroup::Read(AlnInfo &alnInfo)
 
 int HDFAlnInfoGroup::GetNAlignments() { return alnIndexArray.GetNRows(); }
 
-unsigned int HDFAlnInfoGroup::WriteAlnIndex(vector<unsigned int> &aln)
+unsigned int HDFAlnInfoGroup::WriteAlnIndex(std::vector<unsigned int> &aln)
 {
     alnIndexArray.WriteRow(&aln[0], aln.size());
     return alnIndexArray.GetNRows();

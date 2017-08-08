@@ -10,11 +10,11 @@
 
  int main(int argc, char* argv[]) {
 	if (argc < 1) {
-		cout << "usage: testHDFReading hdfFile" << endl;
+		std::cout << "usage: testHDFReading hdfFile" << std::endl;
 		exit(0);
 	}
 
-	string hdfFileName = argv[1];
+	std::string hdfFileName = argv[1];
 	
 	H5File hdfFile;
 	hdfFile.openFile(hdfFileName.c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);

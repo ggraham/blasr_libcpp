@@ -4,8 +4,10 @@
 #include <cinttypes>
 #include <string>
 #include <vector>
+
 #include "../pbdata/alignment/CmpAlignment.hpp"  // pbdata/alignment, not ../alignment!
 #include "../pbdata/saf/AlnInfo.hpp"
+
 #include "HDF2DArray.hpp"
 #include "HDFArray.hpp"
 #include "HDFAtom.hpp"
@@ -19,7 +21,7 @@ public:
     HDFArray<float> startTime;
     static const int NCols = 22;
     HDFArray<unsigned int> numPasses;
-    HDFAtom<vector<string> > columnNames;
+    HDFAtom<std::vector<std::string> > columnNames;
     HDFAtom<int> frameRate;
 
     int Initialize(HDFGroup &rootGroup);

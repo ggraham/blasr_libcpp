@@ -4,7 +4,7 @@ int QualityScoreTypeNotSpecified(const std::string func)
 {
     std::cout << func << " must be specialized with FASTQ or "
               << "FASTA sequencecs." << std::endl;
-    exit(1);
+    exit(EXIT_FAILURE);
     return 0;
 }
 

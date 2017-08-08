@@ -180,4 +180,4 @@ template class HDFAtom<float>;
 template class HDFAtom<std::string>;
 template class HDFAtom<std::vector<int> >;
 template class HDFAtom<std::vector<unsigned int> >;
-template class HDFAtom<std::vector<string> >;
+template class HDFAtom<std::vector<std::string> >;

@@ -75,9 +75,9 @@ std::vector<int> GetFullPassSubreadIndices(std::vector<ReadInterval> &subreadInt
         bool ladapter = false, radapter = false;
         for (int j = 0; j < static_cast<int>(adapterIntervals.size()); j++) {
             ReadInterval &adapter = adapterIntervals[j];
-            if (abs(subread.start - adapter.end) < 10) {
+            if (std::abs(subread.start - adapter.end) < 10) {
                 ladapter = true;
-            } else if (abs(subread.end - adapter.start) < 10) {
+            } else if (std::abs(subread.end - adapter.start) < 10) {
                 radapter = true;
             }
             if (ladapter && radapter) {

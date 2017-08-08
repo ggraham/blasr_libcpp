@@ -12,9 +12,9 @@ float NormalCDF(float mu, float sigmaSq, float x)
     if (cdfindex == 2000) {
         return 1;
     }
-    //	cout << "nstdev: " << nStdDev << " mu " << mu
+    //	std::cout << "nstdev: " << nStdDev << " mu " << mu
     //       << " sigma " << sigmaSq << " x " << x
-    //       << " norm cdf index: " << cdfindex << endl;
+    //       << " norm cdf index: " << cdfindex << std::endl;
     return NormCDFTable[cdfindex];
 }
 
@@ -23,8 +23,8 @@ float PoissonCDF(float lambda, int a, int b)
     float cdf = 0;
     int i;
     for (i = a; i <= b; i++) {
-        // cout << "poiss " << lambda << ", " << i
-        //      << " " << Poisson(lambda, i) << endl;
+        // std::cout << "poiss " << lambda << ", " << i
+        //      << " " << Poisson(lambda, i) << std::endl;
         cdf += Poisson(lambda, i);
     }
     return cdf;
@@ -39,15 +39,15 @@ float PoissonCDF(float lambda, int a)
     float epsilon = 0.000000000001;
     if (lambda > (int)(FactorialTableLength * 2 / 3)) {
         // lambda is too large, use normal approximation.
-        // cout << "using table: lambda: " << lambda
-        //      << " a: " << a << endl;
+        // std::cout << "using table: lambda: " << lambda
+        //      << " a: " << a << std::endl;
         return NormalCDF(lambda, lambda, a);
     }
 
     for (i = 0; i <= a; i++) {
         p = Poisson(lambda, i);
         if (p < epsilon and i > (int)lambda) break;
-        // cout << "p: " << p << endl;
+        // std::cout << "p: " << p << std::endl;
         cdf += p;
     }
     return cdf;
