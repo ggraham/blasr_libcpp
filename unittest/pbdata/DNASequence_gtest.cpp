@@ -57,7 +57,7 @@ TEST_F(DNASequenceTest, Constructor)
     //    newDnaSeq.Print(std::cout);
     EXPECT_EQ(memcmp(newDnaSeq.seq, dnaSeq.seq, thisLen), 0);
     EXPECT_EQ(newDnaSeq.length, thisLen);
-    if (!thisNuc) delete thisNuc;
+    if (!thisNuc) delete[] thisNuc;
 
     DNASequence nnewDnaSeq;
     thisLen = 12;
@@ -128,9 +128,9 @@ TEST_F(DNASequenceTest, Append)
         EXPECT_EQ(AGs[i], (char)dnaOne.seq[i]);
     }
 
-    if (!one) delete one;
-    if (!two) delete two;
-    if (!three) delete three;
+    if (!one) delete[] one;
+    if (!two) delete[] two;
+    if (!three) delete[] three;
 }
 
 //Test DNASequence TakeOwnership
@@ -154,7 +154,7 @@ TEST_F(DNASequenceTest, TakeOwnership)
     EXPECT_EQ(dnaTwo.deleteOnExit, dnaOne.deleteOnExit);
     EXPECT_EQ(dnaTwo.seq, dnaOne.seq);
 
-    if (!one) delete one;
+    if (!one) delete[] one;
 }
 
 //Test DNASequence ShallowCopy
