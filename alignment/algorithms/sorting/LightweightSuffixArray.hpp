@@ -70,14 +70,14 @@ void DiffCoverComputeLOrder(UInt sufVNaming[], UInt sufVNamingLength, UInt maxVN
                             UInt textLength, DiffCoverMu &mu, UInt lOrder[]);
 
 /*
- * Build the lex naming of the v-ordered suffices.  
+ * Build the lex naming of the v-ordered suffices.
  *
  * Input: textVOrder - the v-ordering of a subset of the text.
  *        textSize   - the size of the v-order set.
  *        diffCoverLength - length of diffCover
  *        diffCoverSize - the size of the diff cover.
  * Output: lexNaming: the lex-naming of the v-order suffices.  The
- *        names are implemented as unsigned integers. 
+ *        names are implemented as unsigned integers.
  * Returns: the largest value of the lex-ordering.
  */
 UInt DiffCoverBuildLexNaming(unsigned char text[], UInt textSize, UInt textVOrder[], UInt dSetSize,

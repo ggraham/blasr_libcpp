@@ -22,7 +22,7 @@
 /*
  *
  * Implementation of a 1-D array for IO from an HDF array.
- * This is templated, but specialized for a few data types, so that 
+ * This is templated, but specialized for a few data types, so that
  * the HDF data types do not need to be specified by anybody.
  *
  *  Two examples of the usage of this class follow:
@@ -47,7 +47,7 @@ public:
     DSLength arrayLength;
 
     /*
-     * Constructor meant to be used for data that will be written.  
+     * Constructor meant to be used for data that will be written.
      * This allocates the write buffer.
      */
     BufferedHDFArray(int pBufferSize = 32768);
@@ -79,7 +79,7 @@ public:
      *
      * Open a dataset in an hdf file. Only call this on datasets that
      * exist, since this currently handles errors with opening datasets
-     * by ungracefully exiting the program. 
+     * by ungracefully exiting the program.
      */
 
     int InitializeForReading(HDFGroup &parentGroup, const std::string datasetName);
@@ -122,7 +122,7 @@ public:
 /*
  * Type specializations for some standard types. Use the macro for
  * vanilla specializations (that only require the HDF type ID to be
- * specified). 
+ * specified).
  */
 #define DECLARE_TYPED_READ_ARRAY(T, Pred) \
     template <>                           \

@@ -66,7 +66,7 @@ int QualityValueScoreFunction<T_RefSequence, T_QuerySequence>::Insertion(T_Query
 }
 
 /*
- * Define all specializations for a FASTA reference and FASTQSequence 
+ * Define all specializations for a FASTA reference and FASTQSequence
  * for the query, or FASTA sequence for query.
  */
 template <>

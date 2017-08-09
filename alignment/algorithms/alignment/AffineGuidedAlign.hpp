@@ -72,19 +72,19 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq, Alignment &guide
     std::vector<int> affineInsScoreMat, affineDelScoreMat;
     std::vector<Arrow> affineInsPathMat, affineDelPathMat;
     affineInsScoreMat.resize(matrixNElem);
-    fill(affineInsScoreMat.begin(), affineInsScoreMat.end(), 0);
+    std::fill(affineInsScoreMat.begin(), affineInsScoreMat.end(), 0);
     affineDelScoreMat.resize(matrixNElem);
-    fill(affineDelScoreMat.begin(), affineDelScoreMat.end(), 0);
+    std::fill(affineDelScoreMat.begin(), affineDelScoreMat.end(), 0);
     affineInsPathMat.resize(matrixNElem);
-    fill(affineInsPathMat.begin(), affineInsPathMat.end(), NoArrow);
+    std::fill(affineInsPathMat.begin(), affineInsPathMat.end(), NoArrow);
     affineDelPathMat.resize(matrixNElem);
-    fill(affineDelPathMat.begin(), affineDelPathMat.end(), NoArrow);
+    std::fill(affineDelPathMat.begin(), affineDelPathMat.end(), NoArrow);
 
     if (scoreMat.size() < matrixNElem) {
         scoreMat.resize(matrixNElem);
         pathMat.resize(matrixNElem);
-        fill(scoreMat.begin(), scoreMat.end(), 0);
-        fill(pathMat.begin(), pathMat.end(), NoArrow);
+        std::fill(scoreMat.begin(), scoreMat.end(), 0);
+        std::fill(pathMat.begin(), pathMat.end(), NoArrow);
     }
     if (computeProb) {
         if (probMat.size() < matrixNElem) {

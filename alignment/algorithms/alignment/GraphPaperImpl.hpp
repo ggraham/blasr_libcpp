@@ -50,7 +50,7 @@ int GraphPaper(std::vector<T_Point> &points, int nRows, int nCols, FlatMatrix2D<
     scoreMat.Fill(0);
     pathMat.Fill(NoArrow);
     onOptPath.resize(points.size());
-    fill(onOptPath.begin(), onOptPath.end(), false);
+    std::fill(onOptPath.begin(), onOptPath.end(), false);
 
     DNALength xMin, xMax, yMin, yMax;
     xMin = xMax = yMin = yMax = 0;

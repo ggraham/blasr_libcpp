@@ -2,7 +2,7 @@
 
 int32_t CountBits(uint32_t v)
 {
-    /* 
+    /*
 	 * Attribute Sean Anderson for this method.
 	 * The page: http://graphics.stanford.edu/~seander/bithacks.html
 	 * contains this code.

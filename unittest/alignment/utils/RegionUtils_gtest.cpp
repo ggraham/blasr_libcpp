@@ -39,8 +39,8 @@ public:
     {
         /* The region table for hole number 14798 is as follows.
          * type start end  score
-         *   1   0    712   -1 
-         *   1   760  2040  -1 
+         *   1   0    712   -1
+         *   1   760  2040  -1
          *   1   2098 3452  -1
          *   0   712  760   937
          *   0   2040 2098  741

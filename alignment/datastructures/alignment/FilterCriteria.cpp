@@ -3,7 +3,7 @@
  *
  *       Filename:  FilterCriteria.h
  *
- *    Description:  Criteria for filtering alignment hits. 
+ *    Description:  Criteria for filtering alignment hits.
  *
  *        Version:  1.0
  *        Created:  04/14/2015 11:33:00 AM
@@ -281,7 +281,7 @@ const std::string FilterCriteria::Help(const std::string & pad) {
     return std::string (pad + minAlnLengthHelp() +
                         pad + minPctSimilarityHelp() +
                         pad + minPctAccuracyHelp() +
-                        pad + scoreSignHelp() + 
+                        pad + scoreSignHelp() +
                         pad + scoreCutoffHelp());
 }*/
 

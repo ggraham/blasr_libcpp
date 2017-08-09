@@ -3,7 +3,7 @@
 
 /*
 	A SDPSet is a collection of types T that have strict ordering
-	defined.  It supports ways to query for points immediately less or 
+	defined.  It supports ways to query for points immediately less or
 	immediately greater than another value.
 */
 

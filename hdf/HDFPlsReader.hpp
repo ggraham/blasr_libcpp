@@ -464,7 +464,7 @@ public:
     {
 
         /*
-     * Get the pulse values, but only store values that correspond to called bases. 
+     * Get the pulse values, but only store values that correspond to called bases.
      * This requires that the read has the read.seq field assigned.
      */
         assert(read.seq != NULL);

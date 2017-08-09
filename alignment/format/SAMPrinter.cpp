@@ -9,7 +9,7 @@ void SAMOutput::BuildFlag(T_AlignmentCandidate &alignment, AlignmentContext &con
 
     /*
      *  Much of the flags are commented out for now since they do not
-     *  generate PICARD compliant SAM.  This needs to be worked out. 
+     *  generate PICARD compliant SAM.  This needs to be worked out.
      */
 
     //

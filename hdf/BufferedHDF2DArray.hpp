@@ -16,7 +16,7 @@
 /*
  *
  * Implementation of a 2-D array for IO from an HDF array.
- * This is templated, but specialized for a few data types, so that 
+ * This is templated, but specialized for a few data types, so that
  * the HDF data types do not need to be specified by somebody when reading.
  *
  * Currently no support exists for reading non-contiguous blocks of data, and
@@ -29,7 +29,7 @@
 	}
 
 	std::string hdfFileName = argv[1];
-	
+
 	H5File hdfFile;
 	hdfFile.openFile(hdfFileName.c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
 	BufferedHDF2DArray<uint16_t> xyArray;
@@ -70,7 +70,7 @@ public:
     /*
      * Initialize HDF2D for reading.  No write buffer initialization is
      * required.  The assumption is that the dataspace is in two
-     * dimensions, and this exits without grace if it is not. 
+     * dimensions, and this exits without grace if it is not.
      */
     int Initialize(HDFGroup &group, std::string datasetName, DSLength _rowLength = 0,
                    int _bufferSize = 0, bool createIfMissing = true);

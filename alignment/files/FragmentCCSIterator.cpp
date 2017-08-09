@@ -29,7 +29,7 @@ void FragmentCCSIterator::Initialize(CCSSequence *_seqPtr, RegionTable *_regionT
     }
 
     readIntervalDirection.resize(subreadIntervals.size());
-    fill(readIntervalDirection.begin(), readIntervalDirection.end(), 2);
+    std::fill(readIntervalDirection.begin(), readIntervalDirection.end(), 2);
 
     //
     // Assign the read interval directions based on the pass direction

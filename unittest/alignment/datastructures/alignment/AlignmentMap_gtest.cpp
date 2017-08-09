@@ -7,7 +7,7 @@
  *
  *        Version:  1.0
  *        Created:  11/29/2012 01:47:50 PM
- *       Revision:  08/20/2014 
+ *       Revision:  08/20/2014
  *       Compiler:  gcc
  *
  *         Author:  Yuan Li (yli), yli@pacificbiosciences.com

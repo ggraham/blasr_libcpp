@@ -43,7 +43,7 @@ bool SAMAlignment::StoreValues(std::string& line, int lineNumber)
     std::stringstream strm(line);
     std::vector<bool> usedFields;
     usedFields.resize(S_QUAL);
-    fill(usedFields.begin(), usedFields.end(), false);
+    std::fill(usedFields.begin(), usedFields.end(), false);
     std::string kvPair;
     bool parseError = false;
     SAMAlignmentRequiredFields field{};

@@ -227,7 +227,7 @@ void BufferedHDFArray<T>::Create(H5::CommonFG *_container, std::string _datasetN
  *
  * Open a dataset in an hdf file. Only call this on datasets that
  * exist, since this currently handles errors with opening datasets
- * by ungracefully exiting the program. 
+ * by ungracefully exiting the program.
  */
 
 template <typename T>

@@ -261,7 +261,7 @@ int AffineKBandAlign(T_QuerySequence &pqSeq, T_TargetSequence &ptSeq, int matchM
        std::cout << "hp  score: " << std::endl;
        PrintFlatMatrix(&hpInsScoreMat[0], qLen + 1, nCols, std::cout);
        std::cout << "hp  path: " << std::endl;
-       PrintFlatMatrix(hpInsPathMat, qLen + 1, nCols, std::cout);	
+       PrintFlatMatrix(hpInsPathMat, qLen + 1, nCols, std::cout);
        std::cout << "normal affine ins score: " << std::endl;
        PrintFlatMatrix(&insScoreMat[0], qLen + 1, nCols, std::cout);
        std::cout << "normal affine ins path: " << std::endl;

@@ -505,7 +505,7 @@ public:
                 alignmentArray.resize(alignmentLength);
             }
 
-            /* 
+            /*
              * Read in the base by base alignment.
              */
 

@@ -73,8 +73,8 @@ public:
         major.Allocate(numMajorBins, AlphabetSize);
         std::vector<DNALength> runningTotal;
         runningTotal.resize(AlphabetSize);
-        fill(runningTotal.begin(), runningTotal.end(), 0);
-        fill(&major.matrix[0], &major.matrix[numMajorBins * AlphabetSize], 0);
+        std::fill(runningTotal.begin(), runningTotal.end(), 0);
+        std::fill(&major.matrix[0], &major.matrix[numMajorBins * AlphabetSize], 0);
         DNALength p;
         DNALength binIndex = 0;
         for (p = 0; p < bwtSeq.length; p++) {
@@ -96,7 +96,7 @@ public:
     void InitializeTestBins(T_BWTSequence &bwtSeq)
     {
         full.Allocate(bwtSeq.length, AlphabetSize);
-        fill(full.matrix, &full.matrix[bwtSeq.length * AlphabetSize], 0);
+        std::fill(full.matrix, &full.matrix[bwtSeq.length * AlphabetSize], 0);
         DNALength p;
         int n;
         for (p = 0; p < bwtSeq.length; p++) {
@@ -137,7 +137,7 @@ public:
             //  counter.
             //
             if (p % majorBinSize == 0) {
-                fill(majorRunningTotal.begin(), majorRunningTotal.end(), 0);
+                std::fill(majorRunningTotal.begin(), majorRunningTotal.end(), 0);
             }
             if (p % minorBinSize == 0) {
                 int n;

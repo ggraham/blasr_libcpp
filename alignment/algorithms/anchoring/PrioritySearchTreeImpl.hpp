@@ -2,7 +2,7 @@
 #define _BLASR_PRIORITY_SEARCH_TREE_IMPL_HPP_
 
 /*
- * Define a priority search tree on a point that implements 
+ * Define a priority search tree on a point that implements
  * the following interface:
  *
  * int T_point::GetIndex()
@@ -17,7 +17,7 @@
  * This class implements a query FindMax(key), which returns
  * the index of the point with greatest value of all points with key [0...key).
  *
- * 
+ *
  */
 template <typename T_Point>
 PSTVertex<T_Point>::PSTVertex()

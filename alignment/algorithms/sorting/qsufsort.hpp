@@ -324,7 +324,7 @@ set to the number of old symbols grouped into one. Only x[n] is 0.*/
         T_Index *pi, *pk;
         T_Index i, j, s, sl;
         boundaries.resize(n + 1);
-        fill(boundaries.begin(), boundaries.end(), 0);
+        std::fill(boundaries.begin(), boundaries.end(), 0);
 
         V = x; /* set global values.*/
         I = p;

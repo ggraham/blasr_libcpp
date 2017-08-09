@@ -3,11 +3,11 @@
  *
  *       Filename:  HDF2DArray_gtest.cpp
  *
- *    Description:  Test hdf/HDF2DArray.hpp 
+ *    Description:  Test hdf/HDF2DArray.hpp
  *
  *        Version:  1.0
  *        Created:  08/21/2013 07:00:49 PM
- *       Revision:  08/20/2014 
+ *       Revision:  08/20/2014
  *       Compiler:  gcc
  *
  *         Author:  Yuan Li (yli), yli@pacificbiosciences.com
@@ -33,7 +33,7 @@ using namespace H5;
 //SetUp() and TearDown(), not Setup() and Teardown()
 class HDF2DArrayTest: public :: testing::Test {
 public:
-    virtual void SetUp() { 
+    virtual void SetUp() {
     }
     virtual void TearDown() {
     }

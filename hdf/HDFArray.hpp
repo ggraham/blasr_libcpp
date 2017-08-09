@@ -15,7 +15,7 @@
 /*
  *
  * Implementation of a 1-D array for IO from an HDF array.
- * This is templated, but specialized for a few data types, so that 
+ * This is templated, but specialized for a few data types, so that
  * the HDF data types do not need to be specified by anybody.
  *
  *  Two examples of the usage of this class follow:
@@ -41,7 +41,7 @@ public:
     }
 
     /*
-     *  An unbuffered write is simply a write immediately followed by a flush. 
+     *  An unbuffered write is simply a write immediately followed by a flush.
      */
     void WriteToPos(const T* data, int dataLength, UInt writePos)
     {

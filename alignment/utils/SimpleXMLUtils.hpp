@@ -5,7 +5,7 @@
 #include <string>
 
 /*
- * WARNING !!! The functions here use TONS of temoprary variables and are 
+ * WARNING !!! The functions here use TONS of temoprary variables and are
  * very slow. Do not use for high-throughput xml generation.
  */
 

@@ -21,7 +21,7 @@ const PackedDNAWord PackedDNASequence::MaskLR[] = {
     7, 63, 511, 4095, 32767, 262143, 2097151, 16777215, 134217727, 1073741823};
 
 /*
- * Count nucleotides by Xor'ing with the complement of the bit pattern. 
+ * Count nucleotides by Xor'ing with the complement of the bit pattern.
  */
 const PackedDNAWord PackedDNASequence::xorMask[] = {
     1073741823,  // mask A=000 by 111111111111111111111111111111
@@ -121,36 +121,36 @@ DNALength PackedDNASequence::CountInWord(PackedDNAWord word, PackedDNAWord wordM
      * Count the number of times a nucleotide (3-mer) appears in a word.
      * This is done by a series of masking and ands.
      * The packed format is a triplet of bits (b2,b1,b0), where N is a
-     * mask bit, and n1n0 specifies the nucleotide.  
+     * mask bit, and n1n0 specifies the nucleotide.
      *
      * The sequence CCGN appears as
      * 001001010100
-     * 
+     *
      * To count C's: perform xor mask with a complement mask that will
      * produce a triplet of 111 on every position where there is a C,
      * followed by an and with a stride-isolation mask.
      *
-     *     b0              b1            b2            
-     *     001001010100	   001001010100  001001010100  
+     *     b0              b1            b2
+     *     001001010100	   001001010100  001001010100
      * xor 110110110110	   110110110110  110110110110
-     *     ------------	   ------------  ------------  
+     *     ------------	   ------------  ------------
      *     111111100100	   111111100100  111111100100
 
-     * and 001001001001	   010010010010  100100100100  
-     *     ------------	   ------------  ------------  
-     *     001001000000	   010010000010  000000000100  
+     * and 001001001001	   010010010010  100100100100
+     *     ------------	   ------------  ------------
+     *     001001000000	   010010000010  000000000100
      *
      * Shift b1 by 1 to get parity with b0.
      * 010010000010 -> 001001000001
      *                          001001000001
      * And with b0 pattern      001001000000
      * to count masked nucs.    ------------
-     *               nuc_count= 001001000000 
+     *               nuc_count= 001001000000
      * Shift the b2 by 2 to set up the and-gate.
      * 000000000100 -> 000000000001
      * and ~MASK with nuc_count to get rid of masked columns if the
      * whole word is not being calculated.
-     * 111111111110 & 001001000000 = 001001000000 
+     * 111111111110 & 001001000000 = 001001000000
      * Finally, use 64-bit multiplication bit-hack to count the number
      * of set-bits:
      * CountInWord(001001000000) = 2
@@ -191,7 +191,7 @@ DNALength PackedDNASequence::CountNuc(DNALength start, DNALength end, Nucleotide
         nNuc += CountInWord(seq[wordIndex] & MaskRL[startInWord], MaskRL[startInWord], nuc);
         startInWord = 0;
     }
-    /* 
+    /*
      * Look to see if there is extra sequence to process when the seq
      * does not end on a word boundary.
      */

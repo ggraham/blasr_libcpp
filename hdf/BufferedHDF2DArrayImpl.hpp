@@ -63,7 +63,7 @@ int BufferedHDF2DArray<T>::InitializeForReading(HDFGroup &group, std::string dat
 /*
  * Initialize HDF2D for reading.  No write buffer initialization is
  * required.  The assumption is that the dataspace is in two
- * dimensions, and this exits without grace if it is not. 
+ * dimensions, and this exits without grace if it is not.
  */
 template <typename T>
 int BufferedHDF2DArray<T>::Initialize(HDFGroup &group, std::string datasetName, DSLength _rowLength,

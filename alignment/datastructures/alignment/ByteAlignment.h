@@ -8,7 +8,7 @@
 
 /*
  * These arrays are for going from the HDF byte alignment format to characters, or
- * from characters to the upper or lower nybble for translating from character 
+ * from characters to the upper or lower nybble for translating from character
  * alignments to byte alignments.
  */
 

@@ -17,7 +17,7 @@ void TupleCountTable<TSequence, TTuple>::InitCountTable(TupleMetrics &ptm)
     assert(countTableLength > 0);
     countTable = ProtectedNew<int>(countTableLength);
     deleteStructures = true;
-    fill(&countTable[0], &countTable[countTableLength], 0);
+    std::fill(&countTable[0], &countTable[countTableLength], 0);
     nTuples = 0;
 }
 
