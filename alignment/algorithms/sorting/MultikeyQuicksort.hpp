@@ -5,12 +5,12 @@
  * This is an implementation of MultiKey Quicksort, or ssort1 from
  * Bentley and Sedgewick, Fast Algorithms for Sorting and Searching
  * Strings, Proc. 8th Annual ACM-SIAM Symposium on Discrete Algorithms
- * (SODA), pages 360-369, January 1997. 
+ * (SODA), pages 360-369, January 1997.
  *
  * The implementation here sorts lists of indices into an array of
  * substrings rather than the substrings themselves (for use in suffix
  * array generation).  Furthermore, it is made to be sse-alizeable to
- * speed up sorts on modern architectures. 
+ * speed up sorts on modern architectures.
  */
 
 #include <climits>

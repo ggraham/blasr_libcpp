@@ -14,7 +14,7 @@ public:
     float operator()(int index);
 };
 
-/* 
+/*
  * Create a lookup table for transforming from quality value
  * to p-value using Patrick Marks' low-end expand qv = -100*log10(p/(1-p))
  */

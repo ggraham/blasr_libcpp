@@ -38,7 +38,7 @@ Purpose
 	suffixes.
 
 Precondition
-	Array a[] holds n values, with n>=1.  Exactly k 
+	Array a[] holds n values, with n>=1.  Exactly k
 	distinct values, in the range 0..k-1, are present.
 	Value 0, an endmark, appears exactly once, at a[n-1].
 	Pointer s is 0 or points to an array of n elements.
@@ -77,12 +77,12 @@ Terminology
 	when h=0 the "0-gram" at a[i] is a[i].  (More succinctly,
 	the h-gram at a[i] is a[i], ..., a[i+max(h,1)-1].)
 	"The h-successor of the h-gram at a[i]" is the h-gram
-	at a[i+h].  
-	
+	at a[i+h].
+
 Method
 	Order 2h-grams by doing steps (1)-(5) below
 	for h = 0, 1, 2, 4, ...  Because of the unique endmark,
-	ordering n-grams (or longer grams) is exactly the same as 
+	ordering n-grams (or longer grams) is exactly the same as
 	ordering the suffixes of a[].
 
 	This is a fillip on radix sort.  The i-th stage of a
@@ -90,7 +90,7 @@ Method
 	counting from the right of the keys, thus arranging the keys
 	so that their i-character suffixes are in lexicographic order.
 	Here, instead, we distribute on h-gram prefixes of 2h-grams,
-	where h = 2^i, thus arranging 2h-grams in order.  Each 
+	where h = 2^i, thus arranging 2h-grams in order.  Each
 	h-gram is coded into one element of a[].
 	This is possible within a constant word width because
 	there are only n h-grams for any h.  With 2^i-grams being
@@ -111,12 +111,12 @@ History
 	Steps (1) and (2) below are based on M&M's method for
 	the first cycle (h=0); they do something entirely different
 	for the h-gram doubling cycles and develop in a[] the
-	inverse of permutation p[].  
+	inverse of permutation p[].
 
 	The state of the art has improved since this code was
 	written.  A variant developed independently by (at least)
 	Larssen at Lund, Sadakane at Tokyo and Quinlan at Bell Labs
-	is several times as fast; see Larssen and Sadakane 
+	is several times as fast; see Larssen and Sadakane
 	LU-CS-TR:99-214, Dept. of CS, Lund Univ. Sweden.
 
 Data used in the sort
@@ -142,7 +142,7 @@ Description of steps, except for optional shared lengths
 State before step 1
 	Each element a[i] encodes the h-gram at a[i].
 	The h-grams are coded 0,..,k-1 in increasing
-	lexicographic order.  When h>0, permutation p[] 
+	lexicographic order.  When h>0, permutation p[]
 	lists h-grams in lexicographic order: if i<j then
 	a[p[i]] <= a[p[j]].  When h=0, p[] contains
 	the input order 0,..,n-1.
@@ -171,7 +171,7 @@ State before step 1
 	data from p[].  p[] contains two kinds of data:
 	elements of p[], marked ORIG, and elements of pl[].
 
-	The elements of p[] that have been displaced by pl[] 
+	The elements of p[] that have been displaced by pl[]
 	are retrieved by chasing the lists; this is done by
 	a for loop.  Each list will be chased at most once in
 	step (1) and once in step (2) and the total size of
@@ -191,7 +191,7 @@ State before step (2)
 	list created in (1), which is already in reverse order.
 	New values fill in the size-n array p[] from the top,
 	while the size-k array pl[] of list heads shrinks
-	toward the bottom.  Because no list is empty, the 
+	toward the bottom.  Because no list is empty, the
 	two uses of p[] cannot collide.
 
 	Place mark BUCK at each bucket start, namely the
@@ -356,7 +356,7 @@ out:
 
 	For efficient search, paths are compressed by making
 	each bucket point to the next bucket on the path to
-	the root with a strictly smaller stored shared length.  
+	the root with a strictly smaller stored shared length.
 	This may change the identity of the nearest common
 	ancestor, but does not affect shared lengths.
 
@@ -385,7 +385,7 @@ Cost
 	the loops of shared() could be combined with loops of
 	lssort().
 
-(2)	When an h-gram bucket is split, the shared lengths between 
+(2)	When an h-gram bucket is split, the shared lengths between
 	adjacent subbuckets is h+u, where u is the shared length
 	between the h-successors that differed (causing the split).
 	To find u, we locate the nearest common ancestor.

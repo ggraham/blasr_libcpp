@@ -11,18 +11,18 @@
  *                  refGroupIndex : index of this alignment in cmpReader.refAlignGroups
  *                  readGroupIndex: index of this alignment in cmpReader.refAlignGroups\
  *                                  [refGroupIndex]->readGroupds[readGroupIndex]
- *                  offsetBegin   : offset begin for this alignment in cmpFile 
+ *                  offsetBegin   : offset begin for this alignment in cmpFile
  *                                  dataset /ref/movie/AlnArray
  *                  offsetEnd     : offset enda
- *                  queryStart    : start position of query of this alignment 
- *                  queryEnd      : end position of query of this alignment 
+ *                  queryStart    : start position of query of this alignment
+ *                  queryEnd      : end position of query of this alignment
  *                  readIndex     : index of this alignment in baseFile.readStartPositions
  *                  readStart     : start position of this alignment in baseFile
  *                  readLength    : read length of this alignment in baseFile
  *                  plsReadIndex  : index of this alignment in pulseFile.pulseStartPositions
  *                  alignedSequence
  *                                : aligned sequence of this alignment
- *                  
+ *
  *        Version:  1.0
  *        Created:  12/19/2012 03:50:21 PM
  *       Revision:  none

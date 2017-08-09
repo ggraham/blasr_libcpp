@@ -223,7 +223,7 @@ std::string SAMHeaderPrinter::ToString()
 }
 /*
 /// Add a SAM Header @RG entry, including the following tags:
-/// ID (identifier), PL (platform), PU (platform unit), 
+/// ID (identifier), PL (platform), PU (platform unit),
 /// DS (description, which may have many items)
 SAMHeaderPrinter & SAMHeaderPrinter::AddRG(std::string & id, std::string & pl, std::string & pu, std::string & ds) {
     _rgs.Add(SAMHeaderRG(id, pl, pu, ds));

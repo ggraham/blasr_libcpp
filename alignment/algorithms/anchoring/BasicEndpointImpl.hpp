@@ -4,14 +4,14 @@
 #include "BasicEndpoint.hpp"
 /*
  An endpoint is one of the ends of a fragment, where
- a fragment is an exact match between two genomes. 
+ a fragment is an exact match between two genomes.
  So, a fragment is a 2D object that has a position and length,
  and an endpoint is 1D, where it just has a position.
  A fragment may be associated with a score that is the score
- of the fragment in a maximum scoring chain.  When finding a 
- maximum scoring chain using priority search trees, one must 
- be able to set the score of a fragment when indexing solely 
- a point. 
+ of the fragment in a maximum scoring chain.  When finding a
+ maximum scoring chain using priority search trees, one must
+ be able to set the score of a fragment when indexing solely
+ a point.
 */
 
 template <typename T_ScoredFragment>

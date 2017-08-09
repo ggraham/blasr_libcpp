@@ -52,6 +52,6 @@ void LengthHistogram::BuildFromAlignmentLengths(std::vector<int> &lengths)
      *
      * lengths:               10
      * lengthHistogram.data:  10
-     * lengthHistogram.cdf :  1 
+     * lengthHistogram.cdf :  1
      */
 }

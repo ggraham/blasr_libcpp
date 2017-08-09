@@ -824,7 +824,7 @@ public:
                 assert(index[m] + targetOffset < targetLength);
 
                 /*
-                   if (ThreeBit[target[index[m]+targetOffset]] >= 4 or 
+                   if (ThreeBit[target[index[m]+targetOffset]] >= 4 or
                    ThreeBit[queryChar] >= 4) {
                    lr = ll;
                    break;

@@ -13,7 +13,7 @@
 /*
    Perform gapped alignment that aligns the entire query sequence to
    leftTarget, rightTarget, or between the two with a gap in between.
-   The gap between leftTarget and rightTarget is an affine gap. 
+   The gap between leftTarget and rightTarget is an affine gap.
    */
 
 template <typename T_QuerySequence, typename T_RefSequence, typename T_ScoreFunction>
@@ -27,7 +27,7 @@ int OneGapAlign(T_QuerySequence &query, T_RefSequence &leftTarget, T_RefSequence
        Perform alignment that spans what is effectively two pairs of
        matrices.  This is implemented as a single matrix, however paths
        may only transition through the boundary between the two through
-       the affine portion of the matrices.  
+       the affine portion of the matrices.
 
        leftTarget    rightTarget
        affine   |==============|

@@ -268,8 +268,8 @@ int ExtendAlignment(T_QuerySeq &querySeq, int queryPos, T_RefSeq &refSeq, int re
                     scoreMat[matchIndex] +
                     scoreFn.Match(refSeq, (DNALength)tSeqPos, querySeq, (DNALength)qSeqPos);
             }
-            /*			std::cout << "ins score: " << insScore << "[" << scoreMat[insIndex] << "] del score " << delScore 
-                            << " [" << scoreMat[delIndex] << "] match score " << matchScore 
+            /*			std::cout << "ins score: " << insScore << "[" << scoreMat[insIndex] << "] del score " << delScore
+                            << " [" << scoreMat[delIndex] << "] match score " << matchScore
                             << " [" << scoreMat[matchIndex] << "] qchar " << (int) querySeq.seq[qSeqPos] << " tchar " << (int) refSeq.seq[tSeqPos] << std::endl;*/
             int minScore = std::min(matchScore, delScore);
             minScore = std::min(minScore, insScore);

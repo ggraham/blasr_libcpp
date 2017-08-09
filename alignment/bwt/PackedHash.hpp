@@ -104,7 +104,7 @@ public:
 
     uint32_t LookupBinAtPos(DNALength pos)
     {
-        /* 
+        /*
          * Each bucket contains 32 positions.  Membership is simply when
          * the bit at pos & BinModMask is set.  There should never be
          * collisions of multiple positions (from different areas in the
@@ -122,7 +122,7 @@ public:
          * be converted to a pointer, and the values added to a list on
          * the heap.  The size of the list is necessarily 3 at this point,
          * because there are two values in storage that must be moved to
-         * the list, and the new value as well. 
+         * the list, and the new value as well.
          * The values are copied to the list in sorted order, and sorting
          * is handled case-by-case since there are only 3 cases.
          */
@@ -193,7 +193,7 @@ public:
          * order.  If 'storage' is empty, the correct place is at the
          * beginning of storage.  If there already is a value at the
          * beginning, it may be necessary to shift the existing value over
-         * to keep everything in sorted order. 
+         * to keep everything in sorted order.
          */
 
         if (curStorageLength == 0) {
@@ -265,7 +265,7 @@ public:
     int LookupValue(DNALength pos, DNALength &value)
     {
 
-        /* 
+        /*
          * Check to see if there is a value stored for 'pos'.  If so,
          * store it in value, and return 1 for success.
          */
