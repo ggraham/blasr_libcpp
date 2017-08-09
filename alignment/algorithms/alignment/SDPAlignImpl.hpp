@@ -321,7 +321,7 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target, T_ScoreFn &scoreF
 
     std::vector<bool> blockIsGood;
     blockIsGood.resize(chainAlignment.size());
-    fill(blockIsGood.begin(), blockIsGood.end(), true);
+    std::fill(blockIsGood.begin(), blockIsGood.end(), true);
 
     //
     // The hack that allows anchors of different lengths at the front

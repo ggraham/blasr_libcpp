@@ -35,7 +35,7 @@ public:
 
     unsigned int Size();
 
-    void Fill(T value) { fill(matrix, &matrix[totalSize], value); }
+    void Fill(T value) { std::fill(matrix, &matrix[totalSize], value); }
 
     void Resize(int _nRows, int _nCols) { Grow(_nRows, _nCols); }
 

@@ -1,5 +1,6 @@
 #ifndef _BLASR_EXTEND_ALIGN_HPP_
 #define _BLASR_EXTEND_ALIGN_HPP_
+
 #include <algorithm>
 #include <iosfwd>
 #include <vector>
@@ -142,8 +143,8 @@ int ExtendAlignment(T_QuerySeq &querySeq, int queryPos, T_RefSeq &refSeq, int re
     int t;
     // Initialize first column for insertions.
     int firstIndex;
-    fill(scoreMat.begin(), scoreMat.begin() + matSize, 0);
-    fill(pathMat.begin(), pathMat.begin() + matSize, NoArrow);
+    std::fill(scoreMat.begin(), scoreMat.begin() + matSize, 0);
+    std::fill(pathMat.begin(), pathMat.begin() + matSize, NoArrow);
     rcToIndex(0, 0, firstIndex);
     scoreMat[firstIndex] = 0;
     pathMat[firstIndex] = NoArrow;

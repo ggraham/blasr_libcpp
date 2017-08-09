@@ -144,8 +144,8 @@ int GuidedAlign(QSequence &origQSeq, TSequence &origTSeq, blasr::Alignment &guid
     if (scoreMat.size() < matrixNElem) {
         scoreMat.resize(matrixNElem);
         pathMat.resize(matrixNElem);
-        fill(scoreMat.begin(), scoreMat.end(), 0);
-        fill(pathMat.begin(), pathMat.end(), NoArrow);
+        std::fill(scoreMat.begin(), scoreMat.end(), 0);
+        std::fill(pathMat.begin(), pathMat.end(), NoArrow);
     }
     if (computeProb) {
         if (probMat.size() < matrixNElem) {
