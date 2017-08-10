@@ -99,7 +99,7 @@ DNASequence &DNASequence::Copy(const DNASequence &rhs, DNALength rhsPos, DNALeng
                   << "        Failed to copy a subsequence starting at " << rhsPos << std::endl
                   << "        with length " << rhsLength << " from a sequence of length "
                   << rhs.length << "." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 
     if (rhsLength == 0) {

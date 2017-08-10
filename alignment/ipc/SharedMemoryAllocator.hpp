@@ -24,7 +24,7 @@ int AllocateMappedShare(std::string &handle, int dataLength, T_Data *&dataPtr, i
         // Handle this better later on.
         //
         std::cout << "ERROR, MEMORY MAP FAILED." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
     std::cout << "done mapping." << std::endl;
     return dataLength;

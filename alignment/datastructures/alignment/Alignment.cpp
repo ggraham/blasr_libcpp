@@ -342,7 +342,7 @@ void Alignment::LongGapArrowPathToAlignment(std::vector<Arrow> &optPath, DNALeng
 
     if (numLongGaps > 1) {
         std::cout << "ERROR. Only one long gap per alignment is allowed." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 
     //

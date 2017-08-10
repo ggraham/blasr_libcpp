@@ -63,6 +63,6 @@ void PulseFile::CopyReadAt(uint32_t plsReadIndex, int *baseToPulseIndex, SMRTSeq
 
     if (not OK) {
         std::cout << "ERROR, failed to CopyReadAt(" << plsReadIndex << ")" << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 }

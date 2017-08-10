@@ -22,7 +22,7 @@ void HDFFile::Open(std::string fileName, unsigned int flags, const FileAccPropLi
             hdfFile.openFile(fileName.c_str(), flags, fileAccPropList);
         } catch (FileIException e) {
             std::cout << "Error opening file " << fileName << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
     } else {
         try {
@@ -34,12 +34,12 @@ void HDFFile::Open(std::string fileName, unsigned int flags, const FileAccPropLi
             hdfFile = H5File(fileName.c_str(), H5F_ACC_TRUNC, filePropList);
         } catch (FileIException fileException) {
             std::cout << "Error creating file " << fileName << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
     }
     if (rootGroup.Initialize(hdfFile, "/") != 1) {
         std::cout << "Error initializing the root group for file " << fileName << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 }
 

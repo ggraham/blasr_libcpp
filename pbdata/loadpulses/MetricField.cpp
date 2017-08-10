@@ -83,6 +83,6 @@ FieldsRequirement::FieldsRequirement(const std::string &m)
         // No metric, no required fields.
     } else {
         std::cout << "ERROR, metric [" << metric << "] is not supported." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 }

@@ -103,7 +103,7 @@ void HDFRegionTableReader::ReadTable(RegionTable &table)
             regionTypes.Read(types);
         else {
             std::cout << "ERROR MUST HAVE REGIONTYPES" << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         if (regionDescriptions.IsInitialized()) regionDescriptions.Read(descs);
         if (regionSources.IsInitialized()) regionSources.Read(sources);

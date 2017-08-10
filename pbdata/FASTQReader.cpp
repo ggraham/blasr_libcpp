@@ -41,7 +41,7 @@ int FASTQReader::GetNext(FASTQSequence &seq)
     if (p2 - p > UINT_MAX) {
         std::cout << "ERROR! Reading sequences stored in more than 4Gbytes of space is not supported."
              << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 
     seq.length = p2 - p;

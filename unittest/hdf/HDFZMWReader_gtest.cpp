@@ -34,7 +34,7 @@ public:
             pbihdfFile.openFile(fileName.c_str(), H5F_ACC_RDONLY, propList);
         } catch (Exception &e) {
             std::cout << "ERROR, could not open hdf file" << fileName << ", exiting." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
 
         ASSERT_NE(callsGroup.Initialize(pbihdfFile, groupName), 0);
@@ -43,12 +43,12 @@ public:
         HDFGroup rootGroup, pulseDataGroup;
         if (rootGroup.Initialize(pbihdfFile, "/") == 0) {
             std::cout << "ERROR, could not open /" << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
 
         if (pulseDataGroup.Initialize(rootGroup, "PulseData") == 0){
             std::cout << "ERROR, could not open /PulseData" << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
 
         ASSERT_NE(callsGroup.Initialize(pulseDataGroup, "BaseCalls"), 0);
@@ -98,7 +98,7 @@ TEST_F(HDFZMWReaderTEST, ReadZMWFromPulseCalls)
         pbihdfFile.openFile(fileName.c_str(), H5F_ACC_RDONLY, propList);
     } catch (Exception &e) {
         std::cout << "ERROR, could not open hdf file" << fileName << ", exiting." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 
     HDFGroup pulseCallsGroup;

@@ -25,7 +25,7 @@
  int main(int argc, char* argv[]) {
 	if (argc < 1) {
 		std::cout << "usage: testHDFReading hdfFile" << std::endl;
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 
 	std::string hdfFileName = argv[1];

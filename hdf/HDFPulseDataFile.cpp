@@ -19,7 +19,7 @@ void HDFPulseDataFile::CheckMemoryAllocation(long allocSize, long allocLimit, co
                  << std::endl;
             std::cout << "The pls/bas file is too large, exiting." << std::endl;
         }
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 }
 
@@ -60,7 +60,7 @@ int HDFPulseDataFile::OpenHDFFile(std::string fileName, const H5::FileAccPropLis
         hdfBasFile.openFile(fileName.c_str(), H5F_ACC_RDONLY, propList);
     } catch (H5::Exception &e) {
         std::cout << "ERROR, could not open hdf file" << fileName << ", exiting." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
     closeFileOnExit = true;
     return 1;

@@ -17,7 +17,7 @@ void CriticalOpenRead(std::string &fileName, std::ifstream &file, std::ios::open
     file.open(fileName.c_str(), mode | std::ios::in);
     if (!file.good()) {
         std::cerr << "Could not open file:" << fileName << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 }
 
@@ -32,7 +32,7 @@ void CriticalOpenWrite(std::string &fileName, std::ofstream &file, std::ios::ope
     file.open(fileName.c_str(), mode | std::ios::out);
     if (!file.good()) {
         std::cerr << "Could not open file: " << fileName << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 }
 

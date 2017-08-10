@@ -62,7 +62,7 @@ void FindRandomPos(std::vector<T_Sequence> &sequences, DNALength &seqIndex, DNAL
         std::cout << "ERROR! Unable to generate a random seq/pos pair!, maybe length " << seqLength
              << std::endl
              << " is too high, or there are too many N's in the references." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 }
 

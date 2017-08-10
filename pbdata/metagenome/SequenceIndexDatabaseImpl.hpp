@@ -174,7 +174,7 @@ void SequenceIndexDatabase<TSeq>::ReadDatabase(std::ifstream &in)
     in.read((char *)&mn, sizeof(int));
     if (mn != SEQUENCE_INDEX_DATABASE_MAGIC) {
         std::cout << "ERROR: Sequence index database is corrupt!" << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 
     //
@@ -234,7 +234,7 @@ void SequenceIndexDatabase<TSeq>::SequenceTitleLinesToNames()
         if (tmpNameArray[j] == tmpNameArray[j + 1]) {
             std::cout << "Error, reference with name \"" << tmpNameArray[j]
                       << "\" in the reference genome is not unique" << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
     }
 }

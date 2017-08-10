@@ -38,7 +38,7 @@ void SMRTSequence::Allocate(DNALength length)
     // Assert *this has no allocated space.
     if (not(seq == NULL && preBaseFrames == NULL && widthInFrames == NULL and pulseIndex == NULL)) {
         std::cout << "ERROR, trying to double-allocate memory for a SMRTSequence." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 
     FASTQSequence::AllocateQualitySpace(length);

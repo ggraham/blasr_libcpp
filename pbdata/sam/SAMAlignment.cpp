@@ -17,7 +17,7 @@ size_t SAMAlignment::FindPosOfNthChar(std::string str, int n, char c)
 {
     if (n < 1) {
         std::cout << "Nth should be a positive integer." << std::endl;
-        exit(0);
+        exit(EXIT_SUCCESS);
     }
     int count = 1;
     size_t pos = str.find(c, 0);
@@ -110,7 +110,7 @@ bool SAMAlignment::StoreValues(std::string& line, int lineNumber)
     if (parseError) {
         std::cout << "Error parsing alignment line " << lineNumber << ". Missing or error in field "
                   << SAMAlignmentRequiredFieldNames[field] << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 
     //
@@ -160,7 +160,7 @@ bool SAMAlignment::StoreValues(std::string& line, int lineNumber)
             }
         } else {
             std::cout << "ERROR. Could not parse typed keyword value " << typedKVPair << std::endl;
-            exit(0);
+            exit(EXIT_SUCCESS);
         }
     }
     return true;

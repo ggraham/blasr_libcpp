@@ -56,7 +56,7 @@ public:
             pbihdfFile.openFile(fileName.c_str(), H5F_ACC_RDONLY, propList);
         } catch (Exception &e) {
             std::cout << "ERROR, could not open hdf file" << fileName << ", exiting." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
 
         ASSERT_NE(rootGroup.Initialize(pbihdfFile, "/"), 0);

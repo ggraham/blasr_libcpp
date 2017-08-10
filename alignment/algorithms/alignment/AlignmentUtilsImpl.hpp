@@ -56,7 +56,7 @@ int ComputeAlignmentScore(std::string &queryStr, std::string &textStr, T_ScoreFn
     if (queryStr.size() != textStr.size()) {
         std::cout << "Computing alignment score using invalid alignment string." << std::endl;
         std::cout << "Bailing out." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
     VectorIndex i;
     int score = 0;

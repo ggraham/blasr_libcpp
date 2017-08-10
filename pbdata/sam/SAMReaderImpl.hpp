@@ -186,13 +186,13 @@ void SAMReader<T_ReferenceSequence, T_ReadGroup, T_SAMAlignment>::Read(
         if (LineTypeIsHeader(lineType)) {
             std::cout << "ERROR! Header line found outside of the header at " << lineNumber
                       << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         } else if (lineType == Alignment) {
             StoreAlignment(line, alignments);
         } else {
             std::cout << "Error, line type unknown at " << lineNumber << std::endl;
             std::cout << line << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         ++lineNumber;
     }

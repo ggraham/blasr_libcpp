@@ -539,7 +539,7 @@ public:
     {
         PB_UNUSED(out);
         std::cout << "NOT YET IMPLEMENTED." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 
     void Write(std::string &outFileName)
@@ -556,7 +556,7 @@ public:
         suffixArrayOut.open(outFileName.c_str(), std::ios::binary);
         if (!suffixArrayOut.good()) {
             std::cout << "Could not open " << outFileName << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         WriteMagicNumber(suffixArrayOut);
         // write the preamble
@@ -634,7 +634,7 @@ public:
     {
         PB_UNUSED(in);
         std::cout << " NOT YET IMPLEMENTED!!!" << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 
     bool LightRead(std::string &inFileName)

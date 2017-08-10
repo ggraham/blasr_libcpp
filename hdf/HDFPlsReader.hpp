@@ -259,7 +259,7 @@ public:
     {
         if (not includedFields[field]) {
             std::cout << "ERROR, field " << field << " is not included in the pulse file. " << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         if (field == "StartFrame") {
             return startFrameArray.arrayLength / 1024 * sizeof(unsigned int);
@@ -277,7 +277,7 @@ public:
             return classifierQVArray.arrayLength / 1024 * sizeof(float);
         } else {
             std::cout << "ERROR, field [" << field << "] is not supported. " << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
     }
 
@@ -288,7 +288,7 @@ public:
     {
         if (not includedFields[field]) {
             std::cout << "ERROR, field " << field << " is not included in the pulse file. " << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         if (field == "StartFrame") {
             GetAllStartFrames(pulseFile.startFrame);
@@ -312,7 +312,7 @@ public:
             GetAllClassifierQV(pulseFile.classifierQV);
         } else {
             std::cout << "ERROR, field [" << field << "] is not supported. " << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
     }
 
@@ -331,7 +331,7 @@ public:
 
         if (not includedFields[field]) {
             std::cout << "ERROR, field " << field << " is not included in the pulse file. " << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         UInt pulseStartPos = pulseFile.pulseStartPositions[holeIndex];
 
@@ -373,10 +373,10 @@ public:
 
         } else if (field == "NumEvent") {
             std::cout << "ERROR, control of copying numEvent should not go here." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         } else {
             std::cout << "ERROR, field [" << field << "] is not supported. " << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
 
         if (destSeqCopy != NULL) {
@@ -389,7 +389,7 @@ public:
     {
         if (not includedFields[field]) {
             std::cout << "ERROR, field " << field << " is not included in the pulse file. " << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         if (field == "StartFrame") {
             ClearMemory(pulseFile.startFrame);
@@ -410,7 +410,7 @@ public:
             ClearMemory(pulseFile.classifierQV);
         } else {
             std::cout << "ERROR, field [" << field << "] is not supported. " << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
     }
 
@@ -546,7 +546,7 @@ public:
         } catch (DataSetIException e) {
             std::cout << "ERROR, could not read pulse metrics for SMRTSequence " << read.GetName()
                  << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         return 1;
     }
