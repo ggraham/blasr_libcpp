@@ -62,7 +62,7 @@ public:
         HDFCmpExperimentGroup* readGroupPtr = new HDFCmpExperimentGroup;
         if (readGroupPtr == nullptr) {
             std::cout << "ERROR, failed to allocate memory for HDFCmpExperimentGroup!" << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         readGroups.push_back(readGroupPtr);
         experimentNameToIndex[readGroupName] = newReadGroupIndex;
@@ -90,11 +90,11 @@ public:
             HDFCmpExperimentGroup* newGroup = new HDFCmpExperimentGroup;
             if (newGroup == nullptr) {
                 std::cout << "ERROR, failed to allocate memory for HDFCmpExperimentGroup!" << std::endl;
-                exit(EXIT_FAILURE);
+                std::exit(EXIT_FAILURE);
             }
             if (newGroup->Initialize(refGroup, experimentGroupName, includedFields) == 0) {
                 std::cout << "ERROR, could not initialize the exp group." << std::endl;
-                exit(EXIT_FAILURE);
+                std::exit(EXIT_FAILURE);
             }
             experimentNameToIndex[experimentGroupName] = readGroups.size();
             readGroups.push_back(newGroup);

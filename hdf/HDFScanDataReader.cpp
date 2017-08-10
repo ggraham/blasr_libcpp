@@ -210,7 +210,7 @@ int HDFScanDataReader::LoadBaseMap(std::map<char, size_t> &baseMap)
         if (baseMapStr.size() != 4) {
             std::cout << "ERROR, there are more than four types of bases "
                  << "according to /ScanData/DyeSet/BaseMap." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         baseMap.clear();
         for (size_t i = 0; i < baseMapStr.size(); i++) {

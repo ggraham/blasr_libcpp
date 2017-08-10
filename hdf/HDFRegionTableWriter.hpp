@@ -32,7 +32,7 @@ public:
         regionTableFile.rootGroup.AddGroup("PulseData");
         if (pulseDataGroup.Initialize(regionTableFile.rootGroup, "PulseData") == 0) {
             std::cout << "Could not create group PulseData. This is a bug." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         parentGroupPtr = &pulseDataGroup;
         regions.Initialize(pulseDataGroup, "Regions", RegionAnnotation::NCOLS);

@@ -338,7 +338,7 @@ public:
             }
         }
         std::cout << "ERROR. Could not initialize dataset " << arrayName << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 
     template <typename T>
@@ -603,7 +603,7 @@ public:
             seqLength = GetNextWithoutPosAdvance(seq);
         } catch (H5::DataSetIException e) {
             std::cout << "ERROR, could not read base calls for FASTA Sequence " << seq.GetName() << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         curBasePos += seqLength;
         return 1;
@@ -648,7 +648,7 @@ public:
         } catch (H5::DataSetIException e) {
             std::cout << "ERROR, could not read quality metrics for FASTQ Sequence " << seq.GetName()
                  << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         return 1;
     }
@@ -691,7 +691,7 @@ public:
             zmwReader.GetNext(seq.zmwData);
         } catch (H5::DataSetIException e) {
             std::cout << "ERROR, could not read bases or QVs for SMRTSequence " << seq.GetName() << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         return 1;
     }
@@ -760,7 +760,7 @@ public:
         } catch (H5::DataSetIException e) {
             std::cout << "ERROR, could not read pulse metrics for SMRTSequence " << seq.GetName()
                  << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         return retVal;
     }
@@ -1036,7 +1036,7 @@ public:
     {
         if (not includedFields[field]) {
             std::cout << "ERROR, field [" << field << "] is not included in the base file." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         if (field == "Basecall") {
             return baseArray.arrayLength / 1024 * sizeof(unsigned char);
@@ -1062,7 +1062,7 @@ public:
             return pulseIndexArray.arrayLength / 1024 * sizeof(int);
         } else {
             std::cout << "ERROR, field [" << field << "] is not supported. " << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
     }
 
@@ -1073,7 +1073,7 @@ public:
     {
         if (not includedFields[field]) {
             std::cout << "ERROR, field [" << field << "] is not included in the base file." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         if (field == "Basecall") {
             assert(nBases == baseArray.arrayLength);
@@ -1100,7 +1100,7 @@ public:
             pulseIndexArray.ReadDataset(baseFile.pulseIndex);
         } else {
             std::cout << "ERROR, field [" << field << "] is not supported. " << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
     }
 
@@ -1111,7 +1111,7 @@ public:
     {
         if (not includedFields[field]) {
             std::cout << "ERROR, field [" << field << "] is not included in the base file." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         if (field == "Basecall") {
             ClearMemory(baseFile.baseCalls);
@@ -1137,7 +1137,7 @@ public:
             ClearMemory(baseFile.pulseIndex);
         } else {
             std::cout << "ERROR, field [" << field << "] is supported. " << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
     }
 
@@ -1233,7 +1233,7 @@ public:
             not zmwReader.GetHoleNumberAt(nReads - 1, maxHole)) {
             std::cout << "ERROR, could not get the minimum and maximum hole numbers "
                  << "from ZMW HoleNumbers." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
     }
 };

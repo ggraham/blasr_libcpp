@@ -362,7 +362,7 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq, Alignment &guide
                 std::cout << "tseq: " << std::endl;
                 (static_cast<DNASequence *>(&tSeq))->PrintSeq(std::cout);
                 std::cout << "ERROR, this path has gone awry at " << q << " " << t << " !" << std::endl;
-                exit(EXIT_FAILURE);
+                std::exit(EXIT_FAILURE);
             }
 
             if (arrow == Diagonal) {

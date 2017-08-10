@@ -200,21 +200,21 @@ public:
         if (pulseDataGroup.Initialize(outFile.rootGroup, "PulseData") == 0) {
             std::cout << "ERROR, could not create file " << hdfFileName
                  << ".  Error creating group /PulseData." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
 
         pulseDataGroup.AddGroup("BaseCalls");
         if (baseCallGroup.Initialize(pulseDataGroup, "BaseCalls") == 0) {
             std::cout << "ERROR, could not create file " << hdfFileName
                  << ".  Error creating group /PulseData/BaseCall." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
 
         baseCallGroup.AddGroup("ZMW");
         if (zmwGroup.Initialize(baseCallGroup, "ZMW") == 0) {
             std::cout << "ERROR, could not create file " << hdfFileName
                  << ".  Error creating group /PulseData/BaseCall/ZMW." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
 
         HDFScanDataWriter sdWriter(outFile);

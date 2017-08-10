@@ -79,7 +79,7 @@ public:
         refInfo.length.size() != refInfo.md5.size()) {
       std::cout << "Error with the RefInfo group in a cmp.h5 file.  The datasets " << std::endl
            << "are of different lengths but should be the same." << std::endl;
-      exit(EXIT_FAILURE);
+      std::exit(EXIT_FAILURE);
     }
     */
         size_t i;

@@ -74,7 +74,7 @@ HitPolicy::HitPolicy(const std::string& hitPolicyStr, const ScoreSign& sign)
     } else {
         std::cout << "ERROR, the specified multiple hit policy " << hitPolicyStr
                   << " is not supported." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 
     _sign = sign;
@@ -147,7 +147,7 @@ std::vector<T_AlignmentCandidate*> HitPolicy::Apply(
     ScoreSign sign = this->Sign();
     if (sign == ScoreSign::POSITIVE) {
         std::cout << "ERROR: ScoreSign POSITIVE not supported yet." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
     std::sort(ret.begin(), ret.end(), SortAlignmentPointersByScore());
 

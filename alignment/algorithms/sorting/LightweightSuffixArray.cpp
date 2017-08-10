@@ -269,7 +269,7 @@ bool LightweightSuffixSort(unsigned char text[], UInt textLength, UInt *index, i
     if (InitializeDifferenceCover(diffCoverSize, diffCoverLength, diffCover) == 0) {
         std::cout << "ERROR! There is no difference cover of size " << diffCoverSize
                   << " that is precomputed." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 
     DiffCoverDelta delta;

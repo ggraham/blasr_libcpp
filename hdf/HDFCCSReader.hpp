@@ -51,7 +51,7 @@ public:
             this->hdfBasFile.openFile(ccsBasFileName.c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
         } catch (H5::Exception &e) {
             std::cout << "ERROR, could not open hdf file " << ccsBasFileName << " Stopping." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
 
         HDFGroup ccsBasecallsGroup;
@@ -60,7 +60,7 @@ public:
         if (pulseDataGroup.Initialize(this->hdfBasFile, "PulseData") == 0) {
             std::cout << "ERROR, ccs base file " << ccsBasFileName << " does not have a PulseData field."
                  << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         if (pulseDataGroup.ContainsObject("ConsensusBaseCalls")) {
             fileContainsCCS = true;
@@ -91,7 +91,7 @@ public:
         //
         if (this->T_HDFBasReader<T_Sequence>::Initialize(ccsBasFileName, fileAccPropList) == 0) {
             std::cout << "ERROR, Could not initialize ccs file " << ccsBasFileName << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
 
         if (this->pulseDataGroup.ContainsObject("ConsensusBaseCalls") and
@@ -99,7 +99,7 @@ public:
             std::cout << "ERROR, attempting to read cicular consensus data from '" << ccsBasFileName
                  << "', which does not contain a ConsensusBaseCalls field." << std::endl;
             std::cout << "Check HDF file structure." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         curPassPos = 0;
         int passesSuccess = 1;
@@ -116,7 +116,7 @@ public:
                     "exist. "
                  << std::endl;
             std::cout << "Check HDF file structure." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
 
         //
@@ -268,7 +268,7 @@ public:
         } catch (H5::DataSetIException e) {
             std::cout << "ERROR, could not read ccs data for CCS Sequence "
                  << ccsSequence.unrolledRead.title << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         //		std::cout << "title: " << ccsSequence.title << std::endl;
         if (retVal == 0) {

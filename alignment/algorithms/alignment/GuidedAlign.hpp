@@ -427,7 +427,7 @@ int GuidedAlign(QSequence &origQSeq, TSequence &origTSeq, blasr::Alignment &guid
             std::cout << "tseq: " << std::endl;
             (static_cast<DNASequence *>(&tSeq))->PrintSeq(std::cout);
             std::cout << "ERROR, this path has gone awry at " << q << " " << t << " !" << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         optAlignment.push_back(arrow);
         if (arrow == Diagonal) {

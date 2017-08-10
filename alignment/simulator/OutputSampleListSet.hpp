@@ -121,7 +121,7 @@ public:
                     std::cout << "The nucleotide " << c << " is not supported." << std::endl;
                 }
             }
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         sample = listMap[key][RandomInt(listMap[key].size())];
     }

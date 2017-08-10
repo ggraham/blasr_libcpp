@@ -143,7 +143,7 @@ inline void DNASequence::CheckBeforeCopyOrReference(const DNASequence &rhs, std:
 
     if (seq == rhs.seq and seq != NULL and deleteOnExit) {
         std::cout << "ERROR, trying to copying a " << seqType << " to itself." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 }
 

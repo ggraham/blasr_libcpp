@@ -9,7 +9,7 @@ Range::Range(UInt pStart, UInt pEnd)
     end = pEnd;
     if (start > end) {
         std::cout << "ERROR: start of a range should be less than the end." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 }
 
@@ -67,7 +67,7 @@ UInt Ranges::max()
     if (size() == 0) {
         std::cout << "ERROR, could not determine the maximum value "
              << "of an empty Ranges object." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
     return ranges.back().end;
 }

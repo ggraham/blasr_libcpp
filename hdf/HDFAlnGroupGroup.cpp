@@ -24,15 +24,15 @@ int HDFAlnGroupGroup::Initialize(HDFGroup &parent)
 {
     if (alnGroup.Initialize(parent.group, "AlnGroup") == 0) {
         std::cout << "ERROR, could not open /AlnGroup group." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
     if (idArray.Initialize(alnGroup, "ID") == 0) {
         std::cout << "ERROR, could not open /AlnGroup/ID." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
     if (pathArray.Initialize(alnGroup, "Path") == 0) {
         std::cout << "ERROR, could not open /AlnGroup/Path." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
     return 1;
 }

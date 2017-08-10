@@ -74,11 +74,11 @@ int FASTAReader::Init(std::string &seqInName, int passive)
     struct stat st;
     if (stat(seqInName.c_str(), &st) != 0) {
         std::cerr << "FASTA file " << seqInName << " doesn't exist" << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
     if (st.st_size == 0) {
         std::cerr << "FASTA file " << seqInName << " is empty" << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 
     fileDes = open(seqInName.c_str(), O_RDONLY);
@@ -88,14 +88,14 @@ int FASTAReader::Init(std::string &seqInName, int passive)
             return 0;
         } else {
             std::cout << "Could not open FASTA file " << seqInName << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
     }
     SetFileSize();
     filePtr = (char *)mmap(0, fileSize, PROT_READ, MAP_PRIVATE, fileDes, 0);
     if (filePtr == MAP_FAILED) {
         std::cout << "ERROR, Fail to load FASTA file " << seqInName << " to virtual memory." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
     curPos = 0;
     return 1;
@@ -112,7 +112,7 @@ void FASTAReader::CheckValidTitleStart(GenomeLength &p, char delim)
 {
     if (p >= fileSize or filePtr[p] != delim) {
         std::cout << "ERROR, FASTA entry must begin with \"" << delim << "\"" << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 }
 
@@ -127,7 +127,7 @@ GenomeLength FASTAReader::ReadAllSequencesIntoOne(FASTASequence &seq,
 
     if (seq.title == NULL) {
         std::cout << "ERROR, sequence must have a nonempty title." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
     if (seqDBPtr != NULL) {
         seqDBPtr->growableName.push_back(seq.title);
@@ -138,7 +138,7 @@ GenomeLength FASTAReader::ReadAllSequencesIntoOne(FASTASequence &seq,
 
     if (memorySize > UINT_MAX) {
         std::cout << "ERROR! Reading fasta files greater than 4Gbytes is not supported." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
     seq.Resize(memorySize);
     GenomeLength i;
@@ -193,7 +193,7 @@ GenomeLength FASTAReader::ReadAllSequencesIntoOne(FASTASequence &seq,
     }
     if (i > UINT_MAX) {
         std::cout << "ERROR! Sequences greater than 4Gbase are not supported." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
     //
     // Append an 'N' at the end of the last sequence for consistency
@@ -253,7 +253,7 @@ void FASTAReader::ReadTitle(GenomeLength &p, char *&title, int &titleLength)
         title = ProtectedNew<char>(titleLength + 1);
         if (title == nullptr) {
             std::cout << "ERROR, unable to read FASTA file to memory. " << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         int t = 0;
         for (p = curPos; p < curPos + titleLength; p++, t++) {
@@ -306,7 +306,7 @@ int FASTAReader::GetNext(FASTASequence &seq)
     if (seqLength > UINT_MAX) {
         std::cout << "ERROR! Reading sequences stored in more than 4Gbytes of space is not supported."
              << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 
     seq.length = 0;
@@ -387,7 +387,7 @@ int FASTAReader::CriticalGetNext(FASTASequence &seq)
 {
     if (!GetNext(seq)) {
         std::cout << "Could not read a sequence." << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
     return 1;
 }
@@ -409,7 +409,7 @@ void FASTAReader::Close()
 {
     if (fileDes == -1) {
         std::cout << "ERROR, calling close on an uninitialized fasta reader" << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     } else {
         munmap(filePtr, fileSize);
         close(fileDes);

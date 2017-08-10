@@ -4,7 +4,7 @@ void StoreValue(std::string &valueStr, T &value)
     std::stringstream strm(valueStr);
     if (!(strm >> value)) {
         std::cout << "Error parsing " << valueStr << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 }
 

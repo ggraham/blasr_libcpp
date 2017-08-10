@@ -29,7 +29,7 @@ int HDFData::Initialize(HDFGroup &parentGroup, const std::string &datasetName)
     (void)(parentGroup);
     (void)(datasetName);
     std::cout << "ERROR! Only a subclass should call this." << std::endl;
-    exit(EXIT_FAILURE);
+    std::exit(EXIT_FAILURE);
 }
 
 int HDFData::BaseInitializeDataset(CommonFG &hdfFile, const std::string &_datasetName)

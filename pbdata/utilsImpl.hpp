@@ -15,7 +15,7 @@ void CrucialOpen(std::string& fileName, t_file& file, std::ios_base::openmode mo
 
     if (!file.good()) {
         std::cout << "Could not open " << fileName << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 }
 template <typename T_Int>

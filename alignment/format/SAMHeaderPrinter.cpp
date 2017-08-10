@@ -49,7 +49,7 @@ SAMHeaderTag::SAMHeaderTag(const std::string& fromString)
         }
     } else {
         std::cout << "Unable to parse SAM/BAM header" << fromString << std::endl;
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 }
 

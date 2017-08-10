@@ -191,7 +191,7 @@ public:
         HDFCmpRefAlignmentGroup *newGroup = new HDFCmpRefAlignmentGroup;
         if (newGroup == nullptr) {
             std::cout << "ERROR, unable to allocate memory for cmp.h5 file." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         newGroup->Create(rootGroup.rootGroup, refGroupName);
         refAlignGroups.push_back(newGroup);
@@ -265,27 +265,27 @@ public:
 
         if (alnGroupGroup.Initialize(rootGroup.rootGroup) == 0) {
             std::cout << "ERROR, could not read AlnGroup of the cmp file." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         if (refInfoGroup.Initialize(rootGroup.rootGroup) == 0) {
             std::cout << "ERROR, could not read RefInfo of the cmp file." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         if (refGroupGroup.Initialize(rootGroup.rootGroup) == 0) {
             std::cout << "ERROR, could not read RefGroup of the cmp file." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         if (movieInfoGroup.Initialize(rootGroup.rootGroup) == 0) {
             std::cout << "ERROR, could not read MovieInfo of the cmp file." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         if (alnInfoGroup.Initialize(rootGroup.rootGroup) == 0) {
             std::cout << "ERROR, could not read AlnInfo of the cmp file." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         if (fileLogGroup.Initialize(rootGroup.rootGroup) == 0) {
             std::cout << "ERROR, could not read FileLog of the cmp file." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
 
         SpringfieldInitializeColumnNameMap();
@@ -307,7 +307,7 @@ public:
         if (alnInfoGroup.alnInfoGroup.groupIsInitialized == false) {
             std::cout << "ERROR, getting the size of an index before initializing the cmp.h5 file."
                  << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         return alnInfoGroup.alnIndexArray.GetNRows();
     }
@@ -377,7 +377,7 @@ public:
             refAlignGroup = new HDFCmpRefAlignmentGroup;
             if (refAlignGroup == nullptr) {
                 std::cout << "ERROR, unable to allocate memory for cmp.h5 file." << std::endl;
-                exit(EXIT_FAILURE);
+                std::exit(EXIT_FAILURE);
             }
             refAlignGroup->Initialize(rootGroup.rootGroup.group,
                                       cmpFile.refGroup.path[refSeqIndex]);
@@ -544,7 +544,7 @@ public:
         if (supportedFields.find(fieldName) == supportedFields.end()) {
             std::cout << "ERROR, attempting to include field " << fieldName << " that is not supported."
                  << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         includedFields.insert(fieldName);
     }
@@ -839,7 +839,7 @@ public:
             // ref000001 ~ ref999999
             std::cout << "ERROR. Could not store more than 999999 references in "
                  << " a cmp.h5 file." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
 
         // Adding a new refGroup requires:
@@ -855,7 +855,7 @@ public:
         HDFCmpRefAlignmentGroup *newGroup = new HDFCmpRefAlignmentGroup;
         if (newGroup == nullptr) {
             std::cout << "ERROR, unable to allocate memory for cmp.h5 file." << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         newGroup->Create(rootGroup.rootGroup, refGroupName);
         refAlignGroups.push_back(newGroup);

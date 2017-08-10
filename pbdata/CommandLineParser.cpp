@@ -212,7 +212,7 @@ int CommandLineParser::ParseCommandLine(int argc, char *argv[],
                                            // Check to see if there is non default argument for help
                                            IsOption(argv[i]) and !FindOption(&argv[i][1]))) {
             PrintUsage();
-            exit(0);
+            exit(EXIT_SUCCESS);
         } else if (strcmp(argv[i], "--version") == 0 and specialVersionFlag) {
             //
             // Using -version is an early exit since programs will print the
@@ -220,7 +220,7 @@ int CommandLineParser::ParseCommandLine(int argc, char *argv[],
             //
             assert(IsOption(argv[i]) and FindOption(&argv[argi][1]));
             PrintVersion();
-            exit(0);
+            exit(EXIT_SUCCESS);
         }
     }
 
@@ -231,7 +231,7 @@ int CommandLineParser::ParseCommandLine(int argc, char *argv[],
             } else {
                 PrintUsage();
             }
-            exit(0);
+            exit(EXIT_SUCCESS);
         }
     }
 
@@ -258,7 +258,7 @@ int CommandLineParser::ParseCommandLine(int argc, char *argv[],
             if (ev != CLGood) {
                 PrintUsage();
                 PrintErrorMessage(ev, &argv[argi][0]);
-                exit(EXIT_FAILURE);
+                std::exit(EXIT_FAILURE);
             }
         } else {
             unflaggedValues.push_back(argv[argi]);
@@ -276,7 +276,7 @@ int CommandLineParser::ParseCommandLine(int argc, char *argv[],
     if (ev != CLGood) {
         PrintUsage();
         PrintErrorMessage(ev, &argv[argi][0]);
-        exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
     return 1;
 }

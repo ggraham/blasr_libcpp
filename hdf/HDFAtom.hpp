@@ -50,7 +50,7 @@ public:
             attribute = object.openAttribute(attributeName.c_str());
         } catch (H5::Exception e) {
             std::cout << "ERROR. Could not open attribute " << attributeName << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
         isInitialized = true;
         return 1;

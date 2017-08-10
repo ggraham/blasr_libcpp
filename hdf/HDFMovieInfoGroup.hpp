@@ -68,7 +68,7 @@ public:
     {
         if (movieIndex < 0) {
             std::cout << "ERROR. Invalid movie index " << movieIndex << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         }
 
         if (!frameRateArray.IsInitialized()) {

@@ -14,7 +14,7 @@ void FileOfFileNames::StoreFileOrFileList(std::string fileName, std::vector<std:
     for (int i = 0; i < int(tmpList.size()); i++) {
         if (FileOfFileNames::IsFOFN(tmpList[i])) {
             std::cout << "ERROR. Nested File of File Names are not allowed. " << std::endl;
-            exit(EXIT_FAILURE);
+            std::exit(EXIT_FAILURE);
         } else if (FileOfFileNames::IsBasH5(tmpList[i])) {
             std::vector<std::string> baxFNs = FileOfFileNames::Bas2Bax(tmpList[i]);
             fofnList.insert(fofnList.end(), baxFNs.begin(), baxFNs.end());
