@@ -8,7 +8,7 @@
 #include <string>
 #include "NucConversion.hpp"
 #include "Types.h"
-#include "libconfig.h"
+#include <LibBlasrConfig.h>
 #include "utils.hpp"
 
 #ifdef USE_PBBAM

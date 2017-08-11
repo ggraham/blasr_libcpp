@@ -15,7 +15,7 @@ all-opt:
 all-depend:
 	${MAKE} -C ${THISDIR}/pbdata depend
 libpbdata:
-	${MAKE} -C ${THISDIR}/pbdata libconfig.h
+	${MAKE} -C ${THISDIR}/pbdata LibBlasrConfig.h
 	${MAKE} -C ${THISDIR}/pbdata all
 libpbihdf:
 	${MAKE} -C ${THISDIR}/hdf all

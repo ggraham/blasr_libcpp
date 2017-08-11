@@ -1,7 +1,8 @@
 #ifndef _BLASR_HDF_BASECALLS_WRITER_HPP_
 #define _BLASR_HDF_BASECALLS_WRITER_HPP_
 
-#include "../pbdata/libconfig.h"
+#include <LibBlasrConfig.h>
+
 #ifdef USE_PBBAM
 #include <algorithm>
 #include <memory>

@@ -1,4 +1,5 @@
-#include "../pbdata/libconfig.h"
+#include <LibBlasrConfig.h>
+
 #ifdef USE_PBBAM
 #include "HDFBaseCallsWriter.hpp"
 

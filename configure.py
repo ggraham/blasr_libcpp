@@ -2,10 +2,10 @@
 """Configure the build.
 
 - Fetch HDF5 headers.
-- Create pbdata/libconfig.h
+- Create pbdata/LibBlasrConfig.h
 - Create defines.mk
 
-Putting libconfig.h into a src-dir is not ideal, but simplifies a lot.
+Putting LibBlasrConfig.h into a src-dir is not ideal, but simplifies a lot.
 
 This is not used by './unittest/'.
 """
@@ -211,7 +211,7 @@ def fetch_hdf5_headers():
 def update(content_defines_mk, content_libconfig_h):
     """ Write these relative to the same directory as *this* file.
     """
-    fn_libconfig_h = os.path.join(thisdir, 'pbdata', 'libconfig.h')
+    fn_libconfig_h = os.path.join(thisdir, 'pbdata', 'LibBlasrConfig.h')
     update_content(fn_libconfig_h, content_libconfig_h)
     fn_defines_mk = 'defines.mk'
     update_content(fn_defines_mk, content_defines_mk)

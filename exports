@@ -297,4 +297,4 @@
 ./pbdata/defs.h
 ./pbdata/sam/CigarString.h
 ./pbdata/sam/SAMFlag.h
-pbdata/libconfig.h
+pbdata/LibBlasrConfig.h

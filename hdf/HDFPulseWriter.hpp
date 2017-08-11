@@ -1,6 +1,8 @@
 #ifndef _BLASR_HDF_PULSE_WRITER_HPP_
 #define _BLASR_HDF_PULSE_WRITER_HPP_
-#include "../pbdata/libconfig.h"
+
+#include <LibBlasrConfig.h>
+
 #ifdef USE_PBBAM
 
 #include <memory>

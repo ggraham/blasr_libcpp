@@ -5,7 +5,7 @@ THISDIR:=$(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 include ${THISDIR}/../rules.mk
 
 CXXOPTS  += -std=c++11 -pedantic -Wall -Wextra
-# CURDIR should have libconfig.h
+# CURDIR should have LibBlasrConfig.h
 #INCLUDES += ${CURDIR}
 SYSINCLUDES = ${PBBAM_INC} ${HTSLIB_INC} ${BOOST_INC}
 LIBS     += ${PBBAM_LIB} ${HTSLIB_LIB}
@@ -30,8 +30,8 @@ libpbdata.a: $(objects)
 
 libpbdata${SH_LIB_EXT}: $(shared_objects)
 
-libconfig.h:
-	echo "Please run 'configure.py' with appropriate args to generate pbdata/libconfig.h"
+LibBlasrConfig.h:
+	echo "Please run 'configure.py' with appropriate args to generate pbdata/LibBlasrConfig.h"
 
 clean: 
 	rm -f libpbdata.a  libpbdata.so *.o *.d
