@@ -25,7 +25,7 @@ public:
         nucleotides.resize(size);
     }
 
-    int CopyFromSeq(SMRTSequence &seq, int pos, int length = 1)
+    void CopyFromSeq(SMRTSequence &seq, int pos, int length = 1)
     {
         Resize(length);
         int i;
