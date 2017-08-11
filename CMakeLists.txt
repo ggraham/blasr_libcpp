@@ -26,7 +26,7 @@ include(blasrlibcpp-dependencies)
 include(blasrlibcpp-compilerflags)
 include(blasrlibcpp-gitsha1)
 
-file(WRITE pbdata/libconfig.h "")
+file(WRITE pbdata/LibBlasrConfig.h "")
 
 GET_PROPERTY(BLASRLIBCPP_COMPIPLE_FLAGS GLOBAL PROPERTY BLASRLIBCPP_COMPIPLE_FLAGS_GLOBAL)
 GET_PROPERTY(BLASRLIBCPP_LINK_FLAGS GLOBAL PROPERTY BLASRLIBCPP_LINK_FLAGS_GLOBAL)

@@ -1,7 +1,8 @@
 #ifndef _BLASR_HDF_HDFZMWWriter_HPP_
 #define _BLASR_HDF_HDFZMWWriter_HPP_
 
-#include "../pbdata/libconfig.h"
+#include <LibBlasrConfig.h>
+
 #ifdef USE_PBBAM
 
 #include <pbbam/BamRecord.h>
