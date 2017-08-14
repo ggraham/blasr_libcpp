@@ -140,7 +140,7 @@ def append_common(envin, content):
     """
     content += """
 # Use PREFIX dir, if available.
-INCLUDES      += ${PREFIX_INC}
+INCLUDES      += ${PREFIX_INC} ../pbdata
 LIBS          += ${PREFIX_LIB}
 """
     env = dict(envin)
