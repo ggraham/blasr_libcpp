@@ -22,11 +22,11 @@
 TEST(RangeTest, RangeConstructor)
 {
     Range r(1, 2);
-    EXPECT_EQ(r.start, 1);
-    EXPECT_EQ(r.end, 2);
+    EXPECT_EQ(r.start, 1u);
+    EXPECT_EQ(r.end, 2u);
 
     Range r2(1);
-    EXPECT_EQ(r2.end, 1);
+    EXPECT_EQ(r2.end, 1u);
 }
 
 TEST(RangeTest, Ranges)
@@ -57,10 +57,10 @@ TEST(RangeTest, SetRanges)
 TEST(RangeTest, max)
 {
     Ranges rs("199");
-    EXPECT_EQ(rs.max(), 199);
+    EXPECT_EQ(rs.max(), 199u);
     Ranges rs1("1, 10000, 10-30, 4000-5000");
-    EXPECT_EQ(rs1.max(), 10000);
+    EXPECT_EQ(rs1.max(), 10000u);
 
     Ranges rs2("1, 1000, 10-30, 4000-5000, 633-877");
-    EXPECT_EQ(rs2.max(), 5000);
+    EXPECT_EQ(rs2.max(), 5000u);
 }

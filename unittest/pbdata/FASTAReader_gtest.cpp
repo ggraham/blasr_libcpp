@@ -43,7 +43,7 @@ TEST_F(FASTAReaderTest, GetNext)
 {
     reader.GetNext(seq);
     EXPECT_EQ(strcmp(seq.title, "read1"), 0);
-    EXPECT_EQ(seq.length, 100);
+    EXPECT_EQ(seq.length, 100u);
     std::string expected_seq(
         "AAAAAGGGGGCCCCCACGGCAGCCAGATTTAAATTGAGGGCCCCCCCTTT"
         "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
@@ -51,7 +51,7 @@ TEST_F(FASTAReaderTest, GetNext)
 
     reader.GetNext(seq);
     EXPECT_EQ(std::strcmp(seq.title, "read2"), 0);
-    EXPECT_EQ(seq.length, 99);
+    EXPECT_EQ(seq.length, 99u);
 }
 
 TEST_F(FASTAReaderTest, ReadAllSequences)
@@ -59,7 +59,7 @@ TEST_F(FASTAReaderTest, ReadAllSequences)
     std::vector<FASTASequence> seqs;
     reader.ReadAllSequences(seqs);
 
-    EXPECT_EQ(seqs.size(), 12);
+    EXPECT_EQ(seqs.size(), 12u);
     EXPECT_EQ(std::strcmp(seqs[11].title, "read2x"), 0);
 
     std::string expected_seq(

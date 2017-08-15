@@ -16,9 +16,9 @@ static void TestSequentialZmwGroupQuery(const std::string& fn, const std::vector
         SequentialZmwGroupQuery qQuery(fn);
         for (const std::vector<BamRecord>& records : qQuery) {
             counts.push_back(records.size());
-            EXPECT_GT(records.size(), 0);
+            EXPECT_GT(records.size(), 0u);
             std::string movieName = records[0].MovieName();
-            uint32_t holeNumber = records[0].HoleNumber();
+            int32_t holeNumber = records[0].HoleNumber();
             for (const BamRecord& record : records) {
                 EXPECT_EQ(holeNumber, record.HoleNumber());
                 EXPECT_EQ(movieName, record.MovieName());
@@ -35,9 +35,9 @@ static void TestNoneConstSequentialZmwGroupQuery(const std::string& fn, const st
         SequentialZmwGroupQuery qQuery(fn);
         for (std::vector<BamRecord>& records : qQuery) {
             counts.push_back(records.size());
-            EXPECT_GT(records.size(), 0);
+            EXPECT_GT(records.size(), 0u);
             std::string movieName = records[0].MovieName();
-            uint32_t holeNumber = records[0].HoleNumber();
+            int32_t holeNumber = records[0].HoleNumber();
             for (BamRecord& record : records) {
                 EXPECT_EQ(holeNumber, record.HoleNumber());
                 EXPECT_EQ(movieName, record.MovieName());

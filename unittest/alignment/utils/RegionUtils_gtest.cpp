@@ -126,7 +126,7 @@ TEST_F(RegionUtilTestFixture, GetHighQulitySubreadsIntervals)
     directions.push_back(0);
 
     int indx = GetHighQualitySubreadsIntervals(intervals, directions, hqStart, hqEnd);
-    EXPECT_EQ(intervals.size(), 3);
+    EXPECT_EQ(intervals.size(), 3u);
     EXPECT_EQ(indx, 2);
     int starts[3] = {0, 760, 2098};
     int ends[3] = {712, 2040, 3424};
@@ -138,7 +138,7 @@ TEST_F(RegionUtilTestFixture, GetHighQulitySubreadsIntervals)
     }
 
     indx = GetHighQualitySubreadsIntervals(intervals, directions, hqStart, hqEnd, 800);
-    EXPECT_EQ(intervals.size(), 2);
+    EXPECT_EQ(intervals.size(), 2u);
     // The first interval and its direction has been removed as the length is less
     // than 800.
     for (int i = 0; i < 2; i++) {
@@ -151,7 +151,7 @@ TEST_F(RegionUtilTestFixture, GetFullPassSubreadIndices)
 {
     std::vector<int> vi = GetFullPassSubreadIndices(subreadIntervals, adapterIntervals);
     // vi = 0, ..., 27
-    EXPECT_EQ(vi.size(), 28);
+    EXPECT_EQ(vi.size(), 28u);
     for (int i = 0; i < 28; i++) {
         EXPECT_EQ(vi[i], i);
     }

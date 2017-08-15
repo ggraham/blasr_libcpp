@@ -17,7 +17,6 @@ libblasr_warning_flags = []
 cpp = meson.get_compiler('cpp')
 foreach cflag: [
   '-Wno-delete-non-virtual-dtor',
-  '-Wno-sign-compare',
   '-Wno-unused-parameter',
   '-Wno-unused-variable',
   '-Wno-non-virtual-dtor']

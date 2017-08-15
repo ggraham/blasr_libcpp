@@ -84,17 +84,17 @@ TEST_F(SAMHeaderPrinterTest, BAX_ONE_MOVIE_IN)
     printer = new SAMHeaderPrinter(so, seqdb, readsFiles, readType, samQVs, "blasr", "1.3.2",
                                    "blasr a b c");
 
-    EXPECT_EQ(printer->_hd.ToString().find("@HD\tVN:1.5\tSO:UNKNOWN\tpb:3.0.1"), 0);
-    EXPECT_EQ(printer->_sqs._groups.size(), 12);
-    EXPECT_EQ(printer->_sqs._groups[0].ToString().find("@SQ\tSN:read1\tLN:100\tM5:"), 0);
-    EXPECT_EQ(printer->_sqs._groups[11].ToString().find("@SQ\tSN:read2x\tLN:100\tM5:"), 0);
+    EXPECT_EQ(printer->_hd.ToString().find("@HD\tVN:1.5\tSO:UNKNOWN\tpb:3.0.1"), 0u);
+    EXPECT_EQ(printer->_sqs._groups.size(), 12u);
+    EXPECT_EQ(printer->_sqs._groups[0].ToString().find("@SQ\tSN:read1\tLN:100\tM5:"), 0u);
+    EXPECT_EQ(printer->_sqs._groups[11].ToString().find("@SQ\tSN:read2x\tLN:100\tM5:"), 0u);
 
     // Expect exactly one read group
-    EXPECT_EQ(printer->_rgs._groups.size(), 1);
+    EXPECT_EQ(printer->_rgs._groups.size(), 1u);
     EXPECT_NE(printer->_rgs._groups[0].ToString().find(bax1ExpectedHeader), std::string::npos);
 
-    EXPECT_EQ(printer->_pgs._groups.size(), 1);
-    EXPECT_EQ(printer->_cos._groups.size(), 0);
+    EXPECT_EQ(printer->_pgs._groups.size(), 1u);
+    EXPECT_EQ(printer->_cos._groups.size(), 0u);
 }
 
 TEST_F(SAMHeaderPrinterTest, BAX_MULTI_MOVIE_IN)
@@ -104,20 +104,20 @@ TEST_F(SAMHeaderPrinterTest, BAX_MULTI_MOVIE_IN)
     printer = new SAMHeaderPrinter(so, seqdb, readsFiles, readType, samQVs, "blasr", "1.3.2",
                                    "blasr a b c");
 
-    EXPECT_EQ(printer->_hd.ToString().find("@HD\tVN:1.5\tSO:UNKNOWN\tpb:3.0.1"), 0);
-    EXPECT_EQ(printer->_sqs._groups.size(), 12);
-    EXPECT_EQ(printer->_sqs._groups[0].ToString().find("@SQ\tSN:read1\tLN:100\tM5:"), 0);
-    EXPECT_EQ(printer->_sqs._groups[11].ToString().find("@SQ\tSN:read2x\tLN:100\tM5:"), 0);
+    EXPECT_EQ(printer->_hd.ToString().find("@HD\tVN:1.5\tSO:UNKNOWN\tpb:3.0.1"), 0u);
+    EXPECT_EQ(printer->_sqs._groups.size(), 12u);
+    EXPECT_EQ(printer->_sqs._groups[0].ToString().find("@SQ\tSN:read1\tLN:100\tM5:"), 0u);
+    EXPECT_EQ(printer->_sqs._groups[11].ToString().find("@SQ\tSN:read2x\tLN:100\tM5:"), 0u);
 
     // Expect three read groups because baxFile1 and baxFile2 contains reads of the same movie.
-    EXPECT_EQ(printer->_rgs._groups.size(), 3);
+    EXPECT_EQ(printer->_rgs._groups.size(), 3u);
 
     EXPECT_NE(printer->_rgs._groups[0].ToString().find(bax1ExpectedHeader), std::string::npos);
     EXPECT_NE(printer->_rgs._groups[1].ToString().find(bax3ExpectedHeader), std::string::npos);
     EXPECT_NE(printer->_rgs._groups[2].ToString().find(pls1ExpectedHeader), std::string::npos);
 
-    EXPECT_EQ(printer->_pgs._groups.size(), 1);
-    EXPECT_EQ(printer->_cos._groups.size(), 0);
+    EXPECT_EQ(printer->_pgs._groups.size(), 1u);
+    EXPECT_EQ(printer->_cos._groups.size(), 0u);
 }
 
 const std::string bam1ExpectedHeader =
@@ -137,10 +137,10 @@ TEST_F(SAMHeaderPrinterTest, ONE_BAM_IN)
     printer = new SAMHeaderPrinter(so, seqdb, readsFiles, readType, samQVs, "blasr", "1.3.2",
                                    "blasr a b c");
 
-    EXPECT_EQ(printer->_rgs._groups.size(), 1);
+    EXPECT_EQ(printer->_rgs._groups.size(), 1u);
     EXPECT_EQ(printer->_rgs._groups[0].ToString(), bam1ExpectedHeader);
 
-    EXPECT_EQ(printer->_pgs._groups.size(), 3);
+    EXPECT_EQ(printer->_pgs._groups.size(), 3u);
 }
 
 // TEST_F(SAMHeaderPrinterTest, TWO_BAM_IN)

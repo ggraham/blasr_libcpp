@@ -745,8 +745,7 @@ public:
         if (expGroup->experimentGroup.ContainsObject("QualityValue")) {
             expGroup->qualityValue.Read(offsetBegin, offsetEnd, &qvValues[0]);
             StoreQualityValueFromAlignment(qvValues, baseToAlignmentMap, &read.qual.data[0]);
-            int i;
-            for (i = 0; i < read.length; i++) {
+            for (size_t i = 0; i < read.length; i++) {
                 assert(read.qual[i] < 100);
             }
         }

@@ -63,7 +63,7 @@ public:
 
     void TestGetNext(HDFZMWReader &zmwReader)
     {
-        int count = 0;
+        UInt count = 0;
         ZMWGroupEntry entry;
         while (zmwReader.GetNext(entry)) {
             count++;

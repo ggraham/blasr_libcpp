@@ -39,11 +39,10 @@ public:
     {
 
         out.write((char *)&type, sizeof(type));
-        int nNuc = nucleotides.size();
+        unsigned nNuc = nucleotides.size();
 
-        out.write((char *)&nNuc, sizeof(int));
-        int i;
-        for (i = 0; i < qualities.size(); i++) {
+        out.write((char *)&nNuc, sizeof(unsigned));
+        for (size_t i = 0; i < qualities.size(); i++) {
             qualities[i].Write(out);
         }
         assert(nNuc == qualities.size());

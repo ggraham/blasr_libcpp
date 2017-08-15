@@ -46,7 +46,7 @@ TEST_F(DNASequenceTest, Constructor)
     dnaSeq.seq = HKITTY;
     dnaSeq.length = sizeof(HKITTY) / sizeof(Nucleotide) - 1;
     //    dnaSeq.Print(std::cout);
-    EXPECT_EQ(dnaSeq.size(), 12);
+    EXPECT_EQ(dnaSeq.size(), 12u);
 
     DNALength thisLen = 12;
     Nucleotide* thisNuc = new Nucleotide[thisLen];
@@ -63,13 +63,13 @@ TEST_F(DNASequenceTest, Constructor)
     thisLen = 12;
     std::string atgc("atgcatgcatgc");
     thisNuc = new Nucleotide[thisLen];
-    for (int i = 0; i < thisLen; i++) {
+    for (DNALength i = 0; i < thisLen; i++) {
         thisNuc[i] = atgc[i];
     }
     std::string ret;
     nnewDnaSeq.seq = thisNuc;
     nnewDnaSeq.length = thisLen;
-    for (int i = 0; i < thisLen; i++) {
+    for (DNALength i = 0; i < thisLen; i++) {
         ret += nnewDnaSeq.seq[i];
     }
     EXPECT_STREQ(ret.c_str(), atgc.c_str());
@@ -82,7 +82,7 @@ TEST_F(DNASequenceTest, Append)
     Nucleotide* one = new Nucleotide[oneLen];
 
     std::string As("AAAAAAAAAA");
-    for (int i = 0; i < oneLen; i++) {
+    for (DNALength i = 0; i < oneLen; i++) {
         one[i] = As[i];
     }
     //Can not memcpy a string to a DNASequence directly
@@ -93,7 +93,7 @@ TEST_F(DNASequenceTest, Append)
     Nucleotide* two = new Nucleotide[twoLen];
 
     std::string Gs("GGGGGGGGGGGGGGGGGGGG");
-    for (int i = 0; i < twoLen; i++) {
+    for (DNALength i = 0; i < twoLen; i++) {
         two[i] = Gs[i];
     }
     //memcpy(two, Gs.c_str(), twoLen);
@@ -114,7 +114,7 @@ TEST_F(DNASequenceTest, Append)
     EXPECT_EQ(memcmp(dnaOne.seq, three, dnaOne.length), 0);
 
     std::string AGs("AAAAAAAAAAGGGGGGGGGGGGGGGGGGGG");
-    for (int i = 0; i < dnaOne.length; i++) {
+    for (DNALength i = 0; i < dnaOne.length; i++) {
         EXPECT_EQ(AGs[i], (char)dnaOne.seq[i]);
     }
 
@@ -124,7 +124,7 @@ TEST_F(DNASequenceTest, Append)
     DNALength appendPos = 2;
     dnaOne.Append(dnaTwo, appendPos);
     EXPECT_EQ(dnaOne.length, appendPos + twoLen);
-    for (int i = 0; i < dnaOne.length; i++) {
+    for (DNALength i = 0; i < dnaOne.length; i++) {
         EXPECT_EQ(AGs[i], (char)dnaOne.seq[i]);
     }
 
@@ -164,7 +164,7 @@ TEST_F(DNASequenceTest, ShallowCopy)
     Nucleotide* one = new Nucleotide[oneLen];
 
     std::string As("AAAAAAAAAA");
-    for (int i = 0; i < oneLen; i++) {
+    for (DNALength i = 0; i < oneLen; i++) {
         one[i] = As[i];
     }
     dnaOne.seq = one;
@@ -187,7 +187,7 @@ TEST_F(DNASequenceTest, Copy)
     Nucleotide* one = new Nucleotide[oneLen];
 
     std::string As("AGAAAAACAA");
-    for (int i = 0; i < oneLen; i++) {
+    for (DNALength i = 0; i < oneLen; i++) {
         one[i] = As[i];
     }
 
@@ -206,7 +206,7 @@ TEST_F(DNASequenceTest, Copy)
     DNASequence dnaThree;
     dnaTwo.Copy(dnaThree);
     //dnaTwo remains unchanged
-    EXPECT_EQ(dnaTwo.length, 0);
+    EXPECT_EQ(dnaTwo.length, 0u);
     EXPECT_NE(dnaTwo.seq, dnaOne.seq);
     EXPECT_TRUE(dnaTwo.deleteOnExit);
     EXPECT_TRUE(dnaTwo.seq == NULL);
@@ -218,7 +218,7 @@ TEST_F(DNASequenceTest, Copy)
     EXPECT_EQ(memcmp(dnaTwo.seq, dnaOne.seq + 2, dnaTwo.length), 0);
 
     //if the subsequence to copy is out of bounds
-    EXPECT_GT(200, dnaOne.length);
+    EXPECT_GT(200u, dnaOne.length);
     //EXPECT_EXIT(dnaTwo.Copy(dnaOne, 200), ::testing::ExitedWithCode(1), "");
 
     //if both rhsPos and rhsLength are less than MAXINT,
@@ -238,11 +238,11 @@ TEST_F(DNASequenceTest, Copy)
 TEST_F(DNASequenceTest, Allocate)
 {
     dnaOne.Allocate(0);
-    EXPECT_EQ(dnaOne.length, 0);
+    EXPECT_EQ(dnaOne.length, 0u);
 
     DNASequence dnaTwo;
     dnaTwo.Allocate(100);
-    EXPECT_EQ(dnaTwo.length, 100);
+    EXPECT_EQ(dnaTwo.length, 100u);
 }
 
 //Test DNASequence ReferenceSubstring(rhs, pos, substrLength)
@@ -271,7 +271,7 @@ TEST_F(DNASequenceTest, ToString)
     dnaOne.length = oneLen;
 
     std::string As("AGAAAAACAA");
-    for (int i = 0; i < oneLen; i++) {
+    for (DNALength i = 0; i < oneLen; i++) {
         dnaOne.seq[i] = As[i];
     }
 
@@ -294,7 +294,7 @@ TEST_F(DNASequenceTest, ReverseComplementSelf)
     dnaTwo.ReferenceSubstring(dnaOne, 1, 3);
     EXPECT_EQ(dnaTwo.ToString(), "GAA");
     EXPECT_EQ(dnaTwo.ReverseComplementSelf().ToString(), "TTC");
-    EXPECT_EQ(dnaTwo.length, 3);
+    EXPECT_EQ(dnaTwo.length, 3u);
 }
 
 // Test DNASequence Copy from string
@@ -309,14 +309,14 @@ TEST_F(DNASequenceTest, CopyFromString)
     const std::string str = "ATGCGGGCCTCGCCG";
     dnaOne.Copy(str);
 
-    for (int i = 0; i < str.size(); i++) {
+    for (DNALength i = 0; i < str.size(); i++) {
         EXPECT_EQ(dnaOne.seq[i], str[i]);
     }
 
     // Test operator = (const std::string)
     DNASequence dnaTwo;
     dnaTwo = str;
-    for (int i = 0; i < str.size(); i++) {
+    for (DNALength i = 0; i < str.size(); i++) {
         EXPECT_EQ(dnaOne.seq[i], str[i]);
     }
 }
