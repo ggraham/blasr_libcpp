@@ -46,8 +46,8 @@ TEST_F(CmpIndexedStringTableTest, resize)
 {
     cmpIndexedStringTableTest.resize(10);
 
-    EXPECT_EQ(cmpIndexedStringTableTest.names.size(), 10);
-    EXPECT_EQ(cmpIndexedStringTableTest.ids.size(), 10);
+    EXPECT_EQ(cmpIndexedStringTableTest.names.size(), 10u);
+    EXPECT_EQ(cmpIndexedStringTableTest.ids.size(), 10u);
 }
 
 //
@@ -55,7 +55,7 @@ TEST_F(CmpIndexedStringTableTest, resize)
 //
 TEST_F(CmpIndexedStringTableTest, StoreArrayIndexMap)
 {
-    for (int i = 0; i < cmpIndexedStringTableTest.ids.size(); i++) {
+    for (int i = 0; i < static_cast<int>(cmpIndexedStringTableTest.ids.size()); i++) {
         EXPECT_EQ(
             cmpIndexedStringTableTest.idToArrayIndex.find(cmpIndexedStringTableTest.ids[i])->second,
             i);
@@ -74,7 +74,7 @@ TEST_F(CmpIndexedStringTableTest, GetIndexOfId)
 {
     int index = -1;
     int i = 0;
-    for (i = 0; i < cmpIndexedStringTableTest.ids.size(); i++) {
+    for (i = 0; i < static_cast<int>(cmpIndexedStringTableTest.ids.size()); i++) {
         cmpIndexedStringTableTest.GetIndexOfId(ids[i], index);
         EXPECT_EQ(index, i);
     }

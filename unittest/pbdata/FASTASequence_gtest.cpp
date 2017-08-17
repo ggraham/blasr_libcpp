@@ -85,7 +85,7 @@ TEST_F(FASTASequenceTest, ALLFUNC)
     // Test ReverseComplementSelf()
     fastaOne.ReverseComplementSelf();
     std::string rcSeq = "GAGCATGCAT";
-    for (int i = 0; i < rcSeq.size(); i++) {
+    for (size_t i = 0; i < rcSeq.size(); i++) {
         EXPECT_EQ(fastaOne.seq[i], rcSeq[i]);
     }
 
@@ -95,7 +95,7 @@ TEST_F(FASTASequenceTest, ALLFUNC)
     EXPECT_EQ(fastaOne.titleLength, fastaTwo.titleLength);
     EXPECT_STREQ(fastaOne.title, fastaTwo.title);
     EXPECT_NE(fastaOne.seq, fastaTwo.seq);
-    for (int i = 0; i < fastaOne.length; i++) {
+    for (size_t i = 0; i < fastaOne.length; i++) {
         EXPECT_EQ(fastaOne.seq[i], fastaTwo.seq[i]);
     }
 
@@ -123,7 +123,7 @@ TEST_F(FASTASequenceTest, CopyFromString)
     EXPECT_EQ(fastaOne.title, name);
     EXPECT_EQ(fastaOne.length, seq.size());
     EXPECT_EQ(fastaOne.deleteOnExit, true);
-    for (int i = 0; i < fastaOne.length; i++) {
+    for (size_t i = 0; i < fastaOne.length; i++) {
         EXPECT_EQ(fastaOne.seq[i], seq[i]);
     }
 
@@ -134,7 +134,7 @@ TEST_F(FASTASequenceTest, CopyFromString)
     EXPECT_EQ(fastaOne.title, name);
     EXPECT_EQ(fastaOne.length, seq2.size());
     EXPECT_EQ(fastaOne.deleteOnExit, true);
-    for (int i = 0; i < fastaOne.length; i++) {
+    for (size_t i = 0; i < fastaOne.length; i++) {
         EXPECT_EQ(fastaOne.seq[i], seq2[i]);
     }
 }

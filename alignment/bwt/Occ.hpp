@@ -83,8 +83,7 @@ public:
             if (nuc > AlphabetSize) continue;
             if (p % majorBinSize == 0) {  //majorBinSize-1) {
                 //				std::cout << "storing at " << p<< " " << binIndex << std::endl;
-                int n;
-                for (n = 0; n < AlphabetSize; n++) {
+                for (unsigned n = 0; n < AlphabetSize; n++) {
                     major[binIndex][n] = runningTotal[n];
                 }
                 binIndex++;
@@ -98,17 +97,16 @@ public:
         full.Allocate(bwtSeq.length, AlphabetSize);
         std::fill(full.matrix, &full.matrix[bwtSeq.length * AlphabetSize], 0);
         DNALength p;
-        int n;
         for (p = 0; p < bwtSeq.length; p++) {
             Nucleotide nuc = ThreeBit[bwtSeq[p]];
             if (nuc > AlphabetSize) {
-                for (n = 0; n < AlphabetSize; n++) {
+                for (unsigned n = 0; n < AlphabetSize; n++) {
                     full[p][n] = full[p - 1][n];
                 }
             } else {
                 full[p][nuc]++;
                 if (p > 0) {
-                    for (n = 0; n < AlphabetSize; n++) {
+                    for (unsigned n = 0; n < AlphabetSize; n++) {
                         full[p][n] = full[p - 1][n] + full[p][n];
                     }
                 }
@@ -140,8 +138,7 @@ public:
                 std::fill(majorRunningTotal.begin(), majorRunningTotal.end(), 0);
             }
             if (p % minorBinSize == 0) {
-                int n;
-                for (n = 0; n < AlphabetSize; n++) {
+                for (unsigned n = 0; n < AlphabetSize; n++) {
                     minor[minorBinIndex][n] = majorRunningTotal[n];
                 }
                 minorBinIndex++;

@@ -94,7 +94,7 @@ TEST_F(SMRTSequenceTest, Print)
 
 TEST_F(SMRTSequenceTest, GetDeletionQV)
 {
-    for (int i = 0; i < smrt.length; i++) {
+    for (size_t i = 0; i < smrt.length; i++) {
         ASSERT_EQ(smrt.GetDeletionQV(i), i);
     }
 }

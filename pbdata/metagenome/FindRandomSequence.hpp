@@ -11,14 +11,13 @@ void FindRandomPos(std::vector<T_Sequence> &sequences, DNALength &seqIndex, DNAL
 {
     std::vector<UInt> cumulativeLengths;
     cumulativeLengths.resize(sequences.size());
-    int i;
     if (sequences.size() == 0) {
         return;
     }
     DNALength cumulativeLength;
     cumulativeLengths[0] = sequences[0].length;
     cumulativeLength = cumulativeLengths[0];
-    for (i = 1; i < sequences.size(); i++) {
+    for (unsigned i = 1; i < sequences.size(); i++) {
         cumulativeLengths[i] = cumulativeLength = cumulativeLengths[i - 1] + sequences[i].length;
     }
     bool validPosFound = false;

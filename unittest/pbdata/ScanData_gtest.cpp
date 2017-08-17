@@ -23,10 +23,10 @@ TEST(ScanDataTest, GetMovieName)
 {
     ScanData sd;
     EXPECT_EQ(sd.platformId, NoPlatform);
-    EXPECT_EQ(sd.frameRate, 0);
-    EXPECT_EQ(sd.numFrames, 0);
-    EXPECT_EQ(sd.movieName.size(), 0);
-    EXPECT_EQ(sd.runCode.size(), 0);
-    EXPECT_EQ(sd.whenStarted.size(), 0);
-    EXPECT_EQ(sd.baseMap.size(), 0);
+    EXPECT_EQ(sd.frameRate, 0.0f);
+    EXPECT_EQ(sd.numFrames, 0u);
+    EXPECT_EQ(sd.movieName.size(), 0u);
+    EXPECT_EQ(sd.runCode.size(), 0u);
+    EXPECT_EQ(sd.whenStarted.size(), 0u);
+    EXPECT_EQ(sd.baseMap.size(), 0u);
 }

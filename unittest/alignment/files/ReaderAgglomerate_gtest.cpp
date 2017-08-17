@@ -153,7 +153,7 @@ TEST_F(ReaderAgglomerateTest, ReadsFromBam)
                              2, 2, 1,  1, 1, 2, 2, 2, 3, 8, 1, 3, 2, 1, 15, 2,
                              1, 3, 1,  2, 2, 1, 3, 3, 2, 2, 1, 2, 2, 1, 1,  1});
 
-    EXPECT_EQ(count, 117);
+    EXPECT_EQ(count, 117u);
     EXPECT_EQ(counts, expected);
 
     reader->Close();
@@ -174,7 +174,7 @@ TEST_F(ReaderAgglomerateTest, ReadFromXml)
         count++;
     }
 
-    EXPECT_EQ(count, 150);
+    EXPECT_EQ(count, 150u);
     reader->Close();
 }
 

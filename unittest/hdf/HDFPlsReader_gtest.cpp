@@ -44,5 +44,5 @@ TEST_F(HDFPlsReaderTEST, ReadToPulseFile)
     reader.ReadPulseFile(pulseFile);
     //Astro = 1, Springfield = 2
     ASSERT_EQ(pulseFile.platformId, 2);
-    ASSERT_EQ(pulseFile.startFrame.size(), 197626964);
+    ASSERT_EQ(pulseFile.startFrame.size(), 197626964u);
 }

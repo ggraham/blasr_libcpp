@@ -46,7 +46,7 @@ TEST_F(FASTQReaderTest, GetNext)
 {
     reader.GetNext(seq);
     EXPECT_EQ(std::strcmp(seq.title, std::string(movie + "/8").c_str()), 0);
-    EXPECT_EQ(seq.length, 752);
+    EXPECT_EQ(seq.length, 752u);
     std::string expected_seq(
         "AATAAAAAAAAAAGAAAGCTTCGAAGTGAGCGAATTACTCTCAGGCAACT"
         "GCGGGTGAAGCCAGAGCAGGCATGATGACACTGGGGAATTTACGCAAATT"
@@ -66,11 +66,11 @@ TEST_F(FASTQReaderTest, GetNext)
         "GG");
     std::string expected_qual("(,)'(')''++),.$\"+*$'--.-/+&.$-./$',-.&#'/,.,)-,--,");
 
-    for (int i = 0; i < seq.length; i++) {
+    for (size_t i = 0; i < seq.length; i++) {
         EXPECT_EQ(seq.seq[i], expected_seq[i]);
     }
 
-    for (int i = 0; i < expected_qual.size(); i++) {
+    for (size_t i = 0; i < expected_qual.size(); i++) {
         EXPECT_EQ(seq.qual[i] + FASTQSequence::charToQuality, expected_qual[i]);
     }
 

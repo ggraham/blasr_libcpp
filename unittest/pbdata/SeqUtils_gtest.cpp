@@ -39,7 +39,7 @@ TEST(SeqUtils, CountMasked)
     Nucleotide seqnt[] = "ATGCNNNNNNATGC";
     seq.seq = seqnt;
     seq.length = 14;
-    EXPECT_EQ(CountMasked(seq), 6);
+    EXPECT_EQ(CountMasked(seq), 6u);
 }
 
 TEST(SeqUtils, CountNotMasked)

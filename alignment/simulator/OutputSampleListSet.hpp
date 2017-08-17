@@ -50,8 +50,7 @@ public:
         }
         int numLengths = lengths.size();
         out.write((char *)&numLengths, sizeof(int));
-        int i;
-        for (i = 0; i < lengths.size(); i++) {
+        for (size_t i = 0; i < lengths.size(); i++) {
             out.write((char *)&lengths[i], sizeof(int));
         }
     }
@@ -96,11 +95,11 @@ public:
 
     void AppendOutputSample(std::string key, OutputSample &sample)
     {
-        if (listMap[key].size() < minSamples) {
-            if (listMap[key].size() < maxSamples) {
+        if (static_cast<int>(listMap[key].size()) < minSamples) {
+            if (static_cast<int>(listMap[key].size()) < maxSamples) {
                 listMap[key].push_back(sample);
             }
-            if (listMap[key].size() == minSamples) {
+            if (static_cast<int>(listMap[key].size()) == minSamples) {
                 nSufficient++;
                 std::cout << nSufficient << " / " << sampleSpaceSize << std::endl;
             }
@@ -114,8 +113,7 @@ public:
         if (listMap.find(key) == listMap.end()) {
             std::cout << listMap.size() << std::endl;
             std::cout << "ERROR, " << key << " is not a sampled context." << std::endl;
-            int i;
-            for (i = 0; i < key.size(); i++) {
+            for (size_t i = 0; i < key.size(); i++) {
                 char c = toupper(key[i]);
                 if (c != 'A' and c != 'C' and c != 'G' and c != 'T') {
                     std::cout << "The nucleotide " << c << " is not supported." << std::endl;
