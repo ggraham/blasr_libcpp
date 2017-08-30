@@ -79,7 +79,12 @@ std::vector<std::string> HDFBaseCallsWriter::Errors(void) const
     return retErrors;
 }
 
-HDFBaseCallsWriter::~HDFBaseCallsWriter(void) { zmwWriter_.reset(); zmwMetricsWriter_.reset(); this->Close(); }
+HDFBaseCallsWriter::~HDFBaseCallsWriter(void) 
+{ 
+    zmwWriter_.reset(); 
+    zmwMetricsWriter_.reset(); 
+    this->Close(); 
+}
 
 bool HDFBaseCallsWriter::InitializeQVGroups(void)
 {
