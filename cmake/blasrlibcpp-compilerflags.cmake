@@ -2,7 +2,10 @@
 include(CheckCXXCompilerFlag)
 
 # shared CXX flags for all source code & tests
-SET_PROPERTY(GLOBAL PROPERTY BLASRLIBCPP_COMPIPLE_FLAGS_GLOBAL "-std=c++11 -pedantic -g -Wno-long-long -Wall -Wextra -Wno-return-type -Wno-overloaded-virtual -Wno-unused-parameter -Wno-div-by-zero -Wno-unused-variable -Wno-unused-local-typedefs  -DUSE_PBBAM")
+SET_PROPERTY(GLOBAL PROPERTY BLASRLIBCPP_COMPIPLE_FLAGS_GLOBAL "-pedantic -g -Wno-long-long -Wall -Wextra -Wno-return-type -Wno-overloaded-virtual -Wno-unused-parameter -Wno-div-by-zero -Wno-unused-variable -Wno-unused-local-typedefs -DUSE_PBBAM")
+set(CMAKE_CXX_STANDARD          14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # static linking
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
