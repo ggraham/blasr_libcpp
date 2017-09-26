@@ -4,7 +4,7 @@ THISDIR:=$(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 -include ${CURDIR}/defines.mk
 include ${THISDIR}/../rules.mk
 
-CXXOPTS  += -std=c++11 -pedantic -Wall -Wextra
+CXXOPTS  += -std=c++14 -pedantic -Wall -Wextra
 # CURDIR should have LibBlasrConfig.h
 #INCLUDES += ${CURDIR}
 SYSINCLUDES = ${PBBAM_INC} ${HTSLIB_INC} ${BOOST_INC}
