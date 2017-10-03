@@ -429,38 +429,55 @@ bool SMRTSequence::IsValid(const PacBio::BAM::BamRecord &record)
     return true;
 }
 
+void SMRTSequence::MakeNativeOrientedBamRecord(const PacBio::BAM::BamRecord &record)
+{
+    bamRecord = PacBio::BAM::BamRecord(record); // copy first
+    if (record.IsMapped() and record.AlignedStrand() == PacBio::BAM::Strand::REVERSE)
+    {
+        PacBio::BAM::BamRecordView bv(record, PacBio::BAM::Orientation::NATIVE, false, false);
+        bamRecord.Impl().Flag(PacBio::BAM::BamRecordImpl::UNMAPPED); // set flag as unmapped
+        bamRecord.Impl().SetSequenceAndQualities(bv.Sequence(), bv.Qualities().Fastq());
+        if (bamRecord.HasInsertionQV()) bamRecord.InsertionQV(bv.InsertionQVs());
+        if (bamRecord.HasDeletionQV()) bamRecord.DeletionQV(bv.DeletionQVs());
+        if (bamRecord.HasSubstitutionQV()) bamRecord.SubstitutionQV(bv.SubstitutionQVs());
+        if (bamRecord.HasMergeQV()) bamRecord.MergeQV(bv.MergeQVs());
+        if (bamRecord.HasSubstitutionTag()) bamRecord.SubstitutionTag(bv.SubstitutionTags());
+        if (bamRecord.HasDeletionTag()) bamRecord.DeletionTag(bv.DeletionTags());
+    }
+}
+
 void SMRTSequence::Copy(const PacBio::BAM::BamRecord &record, bool copyAllQVs)
 {
     Free();
 
     copiedFromBam = true;
 
-    bamRecord = PacBio::BAM::BamRecord(record);
+    this->MakeNativeOrientedBamRecord(record); // bamRecord must always have native orientation
 
     // Only copy insertionQV, deletionQV, substitutionQV, mergeQV,
     // deletionTag and substitutionTag from BamRecord to SMRTSequence.
     // Do NOT copy other SMRTQVs such as startFrame, meanSignal...
-    (static_cast<FASTQSequence *>(this))->Copy(record);
+    (static_cast<FASTQSequence *>(this))->Copy(bamRecord);
 
     // Set subread start, subread end in coordinate of zmw.
-    if (record.Type() != PacBio::BAM::RecordType::CCS) {
+    if (bamRecord.Type() != PacBio::BAM::RecordType::CCS) {
         subreadStart_ = static_cast<int>(record.QueryStart());
-        subreadEnd_ = static_cast<int>(record.QueryEnd());
+        subreadEnd_ = static_cast<int>(bamRecord.QueryEnd());
     } else {
         subreadStart_ = 0;
-        subreadEnd_ = static_cast<int>(record.Sequence().length());
+        subreadEnd_ = static_cast<int>(bamRecord.Sequence().length());
     }
 
     // Shall we copy all pulse QVs including ipd and pw?
     if (copyAllQVs) {
-        if (record.HasPreBaseFrames()) {
-            std::vector<uint16_t> qvs = record.PreBaseFrames().DataRaw();
+        if (bamRecord.HasPreBaseFrames()) {
+            std::vector<uint16_t> qvs = bamRecord.PreBaseFrames().DataRaw();
             assert(preBaseFrames == nullptr);
             preBaseFrames = ProtectedNew<HalfWord>(qvs.size());
             std::memcpy(preBaseFrames, &qvs[0], qvs.size() * sizeof(HalfWord));
         }
-        if (record.HasPulseWidth()) {
-            std::vector<uint16_t> qvs = record.PulseWidth().DataRaw();
+        if (bamRecord.HasPulseWidth()) {
+            std::vector<uint16_t> qvs = bamRecord.PulseWidth().DataRaw();
             assert(widthInFrames == nullptr);
             widthInFrames = ProtectedNew<HalfWord>(qvs.size());
             std::memcpy(widthInFrames, &qvs[0], qvs.size() * sizeof(HalfWord));
@@ -469,12 +486,12 @@ void SMRTSequence::Copy(const PacBio::BAM::BamRecord &record, bool copyAllQVs)
 
     // preBaseQVs are not included in BamRecord, and will not be copied.
     // Copy read group id from BamRecord.
-    ReadGroupId(record.ReadGroupId());
+    ReadGroupId(bamRecord.ReadGroupId());
 
     // PacBio bam for secondary analysis does NOT carry zmw
     // info other than holeNumber, including holeStatus, holeX,
     // holeY, numEvents.
-    UInt hn = static_cast<UInt>(record.HoleNumber());
+    UInt hn = static_cast<UInt>(bamRecord.HoleNumber());
     this->HoleNumber(hn)
         .
         // Assumption: holeStatus of a bam record must be 'SEQUENCING'
@@ -485,13 +502,13 @@ void SMRTSequence::Copy(const PacBio::BAM::BamRecord &record, bool copyAllQVs)
         HoleXY(hn >> 16, hn & 0x0000FFFF);
 
     // Set hq region read score
-    if (record.HasReadAccuracy()) {
+    if (bamRecord.HasReadAccuracy()) {
         // In pre 3.0.1 BAM, ReadAccuracy is in [0, 1000],
         // in post 3.0.1 BAM, ReadAccuracy is a float in [0, 1]
         // In blasr_libcpp, which supports both HDF5 and BAM,
         // readScore should always be a float in [0, 1],
         // and highQualityRegionScore always be a int in [0, 1000]
-        readScore = float(record.ReadAccuracy());
+        readScore = float(bamRecord.ReadAccuracy());
         if (readScore <= 1.0) {
             highQualityRegionScore = int(readScore * 1000);
         } else {
@@ -500,11 +517,11 @@ void SMRTSequence::Copy(const PacBio::BAM::BamRecord &record, bool copyAllQVs)
         }
     }
 
-    // Set HQRegionSNR if record has the 'sn' tag
-    if (record.HasSignalToNoise()) {
+    // Set HQRegionSNR if bamRecord has the 'sn' tag
+    if (bamRecord.HasSignalToNoise()) {
         // Signal to noise ratio of ACGT (in that particular ORDER) over
         // HQRegion from BAM: record.SignalToNoise()
-        std::vector<float> snrs = record.SignalToNoise();
+        std::vector<float> snrs = bamRecord.SignalToNoise();
         this->HQRegionSnr('A', snrs[0])
             .HQRegionSnr('C', snrs[1])
             .HQRegionSnr('G', snrs[2])
