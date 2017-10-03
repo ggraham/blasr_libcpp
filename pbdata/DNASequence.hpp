@@ -13,6 +13,7 @@
 
 #ifdef USE_PBBAM
 #include <pbbam/BamRecord.h>
+#include <pbbam/BamRecordView.h>
 #endif
 
 class DNASequence
