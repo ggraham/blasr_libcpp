@@ -1,13 +1,12 @@
 #include "HDFAttributable.hpp"
 #include <cassert>
 
-using namespace std;
 using namespace H5;
 
-void CallStoreAttributeName(H5Location &obj, string attrName, void *attrList)
+void CallStoreAttributeName(H5Location &obj, std::string attrName, void *attrList)
 {
     (void)(obj);
-    ((vector<string> *)attrList)->push_back(string(attrName));
+    ((std::vector<std::string> *)attrList)->push_back(std::string(attrName));
 }
 
 void HDFAttributable::StoreAttributeNames(H5Location &thisobject,
@@ -23,7 +22,7 @@ void HDFAttributable::StoreAttributeNames(H5Location &thisobject,
 
 H5Location *HDFAttributable::GetObject() { return NULL; }
 
-int HDFAttributable::ContainsAttribute(const string &attributeName)
+int HDFAttributable::ContainsAttribute(const std::string &attributeName)
 {
     size_t i;
     std::vector<std::string> tmpAttributeNames;

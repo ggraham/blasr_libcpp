@@ -1,6 +1,6 @@
 #ifndef DATASTRUCTURES_ALIGNMENT_CMP_ALIGNMENT_H_
 #define DATASTRUCTURES_ALIGNMENT_CMP_ALIGNMENT_H_
-#include <assert.h>
+#include <cassert>
 #include <algorithm>
 #include <iostream>
 #include <map>

@@ -7,7 +7,7 @@
 class OutputSampleList : public std::vector<OutputSample>
 {
 public:
-    void Write(ofstream &out)
+    void Write(std::ofstream &out)
     {
         int nElem = this->size();
         out.write((char *)&nElem, sizeof(int));

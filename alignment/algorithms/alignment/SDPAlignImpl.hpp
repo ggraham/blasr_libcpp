@@ -1,7 +1,7 @@
 #ifndef _BLASR_SDP_ALIGN_IMPL_HPP_
 #define _BLASR_SDP_ALIGN_IMPL_HPP_
 
-#include <math.h>
+#include <cmath>
 #include <cstddef>
 #include <cstdlib>
 #include <ostream>
@@ -107,8 +107,8 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target, T_ScoreFn &scoreF
     // be misaligned.
     //
     int prefixLength, middleLength, suffixLength, suffixPos;  // prefix pos is 0
-    prefixLength = min(target.length, (DNALength)SDP_PREFIX_LENGTH);
-    suffixLength = min(target.length - prefixLength, (DNALength)SDP_SUFFIX_LENGTH);
+    prefixLength = std::min(target.length, (DNALength)SDP_PREFIX_LENGTH);
+    suffixLength = std::min(target.length - prefixLength, (DNALength)SDP_SUFFIX_LENGTH);
     middleLength = target.length - prefixLength - suffixLength;
 
     DNASequence prefix, middle, suffix;
@@ -129,8 +129,8 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target, T_ScoreFn &scoreF
     suffix.length = suffixLength;
 
     int qPrefixLength, qMiddleLength, qSuffixLength, qMiddlePos, qSuffixPos;  // prefix pos is 0
-    qPrefixLength = min(query.length, (DNALength)SDP_PREFIX_LENGTH);
-    qSuffixLength = min(query.length - qPrefixLength, (DNALength)SDP_SUFFIX_LENGTH);
+    qPrefixLength = std::min(query.length, (DNALength)SDP_PREFIX_LENGTH);
+    qSuffixLength = std::min(query.length - qPrefixLength, (DNALength)SDP_SUFFIX_LENGTH);
     qMiddleLength = query.length - qPrefixLength - qSuffixLength;
 
     pos = 0;
@@ -204,7 +204,7 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target, T_ScoreFn &scoreF
     FlatMatrix2D<int> graphBins;
     if (fragmentSet.size() > minFragmentsToUseGraphPaper and fastSDP) {
         int nCol = 50;
-        vector<bool> onOptPath(fragmentSet.size(), false);
+        std::vector<bool> onOptPath(fragmentSet.size(), false);
         GraphPaper<Fragment>(fragmentSet, nCol, nCol, graphBins, graphScoreMat, graphPathMat,
                              onOptPath);
         RemoveOffOpt(fragmentSet, onOptPath);
@@ -321,7 +321,7 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target, T_ScoreFn &scoreF
 
     std::vector<bool> blockIsGood;
     blockIsGood.resize(chainAlignment.size());
-    fill(blockIsGood.begin(), blockIsGood.end(), true);
+    std::fill(blockIsGood.begin(), blockIsGood.end(), true);
 
     //
     // The hack that allows anchors of different lengths at the front
@@ -338,14 +338,14 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target, T_ScoreFn &scoreF
     for (b = 1; b < chainAlignment.size() - 1; b++) {
         // the min indel rate between the two chain blocks is the difference in diagonals between the two sequences.
         int prevDiag =
-            abs(((int)chainAlignment.blocks[b].tPos - (int)chainAlignment.blocks[b].qPos) -
+            std::abs(((int)chainAlignment.blocks[b].tPos - (int)chainAlignment.blocks[b].qPos) -
                 ((int)chainAlignment.blocks[b - 1].tPos - (int)chainAlignment.blocks[b - 1].qPos));
 
         int prevDist = std::min(chainAlignment.blocks[b].tPos - chainAlignment.blocks[b - 1].tPos,
                                 chainAlignment.blocks[b].qPos - chainAlignment.blocks[b - 1].qPos);
 
         int nextDiag =
-            abs(((int)chainAlignment.blocks[b + 1].tPos - (int)chainAlignment.blocks[b + 1].qPos) -
+            std::abs(((int)chainAlignment.blocks[b + 1].tPos - (int)chainAlignment.blocks[b + 1].qPos) -
                 ((int)chainAlignment.blocks[b].tPos - (int)chainAlignment.blocks[b].qPos));
 
         int nextDist = std::min(chainAlignment.blocks[b + 1].tPos - chainAlignment.blocks[b].tPos,
@@ -403,8 +403,8 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target, T_ScoreFn &scoreF
                         SWAlign(qFragment, tFragment, fragScoreMat, fragPathMat, frontAlignment,
                                 scoreFn, EndAnchored);
                     } else {
-                        // cout << "running recursive sdp alignment. " << endl;
-                        vector<int> recurseFragmentChain;
+                        // std::cout << "running recursive sdp alignment. " << std::endl;
+                        std::vector<int> recurseFragmentChain;
                         SDPAlign(qFragment, tFragment, scoreFn, std::max(wordSize / 2, 5), sdpIns,
                                  sdpDel, indelRate, frontAlignment, fragmentSet, prefixFragmentSet,
                                  suffixFragmentSet, targetTupleList, targetPrefixTupleList,
@@ -458,7 +458,7 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target, T_ScoreFn &scoreF
                     SWAlign(qFragment, tFragment, fragScoreMat, fragPathMat, fragAlignment, scoreFn,
                             Global);
                 } else {
-                    //          cout << "running recursive sdp alignment on " << qFragment.length * tFragment.length << endl;
+                    //          std::cout << "running recursive sdp alignment on " << qFragment.length * tFragment.length << std::endl;
                     std::vector<int> recurseFragmentChain;
                     SDPAlign(qFragment, tFragment, scoreFn, std::max(wordSize / 2, 5), sdpIns,
                              sdpDel, indelRate, fragAlignment, fragmentSet, prefixFragmentSet,
@@ -507,7 +507,7 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target, T_ScoreFn &scoreF
 
                             fragAlignment.Clear();
                             if (qFragment.length * tFragment.length > 10000) {
-                                //              cout << "Cautin: slow alignment crossing! " << qFragment.length  << " " << tFragment.length << endl;
+                                //              std::cout << "Cautin: slow alignment crossing! " << qFragment.length  << " " << tFragment.length << std::endl;
                             }
 
                             if (noRecurseUnder == 0 or
@@ -551,13 +551,13 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target, T_ScoreFn &scoreF
         }
     }
     int alignmentScore;
-    /*	ofstream queryOut("query.fasta");
+    /*	std::ofstream queryOut("query.fasta");
         FASTASequence tmp;
         ((DNASequence&)tmp).Copy(query);
         tmp.CopyTitle("query");
         tmp.PrintSeq(queryOut);
         queryOut.close();
-        ofstream targetOut("target.fasta");
+        std::ofstream targetOut("target.fasta");
         ((DNASequence&)tmp).Copy(target);
         tmp.CopyTitle("target");
         tmp.PrintSeq(targetOut);

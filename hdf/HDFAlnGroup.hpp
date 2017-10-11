@@ -35,7 +35,7 @@ public:
         }
     }
 
-    int AddPath(string &path)
+    int AddPath(std::string &path)
     {
         int id;
         pathArray.Write(&path, 1);

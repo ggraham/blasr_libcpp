@@ -1,4 +1,4 @@
-#include <stdint.h>
+#include <cstdint>
 #include <iostream>
 #include <vector>
 #include "DNASequence.hpp"
@@ -32,9 +32,8 @@ DNALength CountMasked(T_Sequence &seq)
 template <typename T_Sequence>
 int CountNotMasked(T_Sequence &seq)
 {
-    int p;
     int nUnmasked = 0;
-    for (p = 0; p < seq.length; p++) {
+    for (unsigned p = 0; p < seq.length; p++) {
         if (seq.seq[p] == 'A' or seq.seq[p] == 'C' or seq.seq[p] == 'G' or seq.seq[p] == 'T') {
             nUnmasked++;
         }

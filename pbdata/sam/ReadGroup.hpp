@@ -5,7 +5,7 @@
 
 /*
  * Minimal components of read group.  Define only required items. Use
- * if memory is scarce.  
+ * if memory is scarce.
  */
 #include "SAMKeywordValuePair.hpp"
 

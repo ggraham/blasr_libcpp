@@ -15,8 +15,8 @@ md5sum ../blasr_libcpp-SNAPSHOT.tgz | awk -e '{print $1}' >| ../blasr_libcpp-SNA
 sha1sum ../blasr_libcpp-SNAPSHOT.tgz | awk -e '{print $1}' >| ../blasr_libcpp-SNAPSHOT.tgz.sha1
 UNSUPPORTED_URL=http://ossnexus.pacificbiosciences.com/repository/unsupported
 curl -vn --upload-file ../blasr_libcpp-SNAPSHOT.tgz \
-$UNSUPPORTED_URL/gcc-4.9.2/blasr_libcpp-SNAPSHOT.tgz
+$UNSUPPORTED_URL/gcc-6.4.0/blasr_libcpp-SNAPSHOT.tgz
 curl -vn --upload-file ../blasr_libcpp-SNAPSHOT.tgz.md5 \
-$UNSUPPORTED_URL/gcc-4.9.2/blasr_libcpp-SNAPSHOT.tgz.md5
+$UNSUPPORTED_URL/gcc-6.4.0/blasr_libcpp-SNAPSHOT.tgz.md5
 curl -vn --upload-file ../blasr_libcpp-SNAPSHOT.tgz.sha1 \
-$UNSUPPORTED_URL/gcc-4.9.2/blasr_libcpp-SNAPSHOT.tgz.sha1
+$UNSUPPORTED_URL/gcc-6.4.0/blasr_libcpp-SNAPSHOT.tgz.sha1

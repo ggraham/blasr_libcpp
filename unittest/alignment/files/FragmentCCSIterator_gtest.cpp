@@ -17,14 +17,13 @@
  */
 
 #include <gtest/gtest.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <algorithm>
 #include "HDFRegionTableReader.hpp"
 #include "files/FragmentCCSIterator.hpp"
 #include "pbdata/testdata.h"
 #include "reads/RegionTable.hpp"
-using namespace std;
 
 class FragmentCCSIteratorTestFixture : public testing::Test
 {
@@ -53,7 +52,7 @@ public:
 
     ~FragmentCCSIteratorTestFixture() {}
 
-    string fileName;
+    std::string fileName;
     HDFRegionTableReader* reader;
     CCSSequence* ccs;
     RegionTable* rgn;

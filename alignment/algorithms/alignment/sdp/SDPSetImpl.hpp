@@ -1,4 +1,4 @@
-#include <stdint.h>
+#include <cstdint>
 #include <set>
 #include "../../../../pbdata/Types.h"
 #include "SDPSet.hpp"

@@ -94,7 +94,7 @@ void BufferedHDFArray<T>::Flush(bool append, DSLength writePos)
     if (fileDataSpaceInitialized == false) {
         std::cout << "ERROR, trying to flush a dataset that has not been ";
         std::cout << "created or initialized" << std::endl;
-        exit(1);
+        std::exit(EXIT_FAILURE);
         fileDataSpaceInitialized = true;
     }
 
@@ -145,7 +145,7 @@ void BufferedHDFArray<T>::Flush(bool append, DSLength writePos)
     } catch (H5::DataSetIException e) {
         std::cout << "ERROR! Could not write HDF5 data." << std::endl;
         e.printError();
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
     memorySpace.close();
     extendedSpace.close();
@@ -227,7 +227,7 @@ void BufferedHDFArray<T>::Create(H5::CommonFG *_container, std::string _datasetN
  *
  * Open a dataset in an hdf file. Only call this on datasets that
  * exist, since this currently handles errors with opening datasets
- * by ungracefully exiting the program. 
+ * by ungracefully exiting the program.
  */
 
 template <typename T>
@@ -309,7 +309,7 @@ int BufferedHDFArray<T>::UpdateH5Dataspace()
             std::cout << "ERROR in HDF format: dataset: ";
             std::cout << datasetName << " should be 1-D, but it is not.";
             std::cout << std::endl;
-            exit(1);
+            std::exit(EXIT_FAILURE);
         }
 
         /*
@@ -325,7 +325,7 @@ int BufferedHDFArray<T>::UpdateH5Dataspace()
         arrayLength = dimSize[0];
         if (dimSize[0] == 0) {
             // DONT create a real dataspace if the size is 0
-            // cout << "WARNING, trying to open a zero sized dataspace." << endl;
+            // std::cout << "WARNING, trying to open a zero sized dataspace." << std::endl;
             dataspace.close();
             return 1;
         }
@@ -399,7 +399,7 @@ void BufferedHDFArray<T>::Read(DSLength start, DSLength end, T *dest)
     assert(
         "ERROR, calling Read with an unsupported type. Use Read(start,end,datatype, dest) "
         "instead." == 0);
-    exit(1);  // this is in case the assert statement is removed.
+    std::exit(EXIT_FAILURE);  // this is in case the assert statement is removed.
 }
 
 /*
@@ -412,7 +412,7 @@ void BufferedHDFArray<T>::ReadDataset(std::vector<T> &dest)
 {
     (void)(dest);
     assert("ERROR, calling ReadDataset with an unsupported type.");
-    exit(1);  // this is in case the assert statement is removed.
+    std::exit(EXIT_FAILURE);  // this is in case the assert statement is removed.
 }
 
 template <typename T>

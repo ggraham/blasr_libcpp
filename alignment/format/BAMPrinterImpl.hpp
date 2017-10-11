@@ -5,8 +5,9 @@
 
 #include <algorithm>
 #include "../../pbdata/utils/SMRTTitle.hpp"
+
 using namespace BAMOutput;
-using namespace std;
+
 #include <pbbam/BamFile.h>
 #include <pbbam/BamRecord.h>
 
@@ -32,7 +33,7 @@ void AlignmentToBamRecord(T_AlignmentCandidate &alignment, T_Sequence &read, T_S
     }
 
     // build cigar string.
-    string cigarString;
+    std::string cigarString;
     T_Sequence alignedSequence;
     DNALength prefixSoftClip = 0, suffixSoftClip = 0;
     DNALength prefixHardClip = 0, suffixHardClip = 0;
@@ -46,7 +47,7 @@ void AlignmentToBamRecord(T_AlignmentCandidate &alignment, T_Sequence &read, T_S
     BuildFlag(alignment, context, flag);
 
     // Get sequence string.
-    string seqString;
+    std::string seqString;
     seqString.assign((char *)alignedSequence.seq, alignedSequence.length);
 
     // Get alignment starting position on reference sequence forward strand.
@@ -66,7 +67,7 @@ void AlignmentToBamRecord(T_AlignmentCandidate &alignment, T_Sequence &read, T_S
         if (smrtTitle.isSMRTTitle) {
             bamRecord.Impl().Name(smrtTitle.ToString());
         } else {
-            cout << "ERROR, can not convert non-pacbio reads to pbbam record." << endl;
+            std::cout << "ERROR, can not convert non-pacbio reads to pbbam record." << std::endl;
             exit(-1);
         }
         bamRecord.Impl().SetSequenceAndQualities(seqString, alignedSequence.qual.ToString());
@@ -108,7 +109,7 @@ void AlignmentToBamRecord(T_AlignmentCandidate &alignment, T_Sequence &read, T_S
         qvList.FormatQVOptionalFields(alignedSequence);
 
         // Add QVs to BamRecordImpl.
-        string insertionQVs, deletionQVs, substitutionQVs, mergeQVs, substitutionTags, deletionTags;
+        std::string insertionQVs, deletionQVs, substitutionQVs, mergeQVs, substitutionTags, deletionTags;
         bool alnReverse = (alignment.tStrand == 1);  // reverse-complement alignment
         // If this is a reverse-complement alignment, bases and QVs of
         // alignedSequence are reverse(-complement) of the sequence read

@@ -7,7 +7,7 @@
  *
  *        Version:  1.0
  *        Created:  11/29/2012 03:54:55 PM
- *       Revision:  08/20/2014 
+ *       Revision:  08/20/2014
  *       Compiler:  gcc
  *
  *         Author:  Yuan Li (yli), yli@pacificbiosciences.com
@@ -18,18 +18,16 @@
 #include "gtest/gtest.h"
 #include "reads/ReadType.hpp"
 
-using namespace std;
+std::string standard = "Standard";
+std::string ccs = "CCS";
+std::string rccs = "RCCS";
+std::string noreadtype = "standard";
 
-string standard = "Standard";
-string ccs = "CCS";
-string rccs = "RCCS";
-string noreadtype = "standard";
-
-string subread = "SUBREAD";
-string polymerase = "POLYMERASE";
-string hqregion = "HQREGION";
-string scarp = "SCARP";
-string unknown = "UNKNOWN";
+std::string subread = "SUBREAD";
+std::string polymerase = "POLYMERASE";
+std::string hqregion = "HQREGION";
+std::string scarp = "SCARP";
+std::string unknown = "UNKNOWN";
 
 TEST(ReadTypeTest, ParseReadType)
 {

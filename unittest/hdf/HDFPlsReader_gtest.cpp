@@ -7,7 +7,7 @@
  *
  *        Version:  1.0
  *        Created:  08/23/2013 11:13:34 AM
- *       Revision:  08/20/2014 
+ *       Revision:  08/20/2014
  *       Compiler:  gcc
  *
  *         Author:  Yuan Li (yli), yli@pacificbiosciences.com
@@ -20,7 +20,6 @@
 #include "gtest/gtest.h"
 #include "pbdata/testdata.h"
 
-using namespace std;
 using namespace H5;
 
 class HDFPlsReaderTEST : public ::testing::Test
@@ -32,7 +31,7 @@ public:
         ASSERT_EQ(reader.Initialize(fileName), 1);
     }
     virtual void TearDown() { reader.Close(); }
-    string fileName;
+    std::string fileName;
     HDFPlsReader reader;
 };
 
@@ -45,5 +44,5 @@ TEST_F(HDFPlsReaderTEST, ReadToPulseFile)
     reader.ReadPulseFile(pulseFile);
     //Astro = 1, Springfield = 2
     ASSERT_EQ(pulseFile.platformId, 2);
-    ASSERT_EQ(pulseFile.startFrame.size(), 197626964);
+    ASSERT_EQ(pulseFile.startFrame.size(), 197626964u);
 }

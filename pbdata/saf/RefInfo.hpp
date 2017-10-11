@@ -1,7 +1,7 @@
 #ifndef _BLASR_REF_INFO_HPP_
 #define _BLASR_REF_INFO_HPP_
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include <vector>
 

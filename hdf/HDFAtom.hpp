@@ -49,8 +49,8 @@ public:
         try {
             attribute = object.openAttribute(attributeName.c_str());
         } catch (H5::Exception e) {
-            cout << "ERROR. Could not open attribute " << attributeName << endl;
-            exit(1);
+            std::cout << "ERROR. Could not open attribute " << attributeName << std::endl;
+            std::exit(EXIT_FAILURE);
         }
         isInitialized = true;
         return 1;

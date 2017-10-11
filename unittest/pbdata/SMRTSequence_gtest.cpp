@@ -7,7 +7,7 @@
  *
  *        Version:  1.0
  *        Created:  10/29/2012 05:17:04 PM
- *       Revision:  08/19/2014 
+ *       Revision:  08/19/2014
  *       Compiler:  gcc
  *
  *         Author:  Yuan Li (yli), yli@pacificbiosciences.com
@@ -16,17 +16,18 @@
  * =====================================================================================
  */
 
+#include <string>
+#include <sstream>
+
 #include "SMRTSequence.hpp"
 #include "gtest/gtest.h"
 
-using namespace std;
-
 Nucleotide seqnt[] = "ATATGGGGATTAGGGGATA";
-const string seqst("ATATGGGGATTAGGGGATA");
+const std::string seqst("ATATGGGGATTAGGGGATA");
 
-SMRTSequence _make_a_smrt_read_(const string& movieName, const UInt& holeNumber,
+SMRTSequence _make_a_smrt_read_(const std::string& movieName, const UInt& holeNumber,
                                 const DNALength subreadStart, const DNALength subreadEnd,
-                                const string& seqst, const bool hasInsertion,
+                                const std::string& seqst, const bool hasInsertion,
                                 const bool hasDeletion, const bool hasSubstitution,
                                 const int insertionQVValue, const int deletionQVValue,
                                 const char deletionTagValue, const int substitutionQVValue,
@@ -36,7 +37,7 @@ SMRTSequence _make_a_smrt_read_(const string& movieName, const UInt& holeNumber,
     DNALength length = seqst.size();
     SMRTSequence smrt;
     static_cast<DNASequence*>(&smrt)->Copy(seqst);
-    stringstream ss;
+    std::stringstream ss;
     ss << movieName << "/" << holeNumber << "/" << subreadStart << "_" << subreadEnd;
     smrt.CopyTitle(ss.str());
 
@@ -86,14 +87,14 @@ public:
 
 TEST_F(SMRTSequenceTest, Print)
 {
-    stringstream ss;
+    std::stringstream ss;
     smrt.Print(ss);
-    ASSERT_EQ(ss.str(), (string("SMRTSequence for zmw 1, [0, 19)\n") + seqst + "\n"));
+    ASSERT_EQ(ss.str(), (std::string("SMRTSequence for zmw 1, [0, 19)\n") + seqst + "\n"));
 }
 
 TEST_F(SMRTSequenceTest, GetDeletionQV)
 {
-    for (int i = 0; i < smrt.length; i++) {
+    for (size_t i = 0; i < smrt.length; i++) {
         ASSERT_EQ(smrt.GetDeletionQV(i), i);
     }
 }
@@ -101,19 +102,19 @@ TEST_F(SMRTSequenceTest, GetDeletionQV)
 TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymerase)
 {
 
-    string movieName = "mymovie";
+    std::string movieName = "mymovie";
     UInt holeNumber = 12354;
-    string seq1 = "ATGGC";
-    string seq2 = "GGCT";
+    std::string seq1 = "ATGGC";
+    std::string seq2 = "GGCT";
 
-    string expected_seq3 = "NATGGCNNNNGGCT";
+    std::string expected_seq3 = "NATGGCNNNNGGCT";
     DNALength expected_hqstart = 0, expected_hqend = 14;
     DNALength expected_lqprefix = 1, expected_lqsuffix = 0;
     int expected_insertionQV[14] = {0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 11, 11, 11, 11};
     int expected_deletionQV[14] = {0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 12, 12, 12, 12};
     int expected_substitutionQV[14] = {0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 13, 13, 13, 13};
-    string expected_deletionTag = "NAAAAANNNNCCCC";
-    string expected_substitutionTag = "NGGGGGNNNNTTTT";
+    std::string expected_deletionTag = "NAAAAANNNNCCCC";
+    std::string expected_substitutionTag = "NGGGGGNNNNTTTT";
 
     bool expected_hasInsertionQV = true;
     bool expected_hasDeletionQV = true;
@@ -163,16 +164,16 @@ TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymerase)
 TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymeraseNoInsertionNoDeletion)
 {
 
-    string movieName = "mymovie";
+    std::string movieName = "mymovie";
     UInt holeNumber = 12354;
-    string seq1 = "ATGGC";
-    string seq2 = "GGCT";
+    std::string seq1 = "ATGGC";
+    std::string seq2 = "GGCT";
 
-    string expected_seq3 = "NATGGCNNNNGGCT";
+    std::string expected_seq3 = "NATGGCNNNNGGCT";
     DNALength expected_hqstart = 0, expected_hqend = 14;
     DNALength expected_lqprefix = 1, expected_lqsuffix = 0;
     int expected_substitutionQV[14] = {0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 13, 13, 13, 13};
-    string expected_substitutionTag = "NGGGGGNNNNTTTT";
+    std::string expected_substitutionTag = "NGGGGGNNNNTTTT";
 
     bool expected_hasInsertionQV = false;
     bool expected_hasDeletionQV = false;
@@ -219,12 +220,12 @@ TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymeraseNoInsertionNoDeletion)
 TEST_F(SMRTSequenceTest, MadeFromSubreadsAsPolymeraseNoInsertionNoDeletionNoSubstitution)
 {
 
-    string movieName = "mymovie";
+    std::string movieName = "mymovie";
     UInt holeNumber = 12354;
-    string seq1 = "ATGGC";
-    string seq2 = "GGCT";
+    std::string seq1 = "ATGGC";
+    std::string seq2 = "GGCT";
 
-    string expected_seq3 = "NATGGCNNNNGGCT";
+    std::string expected_seq3 = "NATGGCNNNNGGCT";
     DNALength expected_hqstart = 0, expected_hqend = 14;
     DNALength expected_lqprefix = 1, expected_lqsuffix = 0;
 

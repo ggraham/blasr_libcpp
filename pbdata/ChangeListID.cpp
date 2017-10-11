@@ -1,26 +1,24 @@
 #include "ChangeListID.hpp"
 #include <sstream>
 
-using namespace std;
-
 ChangeListID::ChangeListID() {}
-ChangeListID::ChangeListID(string &idStringP) { StoreString(idStringP); }
+ChangeListID::ChangeListID(std::string &idStringP) { StoreString(idStringP); }
 
-void ChangeListID::StoreString(string &idStringP)
+void ChangeListID::StoreString(std::string &idStringP)
 {
     idString = idStringP;
-    stringstream ss(idString);
-    string part;
+    std::stringstream ss(idString);
+    std::string part;
     intVer.clear();
-    while (getline(ss, part, '.')) {
-        intVer.push_back(atoi(part.c_str()));
+    while (std::getline(ss, part, '.')) {
+        intVer.push_back(std::atoi(part.c_str()));
     }
 }
 
 int ChangeListID::LessThan(ChangeListID &rhs, int depth)
 {
     if (depth == 0) {
-        depth = min(intVer.size(), rhs.intVer.size());
+        depth = std::min(intVer.size(), rhs.intVer.size());
     }
     int i;
     for (i = 0; i < depth; i++) {
@@ -46,7 +44,7 @@ QVScale ChangeListID::DetermineQVScaleFromChangeListID()
 }
 
 // utility method
-void AppendPerforceChangelist(string perforceVersionString, string &version)
+void AppendPerforceChangelist(std::string perforceVersionString, std::string &version)
 {
     if (perforceVersionString.size() > 12) {
         version.insert(version.size(), ".");
@@ -56,7 +54,7 @@ void AppendPerforceChangelist(string perforceVersionString, string &version)
 
 std::string ChangeListID::GetVersion()
 {
-    stringstream ss;
+    std::stringstream ss;
     if (intVer.size() == 1) {
         ss << intVer[0];
     } else if (intVer.size() >= 2) {

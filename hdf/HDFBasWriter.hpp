@@ -16,16 +16,15 @@
 #include "HDFScanDataWriter.hpp"
 
 using namespace H5;
-using namespace std;
 
 class HDFBasWriter : public DatasetCollection
 {
     HDFFile outFile;
-    string hdfFileName;
+    std::string hdfFileName;
     static const int bufferSize = 16;
 
-    string changeListID;
-    HDFAtom<string> changeListIDAtom;
+    std::string changeListID;
+    HDFAtom<std::string> changeListIDAtom;
 
     BufferedHDFArray<int> nElemArray;
     BufferedHDFArray<int> zmwXCoordArray;
@@ -153,15 +152,15 @@ public:
     }
 
     void SetPlatform(PlatformId _platform) { sd.platformId = platformId = _platform; }
-    void SetMovieName(string _movieName) { sd.movieName = _movieName; }
-    void SetRunCode(string _runCode) { sd.runCode = _runCode; }
-    void SetChangeListID(string _changeListID) { changeListID = _changeListID; }
+    void SetMovieName(std::string _movieName) { sd.movieName = _movieName; }
+    void SetRunCode(std::string _runCode) { sd.runCode = _runCode; }
+    void SetChangeListID(std::string _changeListID) { changeListID = _changeListID; }
 
     /*
 	 * Initialization without a runCode is implicitly a springfield
 	 * platform.  You can change it if you really want.
 	 */
-    void Initialize(string _hdfFileName, string movieName, string _changeListID)
+    void Initialize(std::string _hdfFileName, std::string movieName, std::string _changeListID)
     {
         SetChangeListID(_changeListID);
         SetPlatform(Springfield);
@@ -169,14 +168,14 @@ public:
         Initialize(_hdfFileName);
     }
 
-    void Initialize(string _hdfFileName, string movieName, PlatformId _platform = Springfield)
+    void Initialize(std::string _hdfFileName, std::string movieName, PlatformId _platform = Springfield)
     {
         SetMovieName(movieName);
         SetPlatform(Springfield);
         Initialize(_hdfFileName);
     }
 
-    void Initialize(string _hdfFileName, string movieName, string runCode, string _changeListID)
+    void Initialize(std::string _hdfFileName, std::string movieName, std::string runCode, std::string _changeListID)
     {
         SetChangeListID(_changeListID);
         SetMovieName(movieName);
@@ -191,7 +190,7 @@ public:
         simulatedSequenceIndexArray.Write(&index, 1);
     }
 
-    void Initialize(string _hdfFileName,
+    void Initialize(std::string _hdfFileName,
                     const H5::FileAccPropList &fileAccPropList = H5::FileAccPropList::DEFAULT)
     {
         hdfFileName = _hdfFileName;
@@ -199,23 +198,23 @@ public:
         outFile.rootGroup.AddGroup("PulseData");
 
         if (pulseDataGroup.Initialize(outFile.rootGroup, "PulseData") == 0) {
-            cout << "ERROR, could not create file " << hdfFileName
-                 << ".  Error creating group /PulseData." << endl;
-            exit(1);
+            std::cout << "ERROR, could not create file " << hdfFileName
+                 << ".  Error creating group /PulseData." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         pulseDataGroup.AddGroup("BaseCalls");
         if (baseCallGroup.Initialize(pulseDataGroup, "BaseCalls") == 0) {
-            cout << "ERROR, could not create file " << hdfFileName
-                 << ".  Error creating group /PulseData/BaseCall." << endl;
-            exit(1);
+            std::cout << "ERROR, could not create file " << hdfFileName
+                 << ".  Error creating group /PulseData/BaseCall." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         baseCallGroup.AddGroup("ZMW");
         if (zmwGroup.Initialize(baseCallGroup, "ZMW") == 0) {
-            cout << "ERROR, could not create file " << hdfFileName
-                 << ".  Error creating group /PulseData/BaseCall/ZMW." << endl;
-            exit(1);
+            std::cout << "ERROR, could not create file " << hdfFileName
+                 << ".  Error creating group /PulseData/BaseCall/ZMW." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         HDFScanDataWriter sdWriter(outFile);

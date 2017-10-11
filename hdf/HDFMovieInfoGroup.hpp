@@ -56,7 +56,7 @@ public:
         }
     }
 
-    int AddMovie(string &movieName)
+    int AddMovie(std::string &movieName)
     {
         nameArray.Write(&movieName, 1);
         unsigned int id = nameArray.size();
@@ -67,8 +67,8 @@ public:
     void StoreFrameRate(int movieIndex, float frameRate)
     {
         if (movieIndex < 0) {
-            cout << "ERROR. Invalid movie index " << movieIndex << endl;
-            exit(1);
+            std::cout << "ERROR. Invalid movie index " << movieIndex << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         if (!frameRateArray.IsInitialized()) {

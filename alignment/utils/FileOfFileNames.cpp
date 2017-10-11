@@ -14,7 +14,7 @@ void FileOfFileNames::StoreFileOrFileList(std::string fileName, std::vector<std:
     for (int i = 0; i < int(tmpList.size()); i++) {
         if (FileOfFileNames::IsFOFN(tmpList[i])) {
             std::cout << "ERROR. Nested File of File Names are not allowed. " << std::endl;
-            exit(1);
+            std::exit(EXIT_FAILURE);
         } else if (FileOfFileNames::IsBasH5(tmpList[i])) {
             std::vector<std::string> baxFNs = FileOfFileNames::Bas2Bax(tmpList[i]);
             fofnList.insert(fofnList.end(), baxFNs.begin(), baxFNs.end());
@@ -30,7 +30,7 @@ void FileOfFileNames::FOFNToList(std::string &fofnFileName, std::vector<std::str
     CrucialOpen(fofnFileName, fofnIn);
     while (fofnIn) {
         std::string name;
-        getline(fofnIn, name);
+        std::getline(fofnIn, name);
         if (name.size() > 0) {
             fofnList.push_back(name);
         }
@@ -71,7 +71,7 @@ std::vector<std::string> FileOfFileNames::Bas2Bax(std::string &basFN)
     // all base calls and QVs are in bax.h5 files. In this case,
     // return path to the bax.h5 files. Assumption is that bax.h5
     // files are in the same directory as bas.h5 file.
-    vector<string> baxFNs;
+    std::vector<std::string> baxFNs;
     HDFNewBasReader reader;
     if (reader.Initialize(basFN) != 0) {
         baxFNs = reader.GetBaxFileNames();

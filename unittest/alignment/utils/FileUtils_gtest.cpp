@@ -7,7 +7,7 @@
  *
  *        Version:  1.0
  *        Created:  10/29/2012 05:20:43 PM
- *       Revision:  08/20/2014 
+ *       Revision:  08/20/2014
  *       Compiler:  gcc
  *
  *         Author:  Yuan Li (yli), yli@pacificbiosciences.com
@@ -19,16 +19,14 @@
 #include "gtest/gtest.h"
 #include "utils/FileUtils.hpp"
 
-using namespace std;
-
-string nonexistfile = "/nonexistingdir/nonexistingfile";
-string readablefile = "/bin/ls";
-string writeablefile = "/tmp/writabletmpfile";
-string expected_errmsg = "^.+$";
+std::string nonexistfile = "/nonexistingdir/nonexistingfile";
+std::string readablefile = "/bin/ls";
+std::string writeablefile = "/tmp/writabletmpfile";
+std::string expected_errmsg = "^.+$";
 
 TEST(FILEUTILS, CriticalOpenRead)
 {
-    ifstream ifs;
+    std::ifstream ifs;
     EXPECT_EXIT(CriticalOpenRead(nonexistfile, ifs, std::ios::in), ::testing::ExitedWithCode(1),
                 expected_errmsg);
     CriticalOpenRead(readablefile, ifs, std::ios::in);
@@ -36,14 +34,14 @@ TEST(FILEUTILS, CriticalOpenRead)
 
 TEST(FILEUTILS, OpenRead)
 {
-    ifstream ifs;
+    std::ifstream ifs;
     EXPECT_EQ(OpenRead(nonexistfile, ifs, std::ios::in), 0);
     EXPECT_EQ(OpenRead(readablefile, ifs, std::ios::in), 1);
 }
 
 TEST(FILEUTILS, CriticalOpenWrite)
 {
-    ofstream ofs;
+    std::ofstream ofs;
     EXPECT_EXIT(CriticalOpenWrite(nonexistfile, ofs, std::ios::out), ::testing::ExitedWithCode(1),
                 expected_errmsg);
     CriticalOpenWrite(writeablefile, ofs, std::ios::out);
@@ -51,7 +49,7 @@ TEST(FILEUTILS, CriticalOpenWrite)
 
 TEST(FILEUTILS, OpenWrite)
 {
-    ofstream ofs;
+    std::ofstream ofs;
     EXPECT_EQ(OpenWrite(nonexistfile, ofs, std::ios::out), 0);
     EXPECT_EQ(OpenWrite(writeablefile, ofs, std::ios::out), 1);
 }

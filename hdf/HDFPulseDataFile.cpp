@@ -1,8 +1,6 @@
 #include "HDFPulseDataFile.hpp"
 
-using namespace std;
-
-DSLength HDFPulseDataFile::GetAllReadLengths(vector<DNALength> &readLengths)
+DSLength HDFPulseDataFile::GetAllReadLengths(std::vector<DNALength> &readLengths)
 {
     nReads = static_cast<UInt>(zmwReader.numEventArray.arrayLength);
     readLengths.resize(nReads);
@@ -14,14 +12,14 @@ void HDFPulseDataFile::CheckMemoryAllocation(long allocSize, long allocLimit, co
 {
     if (allocSize > allocLimit) {
         if (fieldName == NULL) {
-            cout << "Allocating too large of memory" << endl;
+            std::cout << "Allocating too large of memory" << std::endl;
         } else {
-            cout << "Allocate size " << allocSize << " > allocate limit " << allocLimit << endl;
-            cout << "ERROR! Reading the dataset " << fieldName << " will use too much memory."
-                 << endl;
-            cout << "The pls/bas file is too large, exiting." << endl;
+            std::cout << "Allocate size " << allocSize << " > allocate limit " << allocLimit << std::endl;
+            std::cout << "ERROR! Reading the dataset " << fieldName << " will use too much memory."
+                 << std::endl;
+            std::cout << "The pls/bas file is too large, exiting." << std::endl;
         }
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
 }
 
@@ -53,7 +51,7 @@ void HDFPulseDataFile::PrepareForRandomAccess()
     preparedForRandomAccess = true;
 }
 
-int HDFPulseDataFile::OpenHDFFile(string fileName, const H5::FileAccPropList &fileAccPropList)
+int HDFPulseDataFile::OpenHDFFile(std::string fileName, const H5::FileAccPropList &fileAccPropList)
 {
 
     try {
@@ -61,8 +59,8 @@ int HDFPulseDataFile::OpenHDFFile(string fileName, const H5::FileAccPropList &fi
         H5::Exception::dontPrint();
         hdfBasFile.openFile(fileName.c_str(), H5F_ACC_RDONLY, propList);
     } catch (H5::Exception &e) {
-        cout << "ERROR, could not open hdf file" << fileName << ", exiting." << endl;
-        exit(1);
+        std::cout << "ERROR, could not open hdf file" << fileName << ", exiting." << std::endl;
+        std::exit(EXIT_FAILURE);
     }
     closeFileOnExit = true;
     return 1;
@@ -72,7 +70,7 @@ int HDFPulseDataFile::OpenHDFFile(string fileName, const H5::FileAccPropList &fi
 // All pulse data files contain the "PulseData" group name.
 //
 //
-int HDFPulseDataFile::InitializePulseDataFile(string fileName,
+int HDFPulseDataFile::InitializePulseDataFile(std::string fileName,
                                               const H5::FileAccPropList &fileAccPropList)
 {
 
@@ -80,7 +78,7 @@ int HDFPulseDataFile::InitializePulseDataFile(string fileName,
     return 1;
 }
 
-int HDFPulseDataFile::Initialize(string fileName, const H5::FileAccPropList &fileAccPropList)
+int HDFPulseDataFile::Initialize(std::string fileName, const H5::FileAccPropList &fileAccPropList)
 {
 
     if (InitializePulseDataFile(fileName, fileAccPropList) == 0) {
@@ -128,7 +126,7 @@ int HDFPulseDataFile::InitializePulseGroup()
     return 1;
 }
 
-size_t HDFPulseDataFile::GetAllHoleNumbers(vector<unsigned int> &holeNumbers)
+size_t HDFPulseDataFile::GetAllHoleNumbers(std::vector<unsigned int> &holeNumbers)
 {
     CheckMemoryAllocation(zmwReader.holeNumberArray.arrayLength, maxAllocNElements,
                           "HoleNumbers (base)");
@@ -148,11 +146,11 @@ void HDFPulseDataFile::Close()
         rootGroup.Close();
     }
     /*
-       cout << "there are " <<  hdfBasFile.getObjCount(H5F_OBJ_FILE) << " open files upon closing." <<endl;
-       cout << "there are " <<  hdfBasFile.getObjCount(H5F_OBJ_DATASET) << " open datasets upon closing." <<endl;
-       cout << "there are " <<  hdfBasFile.getObjCount(H5F_OBJ_GROUP) << " open groups upon closing." <<endl;
-       cout << "there are " <<  hdfBasFile.getObjCount(H5F_OBJ_DATATYPE) << " open datatypes upon closing." <<endl;
-       cout << "there are " <<  hdfBasFile.getObjCount(H5F_OBJ_ATTR) << " open attributes upon closing." <<endl;
+       std::cout << "there are " <<  hdfBasFile.getObjCount(H5F_OBJ_FILE) << " open files upon closing." <<std::endl;
+       std::cout << "there are " <<  hdfBasFile.getObjCount(H5F_OBJ_DATASET) << " open datasets upon closing." <<std::endl;
+       std::cout << "there are " <<  hdfBasFile.getObjCount(H5F_OBJ_GROUP) << " open groups upon closing." <<std::endl;
+       std::cout << "there are " <<  hdfBasFile.getObjCount(H5F_OBJ_DATATYPE) << " open datatypes upon closing." <<std::endl;
+       std::cout << "there are " <<  hdfBasFile.getObjCount(H5F_OBJ_ATTR) << " open attributes upon closing." <<std::endl;
        */
     if (closeFileOnExit) {
         hdfBasFile.close();

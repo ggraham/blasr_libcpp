@@ -1,11 +1,12 @@
 #ifndef _SIMULATOR_CONTEXT_OUTPUT_LIST_HPP_
 #define _SIMULATOR_CONTEXT_OUTPUT_LIST_HPP_
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <map>
 #include <string>
+
 #include "../../pbdata/utils.hpp"
 #include "OutputList.hpp"
 
@@ -51,12 +52,12 @@ public:
 
     void Read(std::string &inName)
     {
-        ifstream in;
+        std::ifstream in;
         CrucialOpen(inName, in, std::ios::in);
         Read(in);
     }
 
-    void Read(ifstream &in)
+    void Read(std::ifstream &in)
     {
         int nLines = 0;
         contextLength = 0;
@@ -66,7 +67,7 @@ public:
 
             contextLength = context.size();
             std::string outputsLine;
-            getline(in, outputsLine);
+            std::getline(in, outputsLine);
             // parse ctx=num; pairs
             int i;
             int e;

@@ -44,23 +44,23 @@ public:
         this->includedFields["PassNumPulses"] = value;
     }
 
-    bool BasFileHasCCS(string ccsBasFileName)
+    bool BasFileHasCCS(std::string ccsBasFileName)
     {
         try {
             H5::Exception::dontPrint();
             this->hdfBasFile.openFile(ccsBasFileName.c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
         } catch (H5::Exception &e) {
-            cout << "ERROR, could not open hdf file " << ccsBasFileName << " Stopping." << endl;
-            exit(1);
+            std::cout << "ERROR, could not open hdf file " << ccsBasFileName << " Stopping." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         HDFGroup ccsBasecallsGroup;
         bool fileContainsCCS = false;
         HDFGroup pulseDataGroup;
         if (pulseDataGroup.Initialize(this->hdfBasFile, "PulseData") == 0) {
-            cout << "ERROR, ccs base file " << ccsBasFileName << " does not have a PulseData field."
-                 << endl;
-            exit(1);
+            std::cout << "ERROR, ccs base file " << ccsBasFileName << " does not have a PulseData field."
+                 << std::endl;
+            std::exit(EXIT_FAILURE);
         }
         if (pulseDataGroup.ContainsObject("ConsensusBaseCalls")) {
             fileContainsCCS = true;
@@ -73,12 +73,12 @@ public:
     int Advance(int nSteps)
     {
         (void)(nSteps);
-        cout << "ERROR! Advance is not yet implemented for ccs reader" << endl;
+        std::cout << "ERROR! Advance is not yet implemented for ccs reader" << std::endl;
         assert(0);
         return 0;
     }
 
-    int Initialize(string ccsBasFileName,
+    int Initialize(std::string ccsBasFileName,
                    const H5::FileAccPropList &fileAccPropList = H5::FileAccPropList::DEFAULT)
     {
         //
@@ -90,16 +90,16 @@ public:
         // file.
         //
         if (this->T_HDFBasReader<T_Sequence>::Initialize(ccsBasFileName, fileAccPropList) == 0) {
-            cout << "ERROR, Could not initialize ccs file " << ccsBasFileName << endl;
-            exit(1);
+            std::cout << "ERROR, Could not initialize ccs file " << ccsBasFileName << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         if (this->pulseDataGroup.ContainsObject("ConsensusBaseCalls") and
             ccsGroup.Initialize(this->hdfBasFile, "PulseData/ConsensusBaseCalls") == 0) {
-            cout << "ERROR, attempting to read cicular consensus data from '" << ccsBasFileName
-                 << "', which does not contain a ConsensusBaseCalls field." << endl;
-            cout << "Check HDF file structure." << endl;
-            exit(1);
+            std::cout << "ERROR, attempting to read cicular consensus data from '" << ccsBasFileName
+                 << "', which does not contain a ConsensusBaseCalls field." << std::endl;
+            std::cout << "Check HDF file structure." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
         curPassPos = 0;
         int passesSuccess = 1;
@@ -112,11 +112,11 @@ public:
         }
 
         if (passesSuccess == 0) {
-            cout << "ERROR, attempting to read circular consensus group Passes but it does not "
+            std::cout << "ERROR, attempting to read circular consensus group Passes but it does not "
                     "exist. "
-                 << endl;
-            cout << "Check HDF file structure." << endl;
-            exit(1);
+                 << std::endl;
+            std::cout << "Check HDF file structure." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         //
@@ -263,14 +263,14 @@ public:
             retVal = ((T_HDFBasReader<SMRTSequence> *)this)->GetNext(ccsSequence.unrolledRead);
             ccsSequence.zmwData = ccsSequence.unrolledRead.zmwData;
             ccsSequence.CopyTitle(ccsSequence.unrolledRead.title);
-            string newTitle = string(ccsSequence.title) + string("/ccs");
+            std::string newTitle = std::string(ccsSequence.title) + "/ccs";
             ccsSequence.CopyTitle(newTitle.c_str());
         } catch (H5::DataSetIException e) {
-            cout << "ERROR, could not read ccs data for CCS Sequence "
-                 << ccsSequence.unrolledRead.title << endl;
-            exit(1);
+            std::cout << "ERROR, could not read ccs data for CCS Sequence "
+                 << ccsSequence.unrolledRead.title << std::endl;
+            std::exit(EXIT_FAILURE);
         }
-        //		cout << "title: " << ccsSequence.title << endl;
+        //		std::cout << "title: " << ccsSequence.title << std::endl;
         if (retVal == 0) {
             return 0;
         } else {

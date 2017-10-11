@@ -17,7 +17,7 @@ std::string ScanData::BaseMapToStr(const std::map<char, size_t>& baseMap)
     std::transform(tmpBaseMap.begin(), tmpBaseMap.end(), tmpBaseMap.begin(), ::toupper);
     if (tmpBaseMap != "ACGT") {
         std::cout << "ERROR, invalid ScanData BaseMap " << baseMapStr << std::endl;
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
     return baseMapStr;
 }

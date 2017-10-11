@@ -15,11 +15,12 @@
  *
  * =====================================================================================
  */
+
 #include "datastructures/alignment/CmpIndexedStringTable.h"
 #include "gtest/gtest.h"
 
 int ids[5] = {1, 2, 3, 30, 5};
-string names[5] = {"n1", "n2", "n3", "n30", "n5"};
+std::string names[5] = {"n1", "n2", "n3", "n30", "n5"};
 class CmpIndexedStringTableTest : public ::testing::Test
 {
 public:
@@ -45,8 +46,8 @@ TEST_F(CmpIndexedStringTableTest, resize)
 {
     cmpIndexedStringTableTest.resize(10);
 
-    EXPECT_EQ(cmpIndexedStringTableTest.names.size(), 10);
-    EXPECT_EQ(cmpIndexedStringTableTest.ids.size(), 10);
+    EXPECT_EQ(cmpIndexedStringTableTest.names.size(), 10u);
+    EXPECT_EQ(cmpIndexedStringTableTest.ids.size(), 10u);
 }
 
 //
@@ -54,7 +55,7 @@ TEST_F(CmpIndexedStringTableTest, resize)
 //
 TEST_F(CmpIndexedStringTableTest, StoreArrayIndexMap)
 {
-    for (int i = 0; i < cmpIndexedStringTableTest.ids.size(); i++) {
+    for (int i = 0; i < static_cast<int>(cmpIndexedStringTableTest.ids.size()); i++) {
         EXPECT_EQ(
             cmpIndexedStringTableTest.idToArrayIndex.find(cmpIndexedStringTableTest.ids[i])->second,
             i);
@@ -73,7 +74,7 @@ TEST_F(CmpIndexedStringTableTest, GetIndexOfId)
 {
     int index = -1;
     int i = 0;
-    for (i = 0; i < cmpIndexedStringTableTest.ids.size(); i++) {
+    for (i = 0; i < static_cast<int>(cmpIndexedStringTableTest.ids.size()); i++) {
         cmpIndexedStringTableTest.GetIndexOfId(ids[i], index);
         EXPECT_EQ(index, i);
     }
@@ -99,7 +100,7 @@ TEST_F(CmpIndexedStringTableTest, GetIndexOfId)
 }
 
 //
-// Test GetNameAtIndex(int index, string & name)
+// Test GetNameAtIndex(int index, std::string & name)
 //
 TEST_F(CmpIndexedStringTableTest, GetNameAtIndex)
 {
@@ -107,7 +108,7 @@ TEST_F(CmpIndexedStringTableTest, GetNameAtIndex)
     // is confusing"
 
     int index;
-    string name;
+    std::string name;
     bool found;
 
     index = 1;

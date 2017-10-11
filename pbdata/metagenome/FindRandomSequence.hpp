@@ -6,19 +6,18 @@
 #include "statistics/StatUtils.hpp"  // Where does this come from? Does this compile anymore?
 
 template <typename T_Sequence>
-void FindRandomPos(vector<T_Sequence> &sequences, DNALength &seqIndex, DNALength &seqPos,
+void FindRandomPos(std::vector<T_Sequence> &sequences, DNALength &seqIndex, DNALength &seqPos,
                    DNALength seqLength = 0)
 {
-    vector<UInt> cumulativeLengths;
+    std::vector<UInt> cumulativeLengths;
     cumulativeLengths.resize(sequences.size());
-    int i;
     if (sequences.size() == 0) {
         return;
     }
     DNALength cumulativeLength;
     cumulativeLengths[0] = sequences[0].length;
     cumulativeLength = cumulativeLengths[0];
-    for (i = 1; i < sequences.size(); i++) {
+    for (unsigned i = 1; i < sequences.size(); i++) {
         cumulativeLengths[i] = cumulativeLength = cumulativeLengths[i - 1] + sequences[i].length;
     }
     bool validPosFound = false;
@@ -59,10 +58,10 @@ void FindRandomPos(vector<T_Sequence> &sequences, DNALength &seqIndex, DNALength
         }
     }
     if (iter == max_iter) {
-        cout << "ERROR! Unable to generate a random seq/pos pair!, maybe length " << seqLength
-             << endl
-             << " is too high, or there are too many N's in the references." << endl;
-        exit(1);
+        std::cout << "ERROR! Unable to generate a random seq/pos pair!, maybe length " << seqLength
+             << std::endl
+             << " is too high, or there are too many N's in the references." << std::endl;
+        std::exit(EXIT_FAILURE);
     }
 }
 

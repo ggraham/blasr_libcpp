@@ -3,11 +3,11 @@
  *
  *       Filename:  HDF2DArray_gtest.cpp
  *
- *    Description:  Test hdf/HDF2DArray.hpp 
+ *    Description:  Test hdf/HDF2DArray.hpp
  *
  *        Version:  1.0
  *        Created:  08/21/2013 07:00:49 PM
- *       Revision:  08/20/2014 
+ *       Revision:  08/20/2014
  *       Compiler:  gcc
  *
  *         Author:  Yuan Li (yli), yli@pacificbiosciences.com
@@ -15,7 +15,9 @@
  *
  * ==========================================================================
  */
+
 #include <string>
+
 #include "H5Cpp.h"
 #include "HDF2DArray.hpp"
 #include "HDFArray.hpp"
@@ -24,18 +26,18 @@
 #include "pbdata/testdata.h"
 #include "reads/HoleXY.hpp"
 
-using namespace std;
 using namespace H5;
+
 /*
 //Note ::testing::Test not ::testing::TEST
 //SetUp() and TearDown(), not Setup() and Teardown()
 class HDF2DArrayTest: public :: testing::Test {
 public:
-    virtual void SetUp() { 
+    virtual void SetUp() {
     }
     virtual void TearDown() {
     }
-    string x;
+    std::string x;
 };
 
 TEST_F(HDF2DArrayTest, x) {
@@ -53,8 +55,8 @@ public:
             FileAccPropList propList;
             pbihdfFile.openFile(fileName.c_str(), H5F_ACC_RDONLY, propList);
         } catch (Exception &e) {
-            cout << "ERROR, could not open hdf file" << fileName << ", exiting." << endl;
-            exit(1);
+            std::cout << "ERROR, could not open hdf file" << fileName << ", exiting." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         ASSERT_NE(rootGroup.Initialize(pbihdfFile, "/"), 0);
@@ -72,7 +74,7 @@ public:
         pbihdfFile.close();
     }
 
-    string fileName;
+    std::string fileName;
     H5File pbihdfFile;
     HDFGroup rootGroup, pulseDataGroup, baseCallsGroup, zmwGroup;
 };
@@ -82,7 +84,7 @@ TEST_F(HDF2DArrayTest, int16)
 {
     HDF2DArray<int16_t> xyArray;
     xyArray.Initialize(zmwGroup, "HoleXY");
-    vector<HoleXY> xys;
+    std::vector<HoleXY> xys;
     xys.resize(10);
     for (int i = 0; i < 10; i++) {
         xyArray.Read(i, i + 1, xys[i].xy);

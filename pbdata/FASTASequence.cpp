@@ -1,7 +1,6 @@
-#include "FASTASequence.hpp"
-#include <stdlib.h>
+#include <cstdlib>
 
-using namespace std;
+#include "FASTASequence.hpp"
 
 FASTASequence::FASTASequence() : DNASequence()
 {
@@ -13,11 +12,11 @@ FASTASequence::FASTASequence() : DNASequence()
     // regardless of deleteOnExit.
 }
 
-void FASTASequence::PrintSeq(ostream &out, int lineLength, char delim) const
+void FASTASequence::PrintSeq(std::ostream &out, int lineLength, char delim) const
 {
     out << delim;
     if (title) out << title;
-    out << endl;
+    out << std::endl;
     static_cast<const DNASequence *>(this)->PrintSeq(out, lineLength);
 }
 
@@ -27,12 +26,12 @@ int FASTASequence::GetStorageSize() const
     return strlen(title) + DNASequence::GetStorageSize();
 }
 
-string FASTASequence::GetName() const
+std::string FASTASequence::GetName() const
 {
-    string name;
+    std::string name;
     int i;
     for (i = 0; i < titleLength; i++) {
-        if (title[i] != ' ' and title[i] != '\t' and title[i] != '\n' and title[i] != '\r') {
+        if (title[i] != ' ' && title[i] != '\t' && title[i] != '\n' && title[i] != '\r') {
             name.push_back(title[i]);
         } else {
             break;
@@ -53,7 +52,7 @@ void FASTASequence::ShallowCopy(const FASTASequence &rhs)
     deleteTitleOnExit = false;
 }
 
-string FASTASequence::GetTitle() const { return string(title); }
+std::string FASTASequence::GetTitle() const { return std::string(title); }
 
 // Delete title if this FASTASequence is under control or
 // only title is under control.
@@ -90,9 +89,9 @@ void FASTASequence::CopyTitle(const char *str, int strlen)
     deleteTitleOnExit = true;
 }
 
-void FASTASequence::CopyTitle(string str) { FASTASequence::CopyTitle(str.c_str(), str.size()); }
+void FASTASequence::CopyTitle(std::string str) { FASTASequence::CopyTitle(str.c_str(), str.size()); }
 
-void FASTASequence::GetFASTATitle(string &fastaTitle) const
+void FASTASequence::GetFASTATitle(std::string &fastaTitle) const
 {
     // look for the first space, and return the string until there.
     int i;
@@ -127,7 +126,7 @@ void FASTASequence::CopySubsequence(FASTASequence &rhs, int readStart, int readE
     FASTASequence::CopyTitle(rhs.title);
 }
 
-void FASTASequence::AppendToTitle(string str)
+void FASTASequence::AppendToTitle(std::string str)
 {
     int newLength = titleLength + str.size() + 1;
     if (newLength == 0) {

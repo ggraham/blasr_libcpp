@@ -7,7 +7,7 @@
  *
  *        Version:  1.0
  *        Created:  08/21/2013 07:00:49 PM
- *       Revision:  08/20/2014  
+ *       Revision:  08/20/2014
  *       Compiler:  gcc
  *
  *         Author:  Yuan Li (yli), yli@pacificbiosciences.com
@@ -19,7 +19,6 @@
 #include "gtest/gtest.h"
 #include "pbdata/testdata.h"
 
-using namespace std;
 using namespace H5;
 
 class HDFZMWReaderTEST : public ::testing::Test
@@ -28,14 +27,14 @@ public:
     virtual void SetUp() {}
     virtual void TearDown() {}
 
-    void Initialize(H5File &pbihdfFile, string fileName, string groupName, HDFGroup &callsGroup)
+    void Initialize(H5File &pbihdfFile, std::string fileName, std::string groupName, HDFGroup &callsGroup)
     {
         try {
             FileAccPropList propList;
             pbihdfFile.openFile(fileName.c_str(), H5F_ACC_RDONLY, propList);
         } catch (Exception &e) {
-            cout << "ERROR, could not open hdf file" << fileName << ", exiting." << endl;
-            exit(1);
+            std::cout << "ERROR, could not open hdf file" << fileName << ", exiting." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         ASSERT_NE(callsGroup.Initialize(pbihdfFile, groupName), 0);
@@ -43,13 +42,13 @@ public:
         /*
         HDFGroup rootGroup, pulseDataGroup;
         if (rootGroup.Initialize(pbihdfFile, "/") == 0) {
-            cout << "ERROR, could not open /" << endl;
-            exit(1);
+            std::cout << "ERROR, could not open /" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         if (pulseDataGroup.Initialize(rootGroup, "PulseData") == 0){
-            cout << "ERROR, could not open /PulseData" << endl;
-            exit(1);
+            std::cout << "ERROR, could not open /PulseData" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         ASSERT_NE(callsGroup.Initialize(pulseDataGroup, "BaseCalls"), 0);
@@ -64,7 +63,7 @@ public:
 
     void TestGetNext(HDFZMWReader &zmwReader)
     {
-        int count = 0;
+        UInt count = 0;
         ZMWGroupEntry entry;
         while (zmwReader.GetNext(entry)) {
             count++;
@@ -77,8 +76,8 @@ public:
 TEST_F(HDFZMWReaderTEST, ReadZMWFromBaseCalls)
 {
     HDFZMWReader zmwReader;
-    string fileName = baxFile2;
-    string groupName = "/PulseData/BaseCalls";
+    std::string fileName = baxFile2;
+    std::string groupName = "/PulseData/BaseCalls";
     H5File pbihdfFile;
     HDFGroup baseCallsGroup;
 
@@ -92,14 +91,14 @@ TEST_F(HDFZMWReaderTEST, ReadZMWFromBaseCalls)
 
 TEST_F(HDFZMWReaderTEST, ReadZMWFromPulseCalls)
 {
-    string fileName = plsFile1;
+    std::string fileName = plsFile1;
     H5File pbihdfFile;
     try {
         FileAccPropList propList;
         pbihdfFile.openFile(fileName.c_str(), H5F_ACC_RDONLY, propList);
     } catch (Exception &e) {
-        cout << "ERROR, could not open hdf file" << fileName << ", exiting." << endl;
-        exit(1);
+        std::cout << "ERROR, could not open hdf file" << fileName << ", exiting." << std::endl;
+        std::exit(EXIT_FAILURE);
     }
 
     HDFGroup pulseCallsGroup;

@@ -2,8 +2,6 @@
 #define _BLASR_TUPLE_COUNT_TABLE_IMPL_HPP_
 #include "../../pbdata/utils.hpp"
 
-using namespace std;
-
 template <typename TSequence, typename TTuple>
 void TupleCountTable<TSequence, TTuple>::InitCountTable(TupleMetrics &ptm)
 {
@@ -19,7 +17,7 @@ void TupleCountTable<TSequence, TTuple>::InitCountTable(TupleMetrics &ptm)
     assert(countTableLength > 0);
     countTable = ProtectedNew<int>(countTableLength);
     deleteStructures = true;
-    fill(&countTable[0], &countTable[countTableLength], 0);
+    std::fill(&countTable[0], &countTable[countTableLength], 0);
     nTuples = 0;
 }
 
@@ -78,7 +76,7 @@ void TupleCountTable<TSequence, TTuple>::AddSequenceTupleCountsLR(TSequence &seq
 }
 
 template <typename TSequence, typename TTuple>
-void TupleCountTable<TSequence, TTuple>::Write(ofstream &out)
+void TupleCountTable<TSequence, TTuple>::Write(std::ofstream &out)
 {
     out.write((char *)&countTableLength, sizeof(int));
     out.write((char *)&nTuples, sizeof(int));
@@ -87,7 +85,7 @@ void TupleCountTable<TSequence, TTuple>::Write(ofstream &out)
 }
 
 template <typename TSequence, typename TTuple>
-void TupleCountTable<TSequence, TTuple>::Read(ifstream &in)
+void TupleCountTable<TSequence, TTuple>::Read(std::ifstream &in)
 {
     Free();  // Clear before reusing this object.
     in.read((char *)&countTableLength, sizeof(int));

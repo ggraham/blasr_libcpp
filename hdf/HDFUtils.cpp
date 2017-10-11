@@ -37,7 +37,7 @@ std::pair<UInt, UInt> GetMinMaxHoleNumber(std::string fileName, bool isRGN)
     } else {  // is bas/bax/pls/plx/ccs.h5
         HDFBasReader basReader;
         basReader.Initialize(fileName);
-        vector<UInt> holes;
+        std::vector<UInt> holes;
         basReader.GetMinMaxHoleNumber(minHole, maxHole);
         basReader.Close();
     }
@@ -50,7 +50,7 @@ std::vector<int> MapPls2Rgn(const std::vector<std::string>& plsFNs,
     if (plsFNs.size() != rgnFNs.size() && rgnFNs.size() != 0) {
         std::cout << "ERROR, the number of plx/bax.h5 files and the number of "
                   << "region tables are not the same." << std::endl;
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
 
     // Movie names of pulse files in P.
@@ -75,7 +75,7 @@ std::vector<int> MapPls2Rgn(const std::vector<std::string>& plsFNs,
         if (j >= rgnFNs.size()) {
             std::cout << "ERROR, could not find any region table for file " << plsFNs[i] << " ["
                       << plsHoles[i].first << ", " << plsHoles[i].second << "." << std::endl;
-            exit(1);
+            std::exit(EXIT_FAILURE);
         }
         ret.push_back(j);
     }

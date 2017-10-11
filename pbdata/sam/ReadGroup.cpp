@@ -11,11 +11,11 @@ void SAMReadGroup::StoreValues(std::vector<SAMKeywordValuePair> &kvPairs, uint64
     }
     if (idIsStored == false) {
         std::cout << "ReadGroup missing id at " << lineNumber << std::endl;
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
 }
 
-void SAMFullReadGroup::StoreValues(vector<SAMKeywordValuePair> &kvPairs, uint64_t lineNumber)
+void SAMFullReadGroup::StoreValues(std::vector<SAMKeywordValuePair> &kvPairs, uint64_t lineNumber)
 {
     SAMReadGroup::StoreValues(kvPairs, lineNumber);
     std::string kwPair;

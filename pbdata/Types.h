@@ -1,7 +1,7 @@
 #ifndef _BLASR_TYPES_H_
 #define _BLASR_TYPES_H_
 
-#include <stdint.h>
+#include <cstdint>
 
 typedef unsigned char Nucleotide;
 // DNA sequence related definitions.

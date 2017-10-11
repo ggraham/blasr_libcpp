@@ -37,8 +37,8 @@ void AlignmentSetToCmpH5Adapter<T_CmpFile>::StoreReferenceInfo(std::vector<T_Ref
 
         // Update refNameToRefInfoIndex
         if (refNameToRefInfoIndex.find(sequenceName) != refNameToRefInfoIndex.end()) {
-            cout << "ERROR. Reference name " << sequenceName << " is not unique." << endl;
-            exit(1);
+            std::cout << "ERROR. Reference name " << sequenceName << " is not unique." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
         refNameToRefInfoIndex[sequenceName] = r;
     }
@@ -118,7 +118,7 @@ void AlignmentSetToCmpH5Adapter<T_CmpFile>::StoreAlignmentCandidate(AlignmentCan
         std::cout << "ERROR. Attempting to store a read with name " << alignment.qName
                   << " that does not " << std::endl
                   << "appear to be a PacBio read." << std::endl;
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
 
     unsigned int movieId = StoreMovieInfo(movieName, cmpFile);
@@ -131,7 +131,7 @@ void AlignmentSetToCmpH5Adapter<T_CmpFile>::StoreAlignmentCandidate(AlignmentCan
                   << " was not found in the list of references." << std::endl;
         std::cout << "Perhaps a different reference file was aligned to than " << std::endl
                   << "what was provided for SAM conversion. " << std::endl;
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
 
     // Store refGroup
@@ -142,7 +142,7 @@ void AlignmentSetToCmpH5Adapter<T_CmpFile>::StoreAlignmentCandidate(AlignmentCan
     if (cmpFile.refGroupIdToArrayIndex.find(refGroupId) == cmpFile.refGroupIdToArrayIndex.end()) {
         std::cout << "ERROR. The reference ID is not indexed. "
                   << "This is an internal inconsistency." << std::endl;
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
 
     size_t refGroupIndex = cmpFile.refGroupIdToArrayIndex[refGroupId];
@@ -151,7 +151,7 @@ void AlignmentSetToCmpH5Adapter<T_CmpFile>::StoreAlignmentCandidate(AlignmentCan
     std::string path = "/" + refGroupName + "/" + movieName;
     unsigned int pathId = StorePath(path, cmpFile);
 
-    vector<unsigned int> alnIndex;
+    std::vector<unsigned int> alnIndex;
     alnIndex.resize(22);
 
     RemoveGapsAtEndOfAlignment(alignment);
@@ -159,7 +159,7 @@ void AlignmentSetToCmpH5Adapter<T_CmpFile>::StoreAlignmentCandidate(AlignmentCan
     /*
     * Store the alignment string
     */
-    vector<unsigned char> byteAlignment;
+    std::vector<unsigned char> byteAlignment;
     AlignmentToByteAlignment(alignment, alignment.qAlignedSeq, alignment.tAlignedSeq,
                              byteAlignment);
 

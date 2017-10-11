@@ -15,15 +15,18 @@
  * =====================================================================================
  */
 
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
+#include <string>
+#include <vector>
+
+#include <gtest/gtest.h>
+
 #define private public
 #define protected public
 
-#include <gtest/gtest.h>
-#include <stdio.h>
-#include <string.h>
-#include <algorithm>
 #include "format/SAMPrinter.hpp"
-using namespace std;
 
 TEST(SAMPrinterTest, AddMatchBlockCigarOps)
 {
@@ -35,14 +38,14 @@ TEST(SAMPrinterTest, AddMatchBlockCigarOps)
     b.qPos = 5;
     b.tPos = 0;
     b.length = 15;
-    vector<int> opSize;
-    vector<char> opChar;
+    std::vector<int> opSize;
+    std::vector<char> opChar;
 
     DNALength qSeqPos = 0;
     DNALength tSeqPos = 0;
 
-    const vector<int> expOpSize = {5, 1, 9};
-    const vector<char> expOpChar = {'=', 'X', '='};
+    const std::vector<int> expOpSize = {5, 1, 9};
+    const std::vector<char> expOpChar = {'=', 'X', '='};
 
     AddMatchBlockCigarOps(qSeq, tSeq, b, qSeqPos, tSeqPos, opSize, opChar);
 

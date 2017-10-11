@@ -25,7 +25,7 @@ TEST(MovieInfoTest, FindMovie)
 {
     MovieInfo movieInfo;
     int ids[5] = {3, 5, 7, 4, 0};
-    string names[5] = {"movieX", "movieY", "abc", "m000000000032102389170_s0",
+    std::string names[5] = {"movieX", "movieY", "abc", "m000000000032102389170_s0",
                        "m000000000032102389170_s"};
 
     for (int i = 0; i < 5; i++) {
@@ -33,7 +33,7 @@ TEST(MovieInfoTest, FindMovie)
         movieInfo.id.push_back(ids[i]);
     }
 
-    string nameVal, nameVal2;
+    std::string nameVal, nameVal2;
     int ret = movieInfo.FindMovie(4, nameVal);
     EXPECT_EQ(nameVal, names[3]);
     EXPECT_EQ(ret, 1);

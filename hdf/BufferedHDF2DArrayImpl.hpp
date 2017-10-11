@@ -63,7 +63,7 @@ int BufferedHDF2DArray<T>::InitializeForReading(HDFGroup &group, std::string dat
 /*
  * Initialize HDF2D for reading.  No write buffer initialization is
  * required.  The assumption is that the dataspace is in two
- * dimensions, and this exits without grace if it is not. 
+ * dimensions, and this exits without grace if it is not.
  */
 template <typename T>
 int BufferedHDF2DArray<T>::Initialize(HDFGroup &group, std::string datasetName, DSLength _rowLength,
@@ -78,13 +78,13 @@ int BufferedHDF2DArray<T>::Initialize(HDFGroup &group, std::string datasetName, 
         //
         if (createIfMissing == false) {
             std::cout << "ERROR! Could not open dataset " << datasetName << std::endl;
-            exit(1);
+            std::exit(EXIT_FAILURE);
         }
         if (_rowLength == 0) {
             std::cout << "ERROR!  Improper usage of BufferedHDF2DArray::Initialize.  The 2D Array "
                       << std::endl
                       << "is being created but is given a number of columns of 0." << std::endl;
-            exit(1);
+            std::exit(EXIT_FAILURE);
         }
         Create(&group.group, datasetName, _rowLength);
     } else {
@@ -93,7 +93,7 @@ int BufferedHDF2DArray<T>::Initialize(HDFGroup &group, std::string datasetName, 
             dataspace = dataset.getSpace();
         } catch (H5::DataSetIException &e) {
             std::cout << e.getDetailMsg() << std::endl;
-            exit(1);
+            std::exit(EXIT_FAILURE);
         }
 
         maxDims = MAX_DIMS;
@@ -105,7 +105,7 @@ int BufferedHDF2DArray<T>::Initialize(HDFGroup &group, std::string datasetName, 
             if (nDims != 2) {
                 std::cout << "ERROR in HDF format: dataset: " << datasetName
                           << " should be 1-D, but it is not." << std::endl;
-                exit(1);
+                std::exit(EXIT_FAILURE);
             }
 
             /*
@@ -126,7 +126,7 @@ int BufferedHDF2DArray<T>::Initialize(HDFGroup &group, std::string datasetName, 
             dataspace.close();
         } catch (H5::Exception &e) {
             std::cout << e.getDetailMsg() << std::endl;
-            exit(1);
+            std::exit(EXIT_FAILURE);
         }
     }
     return 1;
@@ -169,7 +169,7 @@ void BufferedHDF2DArray<T>::Read(DSLength startX, DSLength endX, DSLength startY
     assert(
         "ERROR, calling Read with an unsupported type. Use Read(startx,endx, starty,endy,datatype, "
         "dest) instead." == 0);
-    exit(1);
+    std::exit(EXIT_FAILURE);
 }
 
 template <typename T>
@@ -190,7 +190,7 @@ void BufferedHDF2DArray<T>::Read(DSLength startX, DSLength endX, DSLength startY
 }
 
 template <typename T>
-void BufferedHDF2DArray<T>::Create(H5::CommonFG *_container, string _datasetName,
+void BufferedHDF2DArray<T>::Create(H5::CommonFG *_container, std::string _datasetName,
                                    DSLength _rowLength)
 {
     container = _container;

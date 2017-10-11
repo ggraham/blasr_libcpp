@@ -11,7 +11,6 @@
 #include "HDFFile.hpp"
 
 using namespace H5;
-using namespace std;
 
 class HDFRegionTableWriter
 {
@@ -19,10 +18,10 @@ public:
     HDFFile regionTableFile;
 
     HDF2DArray<int> regions;
-    HDFAtom<vector<string> > regionTypes;
-    HDFAtom<vector<string> > regionDescriptions;
-    HDFAtom<vector<string> > regionSources;
-    HDFAtom<vector<string> > columnNames;
+    HDFAtom<std::vector<std::string> > regionTypes;
+    HDFAtom<std::vector<std::string> > regionDescriptions;
+    HDFAtom<std::vector<std::string> > regionSources;
+    HDFAtom<std::vector<std::string> > columnNames;
     int curRow;
     int nRows;
     HDFGroup *parentGroupPtr, pulseDataGroup;
@@ -32,14 +31,14 @@ public:
 
         regionTableFile.rootGroup.AddGroup("PulseData");
         if (pulseDataGroup.Initialize(regionTableFile.rootGroup, "PulseData") == 0) {
-            cout << "Could not create group PulseData. This is a bug." << endl;
-            exit(1);
+            std::cout << "Could not create group PulseData. This is a bug." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
         parentGroupPtr = &pulseDataGroup;
         regions.Initialize(pulseDataGroup, "Regions", RegionAnnotation::NCOLS);
     }
 
-    int Create(string fileName)
+    int Create(std::string fileName)
     {
         H5File newFile(fileName.c_str(), H5F_ACC_TRUNC, FileCreatPropList::DEFAULT,
                        FileAccPropList::DEFAULT);
@@ -64,7 +63,7 @@ public:
         return Initialize();
     }
 
-    int Initialize(string &regionTableFileName,
+    int Initialize(std::string &regionTableFileName,
                    const H5::FileAccPropList &fileAccPropList = H5::FileAccPropList::DEFAULT)
     {
         /*
@@ -73,7 +72,7 @@ public:
         try {
             regionTableFile.Open(regionTableFileName, H5F_ACC_TRUNC, fileAccPropList);
         } catch (Exception &e) {
-            cout << e.getDetailMsg() << endl;
+            std::cout << e.getDetailMsg() << std::endl;
             return 0;
         }
         CreateGroupStructure();
@@ -92,8 +91,8 @@ public:
         return 1;
     }
 
-    void Finalize(vector<string> &columnNamesVect, vector<string> &regionTypesVect,
-                  vector<string> &regionDescriptionsVect, vector<string> &regionSourcesVect)
+    void Finalize(std::vector<std::string> &columnNamesVect, std::vector<std::string> &regionTypesVect,
+                  std::vector<std::string> &regionDescriptionsVect, std::vector<std::string> &regionSourcesVect)
     {
         //
         // Make sure data has been written to the dataset.  If not, the
@@ -108,7 +107,7 @@ public:
         }
     }
 
-    void WriteRows(vector<RegionAnnotation> &annotations)
+    void WriteRows(std::vector<RegionAnnotation> &annotations)
     {
         int i;
         for (i = 0; i < annotations.size(); i++) {

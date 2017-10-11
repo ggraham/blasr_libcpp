@@ -39,8 +39,8 @@ public:
     {
         /* The region table for hole number 14798 is as follows.
          * type start end  score
-         *   1   0    712   -1 
-         *   1   760  2040  -1 
+         *   1   0    712   -1
+         *   1   760  2040  -1
          *   1   2098 3452  -1
          *   0   712  760   937
          *   0   2040 2098  741
@@ -95,12 +95,12 @@ public:
 
     HDFRegionTableReader* reader;
     RegionTable regionTable;
-    string fileName;
+    std::string fileName;
     int hqStart, hqEnd, hqScore, holeNumber;
 
     // Data for testing Get*FullSubreadIndex.
-    vector<ReadInterval> subreadIntervals;
-    vector<ReadInterval> adapterIntervals;
+    std::vector<ReadInterval> subreadIntervals;
+    std::vector<ReadInterval> adapterIntervals;
 };
 
 TEST_F(RegionUtilTestFixture, LookupHQRegion)
@@ -115,18 +115,18 @@ TEST_F(RegionUtilTestFixture, LookupHQRegion)
 
 TEST_F(RegionUtilTestFixture, GetHighQulitySubreadsIntervals)
 {
-    vector<ReadInterval> intervals;
+    std::vector<ReadInterval> intervals;
     intervals.push_back(ReadInterval(0, 712));
     intervals.push_back(ReadInterval(760, 2040));
     intervals.push_back(ReadInterval(2098, 3452));
 
-    vector<int> directions;
+    std::vector<int> directions;
     directions.push_back(0);
     directions.push_back(1);
     directions.push_back(0);
 
     int indx = GetHighQualitySubreadsIntervals(intervals, directions, hqStart, hqEnd);
-    EXPECT_EQ(intervals.size(), 3);
+    EXPECT_EQ(intervals.size(), 3u);
     EXPECT_EQ(indx, 2);
     int starts[3] = {0, 760, 2098};
     int ends[3] = {712, 2040, 3424};
@@ -138,7 +138,7 @@ TEST_F(RegionUtilTestFixture, GetHighQulitySubreadsIntervals)
     }
 
     indx = GetHighQualitySubreadsIntervals(intervals, directions, hqStart, hqEnd, 800);
-    EXPECT_EQ(intervals.size(), 2);
+    EXPECT_EQ(intervals.size(), 2u);
     // The first interval and its direction has been removed as the length is less
     // than 800.
     for (int i = 0; i < 2; i++) {
@@ -149,9 +149,9 @@ TEST_F(RegionUtilTestFixture, GetHighQulitySubreadsIntervals)
 
 TEST_F(RegionUtilTestFixture, GetFullPassSubreadIndices)
 {
-    vector<int> vi = GetFullPassSubreadIndices(subreadIntervals, adapterIntervals);
+    std::vector<int> vi = GetFullPassSubreadIndices(subreadIntervals, adapterIntervals);
     // vi = 0, ..., 27
-    EXPECT_EQ(vi.size(), 28);
+    EXPECT_EQ(vi.size(), 28u);
     for (int i = 0; i < 28; i++) {
         EXPECT_EQ(vi[i], i);
     }

@@ -16,23 +16,23 @@
  * =====================================================================================
  */
 
+#include <vector>
+
 #include "VectorUtils.hpp"
 #include "gtest/gtest.h"
 
-using namespace std;
-
-// Test ClearMemory(vector<T> vt)
+// Test ClearMemory(std::vector<T> vt)
 TEST(VectorUtils, ClearMemory)
 {
-    vector<int> vi;
+    std::vector<int> vi;
     vi.push_back(1);
 
-    int size = 1000000;
+    unsigned size = 1000000;
     vi.reserve(size);
-    EXPECT_EQ(vi.size(), 1);
+    EXPECT_EQ(vi.size(), 1u);
     EXPECT_EQ(vi.capacity(), size);
 
     ClearMemory(vi);
-    EXPECT_EQ(vi.size(), 0);
-    EXPECT_EQ(vi.capacity(), 0);
+    EXPECT_EQ(vi.size(), 0u);
+    EXPECT_EQ(vi.capacity(), 0u);
 }

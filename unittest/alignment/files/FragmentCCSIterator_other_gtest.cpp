@@ -16,15 +16,18 @@
  * =====================================================================================
  */
 
+#include <vector>
+#include <string>
+
 #include "gtest/gtest.h"
+
 #define private public
+
 #include "HDFRegionTableReader.hpp"
 #include "files/CCSIterator.hpp"
 #include "files/FragmentCCSIterator.hpp"
 #include "pbdata/testdata.h"
 #include "reads/RegionTable.hpp"
-
-using namespace std;
 
 static const UInt HOLENUMBER = 76772;
 
@@ -70,7 +73,7 @@ static const DNALength EXPECTED_SCORE = 865;
 
 static const DNALength WHOLE_LENGTH = 5000;
 
-static const int EXPECTED_NUM_SUBREADS = 12;
+static const unsigned EXPECTED_NUM_SUBREADS = 12;
 
 TEST(CCSFragmentIterator, Constructor)
 {

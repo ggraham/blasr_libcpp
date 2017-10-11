@@ -1,12 +1,12 @@
 #ifndef _BLASR_TUPLE_COUNT_TABLE_HPP_
 #define _BLASR_TUPLE_COUNT_TABLE_HPP_
 
-#include <assert.h>
+#include <cassert>
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+
 #include "TupleMetrics.hpp"
-using namespace std;
 
 template <typename TSequence, typename TTuple>
 class TupleCountTable
@@ -25,8 +25,8 @@ public:
 
     void IncrementCount(TTuple &tuple);
     void AddSequenceTupleCountsLR(TSequence &seq);
-    void Write(ofstream &out);
-    void Read(ifstream &in);
+    void Write(std::ofstream &out);
+    void Read(std::ifstream &in);
 };
 
 #include "TupleCountTableImpl.hpp"

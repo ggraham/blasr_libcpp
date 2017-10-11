@@ -35,8 +35,8 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq, Alignment &guide
      Matrix<float> probMatrix;
      probMatrix.Resize(qSeq.length, tSeq.length);
      probMatrix.Initialize(0);
-     ofstream matrixOut;
-     stringstream matrixOutNameStrm;
+     std::ofstream matrixOut;
+     std::stringstream matrixOutNameStrm;
      matrixOutNameStrm << "probMatrix_"<< runIndex << ".dat";
      matrixOut.open(matrixOutNameStrm.str().c_str());
      */
@@ -72,19 +72,19 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq, Alignment &guide
     std::vector<int> affineInsScoreMat, affineDelScoreMat;
     std::vector<Arrow> affineInsPathMat, affineDelPathMat;
     affineInsScoreMat.resize(matrixNElem);
-    fill(affineInsScoreMat.begin(), affineInsScoreMat.end(), 0);
+    std::fill(affineInsScoreMat.begin(), affineInsScoreMat.end(), 0);
     affineDelScoreMat.resize(matrixNElem);
-    fill(affineDelScoreMat.begin(), affineDelScoreMat.end(), 0);
+    std::fill(affineDelScoreMat.begin(), affineDelScoreMat.end(), 0);
     affineInsPathMat.resize(matrixNElem);
-    fill(affineInsPathMat.begin(), affineInsPathMat.end(), NoArrow);
+    std::fill(affineInsPathMat.begin(), affineInsPathMat.end(), NoArrow);
     affineDelPathMat.resize(matrixNElem);
-    fill(affineDelPathMat.begin(), affineDelPathMat.end(), NoArrow);
+    std::fill(affineDelPathMat.begin(), affineDelPathMat.end(), NoArrow);
 
     if (scoreMat.size() < matrixNElem) {
         scoreMat.resize(matrixNElem);
         pathMat.resize(matrixNElem);
-        fill(scoreMat.begin(), scoreMat.end(), 0);
-        fill(pathMat.begin(), pathMat.end(), NoArrow);
+        std::fill(scoreMat.begin(), scoreMat.end(), 0);
+        std::fill(pathMat.begin(), pathMat.end(), NoArrow);
     }
     if (computeProb) {
         if (probMat.size() < matrixNElem) {
@@ -143,10 +143,10 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq, Alignment &guide
         curIndex = -1;
         indicesAreValid = GetBufferIndex(guide, qStart - 1, t, curIndex);
         if (indicesAreValid == 0) {
-            cout << "QSeq" << endl;
-            (static_cast<DNASequence *>(&origQSeq))->PrintSeq(cout);
-            cout << "TSeq" << endl;
-            (static_cast<DNASequence *>(&origTSeq))->PrintSeq(cout);
+            std::cout << "QSeq" << std::endl;
+            (static_cast<DNASequence *>(&origQSeq))->PrintSeq(std::cout);
+            std::cout << "TSeq" << std::endl;
+            (static_cast<DNASequence *>(&origTSeq))->PrintSeq(std::cout);
             assert(0);
         }
         delIndex = -1;
@@ -310,10 +310,10 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq, Alignment &guide
             affineDelOpenScore = scoreMat[curIndex] + scoreFn.affineOpen;
 
             if (affineInsOpenScore == INF_INT and affineInsExtScore == INF_INT) {
-                cout << q << " " << t << endl;
-                cout << "All infinity, bad things will happen." << endl;
-                cout << "the score mat here is : " << scoreMat[curIndex] << " and path "
-                     << pathMat[curIndex] << endl;
+                std::cout << q << " " << t << std::endl;
+                std::cout << "All infinity, bad things will happen." << std::endl;
+                std::cout << "the score mat here is : " << scoreMat[curIndex] << " and path "
+                     << pathMat[curIndex] << std::endl;
                 assert(0);
             }
             if (affineInsOpenScore < affineInsExtScore) {
@@ -341,28 +341,28 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq, Alignment &guide
     int curMatrix = Match;
     while (q >= qStart or t >= tStart) {
         bufferIndex = -1;
-        //    cout << "backtrace: " << q << " "<< t << endl;
+        //    std::cout << "backtrace: " << q << " "<< t << std::endl;
         bufferIndexIsValid = GetBufferIndex(guide, q, t, bufferIndex);
         assert(bufferIndexIsValid);
         assert(bufferIndex >= 0);
         Arrow arrow;
-        //    cout << q << " "<< t << " " << curMatrix << " " << arrow << endl;
+        //    std::cout << q << " "<< t << " " << curMatrix << " " << arrow << std::endl;
         if (curMatrix == Match) {
             arrow = pathMat[bufferIndex];
             if (arrow == NoArrow) {
                 tSeq.ToAscii();
                 qSeq.ToAscii();
                 for (size_t gi = 0; gi < guide.size(); gi++) {
-                    cout << guide[gi].q << " " << guide[gi].t << " " << guide[gi].tPre << " "
-                         << guide[gi].tPost << endl;
+                    std::cout << guide[gi].q << " " << guide[gi].t << " " << guide[gi].tPre << " "
+                         << guide[gi].tPost << std::endl;
                 }
 
-                cout << "qseq: " << endl;
-                (static_cast<DNASequence *>(&qSeq))->PrintSeq(cout);
-                cout << "tseq: " << endl;
-                (static_cast<DNASequence *>(&tSeq))->PrintSeq(cout);
-                cout << "ERROR, this path has gone awry at " << q << " " << t << " !" << endl;
-                exit(1);
+                std::cout << "qseq: " << std::endl;
+                (static_cast<DNASequence *>(&qSeq))->PrintSeq(std::cout);
+                std::cout << "tseq: " << std::endl;
+                (static_cast<DNASequence *>(&tSeq))->PrintSeq(std::cout);
+                std::cout << "ERROR, this path has gone awry at " << q << " " << t << " !" << std::endl;
+                std::exit(EXIT_FAILURE);
             }
 
             if (arrow == Diagonal) {
@@ -392,8 +392,8 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq, Alignment &guide
                 q--;
                 optAlignment.push_back(Up);
             } else {
-                cout << "ERROR!  Reached arrow " << arrow << " at " << q << " " << t
-                     << " in affine ins path mat. That is bad." << endl;
+                std::cout << "ERROR!  Reached arrow " << arrow << " at " << q << " " << t
+                     << " in affine ins path mat. That is bad." << std::endl;
                 assert(0);
             }
         } else {
@@ -405,8 +405,8 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq, Alignment &guide
                 t--;
                 optAlignment.push_back(Left);
             } else {
-                cout << "ERROR! Reached arrow " << arrow << " at " << q << " " << t
-                     << " in affine del mat. This is also bad." << endl;
+                std::cout << "ERROR! Reached arrow " << arrow << " at " << q << " " << t
+                     << " in affine del mat. This is also bad." << std::endl;
                 assert(0);
             }
         }
@@ -417,7 +417,7 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq, Alignment &guide
     alignment.qPos = qStart;
     alignment.tPos = tStart;
     alignment.ArrowPathToAlignment(optAlignment);
-    //  StickPrintAlignment(alignment, qSeq, tSeq, cout);
+    //  StickPrintAlignment(alignment, qSeq, tSeq, std::cout);
     RemoveAlignmentPrefixGaps(alignment);
     int lastIndex = 0;
     tSeq.Free();

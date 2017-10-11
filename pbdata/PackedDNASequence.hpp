@@ -6,7 +6,7 @@
 #include "NucConversion.hpp"
 #include "utils/BitUtils.hpp"
 
-/* 
+/*
  * Implement a structure to maintain DNA as 3 bits per nucleotide.
  * The extra bit is required for N's in the sequence.  A key is that
  * this structure is read-only through the operator[].  It may be set

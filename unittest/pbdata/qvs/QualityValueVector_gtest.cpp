@@ -19,12 +19,10 @@
 #include "qvs/QualityValue.hpp"
 #include "qvs/QualityValueVector.hpp"
 
-using namespace std;
+const std::string qvstr = "!#$%0123:;ABab{|}~";
+std::vector<uint8_t> data = {0, 2, 3, 4, 15, 16, 17, 18, 25, 26, 32, 33, 64, 65, 90, 91, 92, 93};
 
-const string qvstr = "!#$%0123:;ABab{|}~";
-vector<uint8_t> data = {0, 2, 3, 4, 15, 16, 17, 18, 25, 26, 32, 33, 64, 65, 90, 91, 92, 93};
-
-vector<uint8_t> data2 = {1, 1, 17, 18, 25, 26, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+std::vector<uint8_t> data2 = {1, 1, 17, 18, 25, 26, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
 TEST(QualityValueVectorTest, Copy)
 {
@@ -74,7 +72,7 @@ TEST(QualityValueVetorTest, Fill)
     // Create qual3
     QualityValueVector<QualityValue> qual3;
     qual3.Copy(qvstr.substr(5, 5));  //qual3.data[0..5] = {16,17,18,25,26}
-    EXPECT_EQ(qual3.Length(), 5);
+    EXPECT_EQ(qual3.Length(), 5u);
 
     // Then fill qual2.data[2, ..., 6) with data from qual3.data[1, ...,5)
     qual2.Fill(2, 4, qual3, 1);

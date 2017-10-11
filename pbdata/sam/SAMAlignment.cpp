@@ -17,7 +17,7 @@ size_t SAMAlignment::FindPosOfNthChar(std::string str, int n, char c)
 {
     if (n < 1) {
         std::cout << "Nth should be a positive integer." << std::endl;
-        exit(0);
+        exit(EXIT_SUCCESS);
     }
     int count = 1;
     size_t pos = str.find(c, 0);
@@ -43,10 +43,10 @@ bool SAMAlignment::StoreValues(std::string& line, int lineNumber)
     std::stringstream strm(line);
     std::vector<bool> usedFields;
     usedFields.resize(S_QUAL);
-    fill(usedFields.begin(), usedFields.end(), false);
+    std::fill(usedFields.begin(), usedFields.end(), false);
     std::string kvPair;
     bool parseError = false;
-    SAMAlignmentRequiredFields field;
+    SAMAlignmentRequiredFields field{};
     //
     // Define a temporary mapqv value that gets over a GMAP bug that prints a mapqv < 0.
     //
@@ -110,7 +110,7 @@ bool SAMAlignment::StoreValues(std::string& line, int lineNumber)
     if (parseError) {
         std::cout << "Error parsing alignment line " << lineNumber << ". Missing or error in field "
                   << SAMAlignmentRequiredFieldNames[field] << std::endl;
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
 
     //
@@ -160,7 +160,7 @@ bool SAMAlignment::StoreValues(std::string& line, int lineNumber)
             }
         } else {
             std::cout << "ERROR. Could not parse typed keyword value " << typedKVPair << std::endl;
-            exit(0);
+            exit(EXIT_SUCCESS);
         }
     }
     return true;

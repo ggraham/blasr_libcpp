@@ -4,24 +4,23 @@
 #include <iostream>
 #include <map>
 #include <string>
+
 #include "../../pbdata/utils.hpp"
 #include "OutputSampleList.hpp"
 
-using namespace std;
-
-typedef map<string, OutputSampleList> OutputSampleListMap;
+typedef std::map<std::string, OutputSampleList> OutputSampleListMap;
 class OutputSampleListSet
 {
 public:
     OutputSampleListMap listMap;
-    vector<string> keys;
+    std::vector<std::string> keys;
     int keyLength;
     int nSufficient;
     int sampleSpaceSize;
     int keySize;
     int minSamples;
     int maxSamples;
-    vector<int> lengths;
+    std::vector<int> lengths;
     OutputSampleListSet(int keySizeP)
     {
         minSamples = 500;
@@ -31,7 +30,7 @@ public:
         sampleSpaceSize = 1 << (2 * keySize);
     }
 
-    void Write(ofstream &out)
+    void Write(std::ofstream &out)
     {
         // Say how many elements to write.
         OutputSampleListMap::iterator mapIt;
@@ -45,27 +44,26 @@ public:
         out.write((char *)&keySize, sizeof(int));
 
         for (mapIt = listMap.begin(); mapIt != listMap.end(); ++mapIt) {
-            string mapItKey = mapIt->first;
+            std::string mapItKey = mapIt->first;
             out.write((char *)mapItKey.c_str(), sizeof(char) * mapItKey.size());
             mapIt->second.Write(out);
         }
         int numLengths = lengths.size();
         out.write((char *)&numLengths, sizeof(int));
-        int i;
-        for (i = 0; i < lengths.size(); i++) {
+        for (size_t i = 0; i < lengths.size(); i++) {
             out.write((char *)&lengths[i], sizeof(int));
         }
     }
 
-    void Read(string &inName)
+    void Read(std::string &inName)
     {
-        ifstream in;
+        std::ifstream in;
         CrucialOpen(inName, in, std::ios::in | std::ios::binary);
         Read(in);
         in.close();
     }
 
-    void Read(ifstream &in)
+    void Read(std::ifstream &in)
     {
         int setSize;
         in.read((char *)&setSize, sizeof(int));
@@ -95,34 +93,33 @@ public:
         }
     }
 
-    void AppendOutputSample(string key, OutputSample &sample)
+    void AppendOutputSample(std::string key, OutputSample &sample)
     {
-        if (listMap[key].size() < minSamples) {
-            if (listMap[key].size() < maxSamples) {
+        if (static_cast<int>(listMap[key].size()) < minSamples) {
+            if (static_cast<int>(listMap[key].size()) < maxSamples) {
                 listMap[key].push_back(sample);
             }
-            if (listMap[key].size() == minSamples) {
+            if (static_cast<int>(listMap[key].size()) == minSamples) {
                 nSufficient++;
-                cout << nSufficient << " / " << sampleSpaceSize << endl;
+                std::cout << nSufficient << " / " << sampleSpaceSize << std::endl;
             }
         }
     }
 
     bool Sufficient() { return nSufficient == sampleSpaceSize; }
 
-    void SampleRandomSample(string key, OutputSample &sample)
+    void SampleRandomSample(std::string key, OutputSample &sample)
     {
         if (listMap.find(key) == listMap.end()) {
-            cout << listMap.size() << endl;
-            cout << "ERROR, " << key << " is not a sampled context." << endl;
-            int i;
-            for (i = 0; i < key.size(); i++) {
+            std::cout << listMap.size() << std::endl;
+            std::cout << "ERROR, " << key << " is not a sampled context." << std::endl;
+            for (size_t i = 0; i < key.size(); i++) {
                 char c = toupper(key[i]);
                 if (c != 'A' and c != 'C' and c != 'G' and c != 'T') {
-                    cout << "The nucleotide " << c << " is not supported." << endl;
+                    std::cout << "The nucleotide " << c << " is not supported." << std::endl;
                 }
             }
-            exit(1);
+            std::exit(EXIT_FAILURE);
         }
         sample = listMap[key][RandomInt(listMap[key].size())];
     }

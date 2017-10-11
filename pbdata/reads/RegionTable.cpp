@@ -1,12 +1,11 @@
 // Author: Mark Chaisson
 // Modified by: Yuan Li
 
-#include "RegionTable.hpp"
 #include <algorithm>
 #include <iostream>
 #include <ostream>
 
-using namespace std;
+#include "RegionTable.hpp"
 
 RegionTable& RegionTable::Reset()
 {

@@ -1,7 +1,7 @@
 #ifndef _BLASR_TITLE_TABLE_HPP_
 #define _BLASR_TITLE_TABLE_HPP_
 
-#include <string.h>
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <sstream>

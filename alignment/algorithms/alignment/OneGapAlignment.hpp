@@ -1,7 +1,7 @@
 #ifndef _BLASR_ONEGAP_ALIGNMENT_HPP_
 #define _BLASR_ONEGAP_ALIGNMENT_HPP_
 
-#include <limits.h>
+#include <climits>
 // pbdata
 #include "../../../pbdata/FASTQSequence.hpp"
 #include "../../../pbdata/Types.h"
@@ -13,7 +13,7 @@
 /*
    Perform gapped alignment that aligns the entire query sequence to
    leftTarget, rightTarget, or between the two with a gap in between.
-   The gap between leftTarget and rightTarget is an affine gap. 
+   The gap between leftTarget and rightTarget is an affine gap.
    */
 
 template <typename T_QuerySequence, typename T_RefSequence, typename T_ScoreFunction>
@@ -27,7 +27,7 @@ int OneGapAlign(T_QuerySequence &query, T_RefSequence &leftTarget, T_RefSequence
        Perform alignment that spans what is effectively two pairs of
        matrices.  This is implemented as a single matrix, however paths
        may only transition through the boundary between the two through
-       the affine portion of the matrices.  
+       the affine portion of the matrices.
 
        leftTarget    rightTarget
        affine   |==============|
@@ -119,7 +119,7 @@ int OneGapAlign(T_QuerySequence &query, T_RefSequence &leftTarget, T_RefSequence
             insScore = scoreMat[i][j + 1] + scoreFn.Insertion(leftTarget, j, query, i);
             delScore = scoreMat[i + 1][j] + scoreFn.Deletion(leftTarget, j, query, i);
 
-            int minScore = min(matchScore, min(insScore, delScore));
+            int minScore = std::min(matchScore, std::min(insScore, delScore));
             scoreMat[i + 1][j + 1] = minScore;
 
             // set path.
@@ -163,7 +163,7 @@ int OneGapAlign(T_QuerySequence &query, T_RefSequence &leftTarget, T_RefSequence
         //
         insScore = scoreFn.Insertion(rightTarget, j, query, i - 1);
 
-        minScore = min(matchScore, insScore);
+        minScore = std::min(matchScore, insScore);
         UInt targetCol = leftTarget.length;
 
         assert(scoreMat[i + 1][targetCol + 1] == 0);
@@ -191,7 +191,7 @@ int OneGapAlign(T_QuerySequence &query, T_RefSequence &leftTarget, T_RefSequence
             affineCloseScore =
                 affineScoreMat[i][targetCol] + scoreFn.Match(rightTarget, j, query, i);
 
-            minScore = min(matchScore, min(insScore, min(delScore, affineCloseScore)));
+            minScore = std::min(matchScore, std::min(insScore, std::min(delScore, affineCloseScore)));
 
             scoreMat[i + 1][targetCol + 1] = minScore;
             if (minScore == matchScore) {
@@ -219,7 +219,7 @@ int OneGapAlign(T_QuerySequence &query, T_RefSequence &leftTarget, T_RefSequence
     //
     i = nQueryRows - 1;
     j = nTargetCols - 1;
-    vector<Arrow> optAlignment;
+    std::vector<Arrow> optAlignment;
 
     int REGULAR = 0;
     int AFFINE = 1;
@@ -228,14 +228,14 @@ int OneGapAlign(T_QuerySequence &query, T_RefSequence &leftTarget, T_RefSequence
     Arrow arrow;
 
     /*
-       cout << "score " << endl;
-       PrintFlatMatrix(scoreMat.matrix, scoreMat.nRows, scoreMat.nCols, cout, 3);
-       cout << "path " << endl;
-       PrintFlatMatrix(pathMat.matrix, scoreMat.nRows, scoreMat.nCols, cout, 3);
-       cout << "affine score " << endl;
-       PrintFlatMatrix(affineScoreMat.matrix, scoreMat.nRows, scoreMat.nCols, cout, 3);
-       cout << "affine path " << endl;
-       PrintFlatMatrix(affinePathMat.matrix, scoreMat.nRows, scoreMat.nCols, cout, 3);
+       std::cout << "score " << std::endl;
+       PrintFlatMatrix(scoreMat.matrix, scoreMat.nRows, scoreMat.nCols, std::cout, 3);
+       std::cout << "path " << std::endl;
+       PrintFlatMatrix(pathMat.matrix, scoreMat.nRows, scoreMat.nCols, std::cout, 3);
+       std::cout << "affine score " << std::endl;
+       PrintFlatMatrix(affineScoreMat.matrix, scoreMat.nRows, scoreMat.nCols, std::cout, 3);
+       std::cout << "affine path " << std::endl;
+       PrintFlatMatrix(affinePathMat.matrix, scoreMat.nRows, scoreMat.nCols, std::cout, 3);
        */
     int optScore = scoreMat[i][j];
     while (i > 0 or j > 0 or curMatrix == AFFINE) {
@@ -324,10 +324,10 @@ int OneGapAlign(T_QuerySequence &query, T_RefSequence &reference, T_ScoreFunctio
     (void)(buffers);
 
     T_RefSequence leftReference, rightReference;
-    UInt leftReferenceLength = min(reference.length, query.length);
+    UInt leftReferenceLength = std::min(reference.length, query.length);
     leftReference.ReferenceSubstring(reference, 0, leftReferenceLength);
 
-    UInt rightReferenceLength = min(reference.length - leftReferenceLength, query.length);
+    UInt rightReferenceLength = std::min(reference.length - leftReferenceLength, query.length);
     rightReference.ReferenceSubstring(reference, reference.length - rightReferenceLength,
                                       rightReferenceLength);
 

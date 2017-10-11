@@ -15,73 +15,74 @@
  *
  * =====================================================================================
  */
+
 #include "NucConversion.hpp"
 #include "gtest/gtest.h"
 
 // ACGT = 0123
 TEST(NucConversion, ASCIITo2BIT)
 {
-    EXPECT_EQ(TwoBit['A'], 0);
-    EXPECT_EQ(TwoBit['a'], 0);
-    EXPECT_EQ(TwoBit['C'], 1);
-    EXPECT_EQ(TwoBit['c'], 1);
-    EXPECT_EQ(TwoBit['G'], 2);
-    EXPECT_EQ(TwoBit['g'], 2);
-    EXPECT_EQ(TwoBit['T'], 3);
-    EXPECT_EQ(TwoBit['t'], 3);
-    EXPECT_EQ(TwoBit['N'], 255);
-    EXPECT_EQ(TwoBit['x'], 255);
+    EXPECT_EQ(TwoBit[static_cast<size_t>('A')], 0);
+    EXPECT_EQ(TwoBit[static_cast<size_t>('a')], 0);
+    EXPECT_EQ(TwoBit[static_cast<size_t>('C')], 1);
+    EXPECT_EQ(TwoBit[static_cast<size_t>('c')], 1);
+    EXPECT_EQ(TwoBit[static_cast<size_t>('G')], 2);
+    EXPECT_EQ(TwoBit[static_cast<size_t>('g')], 2);
+    EXPECT_EQ(TwoBit[static_cast<size_t>('T')], 3);
+    EXPECT_EQ(TwoBit[static_cast<size_t>('t')], 3);
+    EXPECT_EQ(TwoBit[static_cast<size_t>('N')], 255);
+    EXPECT_EQ(TwoBit[static_cast<size_t>('x')], 255);
 }
 
 TEST(NucConversion, ASCIITo3BIT)
 {
-    EXPECT_EQ(ThreeBit['A'], 0);
-    EXPECT_EQ(ThreeBit['a'], 0);
-    EXPECT_EQ(ThreeBit['C'], 1);
-    EXPECT_EQ(ThreeBit['c'], 1);
-    EXPECT_EQ(ThreeBit['G'], 2);
-    EXPECT_EQ(ThreeBit['g'], 2);
-    EXPECT_EQ(ThreeBit['T'], 3);
-    EXPECT_EQ(ThreeBit['t'], 3);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('A')], 0);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('a')], 0);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('C')], 1);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('c')], 1);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('G')], 2);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('g')], 2);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('T')], 3);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('t')], 3);
 
-    EXPECT_EQ(ThreeBit['U'], 4);
-    EXPECT_EQ(ThreeBit['M'], 4);
-    EXPECT_EQ(ThreeBit['R'], 4);
-    EXPECT_EQ(ThreeBit['W'], 4);
-    EXPECT_EQ(ThreeBit['S'], 4);
-    EXPECT_EQ(ThreeBit['Y'], 4);
-    EXPECT_EQ(ThreeBit['K'], 4);
-    EXPECT_EQ(ThreeBit['V'], 4);
-    EXPECT_EQ(ThreeBit['H'], 4);
-    EXPECT_EQ(ThreeBit['D'], 4);
-    EXPECT_EQ(ThreeBit['N'], 4);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('U')], 4);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('M')], 4);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('R')], 4);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('W')], 4);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('S')], 4);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('Y')], 4);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('K')], 4);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('V')], 4);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('H')], 4);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('D')], 4);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('N')], 4);
 
-    EXPECT_EQ(ThreeBit['$'], 5);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('$')], 5);
 
-    EXPECT_EQ(ThreeBit['p'], 255);
-    EXPECT_EQ(ThreeBit['q'], 255);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('p')], 255);
+    EXPECT_EQ(ThreeBit[static_cast<size_t>('q')], 255);
 }
 
 TEST(NucConversion, ISACTG)
 {
-    EXPECT_TRUE(IsACTG['A']);
-    EXPECT_TRUE(IsACTG['a']);
-    EXPECT_TRUE(IsACTG['C']);
-    EXPECT_TRUE(IsACTG['c']);
-    EXPECT_TRUE(IsACTG['G']);
-    EXPECT_TRUE(IsACTG['g']);
-    EXPECT_TRUE(IsACTG['T']);
-    EXPECT_TRUE(IsACTG['t']);
+    EXPECT_TRUE(IsACTG[static_cast<size_t>('A')]);
+    EXPECT_TRUE(IsACTG[static_cast<size_t>('a')]);
+    EXPECT_TRUE(IsACTG[static_cast<size_t>('C')]);
+    EXPECT_TRUE(IsACTG[static_cast<size_t>('c')]);
+    EXPECT_TRUE(IsACTG[static_cast<size_t>('G')]);
+    EXPECT_TRUE(IsACTG[static_cast<size_t>('g')]);
+    EXPECT_TRUE(IsACTG[static_cast<size_t>('T')]);
+    EXPECT_TRUE(IsACTG[static_cast<size_t>('t')]);
 
-    EXPECT_FALSE(IsACTG['w']);
-    EXPECT_FALSE(IsACTG['N']);
+    EXPECT_FALSE(IsACTG[static_cast<size_t>('w')]);
+    EXPECT_FALSE(IsACTG[static_cast<size_t>('N')]);
 }
 
 TEST(NucConversion, ThreeBitToASCII)
 {
     char alphabeta[] = {'A', 'C', 'G', 'T'};
     for (int i = 0; i < 4; i++) {
-        EXPECT_EQ(alphabeta[i], ThreeBitToAscii[ThreeBit[alphabeta[i]]]);
+        EXPECT_EQ(alphabeta[i], ThreeBitToAscii[ThreeBit[static_cast<size_t>(alphabeta[i])]]);
     }
 }
 
@@ -89,7 +90,7 @@ TEST(NucConversion, AllToUpper)
 {
     char alphabeta[] = {'A', 'C', 'G', 'T', 'a', 'c', 'g', 't'};
     for (int i = 0; i < 8; i++) {
-        EXPECT_EQ(toupper(alphabeta[i]), AllToUpper[alphabeta[i]]);
+        EXPECT_EQ(toupper(alphabeta[i]), AllToUpper[static_cast<size_t>(alphabeta[i])]);
     }
 }
 
@@ -97,14 +98,14 @@ TEST(NucConversion, AllToLower)
 {
     char alphabeta[] = {'A', 'C', 'G', 'T', 'a', 'c', 'g', 't'};
     for (int i = 0; i < 8; i++) {
-        EXPECT_EQ(tolower(alphabeta[i]), AllToLower[alphabeta[i]]);
+        EXPECT_EQ(tolower(alphabeta[i]), AllToLower[static_cast<size_t>(alphabeta[i])]);
     }
 }
 
 TEST(NucConversion, ReverseComplementNuc)
 {
-    EXPECT_EQ(ReverseComplementNuc['A'], 'T');
-    EXPECT_EQ(ReverseComplementNuc['T'], 'A');
-    EXPECT_EQ(ReverseComplementNuc['G'], 'C');
-    EXPECT_EQ(ReverseComplementNuc['C'], 'G');
+    EXPECT_EQ(ReverseComplementNuc[static_cast<size_t>('A')], 'T');
+    EXPECT_EQ(ReverseComplementNuc[static_cast<size_t>('T')], 'A');
+    EXPECT_EQ(ReverseComplementNuc[static_cast<size_t>('G')], 'C');
+    EXPECT_EQ(ReverseComplementNuc[static_cast<size_t>('C')], 'G');
 }

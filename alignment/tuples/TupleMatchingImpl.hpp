@@ -1,14 +1,13 @@
-#include <stdint.h>
+#include <cstdint>
 #include <algorithm>
 #include <iostream>
 #include <utility>
 #include <vector>
+
 #include "../../pbdata/DNASequence.hpp"
 #include "../../pbdata/NucConversion.hpp"
 #include "../../pbdata/SeqUtils.hpp"
 #include "../../pbdata/Types.h"
-
-using namespace std;
 
 template <typename Sequence, typename T_TupleList>
 int SequenceToTupleList(Sequence &seq, TupleMetrics &tm, T_TupleList &tupleList)
@@ -36,7 +35,7 @@ int SequenceToTupleList(Sequence &seq, TupleMetrics &tm, T_TupleList &tupleList)
 
 template <typename TSequence, typename TMatch, typename T_TupleList>
 int StoreMatchingPositions(TSequence &querySeq, TupleMetrics &tm, T_TupleList &targetTupleList,
-                           vector<TMatch> &matchSet)
+                           std::vector<TMatch> &matchSet)
 {
     DNALength s;
     //	TQueryTuple queryTuple;
@@ -48,7 +47,7 @@ int StoreMatchingPositions(TSequence &querySeq, TupleMetrics &tm, T_TupleList &t
             if ((res and (res = queryTuple.ShiftAddRL(querySeq.seq[s + tm.tupleSize - 1], tm))) or
                 (!res and (res = queryTuple.FromStringRL(&querySeq.seq[s], tm)))) {
                 int targetListIndex = 0;
-                typename vector<typename T_TupleList::Tuple>::const_iterator curIt, endIt;
+                typename std::vector<typename T_TupleList::Tuple>::const_iterator curIt, endIt;
                 targetTupleList.FindAll(queryTuple, curIt, endIt);
 
                 for (; curIt != endIt; curIt++) {
@@ -62,13 +61,13 @@ int StoreMatchingPositions(TSequence &querySeq, TupleMetrics &tm, T_TupleList &t
 }
 
 template <typename Sequence, typename Tuple>
-int StoreUniqueTuplePosList(Sequence seq, TupleMetrics &tm, vector<int> &uniqueTuplePosList)
+int StoreUniqueTuplePosList(Sequence seq, TupleMetrics &tm, std::vector<int> &uniqueTuplePosList)
 {
     //
     // Do this faster later on with a suffix tree -- faster than n log n construction time.
     //
     int s;
-    vector<pair<Tuple, int> > tuples;
+    std::vector<std::pair<Tuple, int> > tuples;
     Tuple tempTuple;
     for (s = 0; s < seq.length - tm.tupleSize + 1; s++) {
         tempTuple.FromStringRL(&(seq.seq[s]), tm);

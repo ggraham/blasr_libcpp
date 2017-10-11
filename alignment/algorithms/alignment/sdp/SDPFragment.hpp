@@ -81,9 +81,9 @@ inline int Fragment::LessThanXY(const Fragment &f) const
     /*
     if (x < f.x)
         return 1;
-    else if (x == f.x) 
+    else if (x == f.x)
         return y < f.y;
-    else 
+    else
         return 0;
     */
 }
@@ -103,10 +103,10 @@ inline int Fragment::LessThanYX(const Fragment &f) const
     /*
     if (y < f.y)
         return 1;
-    else if (y == f.y) 
+    else if (y == f.y)
         return x < f.x;
-    else 
-        return 0; 
+    else
+        return 0;
     */
 }
 

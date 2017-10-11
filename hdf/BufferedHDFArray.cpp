@@ -3,7 +3,7 @@
 /*
  *
  * Implementation of a 1-D array for IO from an HDF array.
- * This is templated, but specialized for a few data types, so that 
+ * This is templated, but specialized for a few data types, so that
  * the HDF data types do not need to be specified by anybody.
  *
  *  Two examples of the usage of this class follow:
@@ -73,7 +73,7 @@ DEFINE_TYPED_CREATE_ARRAY(float, H5::PredType::NATIVE_FLOAT)
 DEFINE_TYPED_CREATE_ARRAY(uint16_t, H5::PredType::NATIVE_UINT16)
 
 template <>
-void BufferedHDFArray<string>::TypedCreate(H5::DataSpace &space, H5::DSetCreatPropList &cparms)
+void BufferedHDFArray<std::string>::TypedCreate(H5::DataSpace &space, H5::DSetCreatPropList &cparms)
 {
     H5::StrType varStrType(0, H5T_VARIABLE);
     dataset = container->createDataSet(datasetName.c_str(), varStrType, space, cparms);

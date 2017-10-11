@@ -261,7 +261,7 @@ void SAMAlignmentsToCandidates(SAMAlignment &sam, std::vector<FASTASequence> &re
 
         if (not stitle.isSMRTTitle) {
             std::cout << "ERROR. Could not parse title " << sam.qName << std::endl;
-            exit(1);
+            std::exit(EXIT_FAILURE);
         }
         queryPosOffset = stitle.start;
     } else if (sam.xs) {
@@ -352,7 +352,7 @@ void SAMAlignmentsToCandidates(SAMAlignment &sam, std::vector<FASTASequence> &re
             if (refNameToRefListIndex.find(sam.rName) == refNameToRefListIndex.end()) {
                 std::cout << " ERROR.  SAM Reference " << sam.rName
                           << " is not found in the list of reference contigs." << std::endl;
-                exit(1);
+                std::exit(EXIT_FAILURE);
             }
 
             refIndex = refNameToRefListIndex[sam.rName];

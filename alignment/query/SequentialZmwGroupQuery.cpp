@@ -1,13 +1,14 @@
-#include "../../pbdata/libconfig.h"
+#include <LibBlasrConfig.h>
+
 #ifdef USE_PBBAM
 #include <pbbam/CompositeBamReader.h>
 #include <boost/optional.hpp>
 #include <cassert>
 #include "SequentialZmwGroupQuery.h"
+
 using namespace PacBio;
 using namespace PacBio::BAM;
 using namespace PacBio::BAM::internal;
-using namespace std;
 
 struct SequentialZmwGroupQuery::SequentialZmwGroupQueryPrivate
 {
@@ -17,11 +18,11 @@ public:
     {
     }
 
-    bool GetNext(vector<BamRecord>& records)
+    bool GetNext(std::vector<BamRecord>& records)
     {
         records.clear();
 
-        string movieName;
+        std::string movieName;
         int32_t holeNumber = -1;
 
         if (nextRecord_.is_initialized()) {
@@ -52,7 +53,7 @@ public:
     }
 
 public:
-    unique_ptr<SequentialCompositeBamReader> reader_;
+    std::unique_ptr<SequentialCompositeBamReader> reader_;
 
     boost::optional<BamRecord> nextRecord_;
 };
@@ -64,6 +65,6 @@ SequentialZmwGroupQuery::SequentialZmwGroupQuery(const DataSet& dataset)
 
 SequentialZmwGroupQuery::~SequentialZmwGroupQuery(void) {}
 
-bool SequentialZmwGroupQuery::GetNext(vector<BamRecord>& records) { return d_->GetNext(records); }
+bool SequentialZmwGroupQuery::GetNext(std::vector<BamRecord>& records) { return d_->GetNext(records); }
 
 #endif

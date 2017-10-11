@@ -8,19 +8,19 @@
 #include "tuples/TupleMetrics.hpp"
 
 template <typename Sequence, typename Tuple>
-BuildTupleList(Sequence seq, vector<Tuple> &tupleList)
+BuildTupleList(Sequence seq, std::vector<Tuple> &tupleList)
 {
     BuildTupleList(seq, 0, seq.length, tupleList);
 }
 
 template <typename Sequence, typename Tuple>
-BuildTupleList(Sequence seq, int seqStart, int length, vector<Tuple> &tupleList)
+BuildTupleList(Sequence seq, int seqStart, int length, std::vector<Tuple> &tupleList)
 {
 }
 
 template <typename Sequence, typename CountedTuple>
 BuildCountedTupleList(Sequence seq, int seqStart, int length, TupleMetrics &tm,
-                      vector<CountedTuple> &tupleList)
+                      std::vector<CountedTuple> &tupleList)
 {
     int s;
     CountedTuple tuple;
@@ -29,13 +29,13 @@ BuildCountedTupleList(Sequence seq, int seqStart, int length, TupleMetrics &tm,
 }
 
 template <typename Sequence, typename Tuple>
-StoreUniqueTuplePosList(Sequence seq, TupleMetrics &tm, vector<int> &uniqueTuplePosList)
+StoreUniqueTuplePosList(Sequence seq, TupleMetrics &tm, std::vector<int> &uniqueTuplePosList)
 {
     //
     // Do this faster later on with a suffix tree -- faster than n log n construction time.
     //
     int s;
-    vector<pair<Tuple, int> > tuples;
+    std::vector<pair<Tuple, int> > tuples;
     Tuple tempTuple;
     for (s = 0; s < seq.length; s++) {
         tempTuple.FromStringLR(&(seq.seq[s]), tm);

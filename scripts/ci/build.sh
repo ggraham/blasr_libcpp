@@ -4,7 +4,10 @@ set -euo pipefail
 echo "#############################"
 echo "# LOAD MODULES"
 source /mnt/software/Modules/current/init/bash
-module load git gcc/4.9.2 ccache boost ninja cmake/3.7.2 hdf5-tools/1.8.16 zlib/1.2.8-cloudflare
+module load git gcc/6.4.0 ccache boost ninja cmake/3.9.0 hdf5-tools/1.8.19 zlib/1.2.11 htslib/1.3.1
+export CCACHE_COMPILERCHECK='%compiler% -dumpversion'
+export CCACHE_DIR=/mnt/secondary/Share/tmp/bamboo.mobs.ccachedir
+export CCACHE_BASEDIR=$PWD
 
 echo "#############################"
 echo "# PRE-BUILD HOOK"

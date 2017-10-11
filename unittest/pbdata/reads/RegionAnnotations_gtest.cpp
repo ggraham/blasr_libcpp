@@ -14,14 +14,18 @@
  *
  * ==================================================================
  */
-#include "gtest/gtest.h"
-#define private public
+
 #include <algorithm>
 #include <iostream>
+#include <string>
+#include <vector>
+
+#include "gtest/gtest.h"
+
+#define private public
+
 #include "reads/ReadInterval.hpp"
 #include "reads/RegionAnnotations.hpp"
-
-using namespace std;
 
 static const UInt HOLENUMBER = 1720;
 
@@ -130,7 +134,7 @@ TEST(RegionAnnotationsTest, RegionAnnotationsOfType)
 TEST(RegionAnnotationsTest, SubreadIntervals)
 {
     RegionAnnotations ras(HOLENUMBER, REGIONS, TYPES);
-    vector<ReadInterval> ris = ras.SubreadIntervals(WHOLE_LENGTH, true, false);
+    std::vector<ReadInterval> ris = ras.SubreadIntervals(WHOLE_LENGTH, true, false);
     EXPECT_EQ(ris, EXPECTED_SUBREAD_INTERVALS_BYADAPTER_NOHQ);
 
     ris = ras.SubreadIntervals(WHOLE_LENGTH, true, true);
@@ -156,22 +160,22 @@ TEST(RegionAnnotationsTest, SubreadIntervals_2)
     });
     RegionAnnotations ras(HOLENUMBER, regions, TYPES);
 
-    vector<ReadInterval> ris = ras.SubreadIntervals(WHOLE_LENGTH, true, false);
-    EXPECT_EQ(ris.size(), 1);  // (112, WHOLE_LENGTH, -1)
+    std::vector<ReadInterval> ris = ras.SubreadIntervals(WHOLE_LENGTH, true, false);
+    EXPECT_EQ(ris.size(), 1u);  // (112, WHOLE_LENGTH, -1)
     EXPECT_EQ(ris[0].start, 112);
-    EXPECT_EQ(ris[0].end, WHOLE_LENGTH);
+    EXPECT_EQ(ris[0].end, static_cast<int>(WHOLE_LENGTH));
 
     // no insert, no hq && require adapter, require hq
     ris = ras.SubreadIntervals(WHOLE_LENGTH, true, true);
-    EXPECT_EQ(ris.size(), 0);
+    EXPECT_EQ(ris.size(), 0u);
 
     // no require adapter, no require hq
     ris = ras.SubreadIntervals(WHOLE_LENGTH, false, false);  // no insert
-    EXPECT_EQ(ris.size(), 0);
+    EXPECT_EQ(ris.size(), 0u);
 
     // no require adapter, require hq
     ris = ras.SubreadIntervals(WHOLE_LENGTH, false, true);  // no hq
-    EXPECT_EQ(ris.size(), 0);
+    EXPECT_EQ(ris.size(), 0u);
 }
 
 TEST(RegionAnnotationsTest, SubreadIntervals_3)
@@ -183,19 +187,19 @@ TEST(RegionAnnotationsTest, SubreadIntervals_3)
     RegionAnnotations ras(HOLENUMBER, regions, TYPES);
 
     // require adapter, no require hq
-    vector<ReadInterval> ris = ras.SubreadIntervals(WHOLE_LENGTH, true, false);
-    EXPECT_EQ(ris.size(), 0);
+    std::vector<ReadInterval> ris = ras.SubreadIntervals(WHOLE_LENGTH, true, false);
+    EXPECT_EQ(ris.size(), 0u);
 
     // require adapter, require hq
     ris = ras.SubreadIntervals(WHOLE_LENGTH, true, true);
-    EXPECT_EQ(ris.size(), 0);
+    EXPECT_EQ(ris.size(), 0u);
 
     // no require adapter, no require hq
     ris = ras.SubreadIntervals(WHOLE_LENGTH, false, false);
-    EXPECT_EQ(ris.size(), 1);
+    EXPECT_EQ(ris.size(), 1u);
     EXPECT_EQ(ris[0], ReadInterval(0, 170, -1));
 
     // no require adapter, require hq
     ris = ras.SubreadIntervals(WHOLE_LENGTH, false, true);
-    EXPECT_EQ(ris.size(), 0);
+    EXPECT_EQ(ris.size(), 0u);
 }

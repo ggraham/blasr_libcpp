@@ -1,7 +1,7 @@
 #ifndef _BLASR_FORMAT_SAMPRINTER_HPP_
 #define _BLASR_FORMAT_SAMPRINTER_HPP_
 
-#include <stdint.h>
+#include <cstdint>
 #include <sstream>
 #include "../../pbdata/SMRTSequence.hpp"
 #include "../datastructures/alignment/Alignment.hpp"

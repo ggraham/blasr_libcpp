@@ -7,7 +7,7 @@
  *
  *        Version:  1.0
  *        Created:  11/29/2012 04:51:02 PM
- *       Revision:  08/20/2014 
+ *       Revision:  08/20/2014
  *       Compiler:  gcc
  *
  *         Author:  Yuan Li (yli), yli@pacificbiosciences.com
@@ -21,8 +21,6 @@
 #include "gtest/gtest.h"
 #include "pbdata/testdata.h"
 #include "reads/RegionTable.hpp"
-
-using namespace std;
 
 class CCSIteratorTestFixture : public testing::Test
 {
@@ -51,7 +49,7 @@ public:
 
     ~CCSIteratorTestFixture() {}
 
-    string fileName;
+    std::string fileName;
     HDFRegionTableReader* reader;
     CCSSequence* ccs;
     RegionTable* rgn;

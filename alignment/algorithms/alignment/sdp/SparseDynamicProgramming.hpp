@@ -11,13 +11,13 @@
 
 /*******************************************************************************
  *  Sparse dynamic programming implementation of Longest Common Subsequence
- *  
+ *
  *  Implementation of method described in Baker and Giancarlo, Journal of
  *  Algorithms 42, 231-254, 2002.
- * 
- *  5/7/09 -- Modified to incorporate different linear cost functions, and 
+ *
+ *  5/7/09 -- Modified to incorporate different linear cost functions, and
  *  local alignments.
- *  
+ *
  ******************************************************************************/
 
 int IndelPenalty(int x1, int y1, int x2, int y2, int insertion, int deletion);

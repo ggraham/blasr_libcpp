@@ -1,5 +1,5 @@
 #include "ZMWGroupEntry.hpp"
-#include <stdint.h>
+#include <cstdint>
 #include "../Types.h"
 ZMWGroupEntry::ZMWGroupEntry()
 {

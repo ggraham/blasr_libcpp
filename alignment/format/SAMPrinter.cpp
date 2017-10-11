@@ -9,7 +9,7 @@ void SAMOutput::BuildFlag(T_AlignmentCandidate &alignment, AlignmentContext &con
 
     /*
      *  Much of the flags are commented out for now since they do not
-     *  generate PICARD compliant SAM.  This needs to be worked out. 
+     *  generate PICARD compliant SAM.  This needs to be worked out.
      */
 
     //
@@ -171,7 +171,7 @@ void SAMOutput::CreateNoClippingCigarOps(T_AlignmentCandidate &alignment, std::v
                 tGap = alignment.blocks[b + 1].tPos - alignment.blocks[b].tPos -
                        alignment.blocks[b].length;
                 int commonGap;
-                commonGap = abs(qGap - tGap);
+                commonGap = std::abs(qGap - tGap);
                 qGap -= commonGap;
                 tGap -= commonGap;
                 matchLength += commonGap;

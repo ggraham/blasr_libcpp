@@ -52,5 +52,5 @@ void IntervalOutput::PrintHeader(std::ostream &out)
 {
     out << "qName tName score percentSimilarity qStrand "
         << "qStart qEnd qLength tStrand tStart tEnd tLength mapQV" << std::endl;
-    //ncells clusterScore probscore numSigClusters" << endl;
+    //ncells clusterScore probscore numSigClusters" << std::endl;
 }

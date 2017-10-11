@@ -1,6 +1,6 @@
 #ifndef _BLASR_FASTA_READER_HPP_
 #define _BLASR_FASTA_READER_HPP_
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include "FASTASequence.hpp"
 #include "metagenome/SequenceIndexDatabase.hpp"
@@ -59,11 +59,11 @@ public:
        Advance to the read nSeq forward.
 
 input: nSeq, the number of sequences to skip.
-output: 
-returns 1 if after advancing nSeq sequences, the file pointer is pointing to 
+output:
+returns 1 if after advancing nSeq sequences, the file pointer is pointing to
 a new sequence.
-0 otherwise. 
-A return value of 0 will signal that the file is done being processed if it is 
+0 otherwise.
+A return value of 0 will signal that the file is done being processed if it is
 iterting over reads.
 */
     int Advance(int nSeq);
@@ -74,7 +74,7 @@ iterting over reads.
 
     void Close();
 
-    void ReadAllSequences(vector<FASTASequence> &sequences);
+    void ReadAllSequences(std::vector<FASTASequence> &sequences);
 };
 
 #endif  // _BLASR_FASTA_READER_HPP_

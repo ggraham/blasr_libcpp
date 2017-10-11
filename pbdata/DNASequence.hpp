@@ -1,18 +1,19 @@
 #ifndef _BLASR_DNA_SEQUENCE_HPP_
 #define _BLASR_DNA_SEQUENCE_HPP_
 
-#include <stdint.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstdlib>
 #include <cassert>
 #include <iostream>
 #include <string>
 #include "NucConversion.hpp"
 #include "Types.h"
-#include "libconfig.h"
+#include <LibBlasrConfig.h>
 #include "utils.hpp"
 
 #ifdef USE_PBBAM
 #include <pbbam/BamRecord.h>
+#include <pbbam/BamRecordView.h>
 #endif
 
 class DNASequence
@@ -143,7 +144,7 @@ inline void DNASequence::CheckBeforeCopyOrReference(const DNASequence &rhs, std:
 
     if (seq == rhs.seq and seq != NULL and deleteOnExit) {
         std::cout << "ERROR, trying to copying a " << seqType << " to itself." << std::endl;
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
 }
 

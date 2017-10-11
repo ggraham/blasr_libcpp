@@ -1,8 +1,8 @@
 #ifndef _BLASR_PDFS_HPP_
 #define _BLASR_PDFS_HPP_
 
-#include <assert.h>
-#include <math.h>
+#include <cassert>
+#include <cmath>
 #include "StatUtils.hpp"
 
 float Binomial(float p, int x, int n);

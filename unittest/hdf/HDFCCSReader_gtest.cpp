@@ -7,7 +7,7 @@
  *
  *        Version:  1.0
  *        Created:  08/23/2013 10:17:14 AM
- *       Revision:  08/20/2014 
+ *       Revision:  08/20/2014
  *       Compiler:  gcc
  *
  *         Author:  Yuan Li (yli), yli@pacificbiosciences.com
@@ -21,7 +21,6 @@
 #include "gtest/gtest.h"
 #include "pbdata/testdata.h"
 
-using namespace std;
 using namespace H5;
 
 class HDFCCSReaderTEST : public ::testing::Test
@@ -33,7 +32,7 @@ public:
 
 TEST_F(HDFCCSReaderTEST, ReadCCSFromBasH5)
 {
-    string fileName = baxFile2;
+    std::string fileName = baxFile2;
     HDFCCSReader<CCSSequence> reader;
     reader.InitializeDefaultIncludedFields();
     ASSERT_EQ(reader.Initialize(fileName), 1);
@@ -49,7 +48,7 @@ TEST_F(HDFCCSReaderTEST, ReadCCSFromBasH5)
 
 TEST_F(HDFCCSReaderTEST, ReadCCSFromCCSH5)
 {
-    string fileName = ccsFile1;
+    std::string fileName = ccsFile1;
     HDFCCSReader<CCSSequence> reader;
     reader.SetReadBasesFromCCS();
     reader.InitializeDefaultIncludedFields();

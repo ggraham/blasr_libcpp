@@ -4,6 +4,7 @@
 #include <H5Cpp.h>
 #include <string>
 #include <vector>
+
 #include "HDFGroup.hpp"
 #include "HDFScanDataReader.hpp"
 #include "HDFZMWReader.hpp"
@@ -15,7 +16,7 @@ public:
     HDFGroup pulseDataGroup;
     HDFGroup rootGroup;
     HDFGroup *rootGroupPtr;
-    string pulseDataGroupName;
+    std::string pulseDataGroupName;
     HDFScanDataReader scanDataReader;
     bool useScanData;
     bool closeFileOnExit;

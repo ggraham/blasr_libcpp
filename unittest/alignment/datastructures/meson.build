@@ -1,0 +1,5 @@
+##################
+# Subdirectories #
+##################
+
+subdir('alignment')

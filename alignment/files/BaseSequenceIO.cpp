@@ -1,8 +1,6 @@
 #include "BaseSequenceIO.hpp"
 #include <cstdlib>
 
-using namespace std;
-
 void BaseSequenceIO::SetFiles(FileType &pFileType, std::string &pFileName)
 {
     fileType = pFileType;
@@ -11,25 +9,25 @@ void BaseSequenceIO::SetFiles(FileType &pFileType, std::string &pFileName)
 
 FileType BaseSequenceIO::GetFileType() { return fileType; }
 
-int BaseSequenceIO::DetermineFileTypeByExtension(string &fileName, FileType &type,
+int BaseSequenceIO::DetermineFileTypeByExtension(std::string &fileName, FileType &type,
                                                  bool exitOnFailure)
 {
 
-    string::size_type dotPos = fileName.rfind(".");
-    if (dotPos != string::npos) {
-        string extension;
+    std::string::size_type dotPos = fileName.rfind(".");
+    if (dotPos != std::string::npos) {
+        std::string extension;
         extension.assign(fileName, dotPos + 1, fileName.size() - (dotPos + 1));
-        if (extension == "fasta" or extension == "fa" or extension == "fas" or
-            extension == "fsta" or extension == "screen") {
+        if (extension == "fasta" || extension == "fa" || extension == "fas" ||
+            extension == "fsta" || extension == "screen") {
             type = FileType::Fasta;
             return 1;
         } else if (extension == "h5") {
             dotPos = fileName.rfind(".", dotPos - 1);
             extension.assign(fileName, dotPos + 1, fileName.size() - (dotPos + 1));
-            if (extension == "pls.h5" or extension == "plx.h5") {
+            if (extension == "pls.h5" || extension == "plx.h5") {
                 type = FileType::HDFPulse;
                 return 1;
-            } else if (extension == "bas.h5" or extension == "bax.h5") {
+            } else if (extension == "bas.h5" || extension == "bax.h5") {
                 type = FileType::HDFBase;
                 return 1;
             } else if (extension == "ccs.h5") {
@@ -39,10 +37,10 @@ int BaseSequenceIO::DetermineFileTypeByExtension(string &fileName, FileType &typ
                 type = FileType::None;
                 return 0;
             }
-        } else if (extension == "fastq" or extension == "fq") {
+        } else if (extension == "fastq" || extension == "fq") {
             type = FileType::Fastq;
             return 1;
-        } else if (extension == "4bit" or extension == "fourbit") {
+        } else if (extension == "4bit" || extension == "fourbit") {
             type = FileType::Fourbit;
             assert("Four bit reading is not yet implemented for the reader agglomerate!" == 0);
             return 1;
@@ -55,9 +53,9 @@ int BaseSequenceIO::DetermineFileTypeByExtension(string &fileName, FileType &typ
         } else {
             type = FileType::None;
             if (exitOnFailure) {
-                cout << "ERROR, file type '." << extension
-                     << "' is not understood to be one of pls.h5, fasta, fastq, nor bam. " << endl;
-                exit(1);
+                std::cout << "ERROR, file type '." << extension
+                     << "' is not understood to be one of pls.h5, fasta, fastq, nor bam. " << std::endl;
+                std::exit(EXIT_FAILURE);
             }
             return 0;
         }

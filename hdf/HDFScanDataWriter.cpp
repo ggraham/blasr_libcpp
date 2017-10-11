@@ -6,7 +6,7 @@ void HDFScanDataWriter::CreateAcqParamsGroup()
 {
     if (acqParamsGroup.Initialize(scanDataGroup, "AcqParams") == 0) {
         std::cout << "ERROR could not create /ScanData/AcqParams." << std::endl;
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
     frameRateAtom.Create(acqParamsGroup.group, "FrameRate");
     numFramesAtom.Create(acqParamsGroup.group, "NumFrames");
@@ -17,7 +17,7 @@ void HDFScanDataWriter::CreateDyeSetGroup()
 {
     if (dyeSetGroup.Initialize(scanDataGroup, "DyeSet") == 0) {
         std::cout << "ERROR could not create /ScanData/DyeSet." << std::endl;
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
     baseMapAtom.Create(dyeSetGroup.group, PacBio::AttributeNames::ScanData::DyeSet::basemap);
     numAnalogAtom.Create(dyeSetGroup.group, "NumAnalog");
@@ -27,7 +27,7 @@ void HDFScanDataWriter::CreateRunInfoGroup()
 {
     if (runInfoGroup.Initialize(scanDataGroup, "RunInfo") == 0) {
         std::cout << "ERROR, could not create /ScanDta/RunInfo." << std::endl;
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
     movieNameAtom.Create(runInfoGroup.group, "MovieName");
     platformIdAtom.Create(runInfoGroup.group, "PlatformId");
@@ -50,7 +50,7 @@ int HDFScanDataWriter::Initialize(HDFGroup& _rootGroup)
     rootGroupPtr->AddGroup("ScanData");
     if (scanDataGroup.Initialize(*(rootGroupPtr), "ScanData") == 0) {
         std::cout << "ERROR, could not create /ScanData group." << std::endl;
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
     scanDataGroup.AddGroup("AcqParams");
     scanDataGroup.AddGroup("DyeSet");

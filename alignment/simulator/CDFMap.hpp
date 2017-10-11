@@ -1,6 +1,6 @@
 #ifndef _SIMULATOR_CDF_MAP_HPP_
 #define _SIMULATOR_CDF_MAP_HPP_
-#include <assert.h>
+#include <cassert>
 #include <algorithm>
 #include <vector>
 #include "../statistics/StatUtils.hpp"
@@ -23,7 +23,7 @@ public:
      *
      * lengths:               10
      * lengthHistogram.data:  10
-     * lengthHistogram.cdf :  1 
+     * lengthHistogram.cdf :  1
      */
     int SelectRandomValue(T_Data &value);
 };

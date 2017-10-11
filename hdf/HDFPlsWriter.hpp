@@ -17,13 +17,12 @@
 #include <sstream>
 
 using namespace H5;
-using namespace std;
 
 class HDFPlsWriter
 {
     HDFFile outFile;
-    string hdfFileName;
-    string movieName, runCode;
+    std::string hdfFileName;
+    std::string movieName, runCode;
     PlatformId platformId;
     static const int bufferSize = 16;
 
@@ -40,7 +39,7 @@ class HDFPlsWriter
 	HDFArray<char> baseArray;
 	HDFArray<unsigned char> qualArray;
 	*/
-    HDFAtom<string> movieNameAtom, runCodeAtom;
+    HDFAtom<std::string> movieNameAtom, runCodeAtom;
 
     //
     // Astro specific arrays.
@@ -92,7 +91,7 @@ public:
 		 */
         platformId = Astro;
     }
-    void AddMovieName(string movieName)
+    void AddMovieName(std::string movieName)
     {
         movieNameAtom.Create(runInfoGroup, "MovieName", movieName);
     }
@@ -100,26 +99,26 @@ public:
 	 * Initialization without a runCode is implicitly a springfield
 	 * platform.  You can change it if you really want.
 	 */
-    void Initialize(string _hdfFileName, string movieName,
+    void Initialize(std::string _hdfFileName, std::string movieName,
                     PlatformId _platformId = SpringfieldPlatform)
     {
         Initialize(_hdfFileName, _platformId);
         AddMovieName(movieName);
     }
-    void Initialize(string _hdfFileName, string movieName, string runCode,
+    void Initialize(std::string _hdfFileName, std::string movieName, std::string runCode,
                     PlatformId _platformId = Astro)
     {
         Initialize(_hdfFileName, _platformId);
         if (movieName != "" and runCode != "") AddRunInfo(movieName, runCode);
     }
 
-    void AddRunInfo(string movieName, string runCode)
+    void AddRunInfo(std::string movieName, std::string runCode)
     {
         AddMovieName(movieName);
         runCodeAtom.Create(runInfoGroup, "RunCode", runCode);
     }
 
-    void Initialize(string _hdfFileName, PlatformId _platformId)
+    void Initialize(std::string _hdfFileName, PlatformId _platformId)
     {
         hdfFileName = _hdfFileName;
         platformId = _platformId;

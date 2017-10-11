@@ -9,11 +9,11 @@ class HDFCmpRootGroup
 {
 public:
     HDFGroup rootGroup;
-    HDFAtom<string> version;
-    HDFAtom<string> index;
-    HDFAtom<string> readType;
-    HDFAtom<string> commandLine;
-    HDF2DArray<string> fileLog;
+    HDFAtom<std::string> version;
+    HDFAtom<std::string> index;
+    HDFAtom<std::string> readType;
+    HDFAtom<std::string> commandLine;
+    HDF2DArray<std::string> fileLog;
 
     ~HDFCmpRootGroup() { rootGroup.Close(); }
 
@@ -45,7 +45,7 @@ public:
 
         //
         // For now, disable file log initialization until
-        // hdf2darray<string> is tested more thoroughly
+        // hdf2darray<std::string> is tested more thoroughly
         //
         // if (fileLog.Initialize(rootGroup.group, "FileLog") == 0) {
         // return 0;}
@@ -62,7 +62,7 @@ public:
             index.Read(cmpFile.index);
         }
         if (rootGroup.ContainsObject("ReadType")) {
-            string readTypeString;
+            std::string readTypeString;
             readType.Read(readTypeString);
             cmpFile.StoreReadType(readTypeString);
         }

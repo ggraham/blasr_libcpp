@@ -2,7 +2,7 @@
 /*
  *
  * Implementation of a 2-D array for IO from an HDF array.
- * This is templated, but specialized for a few data types, so that 
+ * This is templated, but specialized for a few data types, so that
  * the HDF data types do not need to be specified by somebody when reading.
  *
  * Currently no support exists for reading non-contiguous blocks of data, and
@@ -10,12 +10,12 @@
 
  int main(int argc, char* argv[]) {
 	if (argc < 1) {
-		cout << "usage: testHDFReading hdfFile" << endl;
-		exit(0);
+		std::cout << "usage: testHDFReading hdfFile" << std::endl;
+		exit(EXIT_SUCCESS);
 	}
 
-	string hdfFileName = argv[1];
-	
+	std::string hdfFileName = argv[1];
+
 	H5File hdfFile;
 	hdfFile.openFile(hdfFileName.c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
 	BufferedHDF2DArray<uint16_t> xyArray;

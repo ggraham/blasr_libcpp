@@ -24,28 +24,28 @@ void StickPrintAlignment(T_Alignment &alignment, T_QuerySequence &query, T_Targe
     // gap between the beginning of the alignment and the beginning of
     // the substring that is aligned.
     //
-    out << "         Query: " << alignment.qName << endl;
-    out << "        Target: " << alignment.tName << endl;
-    out << "         Model: a hybrid of global/local non-affine alignment" << endl;
-    out << "     Raw score: " << alignment.score << endl;
-    out << "        Map QV: " << alignment.mapQV << endl;
-    out << "  Query strand: " << alignment.qStrand << endl;
-    out << " Target strand: " << alignment.tStrand << endl;
+    out << "         Query: " << alignment.qName << std::endl;
+    out << "        Target: " << alignment.tName << std::endl;
+    out << "         Model: a hybrid of global/local non-affine alignment" << std::endl;
+    out << "     Raw score: " << alignment.score << std::endl;
+    out << "        Map QV: " << alignment.mapQV << std::endl;
+    out << "  Query strand: " << alignment.qStrand << std::endl;
+    out << " Target strand: " << alignment.tStrand << std::endl;
     if (alignment.blocks.size() > 0) {
         out << "   QueryRange: " << qPrintStart + alignment.qPos  //alignment.blocks[0].qPos
             << " -> "
             << (qPrintStart + alignment.qPos + +alignment.blocks[alignment.blocks.size() - 1].qPos +
                 alignment.blocks[alignment.blocks.size() - 1].length)
-            << " of " << alignment.qLength << endl;
+            << " of " << alignment.qLength << std::endl;
         out << "  TargetRange: " << tPrintStart + alignment.tPos  //alignment.blocks[0].tPos
             << " -> "
             //				<< (tPrintStart + alignment.blocks[alignment.blocks.size() - 1].tPos +
             << (tPrintStart + alignment.tPos + alignment.blocks[alignment.blocks.size() - 1].tPos +
                 alignment.blocks[alignment.blocks.size() - 1].length)
-            << " of " << alignment.tLength << endl;
+            << " of " << alignment.tLength << std::endl;
     } else {
-        out << "   QueryRange: NONE " << endl;
-        out << "  TargetRange: NONE " << endl;
+        out << "   QueryRange: NONE " << std::endl;
+        out << "  TargetRange: NONE " << std::endl;
     }
 
     if (alignment.blocks.size() == 0) return;
@@ -82,13 +82,13 @@ void StickPrintAlignment(T_Alignment &alignment, T_QuerySequence &query, T_Targe
         out.width(coordsPrintWidth);
         out << qPrintStart + qPos;
         out.width(0);
-        out << coordPadding << queryLine << endl;
-        out << alignStrPadding << alignLine << endl;
+        out << coordPadding << queryLine << std::endl;
+        out << alignStrPadding << alignLine << std::endl;
         out.width(coordsPrintWidth);
         out << tPrintStart + tPos;
         out.width(0);
-        out << coordPadding << textLine << endl;
-        out << endl;
+        out << coordPadding << textLine << std::endl;
+        out << std::endl;
 
         pos += lineLength;
         tPos += lineLength;

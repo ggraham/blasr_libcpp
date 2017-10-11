@@ -1,7 +1,7 @@
 #ifndef _BLASR_FASTA_SEQUENCE_HPP_
 #define _BLASR_FASTA_SEQUENCE_HPP_
 
-#include <stdint.h>
+#include <cstdint>
 #include <cstring>
 #include <iostream>
 #include <ostream>

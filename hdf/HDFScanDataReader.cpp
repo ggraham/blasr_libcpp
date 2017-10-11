@@ -1,7 +1,5 @@
 #include "HDFScanDataReader.hpp"
 
-using namespace std;
-
 HDFScanDataReader::HDFScanDataReader()
 {
     //
@@ -109,14 +107,14 @@ int HDFScanDataReader::Initialize(HDFGroup *pulseDataGroup)
     return 1;
 }
 
-string HDFScanDataReader::GetMovieName()
+std::string HDFScanDataReader::GetMovieName()
 {
     // If this object is correctly initialized, movieName
     // is guaranteed to be loaded if it exists, no need to reload.
     return movieName;
 }
 
-string HDFScanDataReader::GetRunCode() { return runCode; }
+std::string HDFScanDataReader::GetRunCode() { return runCode; }
 
 int HDFScanDataReader::Read(ScanData &scanData)
 {
@@ -142,7 +140,7 @@ int HDFScanDataReader::Read(ScanData &scanData)
     return 1;
 }
 
-void HDFScanDataReader::ReadWhenStarted(string &whenStarted) { whenStartedAtom.Read(whenStarted); }
+void HDFScanDataReader::ReadWhenStarted(std::string &whenStarted) { whenStartedAtom.Read(whenStarted); }
 
 PlatformId HDFScanDataReader::GetPlatformId() { return platformId; }
 
@@ -183,13 +181,13 @@ int HDFScanDataReader::ReadSequencingKit(std::string &sequencingKit)
     return ReadStringAttribute(sequencingKit, "SequencingKit", runInfoGroup, sequencingKitAtom);
 }
 
-int HDFScanDataReader::LoadMovieName(string &movieNameP)
+int HDFScanDataReader::LoadMovieName(std::string &movieNameP)
 {
     // Groups for building read names
     if (ReadStringAttribute(movieNameP, "MovieName", runInfoGroup, movieNameAtom) == 0) {
         // Internal analysis may manually edit the movie name and set STRSIZE to a value
         // which != movie name length. Handle this case.
-        movieNameP = string(movieNameP.c_str());
+        movieNameP = std::string(movieNameP.c_str());
         return 0;
     } else {
         useMovieName = true;
@@ -197,22 +195,22 @@ int HDFScanDataReader::LoadMovieName(string &movieNameP)
         while (e > 0 and movieNameP[e] == ' ')
             e--;
         movieNameP = movieNameP.substr(0, e + 1);
-        movieNameP = string(movieNameP.c_str());
+        movieNameP = std::string(movieNameP.c_str());
         return 1;
     }
 }
 
-int HDFScanDataReader::LoadBaseMap(map<char, size_t> &baseMap)
+int HDFScanDataReader::LoadBaseMap(std::map<char, size_t> &baseMap)
 {
     // Map bases to channel order in hdf pls file.
     if (dyeSetGroup.ContainsAttribute("BaseMap") and
         baseMapAtom.Initialize(dyeSetGroup, "BaseMap")) {
-        string baseMapStr;
+        std::string baseMapStr;
         baseMapAtom.Read(baseMapStr);
         if (baseMapStr.size() != 4) {
-            cout << "ERROR, there are more than four types of bases "
-                 << "according to /ScanData/DyeSet/BaseMap." << endl;
-            exit(1);
+            std::cout << "ERROR, there are more than four types of bases "
+                 << "according to /ScanData/DyeSet/BaseMap." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
         baseMap.clear();
         for (size_t i = 0; i < baseMapStr.size(); i++) {
@@ -269,7 +267,7 @@ std::string HDFScanDataReader::GetMovieName_and_Close(std::string &fileName)
     }
     initializedRunInfoGroup = true;
 
-    string movieName;
+    std::string movieName;
     LoadMovieName(movieName);
     Close();
     file.Close();

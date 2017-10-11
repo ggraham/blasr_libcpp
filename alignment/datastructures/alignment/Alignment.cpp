@@ -1,6 +1,6 @@
 #include "Alignment.hpp"
-#include <stdint.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstdlib>
 #include <cassert>
 #include <fstream>
 #include <iostream>
@@ -342,7 +342,7 @@ void Alignment::LongGapArrowPathToAlignment(std::vector<Arrow> &optPath, DNALeng
 
     if (numLongGaps > 1) {
         std::cout << "ERROR. Only one long gap per alignment is allowed." << std::endl;
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
 
     //

@@ -1,6 +1,6 @@
 #ifndef _BLASR_FILTER_CRITERIA_HPP_
 #define _BLASR_FILTER_CRITERIA_HPP_
-#include <ctype.h>    // toupper
+#include <cctype>    // toupper
 #include <algorithm>  // transform
 #include <iostream>
 #include <string>

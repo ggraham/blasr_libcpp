@@ -13,9 +13,9 @@
 template <typename T_QuerySequence, typename T_TargetSequence, typename T_Alignment>
 int AffineKBandAlign(T_QuerySequence &pqSeq, T_TargetSequence &ptSeq, int matchMat[5][5],
                      int hpInsOpen, int hpInsExtend, int insOpen, int insExtend, int del, int k,
-                     vector<int> &scoreMat, vector<Arrow> &pathMat, vector<int> &hpInsScoreMat,
-                     vector<Arrow> &hpInsPathMat, vector<int> &insScoreMat,
-                     vector<Arrow> &insPathMat, T_Alignment &alignment, AlignmentType alignType)
+                     std::vector<int> &scoreMat, std::vector<Arrow> &pathMat, std::vector<int> &hpInsScoreMat,
+                     std::vector<Arrow> &hpInsPathMat, std::vector<int> &insScoreMat,
+                     std::vector<Arrow> &insPathMat, T_Alignment &alignment, AlignmentType alignType)
 {
 
     //
@@ -261,13 +261,13 @@ int AffineKBandAlign(T_QuerySequence &pqSeq, T_TargetSequence &ptSeq, int matchM
        std::cout << "hp  score: " << std::endl;
        PrintFlatMatrix(&hpInsScoreMat[0], qLen + 1, nCols, std::cout);
        std::cout << "hp  path: " << std::endl;
-       PrintFlatMatrix(hpInsPathMat, qLen + 1, nCols, std::cout);	
+       PrintFlatMatrix(hpInsPathMat, qLen + 1, nCols, std::cout);
        std::cout << "normal affine ins score: " << std::endl;
        PrintFlatMatrix(&insScoreMat[0], qLen + 1, nCols, std::cout);
        std::cout << "normal affine ins path: " << std::endl;
        PrintFlatMatrix(&insPathMat[0], qLen + 1, nCols, std::cout);
        */
-    vector<Arrow> optAlignment;
+    std::vector<Arrow> optAlignment;
     // First find the end position matrix.
 
     int minScoreTPos, minScore;
@@ -277,7 +277,7 @@ int AffineKBandAlign(T_QuerySequence &pqSeq, T_TargetSequence &ptSeq, int matchM
         t = k - (static_cast<int>(qLen) - static_cast<int>(tLen));
     } else if (alignType == QueryFit) {
         q = qLen;
-        minScoreTPos = max(q - k, 1);
+        minScoreTPos = std::max(q - k, 1);
         DNALength index = rc2index(qLen, k + minScoreTPos - q, nCols);
         minScore = scoreMat[index];
         for (t = q - k; t < q + k + 1; t++) {
@@ -298,8 +298,8 @@ int AffineKBandAlign(T_QuerySequence &pqSeq, T_TargetSequence &ptSeq, int matchM
         t = tLen;
 
         int qStart =
-            max(0, min((int)qLen, (int)tLen) - max(0, k - max(((int)tLen) - ((int)qLen), 0)));
-        int qEnd = min(qLen, tLen + k) + 1;
+            std::max(0, std::min((int)qLen, (int)tLen) - std::max(0, k - std::max(((int)tLen) - ((int)qLen), 0)));
+        int qEnd = std::min(qLen, tLen + k) + 1;
 
         minScoreQPos = qStart;
         int index = rc2index(minScoreQPos, k - (minScoreQPos - tLen), nCols);

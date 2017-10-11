@@ -23,7 +23,7 @@
 TEST(TitleTable, Read)
 {
     TitleTable tt;
-    string fn = titleTable1;
+    std::string fn = titleTable1;
     tt.Read(fn);
     EXPECT_STREQ(tt.table[0], "ref1 description1");
     EXPECT_STREQ(tt.table[1], "ref2 description2");

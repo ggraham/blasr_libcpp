@@ -1,8 +1,6 @@
 #include "FileUtils.hpp"
 
-using namespace std;
-
-bool FileExists(string &fileName)
+bool FileExists(std::string &fileName)
 {
     FILE *fp = fopen(fileName.c_str(), "r");
     if (fp) {
@@ -14,37 +12,37 @@ bool FileExists(string &fileName)
     }
 }
 
-void CriticalOpenRead(string &fileName, ifstream &file, std::ios::openmode mode)
+void CriticalOpenRead(std::string &fileName, std::ifstream &file, std::ios::openmode mode)
 {
     file.open(fileName.c_str(), mode | std::ios::in);
     if (!file.good()) {
-        cerr << "Could not open file:" << fileName << endl;
-        exit(1);
+        std::cerr << "Could not open file:" << fileName << std::endl;
+        std::exit(EXIT_FAILURE);
     }
 }
 
-int OpenRead(string &fileName, ifstream &file, std::ios::openmode mode)
+int OpenRead(std::string &fileName, std::ifstream &file, std::ios::openmode mode)
 {
     file.open(fileName.c_str(), mode | std::ios::in);
     return file.good();
 }
 
-void CriticalOpenWrite(string &fileName, ofstream &file, std::ios::openmode mode)
+void CriticalOpenWrite(std::string &fileName, std::ofstream &file, std::ios::openmode mode)
 {
     file.open(fileName.c_str(), mode | std::ios::out);
     if (!file.good()) {
-        cerr << "Could not open file: " << fileName << endl;
-        exit(1);
+        std::cerr << "Could not open file: " << fileName << std::endl;
+        std::exit(EXIT_FAILURE);
     }
 }
 
-int OpenWrite(string &fileName, ofstream &file, std::ios::openmode mode)
+int OpenWrite(std::string &fileName, std::ofstream &file, std::ios::openmode mode)
 {
     file.open(fileName.c_str(), mode | std::ios::out);
     return file.good();
 }
 
-int CountLinesInFile(string fileName)
+int CountLinesInFile(std::string fileName)
 {
     char *filePtr;
     long fileSize;

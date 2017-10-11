@@ -1,7 +1,7 @@
 #ifndef _BLASR_HDF_CMP_FILE_HPP_
 #define _BLASR_HDF_CMP_FILE_HPP_
 
-#include <assert.h>
+#include <cassert>
 #include <iostream>
 #include <map>
 #include <sstream>
@@ -38,16 +38,15 @@
 #include "../alignment/datastructures/alignment/CmpRefSeqTable.h"
 
 using namespace H5;
-using namespace std;
 
 template <typename T_Alignment>
 class HDFCmpFile : public HDFCmpData
 {
 public:
-    map<int, int> movieNameIdToArrayIndex, readGroupPathIdToArrayIndex, refGroupIdToArrayIndex;
-    map<string, int> refNameToArrayIndex;
-    //  map<string,string> readGroupPathToReadGroup;
-    map<int, string> alnGroupIdToReadGroupName;
+    std::map<int, int> movieNameIdToArrayIndex, readGroupPathIdToArrayIndex, refGroupIdToArrayIndex;
+    std::map<std::string, int> refNameToArrayIndex;
+    //  std::map<std::string,std::string> readGroupPathToReadGroup;
+    std::map<int, std::string> alnGroupIdToReadGroupName;
 
     HDFAlnGroupGroup alnGroupGroup;
     HDFAlnInfoGroup alnInfoGroup;
@@ -55,9 +54,9 @@ public:
     HDFRefGroupGroup refGroupGroup;
     HDFRefInfoGroup refInfoGroup;
     HDFCmpRootGroup<T_Alignment> rootGroup;
-    set<string> includedFields;
+    std::set<std::string> includedFields;
     HDFCmpSupportedFields supportedFields;
-    HDFAtom<string> readTypeAtom;
+    HDFAtom<std::string> readTypeAtom;
     HDFFileLogGroup fileLogGroup;
 
     void AstroInitializeColumnNameMap()
@@ -126,7 +125,7 @@ public:
         CmpAlignmentBase::columnNameToIndex["Offset_end"] = 19;
     }
 
-    int Initialize(string &hdfCmpFileName, set<string> includedFieldsP,
+    int Initialize(std::string &hdfCmpFileName, std::set<std::string> includedFieldsP,
                    unsigned int flags = H5F_ACC_RDONLY,
                    const H5::FileAccPropList &fileAccPropList = H5::FileAccPropList::DEFAULT)
     {
@@ -135,7 +134,7 @@ public:
         return 1;
     }
 
-    void Create(string &hdfCmpFileName)
+    void Create(std::string &hdfCmpFileName)
     {
         H5File newFile(hdfCmpFileName.c_str(), H5F_ACC_TRUNC, FileCreatPropList::DEFAULT,
                        FileAccPropList::DEFAULT);
@@ -155,26 +154,26 @@ public:
         readTypeAtom.Write("standard");
 
         // Add some proxy data for now.
-        HDFAtom<string> primaryVersionAtom, versionAtom;
+        HDFAtom<std::string> primaryVersionAtom, versionAtom;
         primaryVersionAtom.Create(rootGroup.rootGroup.group, "PrimaryVersion");
         primaryVersionAtom.Write("2.0.0.135558");
         versionAtom.Create(rootGroup.rootGroup.group, "Version");
         versionAtom.Write("2.0.0");
     }
 
-    void SetReadType(string readType) { readTypeAtom.Write(readType.c_str()); }
+    void SetReadType(std::string readType) { readTypeAtom.Write(readType.c_str()); }
 
-    void GenerateNextRefGroupName(string &name)
+    void GenerateNextRefGroupName(std::string &name)
     {
-        stringstream nameStrm;
+        std::stringstream nameStrm;
         nameStrm << "ref";
         nameStrm.width(6);
         nameStrm.fill('0');
-        nameStrm << right << refGroupIdToArrayIndex.size() + 1;
+        nameStrm << std::right << refGroupIdToArrayIndex.size() + 1;
         name = nameStrm.str();
     }
 
-    int AddReference(string refName, unsigned int length, string md5, string &refGroupName)
+    int AddReference(std::string refName, unsigned int length, std::string md5, std::string &refGroupName)
     {
         //
         // Adding a reference requires:
@@ -191,8 +190,8 @@ public:
         // 2.
         HDFCmpRefAlignmentGroup *newGroup = new HDFCmpRefAlignmentGroup;
         if (newGroup == nullptr) {
-            cout << "ERROR, unable to allocate memory for cmp.h5 file." << endl;
-            exit(1);
+            std::cout << "ERROR, unable to allocate memory for cmp.h5 file." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
         newGroup->Create(rootGroup.rootGroup, refGroupName);
         refAlignGroups.push_back(newGroup);
@@ -207,7 +206,7 @@ public:
         return id;
     }
 
-    void StoreAlnArray(vector<unsigned char> &alnArray, string refName, string &experimentName,
+    void StoreAlnArray(std::vector<unsigned char> &alnArray, std::string refName, std::string &experimentName,
                        unsigned int &offsetBegin, unsigned int &offsetEnd)
     {
         //
@@ -223,8 +222,8 @@ public:
 
     // Write a vector of quality values to the appropriate experiment group.
     // This is similar to StoreAlignment, but for QVs
-    void StoreQVs(const vector<UChar> &qvArray, const string &refName, const string &fieldName,
-                  const string &experimentName, unsigned int *offsetBegin, unsigned int *offsetEnd)
+    void StoreQVs(const std::vector<UChar> &qvArray, const std::string &refName, const std::string &fieldName,
+                  const std::string &experimentName, unsigned int *offsetBegin, unsigned int *offsetEnd)
     {
         assert(refNameToArrayIndex.find(refName) != refNameToArrayIndex.end());
         size_t refIndex = refNameToArrayIndex[refName];
@@ -237,8 +236,8 @@ public:
     // Write a vector of tag to the appropriate experiment group.
     // This is similar to StoreAlignment, but for DeletionTag and
     // SubstitutionTag.
-    void StoreTags(const vector<char> &qvArray, const string &refName, const string &fieldName,
-                   const string &experimentName, unsigned int *offsetBegin, unsigned int *offsetEnd)
+    void StoreTags(const std::vector<char> &qvArray, const std::string &refName, const std::string &fieldName,
+                   const std::string &experimentName, unsigned int *offsetBegin, unsigned int *offsetEnd)
     {
         assert(refNameToArrayIndex.find(refName) != refNameToArrayIndex.end());
         size_t refIndex = refNameToArrayIndex[refName];
@@ -248,7 +247,7 @@ public:
         expGroup->AddTags(qvArray, fieldName, offsetBegin, offsetEnd);
     }
 
-    int Initialize(string &hdfCmpFileName, unsigned int flags = H5F_ACC_RDONLY,
+    int Initialize(std::string &hdfCmpFileName, unsigned int flags = H5F_ACC_RDONLY,
                    const H5::FileAccPropList fileAccPropList = H5::FileAccPropList::DEFAULT)
     {
         /*
@@ -257,7 +256,7 @@ public:
         try {
             hdfCmpFile.openFile(hdfCmpFileName.c_str(), flags, fileAccPropList);
         } catch (Exception &e) {
-            cout << e.getDetailMsg() << endl;
+            std::cout << e.getDetailMsg() << std::endl;
             return 0;
         }
 
@@ -265,28 +264,28 @@ public:
         readTypeAtom.Initialize(rootGroup.rootGroup, "ReadType");
 
         if (alnGroupGroup.Initialize(rootGroup.rootGroup) == 0) {
-            cout << "ERROR, could not read AlnGroup of the cmp file." << endl;
-            exit(1);
+            std::cout << "ERROR, could not read AlnGroup of the cmp file." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
         if (refInfoGroup.Initialize(rootGroup.rootGroup) == 0) {
-            cout << "ERROR, could not read RefInfo of the cmp file." << endl;
-            exit(1);
+            std::cout << "ERROR, could not read RefInfo of the cmp file." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
         if (refGroupGroup.Initialize(rootGroup.rootGroup) == 0) {
-            cout << "ERROR, could not read RefGroup of the cmp file." << endl;
-            exit(1);
+            std::cout << "ERROR, could not read RefGroup of the cmp file." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
         if (movieInfoGroup.Initialize(rootGroup.rootGroup) == 0) {
-            cout << "ERROR, could not read MovieInfo of the cmp file." << endl;
-            exit(1);
+            std::cout << "ERROR, could not read MovieInfo of the cmp file." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
         if (alnInfoGroup.Initialize(rootGroup.rootGroup) == 0) {
-            cout << "ERROR, could not read AlnInfo of the cmp file." << endl;
-            exit(1);
+            std::cout << "ERROR, could not read AlnInfo of the cmp file." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
         if (fileLogGroup.Initialize(rootGroup.rootGroup) == 0) {
-            cout << "ERROR, could not read FileLog of the cmp file." << endl;
-            exit(1);
+            std::cout << "ERROR, could not read FileLog of the cmp file." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         SpringfieldInitializeColumnNameMap();
@@ -306,9 +305,9 @@ public:
     unsigned int GetAlignmentIndexSize()
     {
         if (alnInfoGroup.alnInfoGroup.groupIsInitialized == false) {
-            cout << "ERROR, getting the size of an index before initializing the cmp.h5 file."
-                 << endl;
-            exit(1);
+            std::cout << "ERROR, getting the size of an index before initializing the cmp.h5 file."
+                 << std::endl;
+            std::exit(EXIT_FAILURE);
         }
         return alnInfoGroup.alnIndexArray.GetNRows();
     }
@@ -316,7 +315,7 @@ public:
     // Add synonym
     unsigned int GetNAlignments() { return GetAlignmentIndexSize(); }
 
-    static void ParseReadGroupPath(string &path, string &refName, string &readGroupName)
+    static void ParseReadGroupPath(std::string &path, std::string &refName, std::string &readGroupName)
     {
         size_t delimPos;
         delimPos = path.find_last_of('/');
@@ -349,7 +348,7 @@ public:
         //
         rootGroup.ReadAttributes(cmpFile);
 
-        string readTypeString;
+        std::string readTypeString;
         readTypeAtom.Read(readTypeString);
         cmpFile.StoreReadType(readTypeString);
         //
@@ -369,7 +368,7 @@ public:
         //
         // Now for every reference group in the cmp file, create a group.
         //
-        map<string, int> refNameToArrayIndex;
+        std::map<std::string, int> refNameToArrayIndex;
 
         unsigned int refSeqIndex;
 
@@ -377,8 +376,8 @@ public:
             HDFCmpRefAlignmentGroup *refAlignGroup;
             refAlignGroup = new HDFCmpRefAlignmentGroup;
             if (refAlignGroup == nullptr) {
-                cout << "ERROR, unable to allocate memory for cmp.h5 file." << endl;
-                exit(1);
+                std::cout << "ERROR, unable to allocate memory for cmp.h5 file." << std::endl;
+                std::exit(EXIT_FAILURE);
             }
             refAlignGroup->Initialize(rootGroup.rootGroup.group,
                                       cmpFile.refGroup.path[refSeqIndex]);
@@ -403,7 +402,7 @@ public:
         //
         unsigned int alnGroupIndex;
         for (alnGroupIndex = 0; alnGroupIndex < cmpFile.alnGroup.path.size(); alnGroupIndex++) {
-            string refName, readGroupName;
+            std::string refName, readGroupName;
             ParseReadGroupPath(cmpFile.alnGroup.path[alnGroupIndex], refName, readGroupName);
 
             //
@@ -418,10 +417,10 @@ public:
             if (refNameToArrayIndex.find(refName) != refNameToArrayIndex.end()) {
                 refGroupArrayIndex = refNameToArrayIndex[refName];
             } else {
-                cout << "ERROR! The reference name '" << refName
+                std::cout << "ERROR! The reference name '" << refName
                      << "' does not have an entry though it is "
                      << " specified in the path for " << cmpFile.readGroupTable.names[alnGroupIndex]
-                     << endl;
+                     << std::endl;
                 assert(0);
             }
 
@@ -454,17 +453,17 @@ public:
              alignmentIndex++) {
             unsigned int alnGroupId = cmpFile.alnInfo.alignments[alignmentIndex].GetAlnGroupId();
             unsigned int refGroupId = cmpFile.alnInfo.alignments[alignmentIndex].GetRefGroupId();
-            string refSeqName;
+            std::string refSeqName;
 
             //
             // Make sure the refGroupId specified in the alignment index exists in the alignment groups.
             //
             int refGroupArrayIndex;
             if (refGroupIdToArrayIndex.find(refGroupId) == refGroupIdToArrayIndex.end()) {
-                cout << "ERROR! Alignment "
+                std::cout << "ERROR! Alignment "
                      << cmpFile.alnInfo.alignments[alignmentIndex].GetAlignmentId()
                      << " has ref seq id " << refGroupId << " that does not exist in the HDF file."
-                     << endl;
+                     << std::endl;
                 assert(0);
             } else {
                 refGroupArrayIndex = refGroupIdToArrayIndex[refGroupId];
@@ -478,17 +477,17 @@ public:
             //
             // Now locate the read group that is part of this ref align group.
             //
-            string readGroupName = alnGroupIdToReadGroupName[alnGroupId];
+            std::string readGroupName = alnGroupIdToReadGroupName[alnGroupId];
 
             if (refAlignGroup->experimentNameToIndex.find(readGroupName) ==
                 refAlignGroup->experimentNameToIndex.end()) {
-                cout << "Internal ERROR! The read group name " << readGroupName
+                std::cout << "Internal ERROR! The read group name " << readGroupName
                      << " is specified as part of "
                      << " the path in alignment "
                      << cmpFile.alnInfo.alignments[alignmentIndex].GetAlignmentId()
                      << " though it does not exist in the ref align group specified for this "
                         "alignment."
-                     << endl;
+                     << std::endl;
                 assert(0);
             }
 
@@ -499,14 +498,14 @@ public:
                 cmpFile.alnInfo.alignments[alignmentIndex].GetOffsetEnd() -
                 cmpFile.alnInfo.alignments[alignmentIndex].GetOffsetBegin();
 
-            vector<unsigned char> alignmentArray;
-            vector<UChar> fieldArray;
+            std::vector<unsigned char> alignmentArray;
+            std::vector<UChar> fieldArray;
 
             if (alignmentArray.size() < alignmentLength) {
                 alignmentArray.resize(alignmentLength);
             }
 
-            /* 
+            /*
              * Read in the base by base alignment.
              */
 
@@ -520,7 +519,7 @@ public:
             /*
              * Read in all additional fields such as quality values, etc..
              */
-            set<string>::iterator fieldIt, fieldEnd;
+            std::set<std::string>::iterator fieldIt, fieldEnd;
             fieldEnd = includedFields.end();
 
             for (fieldIt = includedFields.begin(); fieldIt != fieldEnd; ++fieldIt) {
@@ -540,19 +539,19 @@ public:
         }
     }
 
-    void IncludeField(string fieldName)
+    void IncludeField(std::string fieldName)
     {
         if (supportedFields.find(fieldName) == supportedFields.end()) {
-            cout << "ERROR, attempting to include field " << fieldName << " that is not supported."
-                 << endl;
-            exit(1);
+            std::cout << "ERROR, attempting to include field " << fieldName << " that is not supported."
+                 << std::endl;
+            std::exit(EXIT_FAILURE);
         }
         includedFields.insert(fieldName);
     }
 
     template <typename T_Value, typename T_QV>
-    void StoreQualityValueFromAlignment(vector<T_Value> &fieldValues,
-                                        vector<int> &baseToAlignmentMap, T_QV *qv)
+    void StoreQualityValueFromAlignment(std::vector<T_Value> &fieldValues,
+                                        std::vector<int> &baseToAlignmentMap, T_QV *qv)
     {
         for (size_t i = 0; i < baseToAlignmentMap.size(); i++) {
             qv[i] = fieldValues[baseToAlignmentMap[i]];
@@ -569,8 +568,8 @@ public:
         CmpAlignment cmpAln;
         ReadAlignment(alignmentIndex, cmpAln);
 
-        string refSequence;
-        string readSequence;
+        std::string refSequence;
+        std::string readSequence;
         readSequence.resize(cmpAln.alignmentArray.size());
         refSequence.resize(cmpAln.alignmentArray.size());
 
@@ -578,7 +577,7 @@ public:
                                    &readSequence[0]);
         ByteAlignmentToRefString(&cmpAln.alignmentArray[0], cmpAln.alignmentArray.size(),
                                  &refSequence[0]);
-        string ungappedRead, ungappedRef;
+        std::string ungappedRead, ungappedRef;
         RemoveGaps(readSequence, ungappedRead);
         RemoveGaps(refSequence, ungappedRef);
 
@@ -624,18 +623,18 @@ public:
 
         int refGroupIndex = refGroupIdToArrayIndex[refGroupId];
         if (alnGroupIdToReadGroupName.find(alnGroupId) == alnGroupIdToReadGroupName.end()) {
-            cout << "INTERNAL ERROR! Could not find read group name for alignment "
-                 << "group with Id " << alnGroupId << "." << endl;
+            std::cout << "INTERNAL ERROR! Could not find read group name for alignment "
+                 << "group with Id " << alnGroupId << "." << std::endl;
             assert(0);
         }
-        string readGroupName = alnGroupIdToReadGroupName[alnGroupId];
+        std::string readGroupName = alnGroupIdToReadGroupName[alnGroupId];
         if (refAlignGroups[refGroupIndex]->experimentNameToIndex.find(readGroupName) ==
             refAlignGroups[refGroupIndex]->experimentNameToIndex.end()) {
-            cout << "Internal ERROR! The read group name " << readGroupName
+            std::cout << "Internal ERROR! The read group name " << readGroupName
                  << " is specified as part of "
                  << " the path in alignment " << alignmentIndex
                  << " though it does not exist in the ref align group specified for this alignment."
-                 << endl;
+                 << std::endl;
             assert(0);
         }
         int readGroupIndex = refAlignGroups[refGroupIndex]->experimentNameToIndex[readGroupName];
@@ -673,19 +672,19 @@ public:
         int alnGroupId = cmpAlignment.GetAlnGroupId();
         int refGroupIndex = refGroupIdToArrayIndex[refGroupId];
         if (alnGroupIdToReadGroupName.find(alnGroupId) == alnGroupIdToReadGroupName.end()) {
-            cout << "INTERNAL ERROR! Could not find read group name for alignment "
-                 << "group with Id " << alnGroupId << "." << endl;
+            std::cout << "INTERNAL ERROR! Could not find read group name for alignment "
+                 << "group with Id " << alnGroupId << "." << std::endl;
             assert(0);
         }
-        string readGroupName = alnGroupIdToReadGroupName[alnGroupId];
+        std::string readGroupName = alnGroupIdToReadGroupName[alnGroupId];
 
         if (refAlignGroups[refGroupIndex]->experimentNameToIndex.find(readGroupName) ==
             refAlignGroups[refGroupIndex]->experimentNameToIndex.end()) {
-            cout << "Internal ERROR! The read group name " << readGroupName
+            std::cout << "Internal ERROR! The read group name " << readGroupName
                  << " is specified as part of "
                  << " the path in alignment " << alignmentIndex
                  << " though it does not exist in the ref align group specified for this alignment."
-                 << endl;
+                 << std::endl;
             assert(0);
         }
 
@@ -696,9 +695,9 @@ public:
         int offsetEnd = cmpAlignment.GetOffsetEnd();
 
         int alignedSequenceLength = offsetEnd - offsetBegin;
-        string alignedSequence;
-        string readSequence;
-        vector<unsigned char> byteAlignment;
+        std::string alignedSequence;
+        std::string readSequence;
+        std::vector<unsigned char> byteAlignment;
 
         if (alignedSequenceLength >= 0) {
             alignedSequence.resize(alignedSequenceLength);
@@ -728,17 +727,17 @@ public:
         read.Allocate(read.length);
         memcpy(read.seq, readSequence.c_str(), readSequence.size() * sizeof(char));
 
-        vector<int> baseToAlignmentMap;
+        std::vector<int> baseToAlignmentMap;
         CreateSequenceToAlignmentMap(byteAlignment, baseToAlignmentMap);
 
         //
         // Read in the quality values
         //
 
-        vector<unsigned char> storedQVArray;
+        std::vector<unsigned char> storedQVArray;
 
-        vector<UChar> qvValues;
-        vector<HalfWord> frameValues;
+        std::vector<UChar> qvValues;
+        std::vector<HalfWord> frameValues;
         int length = offsetEnd - offsetBegin;
         qvValues.resize(length);
         frameValues.resize(length);
@@ -746,8 +745,7 @@ public:
         if (expGroup->experimentGroup.ContainsObject("QualityValue")) {
             expGroup->qualityValue.Read(offsetBegin, offsetEnd, &qvValues[0]);
             StoreQualityValueFromAlignment(qvValues, baseToAlignmentMap, &read.qual.data[0]);
-            int i;
-            for (i = 0; i < read.length; i++) {
+            for (size_t i = 0; i < read.length; i++) {
                 assert(read.qual[i] < 100);
             }
         }
@@ -769,14 +767,14 @@ public:
         }
 
         if (expGroup->experimentGroup.ContainsObject("DeletionTag")) {
-            vector<char> deletionTagValues;
+            std::vector<char> deletionTagValues;
             deletionTagValues.resize(offsetEnd - offsetBegin);
             expGroup->deletionTag.Read(offsetBegin, offsetEnd, &deletionTagValues[0]);
             StoreQualityValueFromAlignment(deletionTagValues, baseToAlignmentMap, read.deletionTag);
         }
 
         if (expGroup->experimentGroup.ContainsObject("SubstitutionTag")) {
-            vector<char> substitutionTagValues;
+            std::vector<char> substitutionTagValues;
             substitutionTagValues.resize(offsetEnd - offsetBegin);
             expGroup->substitutionTag.Read(offsetBegin, offsetEnd, &substitutionTagValues[0]);
             StoreQualityValueFromAlignment(substitutionTagValues, baseToAlignmentMap,
@@ -784,7 +782,7 @@ public:
         }
 
         if (expGroup->experimentGroup.ContainsObject("PulseIndex")) {
-            vector<uint32_t> pulseIndexValues;
+            std::vector<uint32_t> pulseIndexValues;
             pulseIndexValues.resize(offsetEnd - offsetBegin);
             expGroup->pulseIndex.Read(offsetBegin, offsetEnd, &pulseIndexValues[0]);
             StoreQualityValueFromAlignment(pulseIndexValues, baseToAlignmentMap, read.pulseIndex);
@@ -829,18 +827,18 @@ public:
     }
 
     // Store reference FullName, ID, Length and MD5 to /RefInfo
-    unsigned int AddRefInfo(string refName, unsigned int length, string md5)
+    unsigned int AddRefInfo(std::string refName, unsigned int length, std::string md5)
     {
         return refInfoGroup.AddRefInfo(refName, length, md5);
     }
 
-    unsigned int AddRefGroup(string refName, unsigned int refInfoId, string &refGroupName)
+    unsigned int AddRefGroup(std::string refName, unsigned int refInfoId, std::string &refGroupName)
     {
         if (refInfoId > 999999) {
             // ref000001 ~ ref999999
-            cout << "ERROR. Could not store more than 999999 references in "
-                 << " a cmp.h5 file." << endl;
-            exit(1);
+            std::cout << "ERROR. Could not store more than 999999 references in "
+                 << " a cmp.h5 file." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         // Adding a new refGroup requires:
@@ -855,8 +853,8 @@ public:
         // 2.
         HDFCmpRefAlignmentGroup *newGroup = new HDFCmpRefAlignmentGroup;
         if (newGroup == nullptr) {
-            cout << "ERROR, unable to allocate memory for cmp.h5 file." << endl;
-            exit(1);
+            std::cout << "ERROR, unable to allocate memory for cmp.h5 file." << std::endl;
+            std::exit(EXIT_FAILURE);
         }
         newGroup->Create(rootGroup.rootGroup, refGroupName);
         refAlignGroups.push_back(newGroup);
@@ -871,16 +869,16 @@ public:
         return refGroupId;
     }
 
-    void GenerateRefGroupName(unsigned int refInfoId, string &name)
+    void GenerateRefGroupName(unsigned int refInfoId, std::string &name)
     {
         // In order to mimic the behaviour of compareSequences,
         // refGroupName should equal to ref00000x, where x is refInfoId.
         // (x used to be refGroupIdToArrayIndex.size() + 1)
-        stringstream nameStrm;
+        std::stringstream nameStrm;
         nameStrm << "ref";
         nameStrm.width(6);
         nameStrm.fill('0');
-        nameStrm << right << refInfoId;
+        nameStrm << std::right << refInfoId;
         name = nameStrm.str();
     }
 };

@@ -1,5 +1,5 @@
-#include <assert.h>
-#include <stdint.h>
+#include <cassert>
+#include <cstdint>
 #include <iostream>
 #include <vector>
 #include "../Types.h"

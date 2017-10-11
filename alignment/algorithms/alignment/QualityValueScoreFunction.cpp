@@ -4,7 +4,7 @@ int QualityScoreTypeNotSpecified(const std::string func)
 {
     std::cout << func << " must be specialized with FASTQ or "
               << "FASTA sequencecs." << std::endl;
-    exit(1);
+    std::exit(EXIT_FAILURE);
     return 0;
 }
 
@@ -66,7 +66,7 @@ int QualityValueScoreFunction<T_RefSequence, T_QuerySequence>::Insertion(T_Query
 }
 
 /*
- * Define all specializations for a FASTA reference and FASTQSequence 
+ * Define all specializations for a FASTA reference and FASTQSequence
  * for the query, or FASTA sequence for query.
  */
 template <>

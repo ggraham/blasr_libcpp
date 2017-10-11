@@ -21,7 +21,6 @@
 #include <cstring>
 #include "files/ReaderAgglomerate.hpp"
 #include "pbdata/testdata.h"
-using namespace std;
 
 class ReaderAgglomerateTest : public testing::Test
 {
@@ -45,7 +44,7 @@ public:
 
 TEST_F(ReaderAgglomerateTest, Initialize)
 {
-    string fn;
+    std::string fn;
     INIT_READER(fastaFile1)
     reader->Close();
 
@@ -65,7 +64,7 @@ TEST_F(ReaderAgglomerateTest, Initialize)
 
 TEST_F(ReaderAgglomerateTest, Simple)
 {
-    string fn;
+    std::string fn;
 
     // Fasta
     FASTASequence fastaSeq;
@@ -84,8 +83,8 @@ TEST_F(ReaderAgglomerateTest, Simple)
 
 TEST_F(ReaderAgglomerateTest, GetMovieName)
 {
-    string fn;
-    string movieName = "";
+    std::string fn;
+    std::string movieName = "";
     // Fasta
     GET_MOVIE_NAME(fastaFile1)
     EXPECT_EQ(movieName, "/pbi/dept/secondary/siv/testdata/BlasrTestData/utest/data/read.fasta");
@@ -109,15 +108,15 @@ TEST_F(ReaderAgglomerateTest, GetMovieName)
 
 TEST_F(ReaderAgglomerateTest, GetChemistryTriple)
 {
-    string fn;
-    string bindingKit, sequencingKit, version;
+    std::string fn;
+    std::string bindingKit, sequencingKit, version;
 
     GET_CHEMISTRY_TRIPLE(baxFile3, "100356300", "100356200", "2.3")
 }
 
 TEST_F(ReaderAgglomerateTest, ReadFromBam)
 {
-    string fn(bamFile1);
+    std::string fn(bamFile1);
     reader->SetReadFileName(fn);
     EXPECT_EQ(reader->Initialize(), 1);
 
@@ -136,12 +135,12 @@ TEST_F(ReaderAgglomerateTest, ReadFromBam)
 
 TEST_F(ReaderAgglomerateTest, ReadsFromBam)
 {
-    string fn(bamFile1);
+    std::string fn(bamFile1);
     reader->SetReadFileName(fn);
     EXPECT_EQ(reader->Initialize(), 1);
 
-    vector<SMRTSequence> seqs;
-    vector<size_t> counts;
+    std::vector<SMRTSequence> seqs;
+    std::vector<size_t> counts;
     size_t count = 0;
 
     while (true) {
@@ -150,11 +149,11 @@ TEST_F(ReaderAgglomerateTest, ReadsFromBam)
         count += seqs.size();
         counts.push_back(seqs.size());
     }
-    vector<size_t> expected({2, 2, 10, 2, 3, 1, 2, 2, 3, 4, 1, 3, 1, 1, 2,  2,
+    std::vector<size_t> expected({2, 2, 10, 2, 3, 1, 2, 2, 3, 4, 1, 3, 1, 1, 2,  2,
                              2, 2, 1,  1, 1, 2, 2, 2, 3, 8, 1, 3, 2, 1, 15, 2,
                              1, 3, 1,  2, 2, 1, 3, 3, 2, 2, 1, 2, 2, 1, 1,  1});
 
-    EXPECT_EQ(count, 117);
+    EXPECT_EQ(count, 117u);
     EXPECT_EQ(counts, expected);
 
     reader->Close();
@@ -162,7 +161,7 @@ TEST_F(ReaderAgglomerateTest, ReadsFromBam)
 
 TEST_F(ReaderAgglomerateTest, ReadFromXml)
 {
-    string fn(xmlFile1);
+    std::string fn(xmlFile1);
     reader->SetReadFileName(fn);
     EXPECT_EQ(reader->Initialize(), 1);
 
@@ -175,18 +174,18 @@ TEST_F(ReaderAgglomerateTest, ReadFromXml)
         count++;
     }
 
-    EXPECT_EQ(count, 150);
+    EXPECT_EQ(count, 150u);
     reader->Close();
 }
 
 TEST_F(ReaderAgglomerateTest, ReadByZmwFromXml)
 {
-    string fn(xmlFile1);
+    std::string fn(xmlFile1);
     reader->SetReadFileName(fn);
     EXPECT_EQ(reader->Initialize(), 1);
 
-    vector<SMRTSequence> seqs;
-    vector<size_t> counts;
+    std::vector<SMRTSequence> seqs;
+    std::vector<size_t> counts;
     while (true) {
         int ret = reader->GetNext(seqs);
         if (ret == 0) break;
@@ -194,7 +193,7 @@ TEST_F(ReaderAgglomerateTest, ReadByZmwFromXml)
     }
 
     // The filter in dataset xml must be honored.
-    vector<size_t> expected({2, 21, 13, 1, 5, 13, 1, 34, 12, 2, 20, 5, 3, 7, 11});
+    std::vector<size_t> expected({2, 21, 13, 1, 5, 13, 1, 34, 12, 2, 20, 5, 3, 7, 11});
     EXPECT_EQ(counts, expected);
 
     reader->Close();
@@ -202,12 +201,12 @@ TEST_F(ReaderAgglomerateTest, ReadByZmwFromXml)
 
 TEST_F(ReaderAgglomerateTest, ReadByZmwFromXmlNoFilter)
 {
-    string fn(xmlFile2);
+    std::string fn(xmlFile2);
     reader->SetReadFileName(fn);
     EXPECT_EQ(reader->Initialize(), 1);
 
-    vector<SMRTSequence> seqs;
-    vector<size_t> counts;
+    std::vector<SMRTSequence> seqs;
+    std::vector<size_t> counts;
     while (true) {
         int ret = reader->GetNext(seqs);
         if (ret == 0) break;
@@ -215,7 +214,7 @@ TEST_F(ReaderAgglomerateTest, ReadByZmwFromXmlNoFilter)
     }
 
     // no filter in dataset.xml, all bam records should pass
-    vector<size_t> expected(
+    std::vector<size_t> expected(
         {2,  21, 13, 1,  5,  13, 1,  34, 12, 2,  20, 5,  3,  7,  11, 14, 6,  8,  23, 53, 17, 21, 7,
          5,  35, 3,  26, 6,  21, 37, 26, 59, 2,  6,  30, 34, 32, 2,  14, 3,  24, 1,  15, 1,  12, 26,
          6,  3,  1,  9,  3,  21, 12, 10, 24, 3,  6,  1,  6,  17, 34, 11, 24, 4,  11, 1,  10, 8,  10,

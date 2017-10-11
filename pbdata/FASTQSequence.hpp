@@ -116,14 +116,14 @@ public:
 
     QVIndex GetQVIndex(const std::string &qvName) const;
 
-    /// Get QVs in vector<uint8_t> associated with the given QVIndex.
+    /// Get QVs in std::vector<uint8_t> associated with the given QVIndex.
     /// \returns true if qvs are available, false otherwise
     /// \param [in] qvIndex - enum QVIndex
     /// \param [out] qvs - obtained QVs.
     /// \param [in] reverse - reverse orders of QVs or not
     bool GetQVs(const QVIndex &qvIndex, std::vector<uint8_t> &qvs, bool reverse = false) const;
 
-    /// Get QVs in vector<uint8_t>, given with QV Name.
+    /// Get QVs in std::vector<uint8_t>, given with QV Name.
     /// \returns true if qvs are available, false, otherwise
     /// \param [in] qvName - InsertionQV, DeletionQV, SubstitionQV, MergeQV, SubstitutionTag, DeletionTag
     /// \param [out] qvs - obtians QVs.

@@ -1,4 +1,5 @@
-#include "../pbdata/libconfig.h"
+#include <LibBlasrConfig.h>
+
 #ifdef USE_PBBAM
 
 #include "HDFZMWWriter.hpp"
@@ -211,9 +212,11 @@ void HDFZMWWriter::_WriteAttributes(void)
     if (holeStatusArray_.IsInitialized() and holeStatusArray_.size() > 0) {
         AddAttribute<std::string>(holeStatusArray_, PacBio::AttributeNames::Common::description,
                                   PacBio::AttributeValues::ZMW::HoleStatus::description);
+/*
         AddAttribute<std::vector<std::string>>(
             holeStatusArray_, PacBio::AttributeNames::ZMW::HoleStatus::lookuptable,
             PacBio::AttributeValues::ZMW::HoleStatus::lookuptable);
+*/
     }
 
     if (holeXYArray_.IsInitialized() and holeXYArray_.GetNRows() > 0) {

@@ -47,9 +47,9 @@ UInt DiffCoverMu::operator()(const UInt k)
     UInt di = k % diffCoverSize;
     UInt j = k / diffCoverSize;
     UInt i = diffCoverReverseLookup[di];
-    //		return (textSize/diffCoverSize)*i + min(i,h) + j;
+    //		return (textSize/diffCoverSize)*i + std::min(i,h) + j;
     //		return (textSize/diffCoverSize)*i + i + j;
-    //		return min(i,h)*(1 + textSize / diffCoverSize) + (i > h ? i - h : 0)*(textSize/diffCoverSize) + j;
+    //		return std::min(i,h)*(1 + textSize / diffCoverSize) + (i > h ? i - h : 0)*(textSize/diffCoverSize) + j;
     return (textSize / diffCoverSize) * i + std::min(i, h + 1) + j;
 }
 
@@ -206,14 +206,14 @@ void DiffCoverComputeLOrder(UInt sufVNaming[], UInt sufVNamingLength, UInt maxVN
 }
 
 /*
- * Build the lex naming of the v-ordered suffices.  
+ * Build the lex naming of the v-ordered suffices.
  *
  * Input: textVOrder - the v-ordering of a subset of the text.
  *        textSize   - the size of the v-order set.
  *        diffCoverLength - diff cover length
  *        diffCoverSize - the size of the diff cover.
  * Output: lexNaming: the lex-naming of the v-order suffices.  The
- *        names are implemented as unsigned integers. 
+ *        names are implemented as unsigned integers.
  * Returns: the largest value of the lex-ordering.
  */
 UInt DiffCoverBuildLexNaming(unsigned char text[], UInt textSize, UInt textVOrder[], UInt dSetSize,
@@ -269,7 +269,7 @@ bool LightweightSuffixSort(unsigned char text[], UInt textLength, UInt *index, i
     if (InitializeDifferenceCover(diffCoverSize, diffCoverLength, diffCover) == 0) {
         std::cout << "ERROR! There is no difference cover of size " << diffCoverSize
                   << " that is precomputed." << std::endl;
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
 
     DiffCoverDelta delta;

@@ -73,8 +73,8 @@ public:
         major.Allocate(numMajorBins, AlphabetSize);
         std::vector<DNALength> runningTotal;
         runningTotal.resize(AlphabetSize);
-        fill(runningTotal.begin(), runningTotal.end(), 0);
-        fill(&major.matrix[0], &major.matrix[numMajorBins * AlphabetSize], 0);
+        std::fill(runningTotal.begin(), runningTotal.end(), 0);
+        std::fill(&major.matrix[0], &major.matrix[numMajorBins * AlphabetSize], 0);
         DNALength p;
         DNALength binIndex = 0;
         for (p = 0; p < bwtSeq.length; p++) {
@@ -82,9 +82,8 @@ public:
             // only handle ACTGN, $==6, so skip counting that.
             if (nuc > AlphabetSize) continue;
             if (p % majorBinSize == 0) {  //majorBinSize-1) {
-                //				cout << "storing at " << p<< " " << binIndex << std::endl;
-                int n;
-                for (n = 0; n < AlphabetSize; n++) {
+                //				std::cout << "storing at " << p<< " " << binIndex << std::endl;
+                for (unsigned n = 0; n < AlphabetSize; n++) {
                     major[binIndex][n] = runningTotal[n];
                 }
                 binIndex++;
@@ -96,19 +95,18 @@ public:
     void InitializeTestBins(T_BWTSequence &bwtSeq)
     {
         full.Allocate(bwtSeq.length, AlphabetSize);
-        fill(full.matrix, &full.matrix[bwtSeq.length * AlphabetSize], 0);
+        std::fill(full.matrix, &full.matrix[bwtSeq.length * AlphabetSize], 0);
         DNALength p;
-        int n;
         for (p = 0; p < bwtSeq.length; p++) {
             Nucleotide nuc = ThreeBit[bwtSeq[p]];
             if (nuc > AlphabetSize) {
-                for (n = 0; n < AlphabetSize; n++) {
+                for (unsigned n = 0; n < AlphabetSize; n++) {
                     full[p][n] = full[p - 1][n];
                 }
             } else {
                 full[p][nuc]++;
                 if (p > 0) {
-                    for (n = 0; n < AlphabetSize; n++) {
+                    for (unsigned n = 0; n < AlphabetSize; n++) {
                         full[p][n] = full[p - 1][n] + full[p][n];
                     }
                 }
@@ -137,11 +135,10 @@ public:
             //  counter.
             //
             if (p % majorBinSize == 0) {
-                fill(majorRunningTotal.begin(), majorRunningTotal.end(), 0);
+                std::fill(majorRunningTotal.begin(), majorRunningTotal.end(), 0);
             }
             if (p % minorBinSize == 0) {
-                int n;
-                for (n = 0; n < AlphabetSize; n++) {
+                for (unsigned n = 0; n < AlphabetSize; n++) {
                     minor[minorBinIndex][n] = majorRunningTotal[n];
                 }
                 minorBinIndex++;

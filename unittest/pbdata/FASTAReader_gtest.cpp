@@ -25,7 +25,7 @@ class FASTAReaderTest : public ::testing::Test
 public:
     void SetUp()
     {
-        string filename(fastaFile1);
+        std::string filename(fastaFile1);
         reader.Initialize(filename);
     }
 
@@ -43,26 +43,26 @@ TEST_F(FASTAReaderTest, GetNext)
 {
     reader.GetNext(seq);
     EXPECT_EQ(strcmp(seq.title, "read1"), 0);
-    EXPECT_EQ(seq.length, 100);
-    string expected_seq = string(
+    EXPECT_EQ(seq.length, 100u);
+    std::string expected_seq(
         "AAAAAGGGGGCCCCCACGGCAGCCAGATTTAAATTGAGGGCCCCCCCTTT"
         "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
     EXPECT_EQ(strcmp((char*)seq.seq, expected_seq.c_str()), 0);
 
     reader.GetNext(seq);
-    EXPECT_EQ(strcmp(seq.title, "read2"), 0);
-    EXPECT_EQ(seq.length, 99);
+    EXPECT_EQ(std::strcmp(seq.title, "read2"), 0);
+    EXPECT_EQ(seq.length, 99u);
 }
 
 TEST_F(FASTAReaderTest, ReadAllSequences)
 {
-    vector<FASTASequence> seqs;
+    std::vector<FASTASequence> seqs;
     reader.ReadAllSequences(seqs);
 
-    EXPECT_EQ(seqs.size(), 12);
-    EXPECT_EQ(strcmp(seqs[11].title, "read2x"), 0);
+    EXPECT_EQ(seqs.size(), 12u);
+    EXPECT_EQ(std::strcmp(seqs[11].title, "read2x"), 0);
 
-    string expected_seq = string(
+    std::string expected_seq(
         "AAAAAGGGGGCCCACGGCAGCCAGATTTAAATTGAGGGCAACCCCCCTTT"
         "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
     EXPECT_EQ(strcmp((char*)seqs[11].seq, expected_seq.c_str()), 0);

@@ -4,7 +4,6 @@
 #include <map>
 #include <string>
 #include <vector>
-using namespace std;
 
 class CmpIndexedStringTable
 {
@@ -30,9 +29,9 @@ public:
     // GetNameAtIndex returns name of an indexed string,
     // whose index is the given value
     //
-    bool GetNameAtIndex(int index, string &name)
+    bool GetNameAtIndex(int index, std::string &name)
     {
-        map<int, int>::iterator mapIt;
+        std::map<int, int>::iterator mapIt;
         mapIt = idToArrayIndex.find(index);
         if (mapIt != idToArrayIndex.end()) {
             name = names[mapIt->second];
@@ -48,7 +47,7 @@ public:
     //
     bool GetIndexOfId(int id, int &index)
     {
-        map<int, int>::iterator mapIt;
+        std::map<int, int>::iterator mapIt;
         mapIt = idToArrayIndex.find(id);
         if (mapIt != idToArrayIndex.end()) {
             index = mapIt->second;
@@ -57,9 +56,9 @@ public:
             return false;
         }
     }
-    vector<int> ids;
-    vector<string> names;
-    map<int, int> idToArrayIndex;
+    std::vector<int> ids;
+    std::vector<std::string> names;
+    std::map<int, int> idToArrayIndex;
 };
 
 #endif

@@ -1,5 +1,5 @@
 #include "SAMQVConversion.hpp"
-#include <assert.h>
+#include <cassert>
 #include <cstddef>
 #include "../../../pbdata/FASTQSequence.hpp"
 

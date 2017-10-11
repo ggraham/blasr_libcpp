@@ -120,8 +120,8 @@ double FullQVAlign(T_Query &query, T_Reference &target, Matrix<double> &alignPro
             }
 
             // Determine the total probability of reaching this position.
-            /*			cout << "align prob " << q << " " << t << " " <<  logMatchedPulseProb << " " 
-                        <<  logInsertedPulseProb << " " <<  logDeletedPulseProb << endl;*/
+            /*			std::cout << "align prob " << q << " " << t << " " <<  logMatchedPulseProb << " "
+                        <<  logInsertedPulseProb << " " <<  logDeletedPulseProb << std::endl;*/
             alignProb[q][t] = log(matchedPulseProb + insertedPulseProb + deletedPulseProb);
         }
     }

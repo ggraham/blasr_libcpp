@@ -1,9 +1,7 @@
 #include "HDFRegionTableReader.hpp"
 #include <cassert>
 
-using namespace std;
-
-int HDFRegionTableReader::Initialize(string &regionTableFileName,
+int HDFRegionTableReader::Initialize(std::string &regionTableFileName,
                                      const H5::FileAccPropList &fileAccPropList)
 {
     /*
@@ -12,7 +10,7 @@ int HDFRegionTableReader::Initialize(string &regionTableFileName,
     try {
         regionTableFile.Open(regionTableFileName.c_str(), H5F_ACC_RDONLY, fileAccPropList);
     } catch (H5::Exception &e) {
-        cout << e.getDetailMsg() << endl;
+        std::cout << e.getDetailMsg() << std::endl;
         return 0;
     }
     if (pulseDataGroup.Initialize(regionTableFile.rootGroup, "PulseData") == 0) {
@@ -104,8 +102,8 @@ void HDFRegionTableReader::ReadTable(RegionTable &table)
         if (regionTypes.IsInitialized())
             regionTypes.Read(types);
         else {
-            cout << "ERROR MUST HAVE REGIONTYPES" << endl;
-            exit(1);
+            std::cout << "ERROR MUST HAVE REGIONTYPES" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
         if (regionDescriptions.IsInitialized()) regionDescriptions.Read(descs);
         if (regionSources.IsInitialized()) regionSources.Read(sources);

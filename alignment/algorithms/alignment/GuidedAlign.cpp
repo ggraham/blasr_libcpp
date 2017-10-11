@@ -36,7 +36,7 @@ int ComputeMatrixNElem(Guide &guide)
     int totalSize = 0;
     for (size_t r = 0; r < guide.size(); r++) {
         totalSize += guide[r].GetRowLength();
-        //    cout << r << " " << totalSize << endl;
+        //    std::cout << r << " " << totalSize << std::endl;
         assert(guide[r].GetRowLength() >= 0);
     }
     return totalSize;
@@ -89,7 +89,7 @@ int AlignmentToGuide(Alignment &alignment, Guide &guide, int bandSize)
     // Initilize the first (boundary condition) row.
     guide[0].t = tStart - 1;
     guide[0].q = qStart - 1;
-    int drift = abs(tStart - qStart);
+    int drift = std::abs(tStart - qStart);
     if (drift > bandSize) {
         guide[0].tPost = drift;
     } else {
@@ -119,17 +119,17 @@ int AlignmentToGuide(Alignment &alignment, Guide &guide, int bandSize)
             if (bp == 0) {
                 guide[guideIndex].tPre =
                     guide[guideIndex].t - (guide[guideIndex - 1].t - guide[guideIndex - 1].tPre);
-                guide[guideIndex].tPost = bandSize + abs(drift);
+                guide[guideIndex].tPost = bandSize + std::abs(drift);
             } else {
                 //
                 // Within aligned blocks, align around the band size.
                 //
                 int fullLengthTPre =
                     (guide[guideIndex].t - (guide[guideIndex - 1].t - guide[guideIndex - 1].tPre));
-                guide[guideIndex].tPre = min(bandSize, fullLengthTPre);
-                guide[guideIndex].tPost = min(MAX_BAND_SIZE, bandSize);
+                guide[guideIndex].tPre = std::min(bandSize, fullLengthTPre);
+                guide[guideIndex].tPost = std::min(MAX_BAND_SIZE, bandSize);
                 //if (guide[guideIndex].tPre > 500 or guide[guideIndex].tPost > 500) {
-                //cout << guideIndex << " " << guide[guideIndex].tPre << " " << guide[guideIndex].tPost << endl;
+                //std::cout << guideIndex << " " << guide[guideIndex].tPre << " " << guide[guideIndex].tPost << std::endl;
                 //}
                 //assert(guide[guideIndex].tPre >= 0);
                 //assert(guide[guideIndex].tPost >= 0);
@@ -151,7 +151,7 @@ int AlignmentToGuide(Alignment &alignment, Guide &guide, int bandSize)
             // Drift is how far from the diagonal the next block starts at.
             //
             drift = ComputeDrift(alignment.blocks[b], alignment.blocks[b + 1]);
-            //drift = min(drift, 100);
+            //drift = std::min(drift, 100);
             diagonalLength = std::min(qGap, tGap);
 
             int diagPos;
@@ -167,12 +167,12 @@ int AlignmentToGuide(Alignment &alignment, Guide &guide, int bandSize)
             for (diagPos = 0; diagPos < diagonalLength; diagPos++, tPos++, qPos++) {
                 guide[guideIndex].t = tPos;
                 guide[guideIndex].q = qPos;
-                guide[guideIndex].tPre = min(
+                guide[guideIndex].tPre = std::min(
                     MAX_BAND_SIZE,
                     (guide[guideIndex].t - (guide[guideIndex - 1].t - guide[guideIndex - 1].tPre)));
-                guide[guideIndex].tPost = min(MAX_BAND_SIZE, bandSize + abs(drift));
+                guide[guideIndex].tPost = std::min(MAX_BAND_SIZE, bandSize + std::abs(drift));
                 /*        if (guide[guideIndex].tPre > 500 or guide[guideIndex].tPost > 500) {
-          cout << guideIndex << " " << guide[guideIndex].tPre << " " << guide[guideIndex].tPost << endl;
+          std::cout << guideIndex << " " << guide[guideIndex].tPre << " " << guide[guideIndex].tPost << std::endl;
         } */
                 ++guideIndex;
             }
@@ -198,19 +198,19 @@ int AlignmentToGuide(Alignment &alignment, Guide &guide, int bandSize)
                 qPos++;
                 // keep tPos fixed, the guide is straight down here.
                 guide[guideIndex].tPre =
-                    min(MAX_BAND_SIZE, guide[guideIndex].t -
+                    std::min(MAX_BAND_SIZE, guide[guideIndex].t -
                                            (guide[guideIndex - 1].t -
-                                            guide[guideIndex - 1].tPre));  //bandSize + abs(drift);
+                                            guide[guideIndex - 1].tPre));  //bandSize + std::abs(drift);
 
-                guide[guideIndex].tPost = min(MAX_BAND_SIZE, bandSize + abs(drift));
+                guide[guideIndex].tPost = std::min(MAX_BAND_SIZE, bandSize + std::abs(drift));
                 guideIndex++;
             }
         }
     }
     //int i;
     //for (i = 0; i < guide.size(); i++) {
-    //  guide[i].tPre = min(guide[i].tPre, 200);
-    //  guide[i].tPost = min(guide[i].tPost, 200);
+    //  guide[i].tPre = std::min(guide[i].tPre, 200);
+    //  guide[i].tPost = std::min(guide[i].tPost, 200);
     // }
     return 1;  // signal ok.
 }

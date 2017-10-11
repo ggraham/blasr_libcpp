@@ -8,7 +8,7 @@
 class SAMHeader
 {
 public:
-    string formatVersion;
+    std::string formatVersion;
     enum SortingOrder
     {
         unknown,

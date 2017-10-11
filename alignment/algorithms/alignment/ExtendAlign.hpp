@@ -1,5 +1,6 @@
 #ifndef _BLASR_EXTEND_ALIGN_HPP_
 #define _BLASR_EXTEND_ALIGN_HPP_
+
 #include <algorithm>
 #include <iosfwd>
 #include <vector>
@@ -142,8 +143,8 @@ int ExtendAlignment(T_QuerySeq &querySeq, int queryPos, T_RefSeq &refSeq, int re
     int t;
     // Initialize first column for insertions.
     int firstIndex;
-    fill(scoreMat.begin(), scoreMat.begin() + matSize, 0);
-    fill(pathMat.begin(), pathMat.begin() + matSize, NoArrow);
+    std::fill(scoreMat.begin(), scoreMat.begin() + matSize, 0);
+    std::fill(pathMat.begin(), pathMat.begin() + matSize, NoArrow);
     rcToIndex(0, 0, firstIndex);
     scoreMat[firstIndex] = 0;
     pathMat[firstIndex] = NoArrow;
@@ -159,7 +160,7 @@ int ExtendAlignment(T_QuerySeq &querySeq, int queryPos, T_RefSeq &refSeq, int re
         int qSeqPos = index.QuerySeqPos(q - 1);
         scoreMat[i] = scoreMat[pi] + scoreFn.Insertion(querySeq, qSeqPos);
         pathMat[i] = Up;
-        //		cout << "initializing insertion gap penalty for " << q << " " << refPos-1 << " "  << i << " " << scoreMat[i] << endl;
+        //		std::cout << "initializing insertion gap penalty for " << q << " " << refPos-1 << " "  << i << " " << scoreMat[i] << std::endl;
     }
 
     // Initialize the first row for deletions.
@@ -174,12 +175,12 @@ int ExtendAlignment(T_QuerySeq &querySeq, int queryPos, T_RefSeq &refSeq, int re
         int qSeqPos = index.QuerySeqPos(0);
         scoreMat[i] = scoreMat[previ] + scoreFn.Deletion(querySeq, qSeqPos);
         pathMat[i] = Left;
-        //		cout << "initializing deletion gap penalty for " << ((int)queryPos)-1 << " " << t << " " << i << " " << scoreMat[i] << endl;
+        //		std::cout << "initializing deletion gap penalty for " << ((int)queryPos)-1 << " " << t << " " << i << " " << scoreMat[i] << std::endl;
     }
-    /*	PrintFlatMatrix(&scoreMat[0], k , nCols, cout);
-            cout << endl;
-            PrintFlatMatrix(&pathMat[0],  k, nCols, cout);
-            cout << endl;
+    /*	PrintFlatMatrix(&scoreMat[0], k , nCols, std::cout);
+            std::cout << std::endl;
+            PrintFlatMatrix(&pathMat[0],  k, nCols, std::cout);
+            std::cout << std::endl;
             */
     int nDrops = 0;
     int prevRowMinScore = INF_INT;
@@ -229,27 +230,27 @@ int ExtendAlignment(T_QuerySeq &querySeq, int queryPos, T_RefSeq &refSeq, int re
             delScore = INF_INT;
             insScore = INF_INT;
             matchScore = INF_INT;
-            //			cout << "ins index: " << insIndex << " del: " << delIndex << " match index " << matchIndex << endl;
+            //			std::cout << "ins index: " << insIndex << " del: " << delIndex << " match index " << matchIndex << std::endl;
             qSeqPos = index.QuerySeqPos(q - 1);  // The offset is to allow for the boundary buffer.
             tSeqPos = index.RefSeqPos(t - 1);    // ditto.
             /*			if (scoreMat[insIndex] == -1) {
-                            cout << "bleh" << endl;
+                            std::cout << "bleh" << std::endl;
                             }
                             if (scoreMat[matchIndex] == -1) {
-                            cout << "bleh" << endl;
+                            std::cout << "bleh" << std::endl;
                             }
                             if (scoreMat[delIndex] == -1) {
-                            cout << "bleh" << endl;
+                            std::cout << "bleh" << std::endl;
                             }
 
                             if (scoreFn.Insertion(refSeq, (DNALength) tSeqPos, querySeq, (DNALength) qSeqPos) == -1) {
-                            cout << "bleh" << endl;
+                            std::cout << "bleh" << std::endl;
                             }
                             if (scoreFn.Deletion(refSeq, (DNALength) tSeqPos, querySeq, (DNALength) qSeqPos) == -1) {
-                            cout << "ugh" << endl;
+                            std::cout << "ugh" << std::endl;
                             }
                             if ( scoreFn.Match(refSeq, (DNALength) tSeqPos, querySeq, (DNALength) qSeqPos) == -1) {
-                            cout <<" gah" << endl;
+                            std::cout <<" gah" << std::endl;
                             }*/
 
             if (hasInsIndex) {
@@ -267,13 +268,13 @@ int ExtendAlignment(T_QuerySeq &querySeq, int queryPos, T_RefSeq &refSeq, int re
                     scoreMat[matchIndex] +
                     scoreFn.Match(refSeq, (DNALength)tSeqPos, querySeq, (DNALength)qSeqPos);
             }
-            /*			cout << "ins score: " << insScore << "[" << scoreMat[insIndex] << "] del score " << delScore 
-                            << " [" << scoreMat[delIndex] << "] match score " << matchScore 
-                            << " [" << scoreMat[matchIndex] << "] qchar " << (int) querySeq.seq[qSeqPos] << " tchar " << (int) refSeq.seq[tSeqPos] << endl;*/
+            /*			std::cout << "ins score: " << insScore << "[" << scoreMat[insIndex] << "] del score " << delScore
+                            << " [" << scoreMat[delIndex] << "] match score " << matchScore
+                            << " [" << scoreMat[matchIndex] << "] qchar " << (int) querySeq.seq[qSeqPos] << " tchar " << (int) refSeq.seq[tSeqPos] << std::endl;*/
             int minScore = std::min(matchScore, delScore);
             minScore = std::min(minScore, insScore);
             scoreMat[curIndex] = minScore;
-            //			cout << "extend: " << qSeqPos << " " << tSeqPos << " " << minScore << endl;
+            //			std::cout << "extend: " << qSeqPos << " " << tSeqPos << " " << minScore << std::endl;
             if (minScore != INF_INT) {
                 if (minScore == insScore) {
                     pathMat[curIndex] = Up;

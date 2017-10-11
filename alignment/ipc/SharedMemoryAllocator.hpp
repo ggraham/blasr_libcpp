@@ -1,7 +1,7 @@
 #ifndef _BLASR_SHARED_MEMORY_ALLOCATOR_HPP_
 #define _BLASR_SHARED_MEMORY_ALLOCATOR_HPP_
 
-#include <errno.h>
+#include <cerrno>
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
@@ -24,7 +24,7 @@ int AllocateMappedShare(std::string &handle, int dataLength, T_Data *&dataPtr, i
         // Handle this better later on.
         //
         std::cout << "ERROR, MEMORY MAP FAILED." << std::endl;
-        exit(1);
+        std::exit(EXIT_FAILURE);
     }
     std::cout << "done mapping." << std::endl;
     return dataLength;
