@@ -4,7 +4,7 @@ set -euo pipefail
 echo "#############################"
 echo "# LOAD MODULES"
 source /mnt/software/Modules/current/init/bash
-module load git gcc/6.4.0 ccache boost ninja cmake hdf5-tools zlib htslib
+module load git gcc ccache boost ninja cmake hdf5-tools zlib htslib
 export CCACHE_COMPILERCHECK='%compiler% -dumpversion'
 export CCACHE_DIR=/mnt/secondary/Share/tmp/bamboo.mobs.ccachedir
 export CCACHE_BASEDIR=$PWD
