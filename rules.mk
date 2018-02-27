@@ -1,7 +1,7 @@
 ARFLAGS         := rc
 CXX_SHAREDFLAGS := -fPIC
 #LD_SHAREDFLAGS  := -dynamiclib -fPIC
-CPPFLAGS        += $(patsubst %,-I%,${INCLUDES})
+CPPFLAGS        += $(patsubst %,-I%,${INCLUDES}) $(HTSLIB_CFLAGS)
 CPPFLAGS        += $(patsubst %,-I%,${SYSINCLUDES}) # Not -isystem, in case of /usr/include
 CFLAGS          += -fno-common
 LDFLAGS         += ${EXTRA_LDFLAGS}

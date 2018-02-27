@@ -7,9 +7,9 @@ include ${THISDIR}/../rules.mk
 CXXOPTS  += -std=c++14 -pedantic -Wall -Wextra
 # CURDIR should have LibBlasrConfig.h
 #INCLUDES += ${CURDIR}
-SYSINCLUDES = ${PBBAM_INC} ${HTSLIB_INC} ${BOOST_INC}
-LIBS     += ${PBBAM_LIB} ${HTSLIB_LIB}
-LDFLAGS  += $(patsubst %,-L%,${LIBS})
+SYSINCLUDES = ${PBBAM_INC} ${BOOST_INC}
+LIBS     += ${PBBAM_LIB}
+LDFLAGS  += $(patsubst %,-L%,${LIBS}) $(HTSLIB_LIBS)
 
 all: static shared
 static: libpbdata.a

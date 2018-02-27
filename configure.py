@@ -177,7 +177,7 @@ def compose_defines_pacbio(envin):
             'CXX', 'AR',
             'HDF5_INC', 'HDF5_LIB',
             'PBBAM_INC', 'PBBAM_LIB',
-            'HTSLIB_INC', 'HTSLIB_LIB',
+            'HTSLIB_CFLAGS', 'HTSLIB_LIBS',
             'BOOST_INC',
             'ZLIB_LIB',
             'GCC_LIB',
