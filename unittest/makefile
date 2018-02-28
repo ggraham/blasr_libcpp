@@ -73,7 +73,7 @@ LIBS+= \
     $(GCC_LIB) \
     $(null)
 
-ldlibs     := -lblasr -lpbihdf -lpbdata -lpbbam -lhts -lhdf5_cpp -lhdf5 -lz
+ldlibs     := -lblasr -lpbihdf -lpbdata -lpbbam -lhdf5_cpp -lhdf5 -lz
 sys_ldlibs := -lpthread -ldl -lrt
 
 cxxopts  := -std=c++14 -Wno-div-by-zero
@@ -101,7 +101,7 @@ libblasr-test-runner: $(objects)
 	$(LINK.o) $^ $(LDLIBS) -o $@
 
 gtest: libblasr-test-runner
-	LD_LIBRARY_PATH=$(subst $(space),:,$(strip $(LIBS))) ./$< --gtest_output=xml:./xml/all.xml
+	LD_LIBRARY_PATH=$(subst $(space),:,$(strip $(LIBS))):${LD_LIBRARY_PATH} ./$< --gtest_output=xml:./xml/all.xml
 
 # Build objects
 %.o: %.cpp
