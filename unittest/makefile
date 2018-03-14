@@ -58,7 +58,6 @@ INCLUDES+= \
     $(LIBPBIHDF_INC) \
     $(LIBPBDATA_INC) \
     $(PBBAM_INC) \
-    $(HTSLIB_INC) \
     $(HDF5_INC) \
     $(BOOST_INC) \
     $(null)
@@ -68,14 +67,13 @@ LIBS+= \
     $(LIBPBIHDF_LIB) \
     $(LIBPBDATA_LIB) \
     $(PBBAM_LIB) \
-    $(HTSLIB_LIB) \
     $(HDF5_LIB) \
     $(HDF5_CPP_LIB) \
     $(ZLIB_LIB) \
     $(GCC_LIB) \
     $(null)
 
-ldlibs     := -lblasr -lpbihdf -lpbdata -lpbbam -lhts -lhdf5_cpp -lhdf5 -lz
+ldlibs     := -lblasr -lpbihdf -lpbdata -lpbbam -lhdf5_cpp -lhdf5 -lz
 sys_ldlibs := -lpthread -ldl -lrt
 
 cxxopts  := -std=c++14 -Wno-div-by-zero
@@ -85,9 +83,9 @@ ldflags  := $(patsubst %,-L%,${LIBS}) $(sys_ldflags)
 
 
 
-override CPPFLAGS := $(cppflags) $(CPPFLAGS)
+override CPPFLAGS := $(cppflags) $(CPPFLAGS) $(HTSLIB_CFLAGS)
 override CXXFLAGS := $(cxxflags) $(cxxopts) $(CXXFLAGS)
-override LDLIBS   := $(ldlibs) $(sys_ldlibs) $(LDLIBS)
+override LDLIBS   := $(ldlibs) $(sys_ldlibs) $(LDLIBS) $(HTSLIB_LIBS)
 override LDFLAGS  := $(ldflags) $(LDFLAGS)
 
 COMPILE.cpp   = $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
@@ -103,7 +101,7 @@ libblasr-test-runner: $(objects)
 	$(LINK.o) $^ $(LDLIBS) -o $@
 
 gtest: libblasr-test-runner
-	LD_LIBRARY_PATH=$(subst $(space),:,$(strip $(LIBS))) ./$< --gtest_output=xml:./xml/all.xml
+	LD_LIBRARY_PATH=$(subst $(space),:,$(strip $(LIBS))):${LD_LIBRARY_PATH} ./$< --gtest_output=xml:./xml/all.xml
 
 # Build objects
 %.o: %.cpp

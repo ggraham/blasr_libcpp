@@ -4,7 +4,7 @@ set -euo pipefail
 echo "#############################"
 echo "# LOAD MODULES"
 source /mnt/software/Modules/current/init/bash
-module load git gcc/6.4.0 ccache boost ninja cmake/3.9.0 hdf5-tools/1.8.19 zlib/1.2.11 htslib/1.3.1
+module load git gcc ccache boost ninja cmake hdf5-tools zlib htslib
 export CCACHE_COMPILERCHECK='%compiler% -dumpversion'
 export CCACHE_DIR=/mnt/secondary/Share/tmp/bamboo.mobs.ccachedir
 export CCACHE_BASEDIR=$PWD
@@ -12,17 +12,35 @@ export CCACHE_BASEDIR=$PWD
 echo "#############################"
 echo "# PRE-BUILD HOOK"
 echo "## Check formatting"
-# ./tools/check-formatting --all
+DISTFILES_URL=http://nexus/repository/unsupported/distfiles
+curl -sL $DISTFILES_URL/googletest/release-1.8.0.tar.gz \
+| tar zxf - --strip-components 1 -C googletest
+rm -rf pbbam
+for myfile in $PWD/pbbam-*gz; do
+  tar zxvf $myfile
+  mydir=$(echo $myfile|sed -e 's|-x86_64.tgz||')
+  PacBioBAM_INCLUDE_DIRS="$mydir/include"
+  PacBioBAM_LIBRARIES="$mydir/lib/libpbbam.a"
+  PacBioBAM_LIB="$mydir/lib"
+  break
+done
+ln -sfn $(pkg-config --cflags-only-I htslib|sed -e 's@-I@@;s@ @@g')/htslib $PacBioBAM_INCLUDE_DIRS/htslib
+sed -i -e "s|target_link_libraries(libcpp \${PacBioBAM_LIBRARIES}|target_link_libraries(libcpp \${PacBioBAM_LIBRARIES} $(pkg-config --libs htslib) |" \
+CMakeLists.txt
+grep ^target_link_libraries CMakeLists.txt
 
 echo "#############################"
 echo "# BUILD"
 echo "## Create build directory "
-if [ ! -d build ] ; then mkdir build ; fi
-
+mkdir -p build
 echo "## Build source"
 ( cd build &&\
   rm -rf * &&\
-  CMAKE_BUILD_TYPE=ReleaseWithAssert cmake -GNinja -DHDF5_ROOT=$HDF5_DIR .. &&\
+  CMAKE_BUILD_TYPE=ReleaseWithAssert cmake -GNinja \
+    -DHDF5_ROOT=$HDF5_DIR \
+    -DPacBioBAM_INCLUDE_DIRS=$PacBioBAM_INCLUDE_DIRS \
+    -DPacBioBAM_LIBRARIES=$PacBioBAM_LIBRARIES \
+  .. &&\
   ninja )
 
 echo "#############################"

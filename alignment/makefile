@@ -5,10 +5,10 @@ THISDIR:=$(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 include ${THISDIR}/../rules.mk
 
 CXXOPTS  := -std=c++14 -pedantic -Wno-long-long -Wall -Wextra -Wno-overloaded-virtual
-SYSINCLUDES = ${HDF5_INC} ${PBBAM_INC} ${HTSLIB_INC} ${BOOST_INC}
-LIBS     += ${LIBPBDATA_LIB} ${LIBPBIHDF_LIB} ${HDF5_LIB} ${PBBAM_LIB} ${HTSLIB_LIB} ${ZLIB_LIB}
+SYSINCLUDES = ${HDF5_INC} ${PBBAM_INC} ${BOOST_INC}
+LIBS     += ${LIBPBDATA_LIB} ${LIBPBIHDF_LIB} ${HDF5_LIB} ${PBBAM_LIB} ${ZLIB_LIB}
 LDFLAGS  += $(patsubst %,-L%,${LIBS})
-LDLIBS += -lpbdata
+LDLIBS += -lpbdata $(HTSLIB_LIBS)
 
 ifeq (${nohdf},)
   LDLIBS+= -lpbihdf
