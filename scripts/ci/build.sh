@@ -12,17 +12,35 @@ export CCACHE_BASEDIR=$PWD
 echo "#############################"
 echo "# PRE-BUILD HOOK"
 echo "## Check formatting"
-# ./tools/check-formatting --all
+DISTFILES_URL=http://nexus/repository/unsupported/distfiles
+curl -sL $DISTFILES_URL/googletest/release-1.8.0.tar.gz \
+| tar zxf - --strip-components 1 -C googletest
+rm -rf pbbam
+for myfile in $PWD/pbbam-*gz; do
+  tar zxvf $myfile
+  mydir=$(echo $myfile|sed -e 's|-x86_64.tgz||')
+  PacBioBAM_INCLUDE_DIRS="$mydir/include"
+  PacBioBAM_LIBRARIES="$mydir/lib/libpbbam.a"
+  PacBioBAM_LIB="$mydir/lib"
+  break
+done
+ln -sfn $(pkg-config --cflags-only-I htslib|sed -e 's@-I@@;s@ @@g')/htslib $PacBioBAM_INCLUDE_DIRS/htslib
+sed -i -e "s|target_link_libraries(libcpp \${PacBioBAM_LIBRARIES}|target_link_libraries(libcpp \${PacBioBAM_LIBRARIES} $(pkg-config --libs htslib) |" \
+CMakeLists.txt
+grep ^target_link_libraries CMakeLists.txt
 
 echo "#############################"
 echo "# BUILD"
 echo "## Create build directory "
-if [ ! -d build ] ; then mkdir build ; fi
-
+mkdir -p build
 echo "## Build source"
 ( cd build &&\
   rm -rf * &&\
-  CMAKE_BUILD_TYPE=ReleaseWithAssert cmake -GNinja -DHDF5_ROOT=$HDF5_DIR .. &&\
+  CMAKE_BUILD_TYPE=ReleaseWithAssert cmake -GNinja \
+    -DHDF5_ROOT=$HDF5_DIR \
+    -DPacBioBAM_INCLUDE_DIRS=$PacBioBAM_INCLUDE_DIRS \
+    -DPacBioBAM_LIBRARIES=$PacBioBAM_LIBRARIES \
+  .. &&\
   ninja )
 
 echo "#############################"
