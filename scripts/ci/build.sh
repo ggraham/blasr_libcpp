@@ -17,10 +17,11 @@ curl -sL $DISTFILES_URL/googletest/release-1.8.0.tar.gz \
 | tar zxf - --strip-components 1 -C googletest
 rm -rf pbbam
 for myfile in $PWD/pbbam-*gz; do
-  tar zxvf $myfile
   mydir=$(echo $myfile|sed -e 's|-x86_64.tgz||')
+  mkdir -p $mydir
+  tar zxvf $myfile --strip-components 3 -C $mydir
   PacBioBAM_INCLUDE_DIRS="$mydir/include"
-  PacBioBAM_LIBRARIES="$mydir/lib/libpbbam.a"
+  PacBioBAM_LIBRARIES="$mydir/lib/libpbbam.so"
   PacBioBAM_LIB="$mydir/lib"
   break
 done
