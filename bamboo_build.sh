@@ -22,7 +22,7 @@ echo "#define USE_PBBAM 1" >> staging/usr/local/include/pbdata/LibBlasrConfig.h
 
 cd staging
 
-tar zcf ../blasr_libcpp-${VERSION}.tgz usr/local/lib usr/local/include
+tar zcf ../blasr_libcpp-${VERSION}.tgz ./usr
 md5sum ../blasr_libcpp-${VERSION}.tgz | awk -e '{print $1}' >| ../blasr_libcpp-${VERSION}.tgz.md5
 sha1sum ../blasr_libcpp-${VERSION}.tgz | awk -e '{print $1}' >| ../blasr_libcpp-${VERSION}.tgz.sha1
 
