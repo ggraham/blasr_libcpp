@@ -14,10 +14,11 @@ else
 fi
 
 rm -rf staging
-mkdir -p staging/lib staging/include
-cp -a build/liblibcpp.a staging/lib
+mkdir -p staging/usr/local/lib staging/usr/local/include
+cp -a build/liblibcpp.a staging/usr/local/lib/
 find alignment hdf pbdata -name '*.hpp' -o -name '*.h' | \
-xargs tar cf - | tar xf - -C staging/include
+xargs tar cf - | tar xf - -C staging/usr/local/include/
+echo "#define USE_PBBAM 1" >> staging/usr/local/include/pbdata/LibBlasrConfig.h
 
 cd staging
 
