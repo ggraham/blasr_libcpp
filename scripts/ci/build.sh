@@ -2,6 +2,10 @@
 set -euo pipefail
 
 echo "#############################"
+echo "# CHECK FORMATTING"
+./tools/check-formatting --all
+
+echo "#############################"
 echo "# LOAD MODULES"
 source /mnt/software/Modules/current/init/bash
 module load git gcc ccache boost ninja cmake hdf5-tools zlib htslib
