@@ -1,7 +1,7 @@
 #include "Alignment.hpp"
+#include <cassert>
 #include <cstdint>
 #include <cstdlib>
-#include <cassert>
 #include <fstream>
 #include <iostream>
 #include <ostream>

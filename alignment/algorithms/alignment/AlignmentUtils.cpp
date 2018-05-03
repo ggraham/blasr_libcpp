@@ -1,6 +1,6 @@
 #include "AlignmentUtils.hpp"
-#include <cstdint>
 #include <cassert>
+#include <cstdint>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>

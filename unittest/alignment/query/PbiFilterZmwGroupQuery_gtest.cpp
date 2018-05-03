@@ -32,7 +32,8 @@ static void TestPbiFilterZmwGroupQuery(const std::string& fn, const std::vector<
     });
 }
 
-static void TestNoneConstPbiFilterZmwGroupQuery(const std::string& fn, const std::vector<size_t>& expected,
+static void TestNoneConstPbiFilterZmwGroupQuery(const std::string& fn,
+                                                const std::vector<size_t>& expected,
                                                 const int32_t min_zmw, const int32_t max_zmw)
 {
     EXPECT_NO_THROW({

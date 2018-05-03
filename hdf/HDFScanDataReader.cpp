@@ -140,7 +140,10 @@ int HDFScanDataReader::Read(ScanData &scanData)
     return 1;
 }
 
-void HDFScanDataReader::ReadWhenStarted(std::string &whenStarted) { whenStartedAtom.Read(whenStarted); }
+void HDFScanDataReader::ReadWhenStarted(std::string &whenStarted)
+{
+    whenStartedAtom.Read(whenStarted);
+}
 
 PlatformId HDFScanDataReader::GetPlatformId() { return platformId; }
 
@@ -209,7 +212,7 @@ int HDFScanDataReader::LoadBaseMap(std::map<char, size_t> &baseMap)
         baseMapAtom.Read(baseMapStr);
         if (baseMapStr.size() != 4) {
             std::cout << "ERROR, there are more than four types of bases "
-                 << "according to /ScanData/DyeSet/BaseMap." << std::endl;
+                      << "according to /ScanData/DyeSet/BaseMap." << std::endl;
             std::exit(EXIT_FAILURE);
         }
         baseMap.clear();

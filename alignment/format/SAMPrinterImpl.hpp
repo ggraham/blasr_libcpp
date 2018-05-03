@@ -1,5 +1,5 @@
-#include <cassert>   //assert
 #include <algorithm>  //max
+#include <cassert>    //assert
 #include <utility>    //swap
 
 using namespace SAMOutput;

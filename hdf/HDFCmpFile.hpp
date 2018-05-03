@@ -173,7 +173,8 @@ public:
         name = nameStrm.str();
     }
 
-    int AddReference(std::string refName, unsigned int length, std::string md5, std::string &refGroupName)
+    int AddReference(std::string refName, unsigned int length, std::string md5,
+                     std::string &refGroupName)
     {
         //
         // Adding a reference requires:
@@ -206,8 +207,9 @@ public:
         return id;
     }
 
-    void StoreAlnArray(std::vector<unsigned char> &alnArray, std::string refName, std::string &experimentName,
-                       unsigned int &offsetBegin, unsigned int &offsetEnd)
+    void StoreAlnArray(std::vector<unsigned char> &alnArray, std::string refName,
+                       std::string &experimentName, unsigned int &offsetBegin,
+                       unsigned int &offsetEnd)
     {
         //
         // First find the reference group.
@@ -222,8 +224,9 @@ public:
 
     // Write a vector of quality values to the appropriate experiment group.
     // This is similar to StoreAlignment, but for QVs
-    void StoreQVs(const std::vector<UChar> &qvArray, const std::string &refName, const std::string &fieldName,
-                  const std::string &experimentName, unsigned int *offsetBegin, unsigned int *offsetEnd)
+    void StoreQVs(const std::vector<UChar> &qvArray, const std::string &refName,
+                  const std::string &fieldName, const std::string &experimentName,
+                  unsigned int *offsetBegin, unsigned int *offsetEnd)
     {
         assert(refNameToArrayIndex.find(refName) != refNameToArrayIndex.end());
         size_t refIndex = refNameToArrayIndex[refName];
@@ -236,8 +239,9 @@ public:
     // Write a vector of tag to the appropriate experiment group.
     // This is similar to StoreAlignment, but for DeletionTag and
     // SubstitutionTag.
-    void StoreTags(const std::vector<char> &qvArray, const std::string &refName, const std::string &fieldName,
-                   const std::string &experimentName, unsigned int *offsetBegin, unsigned int *offsetEnd)
+    void StoreTags(const std::vector<char> &qvArray, const std::string &refName,
+                   const std::string &fieldName, const std::string &experimentName,
+                   unsigned int *offsetBegin, unsigned int *offsetEnd)
     {
         assert(refNameToArrayIndex.find(refName) != refNameToArrayIndex.end());
         size_t refIndex = refNameToArrayIndex[refName];
@@ -306,7 +310,7 @@ public:
     {
         if (alnInfoGroup.alnInfoGroup.groupIsInitialized == false) {
             std::cout << "ERROR, getting the size of an index before initializing the cmp.h5 file."
-                 << std::endl;
+                      << std::endl;
             std::exit(EXIT_FAILURE);
         }
         return alnInfoGroup.alnIndexArray.GetNRows();
@@ -315,7 +319,8 @@ public:
     // Add synonym
     unsigned int GetNAlignments() { return GetAlignmentIndexSize(); }
 
-    static void ParseReadGroupPath(std::string &path, std::string &refName, std::string &readGroupName)
+    static void ParseReadGroupPath(std::string &path, std::string &refName,
+                                   std::string &readGroupName)
     {
         size_t delimPos;
         delimPos = path.find_last_of('/');
@@ -418,9 +423,9 @@ public:
                 refGroupArrayIndex = refNameToArrayIndex[refName];
             } else {
                 std::cout << "ERROR! The reference name '" << refName
-                     << "' does not have an entry though it is "
-                     << " specified in the path for " << cmpFile.readGroupTable.names[alnGroupIndex]
-                     << std::endl;
+                          << "' does not have an entry though it is "
+                          << " specified in the path for "
+                          << cmpFile.readGroupTable.names[alnGroupIndex] << std::endl;
                 assert(0);
             }
 
@@ -461,9 +466,9 @@ public:
             int refGroupArrayIndex;
             if (refGroupIdToArrayIndex.find(refGroupId) == refGroupIdToArrayIndex.end()) {
                 std::cout << "ERROR! Alignment "
-                     << cmpFile.alnInfo.alignments[alignmentIndex].GetAlignmentId()
-                     << " has ref seq id " << refGroupId << " that does not exist in the HDF file."
-                     << std::endl;
+                          << cmpFile.alnInfo.alignments[alignmentIndex].GetAlignmentId()
+                          << " has ref seq id " << refGroupId
+                          << " that does not exist in the HDF file." << std::endl;
                 assert(0);
             } else {
                 refGroupArrayIndex = refGroupIdToArrayIndex[refGroupId];
@@ -482,12 +487,12 @@ public:
             if (refAlignGroup->experimentNameToIndex.find(readGroupName) ==
                 refAlignGroup->experimentNameToIndex.end()) {
                 std::cout << "Internal ERROR! The read group name " << readGroupName
-                     << " is specified as part of "
-                     << " the path in alignment "
-                     << cmpFile.alnInfo.alignments[alignmentIndex].GetAlignmentId()
-                     << " though it does not exist in the ref align group specified for this "
-                        "alignment."
-                     << std::endl;
+                          << " is specified as part of "
+                          << " the path in alignment "
+                          << cmpFile.alnInfo.alignments[alignmentIndex].GetAlignmentId()
+                          << " though it does not exist in the ref align group specified for this "
+                             "alignment."
+                          << std::endl;
                 assert(0);
             }
 
@@ -542,8 +547,8 @@ public:
     void IncludeField(std::string fieldName)
     {
         if (supportedFields.find(fieldName) == supportedFields.end()) {
-            std::cout << "ERROR, attempting to include field " << fieldName << " that is not supported."
-                 << std::endl;
+            std::cout << "ERROR, attempting to include field " << fieldName
+                      << " that is not supported." << std::endl;
             std::exit(EXIT_FAILURE);
         }
         includedFields.insert(fieldName);
@@ -624,17 +629,18 @@ public:
         int refGroupIndex = refGroupIdToArrayIndex[refGroupId];
         if (alnGroupIdToReadGroupName.find(alnGroupId) == alnGroupIdToReadGroupName.end()) {
             std::cout << "INTERNAL ERROR! Could not find read group name for alignment "
-                 << "group with Id " << alnGroupId << "." << std::endl;
+                      << "group with Id " << alnGroupId << "." << std::endl;
             assert(0);
         }
         std::string readGroupName = alnGroupIdToReadGroupName[alnGroupId];
         if (refAlignGroups[refGroupIndex]->experimentNameToIndex.find(readGroupName) ==
             refAlignGroups[refGroupIndex]->experimentNameToIndex.end()) {
-            std::cout << "Internal ERROR! The read group name " << readGroupName
-                 << " is specified as part of "
-                 << " the path in alignment " << alignmentIndex
-                 << " though it does not exist in the ref align group specified for this alignment."
-                 << std::endl;
+            std::cout
+                << "Internal ERROR! The read group name " << readGroupName
+                << " is specified as part of "
+                << " the path in alignment " << alignmentIndex
+                << " though it does not exist in the ref align group specified for this alignment."
+                << std::endl;
             assert(0);
         }
         int readGroupIndex = refAlignGroups[refGroupIndex]->experimentNameToIndex[readGroupName];
@@ -673,18 +679,19 @@ public:
         int refGroupIndex = refGroupIdToArrayIndex[refGroupId];
         if (alnGroupIdToReadGroupName.find(alnGroupId) == alnGroupIdToReadGroupName.end()) {
             std::cout << "INTERNAL ERROR! Could not find read group name for alignment "
-                 << "group with Id " << alnGroupId << "." << std::endl;
+                      << "group with Id " << alnGroupId << "." << std::endl;
             assert(0);
         }
         std::string readGroupName = alnGroupIdToReadGroupName[alnGroupId];
 
         if (refAlignGroups[refGroupIndex]->experimentNameToIndex.find(readGroupName) ==
             refAlignGroups[refGroupIndex]->experimentNameToIndex.end()) {
-            std::cout << "Internal ERROR! The read group name " << readGroupName
-                 << " is specified as part of "
-                 << " the path in alignment " << alignmentIndex
-                 << " though it does not exist in the ref align group specified for this alignment."
-                 << std::endl;
+            std::cout
+                << "Internal ERROR! The read group name " << readGroupName
+                << " is specified as part of "
+                << " the path in alignment " << alignmentIndex
+                << " though it does not exist in the ref align group specified for this alignment."
+                << std::endl;
             assert(0);
         }
 
@@ -837,7 +844,7 @@ public:
         if (refInfoId > 999999) {
             // ref000001 ~ ref999999
             std::cout << "ERROR. Could not store more than 999999 references in "
-                 << " a cmp.h5 file." << std::endl;
+                      << " a cmp.h5 file." << std::endl;
             std::exit(EXIT_FAILURE);
         }
 

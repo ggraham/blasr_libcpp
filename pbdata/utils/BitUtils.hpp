@@ -1,8 +1,8 @@
 #ifndef _BLASR_BIT_UTILS_HPP_
 #define _BLASR_BIT_UTILS_HPP_
 
-#include <cstdint>
 #include <bitset>
+#include <cstdint>
 #include "../Types.h"
 
 int32_t CountBits(uint32_t v);

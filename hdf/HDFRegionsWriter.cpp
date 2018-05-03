@@ -19,7 +19,7 @@ HDFRegionsWriter::~HDFRegionsWriter(void)
 bool HDFRegionsWriter::WriteAttributes(void)
 {
     if (curRow_ > 0) {
-/*
+        /*
         AddAttribute<std::vector<std::string>>(regionsArray_,
                                                PacBio::AttributeNames::Regions::columnnames,
                                                PacBio::AttributeValues::Regions::columnnames);

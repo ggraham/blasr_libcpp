@@ -26,8 +26,8 @@ void FragmentSetToEndpoints(T_Fragment *fragments, int nFragments,
 
 template <typename T_Fragment>
 UInt RestrictedGlobalChain(T_Fragment *fragments, DNALength nFragments, float maxIndelRate,
-                           std::vector<VectorIndex> &optFragmentChainIndices, std::vector<UInt> &scores,
-                           std::vector<UInt> &prevOpt)
+                           std::vector<VectorIndex> &optFragmentChainIndices,
+                           std::vector<UInt> &scores, std::vector<UInt> &prevOpt)
 {
     // assume fragments are sorted by t
 
@@ -94,7 +94,8 @@ UInt RestrictedGlobalChain(T_Fragment *fragments, DNALength nFragments, float ma
 
 template <typename T_Fragment, typename T_Endpoint>
 int GlobalChain(T_Fragment *fragments, DNALength nFragments,
-                std::vector<VectorIndex> &optFragmentChainIndices, std::vector<T_Endpoint> *bufEndpointsPtr)
+                std::vector<VectorIndex> &optFragmentChainIndices,
+                std::vector<T_Endpoint> *bufEndpointsPtr)
 {
 
     //
@@ -193,7 +194,8 @@ int GlobalChain(T_Fragment *fragments, DNALength nFragments,
 }
 
 template <typename T_Fragment, typename T_Endpoint>
-int GlobalChain(std::vector<T_Fragment> &fragments, std::vector<VectorIndex> &optFragmentChainIndices)
+int GlobalChain(std::vector<T_Fragment> &fragments,
+                std::vector<VectorIndex> &optFragmentChainIndices)
 {
     return GlobalChain<T_Fragment, T_Endpoint>(&fragments[0], fragments.size(),
                                                optFragmentChainIndices);
@@ -201,7 +203,8 @@ int GlobalChain(std::vector<T_Fragment> &fragments, std::vector<VectorIndex> &op
 
 template <typename T_Fragment, typename T_Endpoint>
 int GlobalChain(std::vector<T_Fragment> &fragments, DNALength start, DNALength end,
-                std::vector<VectorIndex> &optFragmentChainIndices, std::vector<T_Endpoint> *bufEndpointsPtr)
+                std::vector<VectorIndex> &optFragmentChainIndices,
+                std::vector<T_Endpoint> *bufEndpointsPtr)
 {
     return GlobalChain<T_Fragment, T_Endpoint>(&fragments[start], end - start,
                                                optFragmentChainIndices, bufEndpointsPtr);

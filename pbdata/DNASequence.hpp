@@ -1,14 +1,14 @@
 #ifndef _BLASR_DNA_SEQUENCE_HPP_
 #define _BLASR_DNA_SEQUENCE_HPP_
 
+#include <LibBlasrConfig.h>
+#include <cassert>
 #include <cstdint>
 #include <cstdlib>
-#include <cassert>
 #include <iostream>
 #include <string>
 #include "NucConversion.hpp"
 #include "Types.h"
-#include <LibBlasrConfig.h>
 #include "utils.hpp"
 
 #ifdef USE_PBBAM

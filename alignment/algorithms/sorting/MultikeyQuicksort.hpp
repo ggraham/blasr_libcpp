@@ -13,8 +13,8 @@
  * speed up sorts on modern architectures.
  */
 
-#include <climits>
 #include <algorithm>
+#include <climits>
 #include <vector>
 // pbdata
 #include "../../../pbdata/FASTASequence.hpp"

@@ -65,6 +65,9 @@ SequentialZmwGroupQuery::SequentialZmwGroupQuery(const DataSet& dataset)
 
 SequentialZmwGroupQuery::~SequentialZmwGroupQuery(void) {}
 
-bool SequentialZmwGroupQuery::GetNext(std::vector<BamRecord>& records) { return d_->GetNext(records); }
+bool SequentialZmwGroupQuery::GetNext(std::vector<BamRecord>& records)
+{
+    return d_->GetNext(records);
+}
 
 #endif

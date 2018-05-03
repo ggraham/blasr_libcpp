@@ -1,7 +1,7 @@
 #ifndef DATASTRUCTURES_ALIGNMENT_CMP_ALIGNMENT_H_
 #define DATASTRUCTURES_ALIGNMENT_CMP_ALIGNMENT_H_
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 #include <iostream>
 #include <map>
 #include <string>

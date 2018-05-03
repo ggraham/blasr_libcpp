@@ -1,7 +1,7 @@
 #ifndef _BLASR_MATRIX_IMPL_HPP
 #define _BLASR_MATRIX_IMPL_HPP
-#include <cstdint>
 #include <cassert>
+#include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <vector>

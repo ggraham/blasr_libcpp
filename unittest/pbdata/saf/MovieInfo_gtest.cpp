@@ -26,7 +26,7 @@ TEST(MovieInfoTest, FindMovie)
     MovieInfo movieInfo;
     int ids[5] = {3, 5, 7, 4, 0};
     std::string names[5] = {"movieX", "movieY", "abc", "m000000000032102389170_s0",
-                       "m000000000032102389170_s"};
+                            "m000000000032102389170_s"};
 
     for (int i = 0; i < 5; i++) {
         movieInfo.name.push_back(names[i]);

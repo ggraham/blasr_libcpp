@@ -101,10 +101,10 @@ TEST_F(CCSSequenceTest, Print)
     ccs.Print(ss);
     ccs.unrolledRead.Print(ss1);
     ASSERT_EQ(ss.str(), (std::string("SMRTSequence for zmw 1, [0, 19)\nATATGGGGATTAGGGGATA\n")));
-    ASSERT_EQ(
-        ss1.str(),
-        (std::string("SMRTSequence for zmw 1, [0, "
-                "66)\nATATGGGGATTAGGGGATACCCTAATCCCGTAATCCCGGTATCCCATAGG\nGGGATTAGGGGATTCA\n")));
+    ASSERT_EQ(ss1.str(),
+              (std::string(
+                  "SMRTSequence for zmw 1, [0, "
+                  "66)\nATATGGGGATTAGGGGATACCCTAATCCCGTAATCCCGGTATCCCATAGG\nGGGATTAGGGGATTCA\n")));
 }
 
 TEST_F(CCSSequenceTest, Explode)

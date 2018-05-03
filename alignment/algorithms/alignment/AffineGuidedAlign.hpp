@@ -313,7 +313,7 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq, Alignment &guide
                 std::cout << q << " " << t << std::endl;
                 std::cout << "All infinity, bad things will happen." << std::endl;
                 std::cout << "the score mat here is : " << scoreMat[curIndex] << " and path "
-                     << pathMat[curIndex] << std::endl;
+                          << pathMat[curIndex] << std::endl;
                 assert(0);
             }
             if (affineInsOpenScore < affineInsExtScore) {
@@ -354,14 +354,15 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq, Alignment &guide
                 qSeq.ToAscii();
                 for (size_t gi = 0; gi < guide.size(); gi++) {
                     std::cout << guide[gi].q << " " << guide[gi].t << " " << guide[gi].tPre << " "
-                         << guide[gi].tPost << std::endl;
+                              << guide[gi].tPost << std::endl;
                 }
 
                 std::cout << "qseq: " << std::endl;
                 (static_cast<DNASequence *>(&qSeq))->PrintSeq(std::cout);
                 std::cout << "tseq: " << std::endl;
                 (static_cast<DNASequence *>(&tSeq))->PrintSeq(std::cout);
-                std::cout << "ERROR, this path has gone awry at " << q << " " << t << " !" << std::endl;
+                std::cout << "ERROR, this path has gone awry at " << q << " " << t << " !"
+                          << std::endl;
                 std::exit(EXIT_FAILURE);
             }
 
@@ -393,7 +394,7 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq, Alignment &guide
                 optAlignment.push_back(Up);
             } else {
                 std::cout << "ERROR!  Reached arrow " << arrow << " at " << q << " " << t
-                     << " in affine ins path mat. That is bad." << std::endl;
+                          << " in affine ins path mat. That is bad." << std::endl;
                 assert(0);
             }
         } else {
@@ -406,7 +407,7 @@ int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq, Alignment &guide
                 optAlignment.push_back(Left);
             } else {
                 std::cout << "ERROR! Reached arrow " << arrow << " at " << q << " " << t
-                     << " in affine del mat. This is also bad." << std::endl;
+                          << " in affine del mat. This is also bad." << std::endl;
                 assert(0);
             }
         }

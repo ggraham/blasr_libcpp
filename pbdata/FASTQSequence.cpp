@@ -1,14 +1,14 @@
-#include <cstdint>
 #include <algorithm>
 #include <cassert>
+#include <cstdint>
 #include <cstring>
 #include <iomanip>
 #include <iostream>
 #include <vector>
 
-#include "FASTQSequence.hpp"
 #include "DNASequence.hpp"
 #include "Enumerations.h"
+#include "FASTQSequence.hpp"
 #include "NucConversion.hpp"
 #include "Types.h"
 

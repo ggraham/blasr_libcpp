@@ -431,11 +431,10 @@ bool SMRTSequence::IsValid(const PacBio::BAM::BamRecord &record)
 
 void SMRTSequence::MakeNativeOrientedBamRecord(const PacBio::BAM::BamRecord &record)
 {
-    bamRecord = PacBio::BAM::BamRecord(record); // copy first
-    if (record.IsMapped() and record.AlignedStrand() == PacBio::BAM::Strand::REVERSE)
-    {
+    bamRecord = PacBio::BAM::BamRecord(record);  // copy first
+    if (record.IsMapped() and record.AlignedStrand() == PacBio::BAM::Strand::REVERSE) {
         PacBio::BAM::BamRecordView bv(record, PacBio::BAM::Orientation::NATIVE, false, false);
-        bamRecord.Impl().Flag(PacBio::BAM::BamRecordImpl::UNMAPPED); // set flag as unmapped
+        bamRecord.Impl().Flag(PacBio::BAM::BamRecordImpl::UNMAPPED);  // set flag as unmapped
         bamRecord.Impl().SetSequenceAndQualities(bv.Sequence(), bv.Qualities().Fastq());
         if (bamRecord.HasInsertionQV()) bamRecord.InsertionQV(bv.InsertionQVs());
         if (bamRecord.HasDeletionQV()) bamRecord.DeletionQV(bv.DeletionQVs());
@@ -452,7 +451,7 @@ void SMRTSequence::Copy(const PacBio::BAM::BamRecord &record, bool copyAllQVs)
 
     copiedFromBam = true;
 
-    this->MakeNativeOrientedBamRecord(record); // bamRecord must always have native orientation
+    this->MakeNativeOrientedBamRecord(record);  // bamRecord must always have native orientation
 
     // Only copy insertionQV, deletionQV, substitutionQV, mergeQV,
     // deletionTag and substitutionTag from BamRecord to SMRTSequence.

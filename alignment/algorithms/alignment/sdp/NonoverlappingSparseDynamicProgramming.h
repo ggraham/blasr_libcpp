@@ -14,8 +14,9 @@
 #include "SDPSet.h"
 
 template <typename T_Fragment>
-int SDPHeaviestSubsequence(int queryLength, std::vector<T_Fragment> &fragmentSet, int indel, int match,
-                           std::vector<int> &maxFragmentChain, AlignmentType alignType = Global)
+int SDPHeaviestSubsequence(int queryLength, std::vector<T_Fragment> &fragmentSet, int indel,
+                           int match, std::vector<int> &maxFragmentChain,
+                           AlignmentType alignType = Global)
 {
 
     maxFragmentChain.clear();
@@ -74,11 +75,11 @@ int SDPHeaviestSubsequence(int queryLength, std::vector<T_Fragment> &fragmentSet
                 //
                 // predCol points to the fragment with greatest value less than curCol.
                 //
-                predFragScore =
-                    fragmentSet[predCol.optFragment].cost +
-                    std::abs((fragmentSet[fSweep].x - fragmentSet[fSweep].y) -
-                        (fragmentSet[predCol.optFragment].x - fragmentSet[predCol.optFragment].y)) *
-                        indel;
+                predFragScore = fragmentSet[predCol.optFragment].cost +
+                                std::abs((fragmentSet[fSweep].x - fragmentSet[fSweep].y) -
+                                         (fragmentSet[predCol.optFragment].x -
+                                          fragmentSet[predCol.optFragment].y)) *
+                                    indel;
                 foundPrev = 1;
             }
 

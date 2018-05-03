@@ -89,7 +89,10 @@ void FASTASequence::CopyTitle(const char *str, int strlen)
     deleteTitleOnExit = true;
 }
 
-void FASTASequence::CopyTitle(std::string str) { FASTASequence::CopyTitle(str.c_str(), str.size()); }
+void FASTASequence::CopyTitle(std::string str)
+{
+    FASTASequence::CopyTitle(str.c_str(), str.size());
+}
 
 void FASTASequence::GetFASTATitle(std::string &fastaTitle) const
 {

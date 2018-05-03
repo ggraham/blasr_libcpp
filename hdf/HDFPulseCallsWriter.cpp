@@ -1,8 +1,8 @@
 #include <LibBlasrConfig.h>
 
 #ifdef USE_PBBAM
-#include <cctype>
 #include <algorithm>
+#include <cctype>
 #include <cmath>
 #include <sstream>
 #include "../pbdata/utils/TimeUtils.hpp"
