@@ -5,9 +5,10 @@ project(
   default_options : [
     'buildtype=release',
     'warning_level=3',
-    'cpp_std=c++14'],
+    'cpp_std=c++11',
+    'b_ndebug=if-release'],
   license : 'BSD-3',
-  meson_version : '>= 0.41.1')
+  meson_version : '>= 0.46.0')
 
 ############
 # CXXFLAGS #
@@ -40,26 +41,28 @@ endif
 # dependencies #
 ################
 
-# HDF5
-libhdf5_cflags = []
-if get_option('HDF5_CFLAGS') != ''
-  libhdf5_cflags = get_option('HDF5_CFLAGS').split(' ')
-endif
-
-libhdf5_libs = []
-if get_option('HDF5_LIBS') != ''
-  libhdf5_libs = get_option('HDF5_LIBS').split(' ')
-endif
-
 # boost
 libblasr_boost_dep = dependency('boost', required : true)
 
 # pbbam
 libblasr_pbbam_dep = dependency('pbbam', fallback : ['pbbam', 'pbbam_dep'])
 
+# zlib
+libblasr_zlib_dep = dependency('zlib', required : true)
+
+# clock_gettime on old glibc systems
+libblasr_rt_dep = cpp.find_library('rt', required : false)
+
+libblasr_deps = [libblasr_boost_dep, libblasr_pbbam_dep, libblasr_zlib_dep, libblasr_rt_dep]
+
 #####################
 # sources + library #
 #####################
+
+# install library if
+# - either running as a proper project
+# - or using shared libraries
+libblasr_lib_install = (not meson.is_subproject()) or (get_option('default_library') == 'shared')
 
 libblasr_sources = []
 libblasr_include_directories = [include_directories('.')]
@@ -69,21 +72,26 @@ subdir('alignment')
 subdir('pbdata')
 
 libblasr_lib = library(
-  'blasr',
-  libblasr_sources,
-  install : true,
-  soversion : 0,
+  'blasr', [
+    libblasr_libconfig_h,
+    libblasr_sources],
+  install : libblasr_lib_install,
+  # use boost SONAME practice:
+  #   cause ld startup issues before
+  #   you even have the chance of running
+  #   into ABI issues.
+  soversion : meson.project_version(),
   version : meson.project_version(),
   include_directories : libblasr_include_directories,
-  dependencies : [libblasr_pbbam_dep, libblasr_boost_dep],
-  cpp_args : [libhdf5_cflags, libblasr_warning_flags, '-DUSE_PBBAM=1'],
-  link_args : libhdf5_libs)
+  dependencies : libblasr_deps,
+  cpp_args : libblasr_warning_flags)
 
 #########
 # tests #
 #########
 
-if get_option('enable-blasr-libcpp-tests')
+if (not meson.is_subproject()) and get_option('tests')
+  libblasr_clang_formatter = find_program('tools/check-formatting')
   subdir('unittest')
 endif
 
@@ -91,20 +99,24 @@ endif
 # dependency info #
 ###################
 
-import('pkgconfig').generate(
-  libraries : libblasr_lib,
-  version : meson.project_version(),
-  name : 'libblasr',
-  requires : 'pbbam',
-  filebase : 'libblasr',
-  subdirs : ['libblasr', 'libblasr/alignment', 'libblasr/hdf', 'libblasr/pbdata'],
-  description : 'Library routines used by the PacBio BLASR aligner')
+if not meson.is_subproject()
+  import('pkgconfig').generate(
+    libraries : libblasr_lib,
+    version : meson.project_version(),
+    name : 'libblasr',
+    requires : 'pbbam',
+    filebase : 'libblasr',
+    subdirs : [
+      'libblasr',
+      'libblasr/alignment',
+      'libblasr/hdf',
+      'libblasr/pbdata'],
+    description : 'Library routines used by the PacBio BLASR aligner')
+endif
 
 libblasr_dep = declare_dependency(
   include_directories : libblasr_include_directories,
   link_with : libblasr_lib,
-  dependencies : libblasr_pbbam_dep,
+  dependencies : libblasr_deps,
   version : meson.project_version(),
-  sources : libblasr_sources,
-  compile_args : libhdf5_cflags + libblasr_warning_flags,
-  link_args : libhdf5_libs)
+  sources : libblasr_libconfig_h)
