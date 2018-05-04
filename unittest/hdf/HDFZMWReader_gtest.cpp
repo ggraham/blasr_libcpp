@@ -27,7 +27,8 @@ public:
     virtual void SetUp() {}
     virtual void TearDown() {}
 
-    void Initialize(H5File &pbihdfFile, std::string fileName, std::string groupName, HDFGroup &callsGroup)
+    void Initialize(H5File &pbihdfFile, std::string fileName, std::string groupName,
+                    HDFGroup &callsGroup)
     {
         try {
             FileAccPropList propList;

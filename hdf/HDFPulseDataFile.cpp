@@ -14,9 +14,10 @@ void HDFPulseDataFile::CheckMemoryAllocation(long allocSize, long allocLimit, co
         if (fieldName == NULL) {
             std::cout << "Allocating too large of memory" << std::endl;
         } else {
-            std::cout << "Allocate size " << allocSize << " > allocate limit " << allocLimit << std::endl;
+            std::cout << "Allocate size " << allocSize << " > allocate limit " << allocLimit
+                      << std::endl;
             std::cout << "ERROR! Reading the dataset " << fieldName << " will use too much memory."
-                 << std::endl;
+                      << std::endl;
             std::cout << "The pls/bas file is too large, exiting." << std::endl;
         }
         std::exit(EXIT_FAILURE);

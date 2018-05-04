@@ -89,7 +89,8 @@ public:
         if (refGroup.ContainsObject(experimentGroupName)) {
             HDFCmpExperimentGroup* newGroup = new HDFCmpExperimentGroup;
             if (newGroup == nullptr) {
-                std::cout << "ERROR, failed to allocate memory for HDFCmpExperimentGroup!" << std::endl;
+                std::cout << "ERROR, failed to allocate memory for HDFCmpExperimentGroup!"
+                          << std::endl;
                 std::exit(EXIT_FAILURE);
             }
             if (newGroup->Initialize(refGroup, experimentGroupName, includedFields) == 0) {

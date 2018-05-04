@@ -1,8 +1,8 @@
 #ifndef _BLASR_TUPLE_COUNT_TABLE_HPP_
 #define _BLASR_TUPLE_COUNT_TABLE_HPP_
 
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 #include <fstream>
 #include <iostream>
 

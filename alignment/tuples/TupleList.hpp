@@ -1,8 +1,8 @@
 #ifndef _BLASR_TUPLE_LIST_HPP_
 #define _BLASR_TUPLE_LIST_HPP_
 
-#include <cstdint>
 #include <algorithm>
+#include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <string>

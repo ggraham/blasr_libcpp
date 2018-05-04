@@ -1,7 +1,7 @@
-#include "QualityValue.hpp"
 #include <cassert>
 #include <cmath>
 #include "../defs.h"
+#include "QualityValue.hpp"
 
 QualityValue ProbabilityToQualityValue(QualityProbability pErr, QVScale qvScale)
 {

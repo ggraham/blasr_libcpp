@@ -77,7 +77,8 @@ public:
     /// /param [out] baseCallerVersion - Base Caller Version
     /// from /PulseData/BaseCalls/ChangeListID.
     ///
-    void GetChemistryTriple(std::string &bindingKit, std::string &sequencingKit, std::string &baseCallerVersion);
+    void GetChemistryTriple(std::string &bindingKit, std::string &sequencingKit,
+                            std::string &baseCallerVersion);
 
     bool FileHasZMWInformation();
 

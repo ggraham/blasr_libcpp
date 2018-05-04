@@ -1,7 +1,7 @@
 #ifndef _BLASR_FILTER_CRITERIA_HPP_
 #define _BLASR_FILTER_CRITERIA_HPP_
-#include <cctype>    // toupper
 #include <algorithm>  // transform
+#include <cctype>     // toupper
 #include <iostream>
 #include <string>
 #include <vector>

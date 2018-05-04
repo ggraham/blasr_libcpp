@@ -191,7 +191,8 @@ int OneGapAlign(T_QuerySequence &query, T_RefSequence &leftTarget, T_RefSequence
             affineCloseScore =
                 affineScoreMat[i][targetCol] + scoreFn.Match(rightTarget, j, query, i);
 
-            minScore = std::min(matchScore, std::min(insScore, std::min(delScore, affineCloseScore)));
+            minScore =
+                std::min(matchScore, std::min(insScore, std::min(delScore, affineCloseScore)));
 
             scoreMat[i + 1][targetCol + 1] = minScore;
             if (minScore == matchScore) {

@@ -3,7 +3,8 @@
 
 #include "AlignmentMap.hpp"
 
-void CreateSequenceToAlignmentMap(const std::string& alignedSequence, std::vector<int>& baseToAlignmentMap)
+void CreateSequenceToAlignmentMap(const std::string& alignedSequence,
+                                  std::vector<int>& baseToAlignmentMap)
 {
     baseToAlignmentMap.resize(alignedSequence.size());
     size_t alignedPos, unalignedPos;

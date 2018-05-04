@@ -1,10 +1,10 @@
 #ifndef _BLASR_SHARED_MEMORY_ALLOCATOR_HPP_
 #define _BLASR_SHARED_MEMORY_ALLOCATOR_HPP_
 
-#include <cerrno>
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <cerrno>
 #include <iostream>
 #include <string>
 

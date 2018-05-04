@@ -28,7 +28,7 @@ void PrintLIS(T_MatchList &matchList, DNALength curPos, DNALength curGenomePos,
 {
     int i;
     std::cout << curPos << ' ' << curGenomePos << ' ' << nextGenomePos << ' ' << clp << ' ' << cle
-         << std::endl;
+              << std::endl;
     for (i = 0; i < matchList.size(); i++) {
         std::cout.width(8);
         std::cout << matchList[i].l << ' ';
@@ -401,9 +401,10 @@ int FindMaxIncreasingInterval(
     // The increasing interval coordinates,
     // in order by queue weight.
     WeightedIntervalSet &intervalQueue, T_ReferenceSequence &reference, T_Sequence &query,
-    IntervalSearchParameters &params, std::vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer,
-    ClusterList &clusterList, VarianceAccumulator<float> &accumPValue,
-    VarianceAccumulator<float> &accumWeight, VarianceAccumulator<float> &accumNumAnchorBases)
+    IntervalSearchParameters &params,
+    std::vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer, ClusterList &clusterList,
+    VarianceAccumulator<float> &accumPValue, VarianceAccumulator<float> &accumWeight,
+    VarianceAccumulator<float> &accumNumAnchorBases)
 {
     (void)(accumNumAnchorBases);
 
@@ -498,9 +499,9 @@ int FastFindMaxIncreasingInterval(
     // The increasing interval coordinates,
     // in order by queue weight.
     WeightedIntervalSet &intervalQueue, T_ReferenceSequence &reference, T_Sequence &query,
-    IntervalSearchParameters &params, std::vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer,
-    ClusterList &clusterList, VarianceAccumulator<float> &accumPValue,
-    VarianceAccumulator<float> &accumWeight)
+    IntervalSearchParameters &params,
+    std::vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer, ClusterList &clusterList,
+    VarianceAccumulator<float> &accumPValue, VarianceAccumulator<float> &accumWeight)
 {
     (void)(nBest);
     (void)(query);
@@ -611,7 +612,8 @@ int FastFindMaxIncreasingInterval(
                                   noOvpLisSize);
             }
             if (params.verbosity > 1) {
-                std::cout << "Weighted Interval to insert:" << std::endl << weightedInterval << std::endl;
+                std::cout << "Weighted Interval to insert:" << std::endl
+                          << weightedInterval << std::endl;
                 std::cout << "Interval Queue:" << std::endl << intervalQueue << std::endl;
             }
         }
@@ -642,9 +644,9 @@ int ExhaustiveFindMaxIncreasingInterval(
     // The increasing interval coordinates,
     // in order by queue weight.
     WeightedIntervalSet &intervalQueue, T_ReferenceSequence &reference, T_Sequence &query,
-    IntervalSearchParameters &params, std::vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer,
-    ClusterList &clusterList, VarianceAccumulator<float> &accumPValue,
-    VarianceAccumulator<float> &accumWeight)
+    IntervalSearchParameters &params,
+    std::vector<BasicEndpoint<ChainedMatchPos> > *chainEndpointBuffer, ClusterList &clusterList,
+    VarianceAccumulator<float> &accumPValue, VarianceAccumulator<float> &accumWeight)
 {
     (void)(nBest);
     (void)(query);
@@ -776,7 +778,8 @@ int ExhaustiveFindMaxIncreasingInterval(
                                   noOvpLisSize);
             }
             if (params.verbosity > 1) {
-                std::cout << "Weighted Interval to insert:" << std::endl << weightedInterval << std::endl;
+                std::cout << "Weighted Interval to insert:" << std::endl
+                          << weightedInterval << std::endl;
                 std::cout << "Interval Queue:" << std::endl << intervalQueue << std::endl;
             }
         }

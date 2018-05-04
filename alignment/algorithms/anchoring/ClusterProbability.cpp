@@ -1,6 +1,6 @@
 #include "ClusterProbability.hpp"
-#include <cmath>
 #include <cassert>
+#include <cmath>
 
 float ComputeAnchorProbability(float pMatch, int minAnchorLength)
 {

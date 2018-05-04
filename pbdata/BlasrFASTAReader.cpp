@@ -1,10 +1,10 @@
-#include <climits>
-#include <cstdlib>
 #include <sys/fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <climits>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -94,7 +94,8 @@ int FASTAReader::Init(std::string &seqInName, int passive)
     SetFileSize();
     filePtr = (char *)mmap(0, fileSize, PROT_READ, MAP_PRIVATE, fileDes, 0);
     if (filePtr == MAP_FAILED) {
-        std::cout << "ERROR, Fail to load FASTA file " << seqInName << " to virtual memory." << std::endl;
+        std::cout << "ERROR, Fail to load FASTA file " << seqInName << " to virtual memory."
+                  << std::endl;
         std::exit(EXIT_FAILURE);
     }
     curPos = 0;
@@ -137,7 +138,8 @@ GenomeLength FASTAReader::ReadAllSequencesIntoOne(FASTASequence &seq,
     GenomeLength memorySize = seqLength + padding + 1;
 
     if (memorySize > UINT_MAX) {
-        std::cout << "ERROR! Reading fasta files greater than 4Gbytes is not supported." << std::endl;
+        std::cout << "ERROR! Reading fasta files greater than 4Gbytes is not supported."
+                  << std::endl;
         std::exit(EXIT_FAILURE);
     }
     seq.Resize(memorySize);
@@ -154,7 +156,7 @@ GenomeLength FASTAReader::ReadAllSequencesIntoOne(FASTASequence &seq,
         //
 
         while (p < seqLength && (seq.seq[p] == ' ' || seq.seq[p] == '\n' || seq.seq[p] == '\t' ||
-                                  seq.seq[p] == '\r')) {
+                                 seq.seq[p] == '\r')) {
             p++;
         }
         if (p < seqLength && seq.seq[p] == '>') {
@@ -304,8 +306,9 @@ int FASTAReader::GetNext(FASTASequence &seq)
         p++;
     }
     if (seqLength > UINT_MAX) {
-        std::cout << "ERROR! Reading sequences stored in more than 4Gbytes of space is not supported."
-             << std::endl;
+        std::cout
+            << "ERROR! Reading sequences stored in more than 4Gbytes of space is not supported."
+            << std::endl;
         std::exit(EXIT_FAILURE);
     }
 

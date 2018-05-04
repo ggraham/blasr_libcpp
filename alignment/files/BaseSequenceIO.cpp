@@ -54,7 +54,8 @@ int BaseSequenceIO::DetermineFileTypeByExtension(std::string &fileName, FileType
             type = FileType::None;
             if (exitOnFailure) {
                 std::cout << "ERROR, file type '." << extension
-                     << "' is not understood to be one of pls.h5, fasta, fastq, nor bam. " << std::endl;
+                          << "' is not understood to be one of pls.h5, fasta, fastq, nor bam. "
+                          << std::endl;
                 std::exit(EXIT_FAILURE);
             }
             return 0;

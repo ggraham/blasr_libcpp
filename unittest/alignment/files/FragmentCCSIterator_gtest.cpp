@@ -17,9 +17,9 @@
  */
 
 #include <gtest/gtest.h>
+#include <algorithm>
 #include <cstdio>
 #include <cstring>
-#include <algorithm>
 #include "HDFRegionTableReader.hpp"
 #include "files/FragmentCCSIterator.hpp"
 #include "pbdata/testdata.h"

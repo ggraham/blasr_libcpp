@@ -16,8 +16,8 @@
  * =====================================================================================
  */
 
-#include <string>
 #include <sstream>
+#include <string>
 
 #include "SMRTSequence.hpp"
 #include "gtest/gtest.h"
