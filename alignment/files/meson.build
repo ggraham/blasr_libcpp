@@ -12,6 +12,8 @@ libblasr_sources += files([
 # Headers #
 ###########
 
+meson.is_subproject() and subdir_done()
+
 install_headers(
   files([
     'BaseSequenceIO.hpp',
