@@ -2,21 +2,18 @@
 #define _BLASR_HDF_ATTRIBUTABLE_HPP_
 
 #include <H5Cpp.h>
-#include <H5Location.h>
 #include <string>
 #include <vector>
-
-void CallStoreAttributeName(H5::H5Location &obj, std::string attrName, void *attrListPtr);
 
 class HDFAttributable
 {
 public:
     std::vector<std::string> attributeNameList;
 
-    void StoreAttributeNames(H5::H5Location &thisobject,
+    void StoreAttributeNames(H5::H5Object &thisobject,
                              const std::vector<std::string> &attributeNames);
 
-    virtual H5::H5Location *GetObject();
+    virtual H5::H5Object *GetObject();
 
     int ContainsAttribute(const std::string &attributeName);
 };

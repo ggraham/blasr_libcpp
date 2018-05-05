@@ -52,7 +52,7 @@ public:
      */
     BufferedHDFArray(int pBufferSize = 32768);
 
-    BufferedHDFArray(H5::CommonFG *_container, std::string _datasetName);
+    BufferedHDFArray(H5::Group *_container, std::string _datasetName);
 
     ~BufferedHDFArray();
 
@@ -72,7 +72,7 @@ public:
 
     void Create(HDFGroup &parentGroup, std::string _datasetName);
 
-    void Create(H5::CommonFG *_container, std::string _datasetName);
+    void Create(H5::Group *_container, std::string _datasetName);
 
     /*
      * Initialize for reading.

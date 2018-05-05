@@ -2,7 +2,6 @@
 #define _BLASR_HDF_GROUP_HPP_
 
 #include <H5Cpp.h>
-#include <H5Location.h>
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -22,9 +21,9 @@ public:
 
     void AddGroup(std::string groupName);
 
-    H5::H5Location* GetObject();
+    H5::H5Object* GetObject();
 
-    int Initialize(H5::CommonFG& fg, std::string groupName);
+    int Initialize(H5::Group& fg, std::string groupName);
 
     int Initialize(HDFGroup& parentGroup, std::string groupName);
 

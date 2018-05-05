@@ -19,7 +19,7 @@ BufferedHDFArray<T>::BufferedHDFArray(int pBufferSize) : HDFData()
 }
 
 template <typename T>
-BufferedHDFArray<T>::BufferedHDFArray(H5::CommonFG *_container, std::string _datasetName)
+BufferedHDFArray<T>::BufferedHDFArray(H5::Group *_container, std::string _datasetName)
     : HDFData(_container, _datasetName)
 {
     // no-op
@@ -144,7 +144,7 @@ void BufferedHDFArray<T>::Flush(bool append, DSLength writePos)
         TypedWrite(this->writeBuffer, memorySpace, extendedSpace);
     } catch (H5::DataSetIException e) {
         std::cout << "ERROR! Could not write HDF5 data." << std::endl;
-        e.printError();
+        e.printErrorStack();
         std::exit(EXIT_FAILURE);
     }
     memorySpace.close();
@@ -189,7 +189,7 @@ void BufferedHDFArray<T>::Create(HDFGroup &parentGroup, std::string _datasetName
 }
 
 template <typename T>
-void BufferedHDFArray<T>::Create(H5::CommonFG *_container, std::string _datasetName)
+void BufferedHDFArray<T>::Create(H5::Group *_container, std::string _datasetName)
 {
     //
     // Initialize where the dataset will go.
@@ -296,7 +296,7 @@ int BufferedHDFArray<T>::UpdateH5Dataspace()
     try {
         dataspace = dataset.getSpace();
     } catch (H5::DataSetIException &e) {
-        e.printError();
+        e.printErrorStack();
         return 0;
     }
     maxDims = MAX_DIMS;
@@ -332,7 +332,7 @@ int BufferedHDFArray<T>::UpdateH5Dataspace()
         fullSourceSpace = H5::DataSpace(1, dimSize);
         dataspace.close();
     } catch (H5::Exception &e) {
-        e.printError();
+        e.printErrorStack();
         return 0;
     }
     return 1;
@@ -355,7 +355,7 @@ int BufferedHDFArray<T>::Resize(const DSLength newArrayLength)
         dataset.extend(fileArraySize);
         fileSpace.close();
     } catch (H5::DataSetIException &e) {
-        e.printError();
+        e.printErrorStack();
         return 0;
     }
     return 1;
