@@ -2,6 +2,7 @@
 
 #include "SMRTSequence.hpp"
 #include <cstdlib>
+#include "PrettyException.hpp"
 #include "utils/SMRTTitle.hpp"
 
 SMRTSequence::SMRTSequence()
@@ -324,7 +325,7 @@ float SMRTSequence::HQRegionSnr(const char base) const
     else if (::toupper(base) == 'T')
         return hqRegionSnr_[SMRTSequence::SnrIndex4Base::T];
     else
-        assert("Base must be in A, C, G, T" == 0);
+        BLASR_THROW("Base must be in A, C, G, T");
 }
 
 SMRTSequence &SMRTSequence::HQRegionSnr(const char base, float v)

@@ -237,7 +237,16 @@ void AppendGapCharacters(Gap &gap, T_QuerySequence &query, T_TargetSequence &tex
 template <typename T_Alignment, typename T_QuerySequence, typename T_TargetSequence>
 void CreateAlignmentStrings(T_Alignment &alignment, T_QuerySequence &query, T_TargetSequence &text,
                             std::string &textStr, std::string &alignStr, std::string &queryStr,
-                            DNALength queryLength, DNALength textLength)
+                            DNALength
+#ifndef NDEBUG
+                                queryLength
+#endif
+                            ,
+                            DNALength
+#ifndef NDEBUG
+                                textLength
+#endif
+                            )
 {
     DNALength q = alignment.qPos;
     DNALength t = alignment.tPos;

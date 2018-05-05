@@ -6,9 +6,14 @@ project(
     'buildtype=release',
     'warning_level=3',
     'cpp_std=c++11',
-    'b_ndebug=if-release'],
+    'b_ndebug=false'],
   license : 'BSD-3',
   meson_version : '>= 0.46.0')
+
+# TODO:
+# try to reenable 'b_ndebug=true'
+# this will require replacing a number of asserts
+# with proper throw statements
 
 ############
 # CXXFLAGS #
@@ -18,7 +23,6 @@ libblasr_warning_flags = []
 cpp = meson.get_compiler('cpp')
 foreach cflag: [
   '-Wno-delete-non-virtual-dtor',
-  '-Wno-unused-parameter',
   '-Wno-unused-variable',
   '-Wno-non-virtual-dtor']
     if cpp.has_argument(cflag)

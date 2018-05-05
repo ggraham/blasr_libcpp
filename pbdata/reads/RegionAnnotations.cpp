@@ -3,6 +3,7 @@
 #include "RegionAnnotations.hpp"
 #include <algorithm>
 #include <cassert>
+#include "PrettyException.hpp"
 
 RegionAnnotations::RegionAnnotations(const UInt holeNumber,
                                      const std::vector<RegionAnnotation>& annotations,
@@ -62,7 +63,7 @@ RegionAnnotation RegionAnnotations::TheHQRegion() const
     else if (hqs_.size() == 1)
         return hqs_[0];
     else
-        assert(false && "Zmw has more than one HQRegion.");
+        BLASR_THROW("Zmw has more than one HQRegion");
 }
 
 DNALength RegionAnnotations::HQStart() const { return TheHQRegion().GetStart(); }

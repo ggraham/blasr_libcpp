@@ -1,6 +1,7 @@
 #include <cassert>
 #include <cmath>
 #include "../defs.h"
+#include "PrettyException.hpp"
 #include "QualityValue.hpp"
 
 QualityValue ProbabilityToQualityValue(QualityProbability pErr, QVScale qvScale)
@@ -13,7 +14,7 @@ QualityValue ProbabilityToQualityValue(QualityProbability pErr, QVScale qvScale)
     } else if (qvScale == PHRED) {
         return -10 * log10(pErr);
     } else {
-        assert(false);
+        BLASR_THROW("Unknown qvScale!");
     }
 }
 
@@ -44,7 +45,7 @@ QualityProbability QualityValueToProbability(QualityValue qv, QVScale qvScale)
     } else if (qvScale == PHRED) {
         return pow(10, qv / -10.0);
     } else {
-        assert(false);
+        BLASR_THROW("Unknown qvScale!");
     }
 }
 

@@ -78,6 +78,7 @@ install_headers(
     'NucConversion.hpp',
     'PacBioDefs.h',
     'PackedDNASequence.hpp',
+    'PrettyException.hpp',
     'ReverseCompressIndex.hpp',
     'SeqUtils.hpp',
     'SeqUtilsImpl.hpp',
