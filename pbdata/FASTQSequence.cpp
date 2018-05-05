@@ -10,6 +10,7 @@
 #include "Enumerations.h"
 #include "FASTQSequence.hpp"
 #include "NucConversion.hpp"
+#include "PrettyException.hpp"
 #include "Types.h"
 
 //
@@ -435,7 +436,7 @@ QVIndex FASTQSequence::GetQVIndex(const std::string &qvName) const
         return I_DeletionTag;
     } else {
         std::cout << "ERROR: unknown Quality Value " << qvName << std::endl;
-        assert(false);
+        BLASR_THROW("ERROR: unknown Quality Value " + qvName);
     }
 }
 

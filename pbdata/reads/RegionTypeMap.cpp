@@ -1,6 +1,7 @@
 // Author: Yuan Li
 
 #include "RegionTypeMap.hpp"
+#include "PrettyException.hpp"
 
 std::string RegionTypeMap::ToString(RegionType rt)
 {
@@ -21,8 +22,7 @@ int RegionTypeMap::ToIndex(const std::string& typeStr, const std::vector<std::st
 {
     auto it = std::find(typeStrs.begin(), typeStrs.end(), typeStr);
     if (it == typeStrs.end()) {
-        std::cout << "Could not find RegionType " << typeStr << std::endl;
-        assert(false);
+        BLASR_THROW("Could not find RegionType " + typeStr);
     } else {
         return std::distance(typeStrs.begin(), it);
     }
@@ -37,8 +37,7 @@ int RegionTypeMap::ToIndex(RegionType rt, const std::vector<RegionType>& regionT
 {
     auto it = std::find(regionTypes.begin(), regionTypes.end(), rt);
     if (it == regionTypes.end()) {
-        std::cout << "Could not find RegionType " << RegionTypeMap::ToString(rt) << std::endl;
-        assert(false);
+        BLASR_THROW("Could not find RegionType " + RegionTypeMap::ToString(rt));
     } else {
         return std::distance(regionTypes.begin(), it);
     }

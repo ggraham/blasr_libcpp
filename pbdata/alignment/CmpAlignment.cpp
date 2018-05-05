@@ -1,4 +1,5 @@
 #include "CmpAlignment.hpp"
+#include "PrettyException.hpp"
 
 std::map<std::string, int> CmpAlignmentBase::columnNameToIndex;
 
@@ -42,7 +43,7 @@ unsigned int CmpAlignmentBase::LookupColumnValue(const char *columnName)
     } else {
         std::cout << "ERROR, For now cmp files must contain a column " << columnName << std::endl;
         std::cout << "size of columnNameToIndex: " << columnNameToIndex.size() << std::endl;
-        assert(0);
+        BLASR_THROW(columnName + std::string{" does not contain a column!"});
     }
 }
 
