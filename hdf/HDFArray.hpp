@@ -35,7 +35,7 @@ class HDFArray : public BufferedHDFArray<T>
 {
 public:
     HDFArray() : BufferedHDFArray<T>() {}
-    HDFArray(H5::CommonFG* _container, std::string _datasetName)
+    HDFArray(H5::Group* _container, std::string _datasetName)
         : BufferedHDFArray<T>(_container, _datasetName)
     {
     }

@@ -3,13 +3,24 @@
 
 using namespace H5;
 
-void CallStoreAttributeName(H5Location &obj, std::string attrName, void *attrList)
+// This template is required in order to juggle between HDF5 1.8 and 1.10.
+//
+// HDF5 1.8 has for attr_operator_t
+//
+//   typedef void(* H5::attr_operator_t)(H5Location &loc, const H5std_string attr_name, void *operator_data)
+//
+// whereas HDF5 1.10 has for attr_operator_t
+//
+//   typedef void(* H5::attr_operator_t)(H5Object &loc, const H5std_string attr_name, void *operator_data)
+
+template <typename T>
+void CallStoreAttributeName(T &obj, std::string attrName, void *attrList)
 {
     (void)(obj);
     ((std::vector<std::string> *)attrList)->push_back(std::string(attrName));
 }
 
-void HDFAttributable::StoreAttributeNames(H5Location &thisobject,
+void HDFAttributable::StoreAttributeNames(H5Object &thisobject,
                                           const std::vector<std::string> &attributeNames)
 {
     int nAttr = thisobject.getNumAttrs();
@@ -20,14 +31,14 @@ void HDFAttributable::StoreAttributeNames(H5Location &thisobject,
     thisobject.iterateAttrs(&CallStoreAttributeName, bounds, (void *)&attributeNames);
 }
 
-H5Location *HDFAttributable::GetObject() { return NULL; }
+H5Object *HDFAttributable::GetObject() { return NULL; }
 
 int HDFAttributable::ContainsAttribute(const std::string &attributeName)
 {
     size_t i;
     std::vector<std::string> tmpAttributeNames;
     try {
-        H5Location *obj = GetObject();
+        H5Object *obj = GetObject();
         assert(obj != NULL);
         StoreAttributeNames(*obj, tmpAttributeNames);
         for (i = 0; i < tmpAttributeNames.size(); i++) {

@@ -28,7 +28,7 @@
 
  */
 
-DSLength GetDatasetNDim(H5::CommonFG &parentGroup, std::string datasetName)
+DSLength GetDatasetNDim(H5::Group &parentGroup, std::string datasetName)
 {
     HDFData tmpDataset;
     tmpDataset.InitializeDataset(parentGroup, datasetName);

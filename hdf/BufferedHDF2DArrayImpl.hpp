@@ -6,7 +6,7 @@
 #include "../pbdata/utils.hpp"
 
 template <typename T>
-BufferedHDF2DArray<T>::BufferedHDF2DArray(H5::CommonFG *_container, std::string _datasetName)
+BufferedHDF2DArray<T>::BufferedHDF2DArray(H5::Group *_container, std::string _datasetName)
     : HDFData(_container, _datasetName)
 {
 }
@@ -190,7 +190,7 @@ void BufferedHDF2DArray<T>::Read(DSLength startX, DSLength endX, DSLength startY
 }
 
 template <typename T>
-void BufferedHDF2DArray<T>::Create(H5::CommonFG *_container, std::string _datasetName,
+void BufferedHDF2DArray<T>::Create(H5::Group *_container, std::string _datasetName,
                                    DSLength _rowLength)
 {
     container = _container;

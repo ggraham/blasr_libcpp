@@ -25,9 +25,9 @@ public:
         }
     }
 
-    H5::H5Location *GetObject() { return NULL; }
+    H5::H5Object *GetObject() { return NULL; }
 
-    int Initialize(H5::H5Location &object, const std::string &attributeName)
+    int Initialize(H5::H5Object &object, const std::string &attributeName)
     {
         attribute = object.openAttribute(attributeName.c_str());
         isInitialized = true;
@@ -70,14 +70,14 @@ public:
     // This handles creation of all non-std::string types.  A specialization
     // for std::strings is provided below.
     //
-    void Create(H5::H5Location &object, const std::string &atomName)
+    void Create(H5::H5Object &object, const std::string &atomName)
     {
         hsize_t defaultDims[] = {1};
         H5::DataSpace defaultDataSpace(1, defaultDims);
         TypedCreate(object, atomName, defaultDataSpace);
     }
 
-    void Create(H5::H5Location &object, const std::string &name, const std::string &value)
+    void Create(H5::H5Object &object, const std::string &name, const std::string &value)
     {
         H5::StrType strType(0, value.size());
         attribute = object.createAttribute(name.c_str(), strType, H5::DataSpace(0, NULL));
@@ -85,7 +85,7 @@ public:
         attribute.write(strType, value.c_str());
     }
 
-    void Create(H5::H5Location &object, const std::string &name, std::vector<int> &vect)
+    void Create(H5::H5Object &object, const std::string &name, std::vector<int> &vect)
     {
         hsize_t length = vect.size();
         H5::ArrayType arrayDataType(H5::PredType::NATIVE_INT, 1, &length);
@@ -94,8 +94,7 @@ public:
         attribute.write(H5::PredType::NATIVE_INT, &((vect)[0]));
     }
 
-    void Create(H5::H5Location &object, const std::string &name,
-                const std::vector<std::string> &vect)
+    void Create(H5::H5Object &object, const std::string &name, const std::vector<std::string> &vect)
     {
         hsize_t length = vect.size();
         H5::StrType strType(0, H5T_VARIABLE);
@@ -104,7 +103,7 @@ public:
         attribute.write(strType, &((vect)[0]));
     }
 
-    void TypedCreate(H5::H5Location &object, const std::string &atomName, H5::DataSpace &dataSpace)
+    void TypedCreate(H5::H5Object &object, const std::string &atomName, H5::DataSpace &dataSpace)
     {
         (void)(object);
         (void)(atomName);
@@ -132,11 +131,11 @@ public:
 //
 
 template <>
-void HDFAtom<std::string>::Create(H5::H5Location &object, const std::string &atomName);
+void HDFAtom<std::string>::Create(H5::H5Object &object, const std::string &atomName);
 
-#define DECLARE_TYPED_CREATE_ATOM(T, predtype)                                        \
-    template <>                                                                       \
-    void HDFAtom<T>::TypedCreate(H5::H5Location &object, const std::string &atomName, \
+#define DECLARE_TYPED_CREATE_ATOM(T, predtype)                                      \
+    template <>                                                                     \
+    void HDFAtom<T>::TypedCreate(H5::H5Object &object, const std::string &atomName, \
                                  H5::DataSpace &defaultDataSpace);
 
 DECLARE_TYPED_CREATE_ATOM(int, H5::PredType::NATIVE_INT)

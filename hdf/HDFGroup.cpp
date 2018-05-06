@@ -10,9 +10,9 @@ void HDFGroup::AddGroup(std::string groupName)
     return;
 }
 
-H5Location *HDFGroup::GetObject() { return &group; }
+H5Object *HDFGroup::GetObject() { return &group; }
 
-int HDFGroup::Initialize(CommonFG &fg, std::string groupName)
+int HDFGroup::Initialize(Group &fg, std::string groupName)
 {
     try {
         group = fg.openGroup(groupName.c_str());

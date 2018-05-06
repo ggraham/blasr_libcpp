@@ -59,7 +59,7 @@ esac
 default_LDFLAGS="-static-libstdc++ -static-libgcc"
 
 # i : HDF5 major version
-for i in "1.8"; do
+for i in "1.10" "1.8"; do
   module load hdf5-tools/${i}
 
   CURRENT_BUILD_DIR="build_hdf5=${i}"
