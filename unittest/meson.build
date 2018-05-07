@@ -40,6 +40,9 @@ test(
   'libblasr unit tests',
   libblasr_unittest,
   args : [
-    '--gtest_output=xml:' + meson.current_build_dir() + '/libcpp-unit.xml'],
+    '--gtest_output=xml:' + join_paths(meson.build_root(), 'libblasr-unit-tests.xml')],
+  env : [
+    'ARGS=-V',
+    'VERBOSE=1'],
   workdir : meson.source_root(),
   timeout : 3600)
