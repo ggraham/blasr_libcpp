@@ -17,6 +17,7 @@
  */
 
 #include "FilterCriteria.hpp"
+#include "PrettyException.hpp"
 
 constexpr float Score::errorunit;
 
@@ -108,7 +109,7 @@ const std::string HitPolicy::ToString() const
         case (HitPolicyEnum::LEFTMOST):
             return "leftmost";
         default: {
-            assert(false);
+            BLASR_THROW("Unsupported hit policy");
         }
     }
 }
@@ -254,7 +255,7 @@ std::vector<PacBio::BAM::BamRecord> HitPolicy::Apply(
     } else if (IsLeftmost()) {
         return std::vector<PacBio::BAM::BamRecord>({ret[0]});
     } else {
-        assert("Unsupported hit policy" == 0);
+        BLASR_THROW("Unsupported hit policy");
     }
 }
 #endif

@@ -13,9 +13,10 @@
 template <typename T_QuerySequence, typename T_TargetSequence, typename T_Alignment>
 int AffineKBandAlign(T_QuerySequence &pqSeq, T_TargetSequence &ptSeq, int matchMat[5][5],
                      int hpInsOpen, int hpInsExtend, int insOpen, int insExtend, int del, int k,
-                     std::vector<int> &scoreMat, std::vector<Arrow> &pathMat, std::vector<int> &hpInsScoreMat,
-                     std::vector<Arrow> &hpInsPathMat, std::vector<int> &insScoreMat,
-                     std::vector<Arrow> &insPathMat, T_Alignment &alignment, AlignmentType alignType)
+                     std::vector<int> &scoreMat, std::vector<Arrow> &pathMat,
+                     std::vector<int> &hpInsScoreMat, std::vector<Arrow> &hpInsPathMat,
+                     std::vector<int> &insScoreMat, std::vector<Arrow> &insPathMat,
+                     T_Alignment &alignment, AlignmentType alignType)
 {
 
     //
@@ -297,8 +298,8 @@ int AffineKBandAlign(T_QuerySequence &pqSeq, T_TargetSequence &ptSeq, int matchM
     } else if (alignType == TargetFit) {
         t = tLen;
 
-        int qStart =
-            std::max(0, std::min((int)qLen, (int)tLen) - std::max(0, k - std::max(((int)tLen) - ((int)qLen), 0)));
+        int qStart = std::max(0, std::min((int)qLen, (int)tLen) -
+                                     std::max(0, k - std::max(((int)tLen) - ((int)qLen), 0)));
         int qEnd = std::min(qLen, tLen + k) + 1;
 
         minScoreQPos = qStart;

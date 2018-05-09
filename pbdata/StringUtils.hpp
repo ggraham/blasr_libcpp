@@ -29,7 +29,8 @@ void ParseSeparatedList(const std::string &csl, std::vector<std::string> &values
 int AssignUntilFirstSpace(char *orig, int origLength, std::string &result);
 
 template <typename T_Value>
-void ParseSeparatedList(const std::string &csl, std::vector<T_Value> &values, char delim, int maxVals)
+void ParseSeparatedList(const std::string &csl, std::vector<T_Value> &values, char delim,
+                        int maxVals)
 {
     //Parse up to 'maxVals' lines of lists.
     std::stringstream cslStrm(csl);

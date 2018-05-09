@@ -1,11 +1,11 @@
 #ifndef SPARSE_DYNAMIC_PROGRAMMING_IMPL_HPP_
 #define SPARSE_DYNAMIC_PROGRAMMING_IMPL_HPP_
 
+#include <algorithm>
+#include <cassert>
 #include <climits>
 #include <cstdint>
 #include <cstdlib>
-#include <algorithm>
-#include <cassert>
 #include <ostream>
 #include <set>
 #include "FragmentSort.hpp"

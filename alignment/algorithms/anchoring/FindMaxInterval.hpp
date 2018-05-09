@@ -1,8 +1,8 @@
 #ifndef _BLASR_FIND_MAX_INTERVAL_HPP_
 #define _BLASR_FIND_MAX_INTERVAL_HPP_
 
-#include <cmath>
 #include <semaphore.h>
+#include <cmath>
 #include <fstream>
 #include <iostream>
 

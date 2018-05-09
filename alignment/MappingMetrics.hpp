@@ -9,10 +9,10 @@
 #ifdef __APPLE__
 #include <AvailabilityMacros.h>
 #if MAC_OS_X_VERSION_MAX_ALLOWED < 101200
-#include <cerrno>
 #include <mach/clock.h>
 #include <mach/mach.h>
 #include <mach/mach_time.h>
+#include <cerrno>
 
 typedef enum {
     CLOCK_REALTIME,

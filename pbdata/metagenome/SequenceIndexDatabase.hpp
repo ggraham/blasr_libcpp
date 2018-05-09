@@ -1,9 +1,9 @@
 #ifndef _BLASR_SEQUENCE_INDEX_DATABASE_HPP_
 #define _BLASR_SEQUENCE_INDEX_DATABASE_HPP_
 
+#include <algorithm>
 #include <cassert>
 #include <cstdlib>
-#include <algorithm>
 #include <cstring>
 #include <fstream>
 #include <iostream>

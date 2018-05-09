@@ -2,9 +2,9 @@
 
 using namespace H5;
 
-H5Location *HDFData::GetObject() { return &dataset; }
+H5Object *HDFData::GetObject() { return &dataset; }
 
-HDFData::HDFData(CommonFG *_container, const std::string &_datasetName)
+HDFData::HDFData(Group *_container, const std::string &_datasetName)
 {
     container = _container;
     datasetName = _datasetName;
@@ -32,7 +32,7 @@ int HDFData::Initialize(HDFGroup &parentGroup, const std::string &datasetName)
     std::exit(EXIT_FAILURE);
 }
 
-int HDFData::BaseInitializeDataset(CommonFG &hdfFile, const std::string &_datasetName)
+int HDFData::BaseInitializeDataset(Group &hdfFile, const std::string &_datasetName)
 {
     dataset = hdfFile.openDataSet(_datasetName.c_str());
     isInitialized = true;
@@ -45,7 +45,7 @@ int HDFData::InitializeDataset(HDFGroup &group, const std::string &_datasetName)
     return InitializeDataset(group.group, _datasetName);
 }
 
-int HDFData::InitializeDataset(CommonFG &hdfFile, const std::string &_datasetName)
+int HDFData::InitializeDataset(Group &hdfFile, const std::string &_datasetName)
 {
     try {
         datasetName = _datasetName;

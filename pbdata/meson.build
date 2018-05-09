@@ -18,13 +18,10 @@ subdir('utils')
 ##########
 
 libblasr_libconfig_h_config = configuration_data()
+libblasr_libconfig_h_config.set('USE_PBBAM', 1)
 libblasr_libconfig_h = configure_file(output : 'LibBlasrConfig.h', configuration : libblasr_libconfig_h_config)
 
 libblasr_sources += libblasr_libconfig_h
-
-install_headers(
-  libblasr_libconfig_h,
-  subdir : 'libblasr/pbdata')
 
 ###########
 # Sources #
@@ -53,6 +50,12 @@ libblasr_sources += files([
 # Headers #
 ###########
 
+meson.is_subproject() and subdir_done()
+
+install_headers(
+  libblasr_libconfig_h,
+  subdir : 'libblasr/pbdata')
+
 install_headers(
   files([
     'CCSSequence.hpp',
@@ -75,6 +78,7 @@ install_headers(
     'NucConversion.hpp',
     'PacBioDefs.h',
     'PackedDNASequence.hpp',
+    'PrettyException.hpp',
     'ReverseCompressIndex.hpp',
     'SeqUtils.hpp',
     'SeqUtilsImpl.hpp',

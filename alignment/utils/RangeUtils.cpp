@@ -66,7 +66,7 @@ UInt Ranges::max()
 {
     if (size() == 0) {
         std::cout << "ERROR, could not determine the maximum value "
-             << "of an empty Ranges object." << std::endl;
+                  << "of an empty Ranges object." << std::endl;
         std::exit(EXIT_FAILURE);
     }
     return ranges.back().end;

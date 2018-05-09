@@ -53,7 +53,7 @@ private:
     DSLength rowLength, colLength;
 
 public:
-    BufferedHDF2DArray(H5::CommonFG *_container, std::string _datasetName);
+    BufferedHDF2DArray(H5::Group *_container, std::string _datasetName);
 
     BufferedHDF2DArray();
 
@@ -93,7 +93,7 @@ public:
     void Read(DSLength startX, DSLength endX, DSLength startY, DSLength endY, H5::DataType typeID,
               T *dest);
 
-    void Create(H5::CommonFG *_container, std::string _datasetName, DSLength _rowLength);
+    void Create(H5::Group *_container, std::string _datasetName, DSLength _rowLength);
 
     void TypedCreate(H5::DataSpace &fileSpace, H5::DSetCreatPropList &cparms);
 
@@ -113,7 +113,7 @@ public:
     void Flush(DSLength destRow = static_cast<DSLength>(-1));
 };
 
-DSLength GetDatasetNDim(H5::CommonFG &parentGroup, std::string datasetName);
+DSLength GetDatasetNDim(H5::Group &parentGroup, std::string datasetName);
 
 #define DECLARE_TYPED_WRITE_ROW(T, Pred)                                                       \
     template <>                                                                                \

@@ -1,7 +1,7 @@
 #ifndef _BLASR_QUALITY_VALUE_VECTOR_HPP_
 #define _BLASR_QUALITY_VALUE_VECTOR_HPP_
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 #include <cstring>
 #include <ostream>
 #include "../Types.h"

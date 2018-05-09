@@ -258,7 +258,8 @@ public:
     UInt GetFieldSize(const std::string &field)
     {
         if (not includedFields[field]) {
-            std::cout << "ERROR, field " << field << " is not included in the pulse file. " << std::endl;
+            std::cout << "ERROR, field " << field << " is not included in the pulse file. "
+                      << std::endl;
             std::exit(EXIT_FAILURE);
         }
         if (field == "StartFrame") {
@@ -287,7 +288,8 @@ public:
     void ReadField(PulseFile &pulseFile, const std::string &field)
     {
         if (not includedFields[field]) {
-            std::cout << "ERROR, field " << field << " is not included in the pulse file. " << std::endl;
+            std::cout << "ERROR, field " << field << " is not included in the pulse file. "
+                      << std::endl;
             std::exit(EXIT_FAILURE);
         }
         if (field == "StartFrame") {
@@ -317,8 +319,9 @@ public:
     }
 
     // Copy a field for a hole
-    void CopyFieldAt(PulseFile &pulseFile, const std::string &field, int holeIndex, int *basToPlsIndex,
-                     void *dest, int destLength, const std::string &destSequence = "")
+    void CopyFieldAt(PulseFile &pulseFile, const std::string &field, int holeIndex,
+                     int *basToPlsIndex, void *dest, int destLength,
+                     const std::string &destSequence = "")
     {
 
         Nucleotide *destSeqCopy = NULL;
@@ -330,7 +333,8 @@ public:
         }
 
         if (not includedFields[field]) {
-            std::cout << "ERROR, field " << field << " is not included in the pulse file. " << std::endl;
+            std::cout << "ERROR, field " << field << " is not included in the pulse file. "
+                      << std::endl;
             std::exit(EXIT_FAILURE);
         }
         UInt pulseStartPos = pulseFile.pulseStartPositions[holeIndex];
@@ -388,7 +392,8 @@ public:
     void ClearField(PulseFile &pulseFile, const std::string &field)
     {
         if (not includedFields[field]) {
-            std::cout << "ERROR, field " << field << " is not included in the pulse file. " << std::endl;
+            std::cout << "ERROR, field " << field << " is not included in the pulse file. "
+                      << std::endl;
             std::exit(EXIT_FAILURE);
         }
         if (field == "StartFrame") {
@@ -545,7 +550,7 @@ public:
             curPos += seqLength;
         } catch (DataSetIException e) {
             std::cout << "ERROR, could not read pulse metrics for SMRTSequence " << read.GetName()
-                 << std::endl;
+                      << std::endl;
             std::exit(EXIT_FAILURE);
         }
         return 1;

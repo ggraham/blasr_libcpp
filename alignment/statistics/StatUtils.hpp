@@ -1,12 +1,12 @@
 #ifndef _BLASR_STAT_UTILS_HPP_
 #define _BLASR_STAT_UTILS_HPP_
 
+#include <algorithm>
 #include <cassert>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
-#include <algorithm>
 #include <vector>
 
 static const long FactorialTableLength = 21;

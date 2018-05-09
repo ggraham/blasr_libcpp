@@ -109,7 +109,8 @@ void AlignmentToBamRecord(T_AlignmentCandidate &alignment, T_Sequence &read, T_S
         qvList.FormatQVOptionalFields(alignedSequence);
 
         // Add QVs to BamRecordImpl.
-        std::string insertionQVs, deletionQVs, substitutionQVs, mergeQVs, substitutionTags, deletionTags;
+        std::string insertionQVs, deletionQVs, substitutionQVs, mergeQVs, substitutionTags,
+            deletionTags;
         bool alnReverse = (alignment.tStrand == 1);  // reverse-complement alignment
         // If this is a reverse-complement alignment, bases and QVs of
         // alignedSequence are reverse(-complement) of the sequence read

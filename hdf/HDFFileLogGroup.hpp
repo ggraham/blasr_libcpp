@@ -30,7 +30,8 @@ public:
         return ret;
     }
 
-    void AddEntry(std::string command, std::string log, std::string program, std::string timestamp, std::string version)
+    void AddEntry(std::string command, std::string log, std::string program, std::string timestamp,
+                  std::string version)
     {
         commandLineArray.Write(&command, 1);
         versionArray.Write(&version, 1);

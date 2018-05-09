@@ -74,5 +74,8 @@ PbiFilterZmwGroupQuery::PbiFilterZmwGroupQuery(const PbiFilter& filter, const Da
 
 PbiFilterZmwGroupQuery::~PbiFilterZmwGroupQuery(void) {}
 
-bool PbiFilterZmwGroupQuery::GetNext(std::vector<BamRecord>& records) { return d_->GetNext(records); }
+bool PbiFilterZmwGroupQuery::GetNext(std::vector<BamRecord>& records)
+{
+    return d_->GetNext(records);
+}
 #endif

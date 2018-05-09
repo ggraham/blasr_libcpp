@@ -130,7 +130,7 @@ int ReaderAgglomerate::Initialize(FileType &pFileType, std::string &pFileName)
     return Initialize();
 }
 
-#define UNREACHABLE()                                                                 \
+#define UNREACHABLE()                                                                           \
     std::cout << "ERROR! Hit unreachable code in " << __FILE__ << ':' << __LINE__ << std::endl; \
     assert(0)
 

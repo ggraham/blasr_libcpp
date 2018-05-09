@@ -337,16 +337,16 @@ int SDPAlign(T_QuerySequence &query, T_TargetSequence &target, T_ScoreFn &scoreF
     }
     for (b = 1; b < chainAlignment.size() - 1; b++) {
         // the min indel rate between the two chain blocks is the difference in diagonals between the two sequences.
-        int prevDiag =
-            std::abs(((int)chainAlignment.blocks[b].tPos - (int)chainAlignment.blocks[b].qPos) -
-                ((int)chainAlignment.blocks[b - 1].tPos - (int)chainAlignment.blocks[b - 1].qPos));
+        int prevDiag = std::abs(
+            ((int)chainAlignment.blocks[b].tPos - (int)chainAlignment.blocks[b].qPos) -
+            ((int)chainAlignment.blocks[b - 1].tPos - (int)chainAlignment.blocks[b - 1].qPos));
 
         int prevDist = std::min(chainAlignment.blocks[b].tPos - chainAlignment.blocks[b - 1].tPos,
                                 chainAlignment.blocks[b].qPos - chainAlignment.blocks[b - 1].qPos);
 
-        int nextDiag =
-            std::abs(((int)chainAlignment.blocks[b + 1].tPos - (int)chainAlignment.blocks[b + 1].qPos) -
-                ((int)chainAlignment.blocks[b].tPos - (int)chainAlignment.blocks[b].qPos));
+        int nextDiag = std::abs(
+            ((int)chainAlignment.blocks[b + 1].tPos - (int)chainAlignment.blocks[b + 1].qPos) -
+            ((int)chainAlignment.blocks[b].tPos - (int)chainAlignment.blocks[b].qPos));
 
         int nextDist = std::min(chainAlignment.blocks[b + 1].tPos - chainAlignment.blocks[b].tPos,
                                 chainAlignment.blocks[b + 1].qPos - chainAlignment.blocks[b].qPos);

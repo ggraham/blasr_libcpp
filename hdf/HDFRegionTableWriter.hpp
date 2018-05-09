@@ -91,8 +91,10 @@ public:
         return 1;
     }
 
-    void Finalize(std::vector<std::string> &columnNamesVect, std::vector<std::string> &regionTypesVect,
-                  std::vector<std::string> &regionDescriptionsVect, std::vector<std::string> &regionSourcesVect)
+    void Finalize(std::vector<std::string> &columnNamesVect,
+                  std::vector<std::string> &regionTypesVect,
+                  std::vector<std::string> &regionDescriptionsVect,
+                  std::vector<std::string> &regionSourcesVect)
     {
         //
         // Make sure data has been written to the dataset.  If not, the

@@ -50,7 +50,8 @@ public:
             H5::Exception::dontPrint();
             this->hdfBasFile.openFile(ccsBasFileName.c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
         } catch (H5::Exception &e) {
-            std::cout << "ERROR, could not open hdf file " << ccsBasFileName << " Stopping." << std::endl;
+            std::cout << "ERROR, could not open hdf file " << ccsBasFileName << " Stopping."
+                      << std::endl;
             std::exit(EXIT_FAILURE);
         }
 
@@ -58,8 +59,8 @@ public:
         bool fileContainsCCS = false;
         HDFGroup pulseDataGroup;
         if (pulseDataGroup.Initialize(this->hdfBasFile, "PulseData") == 0) {
-            std::cout << "ERROR, ccs base file " << ccsBasFileName << " does not have a PulseData field."
-                 << std::endl;
+            std::cout << "ERROR, ccs base file " << ccsBasFileName
+                      << " does not have a PulseData field." << std::endl;
             std::exit(EXIT_FAILURE);
         }
         if (pulseDataGroup.ContainsObject("ConsensusBaseCalls")) {
@@ -97,7 +98,7 @@ public:
         if (this->pulseDataGroup.ContainsObject("ConsensusBaseCalls") and
             ccsGroup.Initialize(this->hdfBasFile, "PulseData/ConsensusBaseCalls") == 0) {
             std::cout << "ERROR, attempting to read cicular consensus data from '" << ccsBasFileName
-                 << "', which does not contain a ConsensusBaseCalls field." << std::endl;
+                      << "', which does not contain a ConsensusBaseCalls field." << std::endl;
             std::cout << "Check HDF file structure." << std::endl;
             std::exit(EXIT_FAILURE);
         }
@@ -112,9 +113,10 @@ public:
         }
 
         if (passesSuccess == 0) {
-            std::cout << "ERROR, attempting to read circular consensus group Passes but it does not "
-                    "exist. "
-                 << std::endl;
+            std::cout
+                << "ERROR, attempting to read circular consensus group Passes but it does not "
+                   "exist. "
+                << std::endl;
             std::cout << "Check HDF file structure." << std::endl;
             std::exit(EXIT_FAILURE);
         }
@@ -267,7 +269,7 @@ public:
             ccsSequence.CopyTitle(newTitle.c_str());
         } catch (H5::DataSetIException e) {
             std::cout << "ERROR, could not read ccs data for CCS Sequence "
-                 << ccsSequence.unrolledRead.title << std::endl;
+                      << ccsSequence.unrolledRead.title << std::endl;
             std::exit(EXIT_FAILURE);
         }
         //		std::cout << "title: " << ccsSequence.title << std::endl;

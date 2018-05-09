@@ -1,8 +1,8 @@
 #ifndef _BLASR_DNA_TUPLE_HPP_
 #define _BLASR_DNA_TUPLE_HPP_
 
-#include <cstdint>
 #include <cassert>
+#include <cstdint>
 #include <ostream>
 #include <string>
 #include <vector>

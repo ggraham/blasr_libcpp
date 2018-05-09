@@ -1,15 +1,16 @@
-#include <cstdint>
 #include <algorithm>
 #include <cassert>
+#include <cstdint>
 #include <cstring>
 #include <iomanip>
 #include <iostream>
 #include <vector>
 
-#include "FASTQSequence.hpp"
 #include "DNASequence.hpp"
 #include "Enumerations.h"
+#include "FASTQSequence.hpp"
 #include "NucConversion.hpp"
+#include "PrettyException.hpp"
 #include "Types.h"
 
 //
@@ -435,7 +436,7 @@ QVIndex FASTQSequence::GetQVIndex(const std::string &qvName) const
         return I_DeletionTag;
     } else {
         std::cout << "ERROR: unknown Quality Value " << qvName << std::endl;
-        assert(false);
+        BLASR_THROW("ERROR: unknown Quality Value " + qvName);
     }
 }
 

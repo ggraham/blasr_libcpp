@@ -29,7 +29,7 @@ public:
     // /ref00001/rg8953-0
     // /ref00001/rg2453-1
 
-    int Initialize(H5::CommonFG& group, std::string _refGroupName)
+    int Initialize(H5::Group& group, std::string _refGroupName)
     {
         refGroupName = _refGroupName;
         refGroup.Initialize(group, _refGroupName);
@@ -89,7 +89,8 @@ public:
         if (refGroup.ContainsObject(experimentGroupName)) {
             HDFCmpExperimentGroup* newGroup = new HDFCmpExperimentGroup;
             if (newGroup == nullptr) {
-                std::cout << "ERROR, failed to allocate memory for HDFCmpExperimentGroup!" << std::endl;
+                std::cout << "ERROR, failed to allocate memory for HDFCmpExperimentGroup!"
+                          << std::endl;
                 std::exit(EXIT_FAILURE);
             }
             if (newGroup->Initialize(refGroup, experimentGroupName, includedFields) == 0) {

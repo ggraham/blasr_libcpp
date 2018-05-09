@@ -96,7 +96,7 @@ int HDFCmpExperimentGroup::Initialize(HDFGroup &refGroup, std::string experiment
             fields[*fieldNameIt]->Initialize(experimentGroup, *fieldNameIt);
         } else {
             std::cout << "Unable to initialize requested field " << *fieldNameIt
-                 << " in experiment group " << experimentGroupName << std::endl;
+                      << " in experiment group " << experimentGroupName << std::endl;
         }
     }
     return 1;

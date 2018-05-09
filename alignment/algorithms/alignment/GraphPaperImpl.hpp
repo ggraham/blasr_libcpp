@@ -40,7 +40,8 @@ inline int GetIndex(DNALength pos, DNALength minPos, DNALength maxPos, int nBins
 
 template <typename T_Point>
 int GraphPaper(std::vector<T_Point> &points, int nRows, int nCols, FlatMatrix2D<int> &bins,
-               FlatMatrix2D<int> &scoreMat, FlatMatrix2D<Arrow> &pathMat, std::vector<bool> &onOptPath)
+               FlatMatrix2D<int> &scoreMat, FlatMatrix2D<Arrow> &pathMat,
+               std::vector<bool> &onOptPath)
 {
 
     bins.Resize(nRows, nCols);

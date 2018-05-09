@@ -5,7 +5,8 @@
 #include "DNATuple.h"
 
 template <typename Sequence>
-DNALength StoreTuplePosList(Sequence seq, TupleMetrics &tm, std::vector<PositionDNATuple> &tupleList)
+DNALength StoreTuplePosList(Sequence seq, TupleMetrics &tm,
+                            std::vector<PositionDNATuple> &tupleList)
 {
     //
     // Do this faster later on with a suffix tree -- faster than n log n construction time.

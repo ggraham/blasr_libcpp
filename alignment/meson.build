@@ -29,6 +29,8 @@ libblasr_sources += files(['MappingMetrics.cpp'])
 # Headers #
 ###########
 
+meson.is_subproject() and subdir_done()
+
 install_headers(
   files(['MappingMetrics.hpp']),
   subdir : 'libblasr/alignment')

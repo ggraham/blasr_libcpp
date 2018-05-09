@@ -1,7 +1,7 @@
-#include "FASTQReader.hpp"
 #include <climits>
 #include <cmath>
 #include <cstdio>
+#include "FASTQReader.hpp"
 
 FASTQReader::FASTQReader() : FASTAReader() { endOfReadDelim = '\n'; }
 
@@ -39,8 +39,9 @@ int FASTQReader::GetNext(FASTQSequence &seq)
         p2++;
     }
     if (p2 - p > UINT_MAX) {
-        std::cout << "ERROR! Reading sequences stored in more than 4Gbytes of space is not supported."
-             << std::endl;
+        std::cout
+            << "ERROR! Reading sequences stored in more than 4Gbytes of space is not supported."
+            << std::endl;
         std::exit(EXIT_FAILURE);
     }
 

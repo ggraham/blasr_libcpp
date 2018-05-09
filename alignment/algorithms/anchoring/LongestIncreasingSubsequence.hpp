@@ -1,8 +1,8 @@
 #ifndef _BLASR_LONGEST_INCREASING_SUBSEQUENCE_HPP_
 #define _BLASR_LONGEST_INCREASING_SUBSEQUENCE_HPP_
 
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 #include <iostream>
 #include <vector>
 

@@ -1,9 +1,9 @@
 #ifndef _BLASR_REF_GROUP_HPP_
 #define _BLASR_REF_GROUP_HPP_
 
+#include <cstdint>
 #include <string>
 #include <vector>
-#include <cstdint>
 
 class RefGroup
 {

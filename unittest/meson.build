@@ -11,18 +11,18 @@ subdir('pbdata')
 # Sources #
 ###########
 
-libblasr_gtest_dep = dependency('gtest', fallback : ['gtest', 'gtest_with_main_dep'])
+libblasr_gtest_dep = dependency('gtest_main', fallback : ['gtest', 'gtest_main_dep'])
 
 libblasr_unittest = executable(
-  'libblasr_unittest',
-  libblasr_unittest_sources,
+  'libblasr_unittest', [
+    libblasr_libconfig_h,
+    libblasr_unittest_sources],
   dependencies : [
-     libblasr_pbbam_dep,
-     libblasr_gtest_dep],
+    libblasr_deps,
+    libblasr_gtest_dep],
   include_directories : libblasr_include_directories,
   link_with : libblasr_lib,
-  cpp_args : [libhdf5_cflags, libblasr_warning_flags, '-DUSE_PBBAM=1'],
-  link_args : libhdf5_libs,
+  cpp_args : libblasr_warning_flags,
   install : false)
 
 #########
@@ -30,9 +30,19 @@ libblasr_unittest = executable(
 #########
 
 test(
-  'check_libcpp',
+  'libblasr formatting check',
+  libblasr_clang_formatter,
+  args : [
+    '--all'],
+  workdir : meson.source_root())
+
+test(
+  'libblasr unit tests',
   libblasr_unittest,
   args : [
-    '--gtest_output=xml:' + meson.current_build_dir() + '/libcpp-unit.xml'],
+    '--gtest_output=xml:' + join_paths(meson.build_root(), 'libblasr-unit-tests.xml')],
+  env : [
+    'ARGS=-V',
+    'VERBOSE=1'],
   workdir : meson.source_root(),
-  timeout : 1800)
+  timeout : 3600)

@@ -602,7 +602,8 @@ public:
         try {
             seqLength = GetNextWithoutPosAdvance(seq);
         } catch (H5::DataSetIException e) {
-            std::cout << "ERROR, could not read base calls for FASTA Sequence " << seq.GetName() << std::endl;
+            std::cout << "ERROR, could not read base calls for FASTA Sequence " << seq.GetName()
+                      << std::endl;
             std::exit(EXIT_FAILURE);
         }
         curBasePos += seqLength;
@@ -646,8 +647,8 @@ public:
             seq.SetQVScale(qvScale);
             curBasePos += seqLength;
         } catch (H5::DataSetIException e) {
-            std::cout << "ERROR, could not read quality metrics for FASTQ Sequence " << seq.GetName()
-                 << std::endl;
+            std::cout << "ERROR, could not read quality metrics for FASTQ Sequence "
+                      << seq.GetName() << std::endl;
             std::exit(EXIT_FAILURE);
         }
         return 1;
@@ -690,7 +691,8 @@ public:
             seq.SubreadStart(0).SubreadEnd(seq.length);
             zmwReader.GetNext(seq.zmwData);
         } catch (H5::DataSetIException e) {
-            std::cout << "ERROR, could not read bases or QVs for SMRTSequence " << seq.GetName() << std::endl;
+            std::cout << "ERROR, could not read bases or QVs for SMRTSequence " << seq.GetName()
+                      << std::endl;
             std::exit(EXIT_FAILURE);
         }
         return 1;
@@ -759,7 +761,7 @@ public:
             zmwReader.GetNext(seq.zmwData);
         } catch (H5::DataSetIException e) {
             std::cout << "ERROR, could not read pulse metrics for SMRTSequence " << seq.GetName()
-                 << std::endl;
+                      << std::endl;
             std::exit(EXIT_FAILURE);
         }
         return retVal;
@@ -1035,7 +1037,8 @@ public:
     DSLength GetFieldSize(const std::string &field)
     {
         if (not includedFields[field]) {
-            std::cout << "ERROR, field [" << field << "] is not included in the base file." << std::endl;
+            std::cout << "ERROR, field [" << field << "] is not included in the base file."
+                      << std::endl;
             std::exit(EXIT_FAILURE);
         }
         if (field == "Basecall") {
@@ -1072,7 +1075,8 @@ public:
     void ReadField(BaseFile &baseFile, const std::string &field)
     {
         if (not includedFields[field]) {
-            std::cout << "ERROR, field [" << field << "] is not included in the base file." << std::endl;
+            std::cout << "ERROR, field [" << field << "] is not included in the base file."
+                      << std::endl;
             std::exit(EXIT_FAILURE);
         }
         if (field == "Basecall") {
@@ -1110,7 +1114,8 @@ public:
     void ClearField(BaseFile &baseFile, const std::string &field)
     {
         if (not includedFields[field]) {
-            std::cout << "ERROR, field [" << field << "] is not included in the base file." << std::endl;
+            std::cout << "ERROR, field [" << field << "] is not included in the base file."
+                      << std::endl;
             std::exit(EXIT_FAILURE);
         }
         if (field == "Basecall") {
@@ -1232,7 +1237,7 @@ public:
         if (not zmwReader.GetHoleNumberAt(0, minHole) or
             not zmwReader.GetHoleNumberAt(nReads - 1, maxHole)) {
             std::cout << "ERROR, could not get the minimum and maximum hole numbers "
-                 << "from ZMW HoleNumbers." << std::endl;
+                      << "from ZMW HoleNumbers." << std::endl;
             std::exit(EXIT_FAILURE);
         }
     }

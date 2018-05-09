@@ -197,10 +197,10 @@ int AlignmentToGuide(Alignment &alignment, Guide &guide, int bandSize)
                 // move q down.
                 qPos++;
                 // keep tPos fixed, the guide is straight down here.
-                guide[guideIndex].tPre =
-                    std::min(MAX_BAND_SIZE, guide[guideIndex].t -
-                                           (guide[guideIndex - 1].t -
-                                            guide[guideIndex - 1].tPre));  //bandSize + std::abs(drift);
+                guide[guideIndex].tPre = std::min(
+                    MAX_BAND_SIZE, guide[guideIndex].t -
+                                       (guide[guideIndex - 1].t -
+                                        guide[guideIndex - 1].tPre));  //bandSize + std::abs(drift);
 
                 guide[guideIndex].tPost = std::min(MAX_BAND_SIZE, bandSize + std::abs(drift));
                 guideIndex++;

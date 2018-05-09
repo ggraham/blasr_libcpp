@@ -132,7 +132,8 @@ void RemoveGaps(std::string &gappedStr, std::string &ungappedStr)
     ungappedStr.resize(i2);
 }
 
-void GappedStringsToAlignment(std::string &gappedQuery, std::string &gappedRef, Alignment &alignment)
+void GappedStringsToAlignment(std::string &gappedQuery, std::string &gappedRef,
+                              Alignment &alignment)
 {
     size_t qPos = 0, rPos = 0;
     size_t i = 0;  // position in alignment string

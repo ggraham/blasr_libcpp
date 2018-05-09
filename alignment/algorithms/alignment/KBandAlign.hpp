@@ -1,8 +1,8 @@
 #ifndef _BLASR_K_BAND_ALIGN_HPP_
 #define _BLASR_K_BAND_ALIGN_HPP_
 
-#include <climits>
 #include <algorithm>
+#include <climits>
 #include <iosfwd>
 #include <vector>
 // pbdata

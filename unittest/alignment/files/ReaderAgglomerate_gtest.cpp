@@ -150,8 +150,8 @@ TEST_F(ReaderAgglomerateTest, ReadsFromBam)
         counts.push_back(seqs.size());
     }
     std::vector<size_t> expected({2, 2, 10, 2, 3, 1, 2, 2, 3, 4, 1, 3, 1, 1, 2,  2,
-                             2, 2, 1,  1, 1, 2, 2, 2, 3, 8, 1, 3, 2, 1, 15, 2,
-                             1, 3, 1,  2, 2, 1, 3, 3, 2, 2, 1, 2, 2, 1, 1,  1});
+                                  2, 2, 1,  1, 1, 2, 2, 2, 3, 8, 1, 3, 2, 1, 15, 2,
+                                  1, 3, 1,  2, 2, 1, 3, 3, 2, 2, 1, 2, 2, 1, 1,  1});
 
     EXPECT_EQ(count, 117u);
     EXPECT_EQ(counts, expected);
