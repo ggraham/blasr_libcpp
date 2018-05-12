@@ -2,11 +2,12 @@
 #define _BLASR_COMPRESSED_DNA_SEQUENCE_HPP_
 
 #include <cstring>
-#include "Compare4BitCompressed.hpp"
-#include "DNASequence.hpp"
-#include "FASTASequence.hpp"
-#include "defs.h"
-#include "qvs/QualityValue.hpp"
+
+#include <pbdata/defs.h>
+#include <pbdata/Compare4BitCompressed.hpp>
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/FASTASequence.hpp>
+#include <pbdata/qvs/QualityValue.hpp>
 
 typedef unsigned char CompressedNucleotide;
 

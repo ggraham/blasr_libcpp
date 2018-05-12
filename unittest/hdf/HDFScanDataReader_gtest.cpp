@@ -1,6 +1,7 @@
-#include "HDFScanDataReader.hpp"
-#include "gtest/gtest.h"
-#include "pbdata/testdata.h"
+#include <gtest/gtest.h>
+
+#include <pbdata/testdata.h>
+#include <hdf/HDFScanDataReader.hpp>
 
 using namespace H5;
 

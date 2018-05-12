@@ -1,4 +1,4 @@
-#include "FragmentSort.hpp"
+#include <alignment/algorithms/alignment/sdp/FragmentSort.hpp>
 
 template <typename T_Fragment>
 int LexicographicFragmentSort<T_Fragment>::operator()(const T_Fragment &a,

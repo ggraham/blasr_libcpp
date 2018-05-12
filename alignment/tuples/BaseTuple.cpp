@@ -1,8 +1,9 @@
-#include "BaseTuple.hpp"
+#include <alignment/tuples/TupleMask.h>
+#include <pbdata/Types.h>
+#include <alignment/tuples/BaseTuple.hpp>
+#include <alignment/tuples/TupleMetrics.hpp>
+
 #include <cstdint>
-#include "../../pbdata/Types.h"
-#include "TupleMask.h"
-#include "TupleMetrics.hpp"
 
 TupleData BaseTuple::HashPowerOfFour(int nBits, TupleMetrics &tm)
 {

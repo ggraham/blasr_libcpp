@@ -1,4 +1,4 @@
-#include "BaseScoreFunction.hpp"
+#include <alignment/algorithms/alignment/BaseScoreFunction.hpp>
 
 BaseScoreFunction::BaseScoreFunction(int insP, int delP, int subPriorP, int delPriorP,
                                      int affineExtensionP, int affineOpenP)

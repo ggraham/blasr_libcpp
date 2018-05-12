@@ -1,4 +1,4 @@
-#include "StringToScoreMatrix.hpp"
+#include <alignment/algorithms/alignment/StringToScoreMatrix.hpp>
 
 bool StringToScoreMatrix(std::string &str, int matrix[5][5])
 {

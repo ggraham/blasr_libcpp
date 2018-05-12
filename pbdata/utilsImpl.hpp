@@ -1,6 +1,7 @@
 #ifndef _BLASR_UTIL_IMPL_HPP_
 #define _BLASR_UTIL_IMPL_HPP_
-#include <cstdlib>
+
+#include <cstdint>
 #include <cstdlib>   // abort()
 #include <iostream>  // std::cout/std::cerr
 #include <new>       // bad_alloc

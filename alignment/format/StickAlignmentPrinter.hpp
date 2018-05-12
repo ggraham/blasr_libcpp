@@ -4,8 +4,9 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include "../algorithms/alignment/AlignmentUtils.hpp"
-#include "../datastructures/alignment/Alignment.hpp"
+
+#include <alignment/algorithms/alignment/AlignmentUtils.hpp>
+#include <alignment/datastructures/alignment/Alignment.hpp>
 
 template <typename T_Alignment, typename T_QuerySequence, typename T_TargetSequence>
 void StickPrintAlignment(T_Alignment &alignment, T_QuerySequence &query, T_TargetSequence &text,

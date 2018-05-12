@@ -1,4 +1,5 @@
-#include "SAMPrinter.hpp"
+#include <alignment/format/SAMPrinter.hpp>
+
 #include <algorithm>  //reverse
 
 using namespace SAMOutput;

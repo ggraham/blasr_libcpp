@@ -1,4 +1,4 @@
-#include "DatasetCollection.hpp"
+#include <hdf/DatasetCollection.hpp>
 
 void DatasetCollection::MakeFieldRequired(std::string &fieldName)
 {

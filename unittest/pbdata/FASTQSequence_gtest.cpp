@@ -19,8 +19,10 @@
 #include <climits>
 #include <fstream>
 #include <iostream>
-#include "FASTQSequence.hpp"
-#include "gtest/gtest.h"
+
+#include <gtest/gtest.h>
+
+#include <pbdata/FASTQSequence.hpp>
 
 class FASTQSequenceTest : public ::testing::Test
 {

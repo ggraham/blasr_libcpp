@@ -1,4 +1,4 @@
-#include "HDFGroup.hpp"
+#include <hdf/HDFGroup.hpp>
 
 using namespace H5;
 

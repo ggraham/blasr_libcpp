@@ -2,6 +2,7 @@
 
 #ifndef _PBDATA_PACBIO_DEFS_H_
 #define _PBDATA_PACBIO_DEFS_H_
+
 #include <string>
 #include <vector>
 

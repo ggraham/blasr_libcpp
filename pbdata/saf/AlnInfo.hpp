@@ -3,8 +3,9 @@
 
 #include <cstdint>
 #include <vector>
-#include "../Types.h"
-#include "../alignment/CmpAlignment.hpp"
+
+#include <pbdata/Types.h>
+#include <pbdata/alignment/CmpAlignment.hpp>
 
 class AlnInfo
 {

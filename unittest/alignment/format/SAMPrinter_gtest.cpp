@@ -26,7 +26,7 @@
 #define private public
 #define protected public
 
-#include "format/SAMPrinter.hpp"
+#include <alignment/format/SAMPrinter.hpp>
 
 TEST(SAMPrinterTest, AddMatchBlockCigarOps)
 {

@@ -4,11 +4,12 @@
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
-#include "../algorithms/compare/CompareStrings.hpp"
-#include "../ipc/SharedMemoryAllocator.hpp"
-#include "../tuples/CompressedDNATuple.hpp"
-#include "../tuples/DNATuple.hpp"
-#include "SuffixArray.hpp"
+
+#include <alignment/algorithms/compare/CompareStrings.hpp>
+#include <alignment/ipc/SharedMemoryAllocator.hpp>
+#include <alignment/suffixarray/SuffixArray.hpp>
+#include <alignment/tuples/CompressedDNATuple.hpp>
+#include <alignment/tuples/DNATuple.hpp>
 
 template <typename T, typename Sigma, typename Compare = DefaultCompareStrings<T>,
           typename Tuple = DNATuple>

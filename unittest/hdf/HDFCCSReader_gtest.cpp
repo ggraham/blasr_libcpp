@@ -16,10 +16,11 @@
  * ============================================================================
  */
 
-#include "CCSSequence.hpp"
-#include "HDFCCSReader.hpp"
-#include "gtest/gtest.h"
-#include "pbdata/testdata.h"
+#include <gtest/gtest.h>
+
+#include <pbdata/testdata.h>
+#include <hdf/HDFCCSReader.hpp>
+#include <pbdata/CCSSequence.hpp>
 
 using namespace H5;
 

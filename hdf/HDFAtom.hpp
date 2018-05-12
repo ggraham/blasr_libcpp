@@ -1,15 +1,16 @@
 #ifndef _BLASR_HDF_ATOM_HPP_
 #define _BLASR_HDF_ATOM_HPP_
 
-#include <H5Cpp.h>
 #include <cassert>
 #include <cstdint>
 #include <string>
 #include <vector>
 
-#include "HDFConfig.hpp"
-#include "HDFData.hpp"
-#include "HDFGroup.hpp"
+#include <H5Cpp.h>
+
+#include <hdf/HDFConfig.hpp>
+#include <hdf/HDFData.hpp>
+#include <hdf/HDFGroup.hpp>
 
 template <typename T>
 class HDFAtom : public HDFData

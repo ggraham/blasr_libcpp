@@ -18,13 +18,13 @@
 
 #include <string>
 
-#include "H5Cpp.h"
-#include "HDF2DArray.hpp"
-#include "HDFArray.hpp"
-#include "HDFGroup.hpp"
-#include "gtest/gtest.h"
-#include "pbdata/testdata.h"
-#include "reads/HoleXY.hpp"
+#include <gtest/gtest.h>
+
+#include <pbdata/testdata.h>
+#include <hdf/HDF2DArray.hpp>
+#include <hdf/HDFArray.hpp>
+#include <hdf/HDFGroup.hpp>
+#include <pbdata/reads/HoleXY.hpp>
 
 using namespace H5;
 

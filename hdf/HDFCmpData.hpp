@@ -1,8 +1,8 @@
 #ifndef _BLASR_HDF_CMP_DATA_HPP_
 #define _BLASR_HDF_CMP_DATA_HPP_
 
-#include "HDFAtom.hpp"
-#include "HDFCmpRefAlignmentGroup.hpp"
+#include <hdf/HDFAtom.hpp>
+#include <hdf/HDFCmpRefAlignmentGroup.hpp>
 
 class HDFCmpData
 {

@@ -1,6 +1,7 @@
 #ifndef _BLASR_QUALITY_VALUE_VECTOR_IMPL_HPP_
 #define _BLASR_QUALITY_VALUE_VECTOR_IMPL_HPP_
-#include "../NucConversion.hpp"
+
+#include <pbdata/NucConversion.hpp>
 
 template <typename T_QV>
 T_QV &QualityValueVector<T_QV>::operator[](unsigned int pos) const

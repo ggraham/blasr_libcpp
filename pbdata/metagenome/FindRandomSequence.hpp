@@ -2,8 +2,9 @@
 #define _FIND_RANDOM_SEQUENCE_HPP_
 
 #include <vector>
-#include "../DNASequence.hpp"
-#include "statistics/StatUtils.hpp"  // Where does this come from? Does this compile anymore?
+
+#include <alignment/statistics/StatUtils.hpp>  // Where does this come from? Does this compile anymore?
+#include <pbdata/DNASequence.hpp>
 
 template <typename T_Sequence>
 void FindRandomPos(std::vector<T_Sequence> &sequences, DNALength &seqIndex, DNALength &seqPos,

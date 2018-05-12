@@ -1,7 +1,7 @@
 #ifndef _BLASR_PULSE_FILE_IMPL_HPP_
 #define _BLASR_PULSE_FILE_IMPL_HPP_
 
-#include "../utils.hpp"
+#include <pbdata/utils.hpp>
 
 template <typename T_FieldType>
 void PulseFile::StoreField(std::vector<T_FieldType> &source, int *basToPlsIndex, T_FieldType *dest,

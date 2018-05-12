@@ -1,7 +1,8 @@
 #include <LibBlasrConfig.h>
 
 #ifdef USE_PBBAM
-#include "HDFBaxWriter.hpp"
+
+#include <hdf/HDFBaxWriter.hpp>
 
 HDFBaxWriter::HDFBaxWriter(const std::string& filename, const std::string& basecallerVersion,
                            const std::map<char, size_t>& baseMap,

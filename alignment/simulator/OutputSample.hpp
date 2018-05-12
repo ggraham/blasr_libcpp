@@ -1,8 +1,8 @@
 #ifndef _SIMULATOR_OUTPUT_SAMPLE_HPP_
 #define _SIMULATOR_OUTPUT_SAMPLE_HPP_
 
-#include "../../pbdata/SMRTSequence.hpp"
-#include "QualitySample.hpp"
+#include <alignment/simulator/QualitySample.hpp>
+#include <pbdata/SMRTSequence.hpp>
 
 class OutputSample
 {

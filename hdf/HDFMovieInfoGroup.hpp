@@ -1,9 +1,9 @@
 #ifndef HDF_MOVIE_INFO_GROUP_H_
 #define HDF_MOVIE_INFO_GROUP_H_
 
-#include "../pbdata/saf/MovieInfo.hpp"
-#include "HDFArray.hpp"
-#include "HDFGroup.hpp"
+#include <hdf/HDFArray.hpp>
+#include <hdf/HDFGroup.hpp>
+#include <pbdata/saf/MovieInfo.hpp>
 
 class HDFMovieInfoGroup
 {

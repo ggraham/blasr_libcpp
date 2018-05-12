@@ -1,10 +1,10 @@
 #ifndef _BLASR_FASTQ_READER_HPP_
 #define _BLASR_FASTQ_READER_HPP_
 
-#include "FASTAReader.hpp"
-#include "FASTASequence.hpp"
-#include "FASTQSequence.hpp"
-#include "qvs/QualityValue.hpp"
+#include <pbdata/FASTAReader.hpp>
+#include <pbdata/FASTASequence.hpp>
+#include <pbdata/FASTQSequence.hpp>
+#include <pbdata/qvs/QualityValue.hpp>
 
 class FASTQReader : public FASTAReader
 {

@@ -1,12 +1,13 @@
 #ifndef _BLASR_SHARED_MEMORY_ALLOCATOR_HPP_
 #define _BLASR_SHARED_MEMORY_ALLOCATOR_HPP_
 
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <unistd.h>
 #include <cerrno>
 #include <iostream>
 #include <string>
+
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <unistd.h>
 
 template <typename T_Data>
 int AllocateMappedShare(std::string &handle, int dataLength, T_Data *&dataPtr, int &shmId)

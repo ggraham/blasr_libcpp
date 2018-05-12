@@ -6,12 +6,13 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include "../../pbdata/Enumerations.h"
-#include "../../pbdata/StringUtils.hpp"
-#include "../../pbdata/Types.h"
-#include "../datastructures/alignmentset/SAMSupplementalQVList.hpp"
-#include "../files/BaseSequenceIO.hpp"
-#include "../files/ReaderAgglomerate.hpp"
+
+#include <pbdata/Enumerations.h>
+#include <pbdata/Types.h>
+#include <alignment/datastructures/alignmentset/SAMSupplementalQVList.hpp>
+#include <alignment/files/BaseSequenceIO.hpp>
+#include <alignment/files/ReaderAgglomerate.hpp>
+#include <pbdata/StringUtils.hpp>
 
 /// This is a simple implementation for generating SAM Headers.
 /// It is provided such that libblasr can compile with and without

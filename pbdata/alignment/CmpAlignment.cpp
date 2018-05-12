@@ -1,5 +1,5 @@
-#include "CmpAlignment.hpp"
-#include "PrettyException.hpp"
+#include <pbdata/PrettyException.hpp>
+#include <pbdata/alignment/CmpAlignment.hpp>
 
 std::map<std::string, int> CmpAlignmentBase::columnNameToIndex;
 

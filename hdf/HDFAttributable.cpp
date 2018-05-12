@@ -1,4 +1,5 @@
-#include "HDFAttributable.hpp"
+#include <hdf/HDFAttributable.hpp>
+
 #include <cassert>
 
 using namespace H5;

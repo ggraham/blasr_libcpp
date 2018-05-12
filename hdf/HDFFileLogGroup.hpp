@@ -1,8 +1,8 @@
 #ifndef HDF_FILE_LOG_GROUP_H_
 #define HDF_FILE_LOG_GROUP_H_
 
-#include "HDFArray.hpp"
-#include "HDFGroup.hpp"
+#include <hdf/HDFArray.hpp>
+#include <hdf/HDFGroup.hpp>
 
 class HDFFileLogGroup
 {

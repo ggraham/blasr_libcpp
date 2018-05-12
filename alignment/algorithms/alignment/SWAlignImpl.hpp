@@ -3,18 +3,17 @@
 #include <iostream>
 #include <ostream>
 #include <vector>
-// pbdata
-#include "../../../pbdata/DNASequence.hpp"
-#include "../../../pbdata/Types.h"
-#include "../../../pbdata/defs.h"
-#include "../../../pbdata/matrix/FlatMatrix.hpp"
 
-#include "../../datastructures/alignment/Alignment.hpp"
-#include "../../datastructures/alignment/AlignmentMap.hpp"
-#include "../../datastructures/alignment/AlignmentStats.hpp"
-#include "../../datastructures/alignment/Path.h"
-#include "AlignmentUtils.hpp"
-#include "SWAlign.hpp"
+#include <alignment/datastructures/alignment/Path.h>
+#include <pbdata/Types.h>
+#include <pbdata/defs.h>
+#include <alignment/algorithms/alignment/AlignmentUtils.hpp>
+#include <alignment/algorithms/alignment/SWAlign.hpp>
+#include <alignment/datastructures/alignment/Alignment.hpp>
+#include <alignment/datastructures/alignment/AlignmentMap.hpp>
+#include <alignment/datastructures/alignment/AlignmentStats.hpp>
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/matrix/FlatMatrix.hpp>
 
 template <typename T_QuerySequence, typename T_TargetSequence, typename T_Alignment,
           typename T_ScoreFn>

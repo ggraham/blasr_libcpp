@@ -6,10 +6,10 @@
 #include <set>
 #include <vector>
 
-#include "../pbdata/Types.h"
-#include "HDFArray.hpp"
-#include "HDFCmpSupportedFields.hpp"
-#include "HDFGroup.hpp"
+#include <pbdata/Types.h>
+#include <hdf/HDFArray.hpp>
+#include <hdf/HDFCmpSupportedFields.hpp>
+#include <hdf/HDFGroup.hpp>
 
 class HDFCmpExperimentGroup
 {

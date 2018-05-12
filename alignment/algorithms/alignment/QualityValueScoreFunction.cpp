@@ -1,4 +1,4 @@
-#include "QualityValueScoreFunction.hpp"
+#include <alignment/algorithms/alignment/QualityValueScoreFunction.hpp>
 
 int QualityScoreTypeNotSpecified(const std::string func)
 {

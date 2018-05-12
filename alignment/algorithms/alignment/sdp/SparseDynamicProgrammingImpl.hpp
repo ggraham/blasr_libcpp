@@ -8,10 +8,11 @@
 #include <cstdlib>
 #include <ostream>
 #include <set>
-#include "FragmentSort.hpp"
-#include "SDPColumn.hpp"
-#include "SDPFragment.hpp"
-#include "SDPSet.hpp"
+
+#include <alignment/algorithms/alignment/sdp/FragmentSort.hpp>
+#include <alignment/algorithms/alignment/sdp/SDPColumn.hpp>
+#include <alignment/algorithms/alignment/sdp/SDPFragment.hpp>
+#include <alignment/algorithms/alignment/sdp/SDPSet.hpp>
 
 template <typename T_Fragment>
 void StoreAbove(std::vector<T_Fragment> &fragmentSet, DNALength fragmentLength)

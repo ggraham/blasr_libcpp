@@ -1,13 +1,12 @@
 #ifndef _LOADPULSES_METRICFIELD_HPP_
 #define _LOADPULSES_METRICFIELD_HPP_
 
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include <cstdlib>
-
-#include "../Types.h"
+#include <pbdata/Types.h>
 
 enum FieldType
 {

@@ -1,4 +1,4 @@
-#include "BWTSearch.hpp"
+#include <alignment/algorithms/anchoring/BWTSearch.hpp>
 
 int MapReadToGenome(BWT &bwt, FASTASequence &seq, DNALength subreadStart, DNALength subreadEnd,
                     std::vector<ChainedMatchPos> &matchPosList, AnchorParameters &params,

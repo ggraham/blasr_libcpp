@@ -4,8 +4,9 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
-#include "../pbdata/utils.hpp"
-#include "BufferedHDFArray.hpp"
+
+#include <hdf/BufferedHDFArray.hpp>
+#include <pbdata/utils.hpp>
 
 template <typename T>
 BufferedHDFArray<T>::BufferedHDFArray(int pBufferSize) : HDFData()

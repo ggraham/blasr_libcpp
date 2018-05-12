@@ -1,9 +1,11 @@
 #ifndef _BLASR_FASTA_READER_HPP_
 #define _BLASR_FASTA_READER_HPP_
+
 #include <cstdint>
 #include <string>
-#include "FASTASequence.hpp"
-#include "metagenome/SequenceIndexDatabase.hpp"
+
+#include <pbdata/FASTASequence.hpp>
+#include <pbdata/metagenome/SequenceIndexDatabase.hpp>
 
 class FASTAReader
 {

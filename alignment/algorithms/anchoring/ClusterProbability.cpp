@@ -1,4 +1,5 @@
-#include "ClusterProbability.hpp"
+#include <alignment/algorithms/anchoring/ClusterProbability.hpp>
+
 #include <cassert>
 #include <cmath>
 

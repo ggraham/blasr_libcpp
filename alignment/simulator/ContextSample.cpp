@@ -1,4 +1,4 @@
-#include "ContextSample.hpp"
+#include <alignment/simulator/ContextSample.hpp>
 
 ContextSample::ContextSample()
 {

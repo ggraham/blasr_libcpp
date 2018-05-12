@@ -1,13 +1,14 @@
 #ifndef _BLASR_HDF_PULSE_DATA_FILE_HPP_
 #define _BLASR_HDF_PULSE_DATA_FILE_HPP_
 
-#include <H5Cpp.h>
 #include <string>
 #include <vector>
 
-#include "HDFGroup.hpp"
-#include "HDFScanDataReader.hpp"
-#include "HDFZMWReader.hpp"
+#include <H5Cpp.h>
+
+#include <hdf/HDFGroup.hpp>
+#include <hdf/HDFScanDataReader.hpp>
+#include <hdf/HDFZMWReader.hpp>
 
 class HDFPulseDataFile
 {

@@ -1,4 +1,4 @@
-#include "FindMaxInterval.hpp"
+#include <alignment/algorithms/anchoring/FindMaxInterval.hpp>
 
 unsigned int NumRemainingBases(DNALength curPos, DNALength intervalLength)
 {

@@ -16,14 +16,16 @@
  * =====================================================================================
  */
 
-#include <gtest/gtest.h>
 #include <algorithm>
 #include <cstdio>
 #include <cstring>
-#include "HDFRegionTableReader.hpp"
-#include "files/FragmentCCSIterator.hpp"
-#include "pbdata/testdata.h"
-#include "reads/RegionTable.hpp"
+
+#include <gtest/gtest.h>
+
+#include <pbdata/testdata.h>
+#include <alignment/files/FragmentCCSIterator.hpp>
+#include <hdf/HDFRegionTableReader.hpp>
+#include <pbdata/reads/RegionTable.hpp>
 
 class FragmentCCSIteratorTestFixture : public testing::Test
 {

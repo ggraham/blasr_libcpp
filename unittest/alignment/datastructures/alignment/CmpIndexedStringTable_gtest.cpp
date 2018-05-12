@@ -16,8 +16,9 @@
  * =====================================================================================
  */
 
-#include "datastructures/alignment/CmpIndexedStringTable.h"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+
+#include <alignment/datastructures/alignment/CmpIndexedStringTable.h>
 
 int ids[5] = {1, 2, 3, 30, 5};
 std::string names[5] = {"n1", "n2", "n3", "n30", "n5"};

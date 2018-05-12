@@ -1,5 +1,8 @@
 #ifndef TUPLES_TUPLE_MASK
 #define TUPLES_TUPLE_MASK
+
+#include <pbdata/Types.h>
+
 //
 // Each f is conveniently 2 bases.
 //

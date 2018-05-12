@@ -1,10 +1,12 @@
 #ifndef _BLASR_SMRT_TITLE_HPP_
 #define _BLASR_SMRT_TITLE_HPP_
+
 #include <sstream>
 #include <string>
 #include <vector>
-#include "../StringUtils.hpp"
-#include "../Types.h"
+
+#include <pbdata/Types.h>
+#include <pbdata/StringUtils.hpp>
 
 class SMRTTitle
 {

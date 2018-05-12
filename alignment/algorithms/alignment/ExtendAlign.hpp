@@ -4,13 +4,12 @@
 #include <algorithm>
 #include <iosfwd>
 #include <vector>
-// pbdata
-#include "../../../pbdata/NucConversion.hpp"
-#include "../../../pbdata/defs.h"
-#include "../../../pbdata/matrix/FlatMatrix.hpp"
 
-#include "../../datastructures/alignment/Alignment.hpp"
-#include "KBandAlign.hpp"
+#include <pbdata/defs.h>
+#include <alignment/algorithms/alignment/KBandAlign.hpp>
+#include <alignment/datastructures/alignment/Alignment.hpp>
+#include <pbdata/NucConversion.hpp>
+#include <pbdata/matrix/FlatMatrix.hpp>
 
 //FIXME: change data type of target pos from int to GenomeLength
 //       in order to support > 4G genome.

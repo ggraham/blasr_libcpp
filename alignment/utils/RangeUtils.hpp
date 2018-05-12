@@ -16,10 +16,12 @@
  *
  * ============================================================================
  */
+
 #include <algorithm>
 #include <cstdlib>
-#include "../../pbdata/StringUtils.hpp"
-#include "../../pbdata/Types.h"
+
+#include <pbdata/Types.h>
+#include <pbdata/StringUtils.hpp>
 
 class Range
 {

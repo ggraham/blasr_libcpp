@@ -1,4 +1,4 @@
-#include "MovieAlnIndexLookupTable.hpp"
+#include <pbdata/loadpulses/MovieAlnIndexLookupTable.hpp>
 
 MovieAlnIndexLookupTable::MovieAlnIndexLookupTable()
 {

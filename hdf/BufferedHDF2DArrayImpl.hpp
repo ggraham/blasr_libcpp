@@ -3,7 +3,8 @@
 
 #include <cassert>
 #include <cstring>
-#include "../pbdata/utils.hpp"
+
+#include <pbdata/utils.hpp>
 
 template <typename T>
 BufferedHDF2DArray<T>::BufferedHDF2DArray(H5::Group *_container, std::string _datasetName)

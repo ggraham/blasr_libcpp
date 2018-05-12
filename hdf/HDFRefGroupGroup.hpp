@@ -1,10 +1,10 @@
 #ifndef HDF_REF_GROUP_H_
 #define HDF_REF_GROUP_H_
 
-#include "../pbdata/saf/RefGroup.hpp"
-#include "HDFArray.hpp"
-#include "HDFAtom.hpp"
-#include "HDFGroup.hpp"
+#include <hdf/HDFArray.hpp>
+#include <hdf/HDFAtom.hpp>
+#include <hdf/HDFGroup.hpp>
+#include <pbdata/saf/RefGroup.hpp>
 
 class HDFRefGroupGroup
 {

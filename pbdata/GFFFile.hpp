@@ -7,8 +7,8 @@
 #include <string>
 #include <vector>
 
-#include "Types.h"
-#include "utils.hpp"
+#include <pbdata/Types.h>
+#include <pbdata/utils.hpp>
 
 class GFFEntry
 {

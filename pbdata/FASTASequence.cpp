@@ -1,6 +1,6 @@
-#include <cstdlib>
+#include <pbdata/FASTASequence.hpp>
 
-#include "FASTASequence.hpp"
+#include <cstdlib>
 
 FASTASequence::FASTASequence() : DNASequence()
 {

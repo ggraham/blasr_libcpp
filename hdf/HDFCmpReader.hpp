@@ -1,35 +1,36 @@
 #ifndef _BLASR_HDF_CMP_READER_HPP_
 #define _BLASR_HDF_CMP_READER_HPP_
+
 #error "Does this compile anymore? Where is data/hdf/*.h?"
 
-#include <H5Cpp.h>
 #include <cassert>
 #include <iostream>
-// ../alignment/datastructures/alignment
-#include "../alignment/datastructures/alignment/Alignment.h"
-#include "../alignment/datastructures/alignment/AlignmentCandidate.h"
-#include "../alignment/datastructures/alignment/ByteAlignment.h"
-#include "../alignment/datastructures/alignment/CmpAlignment.h"
-#include "../alignment/datastructures/alignment/CmpFile.h"
-#include "../alignment/datastructures/alignment/CmpReadGroupTable.h"
-#include "../alignment/datastructures/alignment/CmpRefSeqTable.h"
-
 #include <map>
 #include <sstream>
-#include "HDFAlnGroupGroup.h"
-#include "HDFAlnInfoGroup.h"
-#include "HDFCmpRootGroup.h"
-#include "HDFCmpSupportedFields.h"
-#include "HDFMovieInfoGroup.h"
-#include "HDFRefGroupGroup.h"
-#include "HDFRefInfoGroup.h"
-#include "SMRTSequence.h"  // ../pbdata/SMRTSequence.h or ../../blasr/SMRTSequence.h ???
-#include "data/hdf/HDF2DArray.h"
-#include "data/hdf/HDFArray.h"
-#include "data/hdf/HDFAtom.h"
-#include "data/hdf/HDFCmpData.h"
-#include "data/hdf/HDFCmpExperimentGroup.h"
-#include "data/hdf/HDFCmpRefAlignmentGroup.h"
+
+#include <H5Cpp.h>
+
+#include <alignment/datastructures/alignment/Alignment.h>
+#include <alignment/datastructures/alignment/AlignmentCandidate.h>
+#include <alignment/datastructures/alignment/ByteAlignment.h>
+#include <alignment/datastructures/alignment/CmpAlignment.h>
+#include <alignment/datastructures/alignment/CmpFile.h>
+#include <alignment/datastructures/alignment/CmpReadGroupTable.h>
+#include <alignment/datastructures/alignment/CmpRefSeqTable.h>
+#include <hdf/HDF2DArray.h>
+#include <hdf/HDFAlnGroupGroup.h>
+#include <hdf/HDFAlnInfoGroup.h>
+#include <hdf/HDFArray.h>
+#include <hdf/HDFAtom.h>
+#include <hdf/HDFCmpData.h>
+#include <hdf/HDFCmpExperimentGroup.h>
+#include <hdf/HDFCmpRefAlignmentGroup.h>
+#include <hdf/HDFCmpRootGroup.h>
+#include <hdf/HDFCmpSupportedFields.h>
+#include <hdf/HDFMovieInfoGroup.h>
+#include <hdf/HDFRefGroupGroup.h>
+#include <hdf/HDFRefInfoGroup.h>
+#include <pbdata/SMRTSequence.h>  // ../pbdata/SMRTSequence.h or ../../blasr/SMRTSequence.h ???
 
 using namespace H5;
 

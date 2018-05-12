@@ -1,4 +1,5 @@
-#include "BufferedHDF2DArray.hpp"
+#include <hdf/BufferedHDF2DArray.hpp>
+
 /*
  *
  * Implementation of a 2-D array for IO from an HDF array.

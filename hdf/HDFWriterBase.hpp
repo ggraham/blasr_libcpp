@@ -2,18 +2,20 @@
 
 #ifndef _BLASR_HDFWRITERBASE_HPP_
 #define _BLASR_HDFWRITERBASE_HPP_
+
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
-#include "../pbdata/SMRTSequence.hpp"
-#include "../pbdata/reads/RegionAnnotation.hpp"
-#include "BufferedHDF2DArray.hpp"
-#include "BufferedHDFArray.hpp"
-#include "HDFAtom.hpp"
-#include "HDFFile.hpp"
-#include "HDFGroup.hpp"
-#include "HDFScanDataWriter.hpp"
+
+#include <hdf/BufferedHDF2DArray.hpp>
+#include <hdf/BufferedHDFArray.hpp>
+#include <hdf/HDFAtom.hpp>
+#include <hdf/HDFFile.hpp>
+#include <hdf/HDFGroup.hpp>
+#include <hdf/HDFScanDataWriter.hpp>
+#include <pbdata/SMRTSequence.hpp>
+#include <pbdata/reads/RegionAnnotation.hpp>
 
 class HDFWriterBase
 {

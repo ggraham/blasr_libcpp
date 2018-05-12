@@ -59,6 +59,20 @@ libblasr_rt_dep = cpp.find_library('rt', required : false)
 
 libblasr_deps = [libblasr_boost_dep, libblasr_pbbam_dep, libblasr_zlib_dep, libblasr_rt_dep]
 
+##########
+# Config #
+##########
+
+libblasr_libconfig_h_config = configuration_data()
+libblasr_libconfig_h_config.set('USE_PBBAM', 1)
+libblasr_libconfig_h = configure_file(output : 'LibBlasrConfig.h', configuration : libblasr_libconfig_h_config)
+
+if not meson.is_subproject()
+  install_headers(
+    libblasr_libconfig_h,
+    subdir : 'libblasr')
+endif
+
 #####################
 # sources + library #
 #####################
@@ -68,8 +82,8 @@ libblasr_deps = [libblasr_boost_dep, libblasr_pbbam_dep, libblasr_zlib_dep, libb
 # - or using shared libraries
 libblasr_lib_install = (not meson.is_subproject()) or (get_option('default_library') == 'shared')
 
-libblasr_sources = []
-libblasr_include_directories = [include_directories('.')]
+libblasr_sources = [libblasr_libconfig_h]
+libblasr_include_directories = include_directories('.')
 
 subdir('hdf')
 subdir('alignment')
@@ -110,11 +124,7 @@ if not meson.is_subproject()
     name : 'libblasr',
     requires : 'pbbam',
     filebase : 'libblasr',
-    subdirs : [
-      'libblasr',
-      'libblasr/alignment',
-      'libblasr/hdf',
-      'libblasr/pbdata'],
+    subdirs : 'libblasr',
     description : 'Library routines used by the PacBio BLASR aligner')
 endif
 

@@ -2,7 +2,8 @@
 #define _BLASR_SAM_READER_IMPL_HPP_
 
 #include <iostream>
-#include "SAMReader.hpp"
+
+#include <pbdata/sam/SAMReader.hpp>
 
 template <typename T_ReferenceSequence, typename T_ReadGroup, typename T_SAMAlignment>
 bool SAMReader<T_ReferenceSequence, T_ReadGroup, T_SAMAlignment>::Initialize(

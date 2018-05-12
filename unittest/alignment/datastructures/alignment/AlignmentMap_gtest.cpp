@@ -20,8 +20,9 @@
 #include <fstream>
 #include <iostream>
 
-#include "datastructures/alignment/AlignmentMap.hpp"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+
+#include <alignment/datastructures/alignment/AlignmentMap.hpp>
 
 // Test
 // void CreateSequenceToAlignmentMap(const std::string & alignedSequence,

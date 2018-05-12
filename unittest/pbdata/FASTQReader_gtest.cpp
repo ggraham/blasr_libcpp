@@ -16,9 +16,10 @@
  * =====================================================================================
  */
 
-#include "FASTQReader.hpp"
-#include "gtest/gtest.h"
-#include "pbdata/testdata.h"
+#include <gtest/gtest.h>
+
+#include <pbdata/testdata.h>
+#include <pbdata/FASTQReader.hpp>
 
 const std::string movie = "m130328_211423_ethan_c100499512550000001823070408081371_s1_p0";
 const int numSeqs = 208;

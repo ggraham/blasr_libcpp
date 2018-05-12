@@ -1,4 +1,5 @@
-#include "SAMHeader.hpp"
+#include <pbdata/sam/SAMHeader.hpp>
+
 #include <algorithm>
 
 void SAMHeader::StoreValues(std::vector<SAMKeywordValuePair> &kvPairs, int lineNumber)

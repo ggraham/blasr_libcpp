@@ -1,4 +1,5 @@
-#include "QualityTransform.hpp"
+#include <pbdata/qvs/QualityTransform.hpp>
+
 #include <cassert>
 /*
 * Base lookup table class for quality values.

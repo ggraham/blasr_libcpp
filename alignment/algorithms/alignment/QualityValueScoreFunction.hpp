@@ -1,12 +1,11 @@
 #ifndef _BLASR_QUALITY_VALUE_SCORE_FUNCTION_HPP_
 #define _BLASR_QUALITY_VALUE_SCORE_FUNCTION_HPP_
-// pbdata
-#include "../../../pbdata/FASTASequence.hpp"
-#include "../../../pbdata/FASTQSequence.hpp"
-#include "../../../pbdata/NucConversion.hpp"
 
-#include "BaseScoreFunction.hpp"
-#include "ScoreMatrices.hpp"
+#include <alignment/algorithms/alignment/BaseScoreFunction.hpp>
+#include <alignment/algorithms/alignment/ScoreMatrices.hpp>
+#include <pbdata/FASTASequence.hpp>
+#include <pbdata/FASTQSequence.hpp>
+#include <pbdata/NucConversion.hpp>
 
 template <typename T_RefSequence, typename T_QuerySequence>
 class QualityValueScoreFunction : public BaseScoreFunction

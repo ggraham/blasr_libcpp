@@ -1,8 +1,6 @@
 #ifndef _BLASR_ALIGNMENT_SET_TO_CMPH5_ADAPTER_IMPL_HPP_
 #define _BLASR_ALIGNMENT_SET_TO_CMPH5_ADAPTER_IMPL_HPP_
 
-#include "AlignmentSetToCmpH5AdapterImpl.hpp"
-
 template <typename T_CmpFile>
 unsigned int AlignmentSetToCmpH5Adapter<T_CmpFile>::StoreMovieInfo(std::string movieName,
                                                                    T_CmpFile &cmpFile)

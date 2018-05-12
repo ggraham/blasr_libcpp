@@ -16,11 +16,13 @@
  * ============================================================================
  */
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+
 #define private public
-#include "HDFFile.hpp"
-#include "HDFScanDataWriter.hpp"
-#include "reads/ScanData.hpp"
+
+#include <hdf/HDFFile.hpp>
+#include <hdf/HDFScanDataWriter.hpp>
+#include <pbdata/reads/ScanData.hpp>
 
 TEST(HDFScanDataWriter, Write)
 {

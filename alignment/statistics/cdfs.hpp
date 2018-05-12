@@ -1,7 +1,7 @@
 #ifndef _BLASR_CDFS_HPP_
 #define _BLASR_CDFS_HPP_
 
-#include "pdfs.hpp"
+#include <alignment/statistics/pdfs.hpp>
 
 static const float NormCDFTable[2000] = {
     7.61985302416053e-24,

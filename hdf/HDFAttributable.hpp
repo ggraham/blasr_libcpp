@@ -1,9 +1,10 @@
 #ifndef _BLASR_HDF_ATTRIBUTABLE_HPP_
 #define _BLASR_HDF_ATTRIBUTABLE_HPP_
 
-#include <H5Cpp.h>
 #include <string>
 #include <vector>
+
+#include <H5Cpp.h>
 
 class HDFAttributable
 {

@@ -3,8 +3,8 @@
 
 #include <cstdlib>
 
-#include "../FASTQSequence.hpp"
-#include "../StringUtils.hpp"
+#include <pbdata/FASTQSequence.hpp>
+#include <pbdata/StringUtils.hpp>
 
 void GetSMRTReadCoordinates(FASTQSequence &seq, int &x, int &y);
 

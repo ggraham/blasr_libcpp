@@ -6,18 +6,18 @@
 #include <string>
 #include <vector>
 
-// HDF5 library includes
+// HDF5
 #include <H5Cpp.h>
 #include <hdf5.h>
 
-#include "../pbdata/DNASequence.hpp"
-#include "../pbdata/FASTQSequence.hpp"
-#include "../pbdata/Types.h"
-#include "HDFConfig.hpp"
-#include "HDFData.hpp"
-#include "HDFFile.hpp"
-#include "HDFGroup.hpp"
-#include "HDFWriteBuffer.hpp"
+#include <pbdata/Types.h>
+#include <hdf/HDFConfig.hpp>
+#include <hdf/HDFData.hpp>
+#include <hdf/HDFFile.hpp>
+#include <hdf/HDFGroup.hpp>
+#include <hdf/HDFWriteBuffer.hpp>
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/FASTQSequence.hpp>
 
 /*
  *

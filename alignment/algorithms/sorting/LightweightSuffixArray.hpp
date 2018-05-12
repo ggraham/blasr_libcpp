@@ -2,10 +2,11 @@
 #define ALGORITHMS_SORTING_LIGHTWEIGHT_SUFFIX_ARRAY_H_
 
 #include <algorithm>
-#include "../../../pbdata/Types.h"
-#include "DifferenceCovers.hpp"
-#include "MultikeyQuicksort.hpp"
-#include "qsufsort.hpp"
+
+#include <pbdata/Types.h>
+#include <alignment/algorithms/sorting/DifferenceCovers.hpp>
+#include <alignment/algorithms/sorting/MultikeyQuicksort.hpp>
+#include <alignment/algorithms/sorting/qsufsort.hpp>
 
 /*
  * a - b potentially may not fit into a signed type.  Use some logic

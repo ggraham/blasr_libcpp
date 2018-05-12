@@ -2,7 +2,8 @@
 #define _BLASR_PRIORITY_SEARCH_TREE_HPP_
 
 #include <vector>
-#include "BasicEndpoint.hpp"
+
+#include <alignment/algorithms/anchoring/BasicEndpoint.hpp>
 
 /*
  * Define a priority search tree on a point that implements

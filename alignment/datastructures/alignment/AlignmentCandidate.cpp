@@ -1,4 +1,4 @@
-#include "AlignmentCandidate.hpp"
+#include <alignment/datastructures/alignment/AlignmentCandidate.hpp>
 
 int SortAlignmentPointersByScore::operator()(T_AlignmentCandidate* lhs, T_AlignmentCandidate* rhs)
 {

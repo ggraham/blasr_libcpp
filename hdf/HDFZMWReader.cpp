@@ -1,5 +1,5 @@
-#include "HDFZMWReader.hpp"
-#include "../pbdata/Types.h"
+#include <pbdata/Types.h>
+#include <hdf/HDFZMWReader.hpp>
 
 HDFZMWReader::HDFZMWReader()
 {

@@ -16,9 +16,10 @@
  * =====================================================================================
  */
 
-#include "FASTAReader.hpp"
-#include "gtest/gtest.h"
-#include "pbdata/testdata.h"
+#include <gtest/gtest.h>
+
+#include <pbdata/testdata.h>
+#include <pbdata/FASTAReader.hpp>
 
 class FASTAReaderTest : public ::testing::Test
 {

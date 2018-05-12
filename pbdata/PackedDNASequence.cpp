@@ -1,5 +1,5 @@
-#include "PackedDNASequence.hpp"
-#include "utils.hpp"
+#include <pbdata/PackedDNASequence.hpp>
+#include <pbdata/utils.hpp>
 
 const PackedDNAWord PackedDNASequence::NucPosMask[] = {
     7, 56, 448, 3584, 28672, 229376, 1835008, 14680064, 117440512, 939524096};

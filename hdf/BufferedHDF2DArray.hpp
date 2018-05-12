@@ -7,11 +7,11 @@
 
 #include <H5Cpp.h>
 
-#include "../pbdata/Types.h"
-#include "HDFConfig.hpp"
-#include "HDFData.hpp"
-#include "HDFGroup.hpp"
-#include "HDFWriteBuffer.hpp"
+#include <pbdata/Types.h>
+#include <hdf/HDFConfig.hpp>
+#include <hdf/HDFData.hpp>
+#include <hdf/HDFGroup.hpp>
+#include <hdf/HDFWriteBuffer.hpp>
 
 /*
  *

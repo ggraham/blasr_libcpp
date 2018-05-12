@@ -5,7 +5,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "../../pbdata/utils.hpp"
+
+#include <pbdata/utils.hpp>
 
 class FileOfFileNames
 {

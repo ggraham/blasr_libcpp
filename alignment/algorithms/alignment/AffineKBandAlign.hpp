@@ -4,11 +4,12 @@
 #include <cassert>
 #include <iostream>
 #include <vector>
-#include "../../../pbdata/NucConversion.hpp"
-#include "../../../pbdata/defs.h"
-#include "../../../pbdata/matrix/FlatMatrix.hpp"
-#include "../../datastructures/alignment/Alignment.hpp"
-#include "KBandAlign.hpp"
+
+#include <pbdata/defs.h>
+#include <alignment/algorithms/alignment/KBandAlign.hpp>
+#include <alignment/datastructures/alignment/Alignment.hpp>
+#include <pbdata/NucConversion.hpp>
+#include <pbdata/matrix/FlatMatrix.hpp>
 
 template <typename T_QuerySequence, typename T_TargetSequence, typename T_Alignment>
 int AffineKBandAlign(T_QuerySequence &pqSeq, T_TargetSequence &ptSeq, int matchMat[5][5],

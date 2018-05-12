@@ -20,12 +20,12 @@
 #include <string>
 #include <vector>
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 #define private public
 
-#include "reads/ReadInterval.hpp"
-#include "reads/RegionAnnotations.hpp"
+#include <pbdata/reads/ReadInterval.hpp>
+#include <pbdata/reads/RegionAnnotations.hpp>
 
 static const UInt HOLENUMBER = 1720;
 

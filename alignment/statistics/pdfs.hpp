@@ -3,7 +3,8 @@
 
 #include <cassert>
 #include <cmath>
-#include "StatUtils.hpp"
+
+#include <alignment/statistics/StatUtils.hpp>
 
 float Binomial(float p, int x, int n);
 

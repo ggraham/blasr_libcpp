@@ -1,5 +1,6 @@
 #ifndef _BLASR_UTILS_HPP_
 #define _BLASR_UTILS_HPP_
+
 #include <cstdlib>
 #include <fstream>
 #include <iostream>

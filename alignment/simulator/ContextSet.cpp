@@ -1,4 +1,4 @@
-#include "ContextSet.hpp"
+#include <alignment/simulator/ContextSet.hpp>
 
 ContextSampleMap::ContextSampleMap() { contextLength = 0; }
 

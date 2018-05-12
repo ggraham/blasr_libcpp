@@ -1,4 +1,4 @@
-#include "IntervalPrinter.hpp"
+#include <alignment/format/IntervalPrinter.hpp>
 
 void IntervalOutput::Print(T_AlignmentCandidate &alignment, std::ostream &outFile)
 {

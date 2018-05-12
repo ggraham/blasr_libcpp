@@ -1,4 +1,5 @@
-#include "HDFCmpExperimentGroup.hpp"
+#include <hdf/HDFCmpExperimentGroup.hpp>
+
 #include <iostream>
 
 bool HDFCmpExperimentGroup::Create(HDFGroup &parent, std::string experimentGroupName)

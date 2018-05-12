@@ -15,9 +15,11 @@
  *
  * ==========================================================================
  */
-#include "HDFZMWReader.hpp"
-#include "gtest/gtest.h"
-#include "pbdata/testdata.h"
+
+#include <gtest/gtest.h>
+
+#include <pbdata/testdata.h>
+#include <hdf/HDFZMWReader.hpp>
 
 using namespace H5;
 

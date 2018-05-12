@@ -1,8 +1,9 @@
+#include <pbdata/defs.h>
+#include <pbdata/PrettyException.hpp>
+#include <pbdata/qvs/QualityValue.hpp>
+
 #include <cassert>
 #include <cmath>
-#include "../defs.h"
-#include "PrettyException.hpp"
-#include "QualityValue.hpp"
 
 QualityValue ProbabilityToQualityValue(QualityProbability pErr, QVScale qvScale)
 {

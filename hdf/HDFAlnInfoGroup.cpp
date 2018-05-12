@@ -1,4 +1,4 @@
-#include "HDFAlnInfoGroup.hpp"
+#include <hdf/HDFAlnInfoGroup.hpp>
 
 int HDFAlnInfoGroup::InitializeNumPasses()
 {

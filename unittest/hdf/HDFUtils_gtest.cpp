@@ -16,9 +16,10 @@
  * ============================================================================
  */
 
-#include "HDFUtils.hpp"
-#include "gtest/gtest.h"
-#include "pbdata/testdata.h"
+#include <gtest/gtest.h>
+
+#include <pbdata/testdata.h>
+#include <hdf/HDFUtils.hpp>
 
 TEST(HDFUtils, Create)
 {

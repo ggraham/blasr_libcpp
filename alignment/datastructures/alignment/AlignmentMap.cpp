@@ -1,7 +1,7 @@
+#include <alignment/datastructures/alignment/AlignmentMap.hpp>
+
 #include <string>
 #include <vector>
-
-#include "AlignmentMap.hpp"
 
 void CreateSequenceToAlignmentMap(const std::string& alignedSequence,
                                   std::vector<int>& baseToAlignmentMap)

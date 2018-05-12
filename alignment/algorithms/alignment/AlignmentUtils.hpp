@@ -2,9 +2,10 @@
 #define _BLASR_ALIGNMENT_UTILS_HPP_
 
 #include <string>
-#include "../../../pbdata/DNASequence.hpp"
-#include "../../datastructures/alignment/Alignment.hpp"
-#include "DistanceMatrixScoreFunction.hpp"
+
+#include <alignment/algorithms/alignment/DistanceMatrixScoreFunction.hpp>
+#include <alignment/datastructures/alignment/Alignment.hpp>
+#include <pbdata/DNASequence.hpp>
 
 enum AlignmentType
 {

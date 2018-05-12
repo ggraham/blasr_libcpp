@@ -15,10 +15,11 @@
  *
  * ============================================================================
  */
+
 #ifndef _BLASR_COMPARE_4BIT_COMPRESSED_HPP_
 #define _BLASR_COMPARE_4BIT_COMPRESSED_HPP_
 
-#include "defs.h"
+#include <pbdata/defs.h>
 
 template <typename TNuc>
 class Compare4BitCompressed

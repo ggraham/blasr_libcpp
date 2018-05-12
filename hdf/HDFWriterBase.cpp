@@ -1,6 +1,6 @@
 // Author: Yuan Li
 
-#include "HDFWriterBase.hpp"
+#include <hdf/HDFWriterBase.hpp>
 
 HDFWriterBase::~HDFWriterBase(void) {}
 

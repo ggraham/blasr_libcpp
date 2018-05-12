@@ -1,11 +1,13 @@
 #ifndef _BLASR_HDF_DATA_HPP_
 #define _BLASR_HDF_DATA_HPP_
 
-#include <H5Cpp.h>
 #include <string>
-#include "HDFAttributable.hpp"
-#include "HDFConfig.hpp"
-#include "HDFGroup.hpp"
+
+#include <H5Cpp.h>
+
+#include <hdf/HDFAttributable.hpp>
+#include <hdf/HDFConfig.hpp>
+#include <hdf/HDFGroup.hpp>
 
 class HDFData : public HDFAttributable
 {

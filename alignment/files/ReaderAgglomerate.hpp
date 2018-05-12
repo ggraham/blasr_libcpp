@@ -2,29 +2,31 @@
 #define _BLASR_READER_AGGLOMERATE_HPP_
 
 #include <cstdlib>
-// pbdata
-#include "../../pbdata/CCSSequence.hpp"
-#include "../../pbdata/Enumerations.h"
-#include "../../pbdata/FASTAReader.hpp"
-#include "../../pbdata/FASTQReader.hpp"
-#include "../../pbdata/SMRTSequence.hpp"
-#include "../../pbdata/StringUtils.hpp"
-#include "../../pbdata/reads/ReadType.hpp"
-// hdf
-#include "../../hdf/HDFBasReader.hpp"
-#include "../../hdf/HDFCCSReader.hpp"
 
-#include "BaseSequenceIO.hpp"
+#include <pbdata/Enumerations.h>
+#include <alignment/files/BaseSequenceIO.hpp>
+#include <hdf/HDFBasReader.hpp>
+#include <hdf/HDFCCSReader.hpp>
+#include <pbdata/CCSSequence.hpp>
+#include <pbdata/FASTAReader.hpp>
+#include <pbdata/FASTQReader.hpp>
+#include <pbdata/SMRTSequence.hpp>
+#include <pbdata/StringUtils.hpp>
+#include <pbdata/reads/ReadType.hpp>
+
 #ifdef USE_PBBAM
+
 #include <pbbam/BamRecord.h>
 #include <pbbam/DataSet.h>
 #include <pbbam/EntireFileQuery.h>
 #include <pbbam/PbiFilter.h>
 #include <pbbam/PbiFilterQuery.h>
-#include "../query/PbiFilterZmwGroupQuery.h"
-#include "../query/SequentialZmwGroupQuery.h"
 // the following added to support Polymerase read for unrolled mode
 #include <pbbam/virtual/ZmwReadStitcher.h>  // new interface
+
+#include <alignment/query/PbiFilterZmwGroupQuery.h>
+#include <alignment/query/SequentialZmwGroupQuery.h>
+
 #endif
 
 class ReaderAgglomerate : public BaseSequenceIO

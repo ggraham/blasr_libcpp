@@ -16,11 +16,12 @@
  * =====================================================================================
  */
 
-#include "HDFRegionTableReader.hpp"
-#include "gtest/gtest.h"
-#include "pbdata/testdata.h"
-#include "reads/RegionTable.hpp"
-#include "utils/RegionUtils.hpp"
+#include <gtest/gtest.h>
+
+#include <pbdata/testdata.h>
+#include <alignment/utils/RegionUtils.hpp>
+#include <hdf/HDFRegionTableReader.hpp>
+#include <pbdata/reads/RegionTable.hpp>
 
 class RegionUtilTestFixture : public testing::Test
 {

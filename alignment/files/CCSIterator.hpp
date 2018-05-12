@@ -1,7 +1,7 @@
 #ifndef _BLASR_BASE_CCS_ITERATOR_HPP_
 #define _BLASR_BASE_CCS_ITERATOR_HPP_
 
-#include "../../pbdata/CCSSequence.hpp"
+#include <pbdata/CCSSequence.hpp>
 
 class CCSIterator
 {

@@ -1,4 +1,5 @@
-#include "HDFRegionTableReader.hpp"
+#include <hdf/HDFRegionTableReader.hpp>
+
 #include <cassert>
 
 int HDFRegionTableReader::Initialize(std::string &regionTableFileName,

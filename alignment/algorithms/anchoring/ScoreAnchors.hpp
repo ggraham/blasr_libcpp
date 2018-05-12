@@ -2,11 +2,12 @@
 #define _BLASR_SCORE_ANCHORS_HPP_
 
 #include <cmath>
-#include "../../statistics/cdfs.hpp"
-#include "../../statistics/pdfs.hpp"
-#include "../../tuples/DNATuple.hpp"
-#include "../../tuples/TupleCountTable.hpp"
-#include "../../tuples/TupleMetrics.hpp"
+
+#include <alignment/statistics/cdfs.hpp>
+#include <alignment/statistics/pdfs.hpp>
+#include <alignment/tuples/DNATuple.hpp>
+#include <alignment/tuples/TupleCountTable.hpp>
+#include <alignment/tuples/TupleMetrics.hpp>
 
 template <typename TSequence, typename T_Tuple>
 int GetTupleCount(TSequence &seq, DNALength startPos, TupleMetrics &tm,

@@ -1,7 +1,8 @@
 #ifndef _BLASR_BASIC_ENDPOINT_IMPL_HPP_
 #define _BLASR_BASIC_ENDPOINT_IMPL_HPP_
 
-#include "BasicEndpoint.hpp"
+#include <alignment/algorithms/anchoring/BasicEndpoint.hpp>
+
 /*
  An endpoint is one of the ends of a fragment, where
  a fragment is an exact match between two genomes.

@@ -3,11 +3,12 @@
 
 #include <fstream>
 #include <iostream>
-#include "../../pbdata/FASTASequence.hpp"
-#include "../../pbdata/PackedDNASequence.hpp"
-#include "../suffixarray/SuffixArray.hpp"
-#include "Occ.hpp"
-#include "Pos.hpp"
+
+#include <alignment/bwt/Occ.hpp>
+#include <alignment/bwt/Pos.hpp>
+#include <alignment/suffixarray/SuffixArray.hpp>
+#include <pbdata/FASTASequence.hpp>
+#include <pbdata/PackedDNASequence.hpp>
 
 /*
  * Define an Occurrence table appropriate for Gb sized genomes.

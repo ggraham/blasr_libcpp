@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "../../../pbdata/DNASequence.hpp"
-#include "../../algorithms/alignment/AlignmentUtils.hpp"
+#include <alignment/algorithms/alignment/AlignmentUtils.hpp>
+#include <pbdata/DNASequence.hpp>
 
 /*
  * These arrays are for going from the HDF byte alignment format to characters, or

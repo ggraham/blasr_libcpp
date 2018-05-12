@@ -1,4 +1,4 @@
-#include "HDFNewBasReader.hpp"
+#include <hdf/HDFNewBasReader.hpp>
 
 int HDFNewBasReader::Initialize(const std::string &hdfBasFileName)
 {

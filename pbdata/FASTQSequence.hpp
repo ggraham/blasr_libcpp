@@ -1,12 +1,12 @@
 #ifndef _BLASR_FASTQ_SEQUENCE_HPP_
 #define _BLASR_FASTQ_SEQUENCE_HPP_
 
-#include "DNASequence.hpp"
-#include "FASTASequence.hpp"
-#include "matrix/Matrix.hpp"
-#include "qvs/QualityValue.hpp"
-#include "qvs/QualityValueVector.hpp"
-#include "reads/ZMWGroupEntry.hpp"
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/FASTASequence.hpp>
+#include <pbdata/matrix/Matrix.hpp>
+#include <pbdata/qvs/QualityValue.hpp>
+#include <pbdata/qvs/QualityValueVector.hpp>
+#include <pbdata/reads/ZMWGroupEntry.hpp>
 
 enum QVList
 {

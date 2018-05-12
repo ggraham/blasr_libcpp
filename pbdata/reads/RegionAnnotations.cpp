@@ -1,9 +1,10 @@
 // Author: Yuan Li
 
-#include "RegionAnnotations.hpp"
+#include <pbdata/PrettyException.hpp>
+#include <pbdata/reads/RegionAnnotations.hpp>
+
 #include <algorithm>
 #include <cassert>
-#include "PrettyException.hpp"
 
 RegionAnnotations::RegionAnnotations(const UInt holeNumber,
                                      const std::vector<RegionAnnotation>& annotations,

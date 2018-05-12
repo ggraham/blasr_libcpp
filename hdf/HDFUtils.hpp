@@ -4,11 +4,11 @@
 #include <string>
 #include <vector>
 
-#include "../pbdata/reads/RegionTable.hpp"
-#include "HDFBasReader.hpp"
-#include "HDFFile.hpp"
-#include "HDFRegionTableReader.hpp"
-#include "HDFScanDataReader.hpp"
+#include <hdf/HDFBasReader.hpp>
+#include <hdf/HDFFile.hpp>
+#include <hdf/HDFRegionTableReader.hpp>
+#include <hdf/HDFScanDataReader.hpp>
+#include <pbdata/reads/RegionTable.hpp>
 
 // Given a PacBio (pls/plx/bas/bax/ccs/rgn).h5 file, which contains its movie
 // name in group /ScanData/RunInfo attribute MovieName, return its' movie name

@@ -1,4 +1,3 @@
-
 template <typename T>
 TupleList<T>::TupleList()
 {

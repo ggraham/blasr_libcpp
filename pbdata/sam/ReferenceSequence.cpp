@@ -1,4 +1,4 @@
-#include "ReferenceSequence.hpp"
+#include <pbdata/sam/ReferenceSequence.hpp>
 
 const char* SAMReferenceSequence::SAMReferenceSequenceFieldNames[] = {"SN", "LN"};
 

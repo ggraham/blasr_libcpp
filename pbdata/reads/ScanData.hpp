@@ -5,9 +5,10 @@
 
 #include <map>
 #include <string>
-#include "../Enumerations.h"
-#include "../PacBioDefs.h"
-#include "AcqParams.hpp"
+
+#include <pbdata/Enumerations.h>
+#include <pbdata/PacBioDefs.h>
+#include <pbdata/reads/AcqParams.hpp>
 
 class HDFScanDataReader;
 class HDFScanDataWriter;

@@ -8,8 +8,8 @@
 #include <string>
 #include <vector>
 
-#include "../../pbdata/Types.h"
-#include "TupleMetrics.hpp"
+#include <pbdata/Types.h>
+#include <alignment/tuples/TupleMetrics.hpp>
 
 template <typename T>
 class TupleList

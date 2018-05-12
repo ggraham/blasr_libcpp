@@ -16,8 +16,9 @@
  * =====================================================================================
  */
 
-#include "NucConversion.hpp"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+
+#include <pbdata/NucConversion.hpp>
 
 // ACGT = 0123
 TEST(NucConversion, ASCIITo2BIT)

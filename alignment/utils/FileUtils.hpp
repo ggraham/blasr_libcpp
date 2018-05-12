@@ -1,15 +1,15 @@
 #ifndef _BLASR_FILE_UTILS_HPP_
 #define _BLASR_FILE_UTILS_HPP_
 
+#include <cstdio>
+#include <fstream>
+#include <iostream>
+#include <string>
+
 #include <sys/fcntl.h>
 #include <sys/mman.h>
 #include <sys/types.h>  // for lseek
 #include <unistd.h>     // for lseek
-#include <cstdio>
-
-#include <fstream>
-#include <iostream>
-#include <string>
 
 bool FileExists(std::string &fileName);
 

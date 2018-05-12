@@ -1,4 +1,4 @@
-#include "SummaryPrinter.hpp"
+#include <alignment/format/SummaryPrinter.hpp>
 
 void SummaryOutput::Print(AlignmentCandidate<DNASequence, FASTQSequence> &alignment,
                           std::ostream &outFile)

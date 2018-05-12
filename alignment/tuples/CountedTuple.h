@@ -1,7 +1,7 @@
 #ifndef COUNTED_TUPLE_H_
 #define COUNTED_TUPLE_H_
 
-#include "tuples/DNATuple.h"
+#include <alignment/tuples/tuples/DNATuple.h>
 
 class CountedDNATuple : public DNATuple
 {

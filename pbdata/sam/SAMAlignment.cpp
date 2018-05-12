@@ -1,4 +1,4 @@
-#include "SAMAlignment.hpp"
+#include <pbdata/sam/SAMAlignment.hpp>
 
 SAMAlignment::SAMAlignment()
 {

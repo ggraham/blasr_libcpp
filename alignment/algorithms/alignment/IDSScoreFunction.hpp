@@ -3,12 +3,12 @@
 
 #include <cmath>
 #include <string>
-#include "../../utils/LogUtils.hpp"
-#include "BaseScoreFunction.hpp"
-#include "ScoreMatrices.hpp"
-// pbdata
-#include "../../../pbdata/FASTASequence.hpp"
-#include "../../../pbdata/FASTQSequence.hpp"
+
+#include <alignment/algorithms/alignment/BaseScoreFunction.hpp>
+#include <alignment/algorithms/alignment/ScoreMatrices.hpp>
+#include <alignment/utils/LogUtils.hpp>
+#include <pbdata/FASTASequence.hpp>
+#include <pbdata/FASTQSequence.hpp>
 
 float SumAsValidPhred(float v1, float v2, float v3);
 

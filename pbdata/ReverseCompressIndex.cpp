@@ -1,7 +1,8 @@
-#include "ReverseCompressIndex.hpp"
+#include <pbdata/ReverseCompressIndex.hpp>
+#include <pbdata/utils.hpp>
+
 #include <fstream>
 #include <iostream>
-#include "utils.hpp"
 
 ReverseCompressIndex::ReverseCompressIndex()
 {

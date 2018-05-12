@@ -3,11 +3,11 @@
 
 #include <algorithm>
 
-#include "../../algorithms/alignment/SWAlign.hpp"
-#include "../../algorithms/alignment/ScoreMatrices.hpp"
-#include "../../datastructures/anchoring/AnchorParameters.hpp"
-#include "../../datastructures/anchoring/MatchPos.hpp"
-#include "../../suffixarray/SuffixArray.hpp"
+#include <alignment/algorithms/alignment/SWAlign.hpp>
+#include <alignment/algorithms/alignment/ScoreMatrices.hpp>
+#include <alignment/datastructures/anchoring/AnchorParameters.hpp>
+#include <alignment/datastructures/anchoring/MatchPos.hpp>
+#include <alignment/suffixarray/SuffixArray.hpp>
 
 /*
  * Parameters:

@@ -10,11 +10,12 @@
 #include <ostream>
 #include <string>
 #include <vector>
-#include "../Enumerations.h"
-#include "../PacBioDefs.h"
-#include "../Types.h"
-#include "RegionAnnotation.hpp"
-#include "RegionAnnotations.hpp"
+
+#include <pbdata/Enumerations.h>
+#include <pbdata/PacBioDefs.h>
+#include <pbdata/Types.h>
+#include <pbdata/reads/RegionAnnotation.hpp>
+#include <pbdata/reads/RegionAnnotations.hpp>
 
 class RegionTable
 {
