@@ -3,7 +3,6 @@
 ##################
 
 subdir('algorithms')
-subdir('anchoring')
 subdir('bwt')
 subdir('datastructures')
 subdir('files')
@@ -20,8 +19,6 @@ subdir('utils')
 ###########
 # Sources #
 ###########
-
-libblasr_include_directories += include_directories('.')
 
 libblasr_sources += files(['MappingMetrics.cpp'])
 

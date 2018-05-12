@@ -1,4 +1,4 @@
-#include "RefGroup.hpp"
+#include <pbdata/saf/RefGroup.hpp>
 
 bool RefGroup::IdToIndex(uint32_t idKey, uint32_t &idIndex)
 {

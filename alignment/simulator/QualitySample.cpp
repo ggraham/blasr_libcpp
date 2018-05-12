@@ -1,4 +1,4 @@
-#include "QualitySample.hpp"
+#include <alignment/simulator/QualitySample.hpp>
 
 void QualitySample::CopyFromSequence(SMRTSequence &seq, int pos)
 {

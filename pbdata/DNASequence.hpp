@@ -2,14 +2,16 @@
 #define _BLASR_DNA_SEQUENCE_HPP_
 
 #include <LibBlasrConfig.h>
+
 #include <cassert>
 #include <cstdint>
 #include <cstdlib>
 #include <iostream>
 #include <string>
-#include "NucConversion.hpp"
-#include "Types.h"
-#include "utils.hpp"
+
+#include <pbdata/Types.h>
+#include <pbdata/NucConversion.hpp>
+#include <pbdata/utils.hpp>
 
 #ifdef USE_PBBAM
 #include <pbbam/BamRecord.h>

@@ -1,4 +1,4 @@
-#include "CCSSequence.hpp"
+#include <pbdata/CCSSequence.hpp>
 
 void CCSSequence::Free()
 {

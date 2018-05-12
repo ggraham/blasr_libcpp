@@ -20,8 +20,9 @@
 #include <fstream>
 #include <iostream>
 
-#include "FASTASequence.hpp"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+
+#include <pbdata/FASTASequence.hpp>
 
 class FASTASequenceTest : public ::testing::Test
 {

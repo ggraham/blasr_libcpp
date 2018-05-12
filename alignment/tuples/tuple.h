@@ -4,8 +4,8 @@
 #include <utility>
 #include <vector>
 
-#include "../../pbdata/Types.h"
-#include "tuples/TupleMetrics.hpp"
+#include <pbdata/Types.h>
+#include <alignment/tuples/TupleMetrics.hpp>
 
 template <typename Sequence, typename Tuple>
 BuildTupleList(Sequence seq, std::vector<Tuple> &tupleList)

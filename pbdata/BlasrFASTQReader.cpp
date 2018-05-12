@@ -1,7 +1,8 @@
+#include <pbdata/FASTQReader.hpp>
+
 #include <climits>
 #include <cmath>
 #include <cstdio>
-#include "FASTQReader.hpp"
 
 FASTQReader::FASTQReader() : FASTAReader() { endOfReadDelim = '\n'; }
 

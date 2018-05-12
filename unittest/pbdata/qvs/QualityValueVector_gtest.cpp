@@ -15,9 +15,11 @@
  *
  * =====================================================================================
  */
-#include "gtest/gtest.h"
-#include "qvs/QualityValue.hpp"
-#include "qvs/QualityValueVector.hpp"
+
+#include <gtest/gtest.h>
+
+#include <pbdata/qvs/QualityValue.hpp>
+#include <pbdata/qvs/QualityValueVector.hpp>
 
 const std::string qvstr = "!#$%0123:;ABab{|}~";
 std::vector<uint8_t> data = {0, 2, 3, 4, 15, 16, 17, 18, 25, 26, 32, 33, 64, 65, 90, 91, 92, 93};

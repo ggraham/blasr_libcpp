@@ -1,4 +1,4 @@
-#include "ReadType.hpp"
+#include <pbdata/reads/ReadType.hpp>
 
 ReadType::ReadTypeEnum ReadType::ParseReadType(std::string &readTypeString)
 {

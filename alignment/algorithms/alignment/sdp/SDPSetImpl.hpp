@@ -1,7 +1,8 @@
 #include <cstdint>
 #include <set>
-#include "../../../../pbdata/Types.h"
-#include "SDPSet.hpp"
+
+#include <pbdata/Types.h>
+#include <alignment/algorithms/alignment/sdp/SDPSet.hpp>
 
 template <typename T>
 int SDPSet<T>::size()

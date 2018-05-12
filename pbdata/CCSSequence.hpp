@@ -1,9 +1,9 @@
 #ifndef _BLASR_CCS_SEQUENCE_HPP_
 #define _BLASR_CCS_SEQUENCE_HPP_
 
-#include "Enumerations.h"
-#include "SMRTSequence.hpp"
-#include "VectorUtils.hpp"
+#include <pbdata/Enumerations.h>
+#include <pbdata/SMRTSequence.hpp>
+#include <pbdata/VectorUtils.hpp>
 
 //
 // A CCS Sequence is both a SMRTSequence itself, and contains a list of SMRTSequences.

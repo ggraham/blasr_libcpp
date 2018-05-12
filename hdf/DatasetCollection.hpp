@@ -5,8 +5,9 @@
 #include <map>
 #include <string>
 #include <vector>
-#include "HDFData.hpp"
-#include "HDFGroup.hpp"
+
+#include <hdf/HDFData.hpp>
+#include <hdf/HDFGroup.hpp>
 
 class DatasetCollection
 {

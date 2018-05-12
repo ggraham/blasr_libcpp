@@ -3,9 +3,10 @@
 
 #include <string>
 #include <vector>
-#include "../../../pbdata/DNASequence.hpp"
-#include "AlignmentStats.hpp"
-#include "Path.h"
+
+#include <alignment/datastructures/alignment/Path.h>
+#include <alignment/datastructures/alignment/AlignmentStats.hpp>
+#include <pbdata/DNASequence.hpp>
 
 namespace blasr {
 class Block

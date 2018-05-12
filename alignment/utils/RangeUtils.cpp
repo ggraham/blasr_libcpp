@@ -1,6 +1,6 @@
-#include <stdexcept>
+#include <alignment/utils/RangeUtils.hpp>
 
-#include "RangeUtils.hpp"
+#include <stdexcept>
 
 Range::Range(UInt pStart) { start = end = pStart; }
 Range::Range(UInt pStart, UInt pEnd)

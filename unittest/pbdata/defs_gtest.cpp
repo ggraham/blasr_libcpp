@@ -16,8 +16,9 @@
  * =====================================================================================
  */
 
-#include "defs.h"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+
+#include <pbdata/defs.h>
 
 TEST(DefsTest, MIN)
 {

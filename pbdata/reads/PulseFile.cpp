@@ -1,6 +1,6 @@
 // Author: Mark Chaisson
 
-#include "PulseFile.hpp"
+#include <pbdata/reads/PulseFile.hpp>
 
 void PulseFile::CopySignal(HalfWord *signalData,  // either a vector or matrix
                            int signalNDims,

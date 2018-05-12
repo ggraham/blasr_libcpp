@@ -16,9 +16,10 @@
  * ============================================================================
  */
 
-#include "HDFBasReader.hpp"
-#include "gtest/gtest.h"
-#include "pbdata/testdata.h"
+#include <gtest/gtest.h>
+
+#include <pbdata/testdata.h>
+#include <hdf/HDFBasReader.hpp>
 
 using namespace H5;
 

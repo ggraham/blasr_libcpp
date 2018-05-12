@@ -1,3 +1,10 @@
+#include <pbdata/Enumerations.h>
+#include <pbdata/Types.h>
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/FASTQSequence.hpp>
+#include <pbdata/NucConversion.hpp>
+#include <pbdata/PrettyException.hpp>
+
 #include <algorithm>
 #include <cassert>
 #include <cstdint>
@@ -5,13 +12,6 @@
 #include <iomanip>
 #include <iostream>
 #include <vector>
-
-#include "DNASequence.hpp"
-#include "Enumerations.h"
-#include "FASTQSequence.hpp"
-#include "NucConversion.hpp"
-#include "PrettyException.hpp"
-#include "Types.h"
 
 //
 // Initialize a read with quality probabilities from one with quality values.

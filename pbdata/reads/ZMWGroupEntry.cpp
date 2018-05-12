@@ -1,6 +1,8 @@
-#include "ZMWGroupEntry.hpp"
+#include <pbdata/Types.h>
+#include <pbdata/reads/ZMWGroupEntry.hpp>
+
 #include <cstdint>
-#include "../Types.h"
+
 ZMWGroupEntry::ZMWGroupEntry()
 {
     holeNumber = x = y = 0;

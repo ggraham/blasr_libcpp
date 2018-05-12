@@ -1,7 +1,8 @@
 #include <LibBlasrConfig.h>
 
 #ifdef USE_PBBAM
-#include "HDFBaseCallsWriter.hpp"
+
+#include <hdf/HDFBaseCallsWriter.hpp>
 
 const std::vector<PacBio::BAM::BaseFeature> HDFBaseCallsWriter::ValidQVEnums = {
     PacBio::BAM::BaseFeature::DELETION_QV,

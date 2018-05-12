@@ -2,7 +2,7 @@
 
 #ifdef USE_PBBAM
 
-#include "HDFZMWWriter.hpp"
+#include <hdf/HDFZMWWriter.hpp>
 
 HDFZMWWriter::HDFZMWWriter(const std::string& filename, HDFGroup& parentGroup,
                            const bool inPulseCalls, const std::map<char, size_t>& baseMap)

@@ -1,4 +1,4 @@
-#include "GuidedAlign.hpp"
+#include <alignment/algorithms/alignment/GuidedAlign.hpp>
 
 int GuideRow::GetRowLength() { return tPost + tPre + 1; }
 

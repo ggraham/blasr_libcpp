@@ -4,12 +4,14 @@
 #include <LibBlasrConfig.h>
 
 #ifdef USE_PBBAM
+
 #include <algorithm>
 #include <memory>
-#include "HDFAtom.hpp"
-#include "HDFWriterBase.hpp"
-#include "HDFZMWMetricsWriter.hpp"
-#include "HDFZMWWriter.hpp"
+
+#include <hdf/HDFAtom.hpp>
+#include <hdf/HDFWriterBase.hpp>
+#include <hdf/HDFZMWMetricsWriter.hpp>
+#include <hdf/HDFZMWWriter.hpp>
 
 class HDFBaseCallsWriter : public HDFWriterBase
 {

@@ -24,9 +24,9 @@
 #define private public
 #define protected public
 
-#include "FASTAReader.hpp"
-#include "format/SAMHeaderPrinter.hpp"
-#include "pbdata/testdata.h"
+#include <pbdata/testdata.h>
+#include <alignment/format/SAMHeaderPrinter.hpp>
+#include <pbdata/FASTAReader.hpp>
 
 class SAMHeaderPrinterTest : public testing::Test
 {

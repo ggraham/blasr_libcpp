@@ -1,7 +1,8 @@
 #ifndef _BLASR_AFFINE_GUIDE_ALIGNMENT_HPP_
 #define _BLASR_AFFINE_GUIDE_ALIGNMENT_HPP_
 
-#include "GuidedAlign.hpp"
+#include <alignment/algorithms/alignment/GuidedAlign.hpp>
+
 template <typename QSequence, typename TSequence, typename T_ScoreFn>
 int AffineGuidedAlign(QSequence &origQSeq, TSequence &origTSeq, Alignment &guideAlignment,
                       T_ScoreFn &scoreFn, int bandSize, Alignment &alignment,

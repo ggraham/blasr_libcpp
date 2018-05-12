@@ -3,7 +3,8 @@
 
 #include <bitset>
 #include <cstdint>
-#include "../Types.h"
+
+#include <pbdata/Types.h>
 
 int32_t CountBits(uint32_t v);
 

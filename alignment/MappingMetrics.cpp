@@ -1,6 +1,8 @@
-#include "MappingMetrics.hpp"
-#include <unistd.h>
+#include <alignment/MappingMetrics.hpp>
+
 #include <iomanip>
+
+#include <unistd.h>
 //In order to use clock_gettime in LINUX, add -lrt
 
 #ifdef __APPLE__

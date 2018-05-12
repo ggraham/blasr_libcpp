@@ -16,8 +16,10 @@
  *
  * =====================================================================================
  */
-#include "SeqUtils.hpp"
-#include "gtest/gtest.h"
+
+#include <gtest/gtest.h>
+
+#include <pbdata/SeqUtils.hpp>
 
 TEST(SeqUtils, OnlyACTG)
 {

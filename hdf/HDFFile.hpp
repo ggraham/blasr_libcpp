@@ -1,14 +1,14 @@
 #ifndef _BLASR_HDF_FILE_HPP_
 #define _BLASR_HDF_FILE_HPP_
 
-#include <H5Cpp.h>
-
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "HDFConfig.hpp"
-#include "HDFGroup.hpp"
+#include <H5Cpp.h>
+
+#include <hdf/HDFConfig.hpp>
+#include <hdf/HDFGroup.hpp>
 
 class HDFFile
 {

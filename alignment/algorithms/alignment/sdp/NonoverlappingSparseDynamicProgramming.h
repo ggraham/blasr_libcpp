@@ -6,12 +6,13 @@
  * Compute the subset of fragmentSet of largest weight that is not overlapping.
  *
  */
-#include "../../../datastructures/alignment/Alignment.h"
-#include "../AlignmentUtils.h"
-#include "FragmentSort.h"
-#include "SDPColumn.h"
-#include "SDPFragment.h"
-#include "SDPSet.h"
+
+#include <alignment/algorithms/alignment/AlignmentUtils.h>
+#include <alignment/algorithms/alignment/sdp/FragmentSort.h>
+#include <alignment/algorithms/alignment/sdp/SDPColumn.h>
+#include <alignment/algorithms/alignment/sdp/SDPFragment.h>
+#include <alignment/algorithms/alignment/sdp/SDPSet.h>
+#include <alignment/datastructures/alignment/Alignment.h>
 
 template <typename T_Fragment>
 int SDPHeaviestSubsequence(int queryLength, std::vector<T_Fragment> &fragmentSet, int indel,

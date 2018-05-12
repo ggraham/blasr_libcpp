@@ -5,6 +5,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
+
 //In order to use clock_gettime in LINUX, add -lrt
 #ifdef __APPLE__
 #include <AvailabilityMacros.h>

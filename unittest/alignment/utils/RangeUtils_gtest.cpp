@@ -16,8 +16,9 @@
  * =====================================================================================
  */
 
-#include "gtest/gtest.h"
-#include "utils/RangeUtils.hpp"
+#include <gtest/gtest.h>
+
+#include <alignment/utils/RangeUtils.hpp>
 
 TEST(RangeTest, RangeConstructor)
 {

@@ -1,6 +1,7 @@
-#include "TupleMetrics.hpp"
+#include <alignment/tuples/TupleMask.h>
+#include <alignment/tuples/TupleMetrics.hpp>
+
 #include <cstdint>
-#include "TupleMask.h"
 
 TupleMetrics::TupleMetrics() : tupleSize(0), tupleMask(0) {}
 

@@ -1,4 +1,3 @@
-
 template <typename T_Field>
 void CmpAlignment::StoreField(std::string fieldName, T_Field* fieldValues, DSLength length)
 {

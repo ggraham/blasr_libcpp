@@ -2,7 +2,8 @@
 #define _BLASR_QVS_QUALITY_TRANSFORM_HPP_
 
 #include <cmath>
-#include "QualityValue.hpp"
+
+#include <pbdata/qvs/QualityValue.hpp>
 
 /*
  * Base lookup table class for quality values.

@@ -4,7 +4,8 @@
 #include <cmath>
 #include <fstream>
 #include <sstream>
-#include "../SMRTSequence.hpp"
+
+#include <pbdata/SMRTSequence.hpp>
 
 class AfgBasWriter
 {

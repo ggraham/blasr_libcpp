@@ -1,7 +1,7 @@
 // Author: Yuan Li
 
-#include "RegionTypeMap.hpp"
-#include "PrettyException.hpp"
+#include <pbdata/PrettyException.hpp>
+#include <pbdata/reads/RegionTypeMap.hpp>
 
 std::string RegionTypeMap::ToString(RegionType rt)
 {

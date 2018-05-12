@@ -1,4 +1,4 @@
-#include "FragmentCCSIterator.hpp"
+#include <alignment/files/FragmentCCSIterator.hpp>
 
 void FragmentCCSIterator::Initialize(CCSSequence *_seqPtr, RegionTable *_regionTablePtr)
 {

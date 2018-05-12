@@ -3,12 +3,13 @@
 
 #include <map>
 #include <vector>
-#include "../DNASequence.hpp"
-#include "../Enumerations.h"
-#include "../SMRTSequence.hpp"
-#include "../Types.h"
-#include "PulseBaseCommon.hpp"
-#include "ScanData.hpp"
+
+#include <pbdata/Enumerations.h>
+#include <pbdata/Types.h>
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/SMRTSequence.hpp>
+#include <pbdata/reads/PulseBaseCommon.hpp>
+#include <pbdata/reads/ScanData.hpp>
 
 class PulseFile : public PulseBaseCommon
 {

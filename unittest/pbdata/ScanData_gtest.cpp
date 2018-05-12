@@ -16,8 +16,9 @@
  * =====================================================================================
  */
 
-#include "gtest/gtest.h"
-#include "reads/ScanData.hpp"
+#include <gtest/gtest.h>
+
+#include <pbdata/reads/ScanData.hpp>
 
 TEST(ScanDataTest, GetMovieName)
 {

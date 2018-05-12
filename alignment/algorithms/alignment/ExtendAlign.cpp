@@ -1,4 +1,4 @@
-#include "ExtendAlign.hpp"
+#include <alignment/algorithms/alignment/ExtendAlign.hpp>
 
 RCToIndex::RCToIndex()
 {

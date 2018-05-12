@@ -1,4 +1,4 @@
-#include "AcqParams.hpp"
+#include <pbdata/reads/AcqParams.hpp>
 
 AcqParams::AcqParams(const float aduGain, const float cameraGain, const int cameraType,
                      const UInt hotStartFrame, const UInt laserOnFrame)

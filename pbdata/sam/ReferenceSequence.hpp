@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "SAMKeywordValuePair.hpp"
+#include <pbdata/sam/SAMKeywordValuePair.hpp>
 
 class SAMReferenceSequence
 {

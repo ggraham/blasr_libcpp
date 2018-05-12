@@ -4,15 +4,14 @@
 #define _HDF_REGIONS_WRITER_HPP_
 
 #include <string>
-// pbdata/
-#include "../pbdata/Enumerations.h"
-#include "../pbdata/reads/RegionTable.hpp"
 
-#include "HDF2DArray.hpp"
-#include "HDFArray.hpp"
-#include "HDFAtom.hpp"
-#include "HDFFile.hpp"
-#include "HDFWriterBase.hpp"
+#include <pbdata/Enumerations.h>
+#include <hdf/HDF2DArray.hpp>
+#include <hdf/HDFArray.hpp>
+#include <hdf/HDFAtom.hpp>
+#include <hdf/HDFFile.hpp>
+#include <hdf/HDFWriterBase.hpp>
+#include <pbdata/reads/RegionTable.hpp>
 
 using namespace H5;
 

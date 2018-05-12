@@ -1,7 +1,8 @@
 #include <LibBlasrConfig.h>
 
 #ifdef USE_PBBAM
-#include "HDFPulseWriter.hpp"
+
+#include <hdf/HDFPulseWriter.hpp>
 
 HDFPulseWriter::HDFPulseWriter(const std::string& filename, const std::string& basecallerVersion,
                                const std::map<char, size_t>& baseMap,

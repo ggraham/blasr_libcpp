@@ -3,10 +3,11 @@
 
 #include <algorithm>
 #include <cmath>
-#include "../../pbdata/SMRTSequence.hpp"
-#include "../../pbdata/reads/ReadInterval.hpp"
-#include "../../pbdata/reads/RegionTable.hpp"
-#include "../statistics/StatUtils.hpp"
+
+#include <alignment/statistics/StatUtils.hpp>
+#include <pbdata/SMRTSequence.hpp>
+#include <pbdata/reads/ReadInterval.hpp>
+#include <pbdata/reads/RegionTable.hpp>
 
 bool LookupHQRegion(int holeNumber, RegionTable &regionTable, int &start, int &end, int &score);
 

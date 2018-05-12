@@ -1,4 +1,4 @@
-#include "SAMKeywordValuePair.hpp"
+#include <pbdata/sam/SAMKeywordValuePair.hpp>
 
 bool SplitSAMKeyValuePair(std::string &kvPair, std::string &key, std::string &value)
 {

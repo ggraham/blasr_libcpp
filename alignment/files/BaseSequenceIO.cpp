@@ -1,4 +1,5 @@
-#include "BaseSequenceIO.hpp"
+#include <alignment/files/BaseSequenceIO.hpp>
+
 #include <cstdlib>
 
 void BaseSequenceIO::SetFiles(FileType &pFileType, std::string &pFileName)

@@ -1,20 +1,22 @@
 #ifndef _BLASR_COMPRESSED_SEQUENCE_HPP_
 #define _BLASR_COMPRESSED_SEQUENCE_HPP_
+
 #include <cassert>
 #include <cstdint>
 #include <cstring>
 #include <fstream>
 #include <iostream>
 #include <ostream>
-#include "DNASequence.hpp"
-#include "Enumerations.h"
-#include "FASTASequence.hpp"
-#include "NucConversion.hpp"
-#include "ReverseCompressIndex.hpp"
-#include "Types.h"
-#include "qvs/QualityValue.hpp"
-#include "reads/ZMWGroupEntry.hpp"
-#include "utils.hpp"
+
+#include <pbdata/Enumerations.h>
+#include <pbdata/Types.h>
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/FASTASequence.hpp>
+#include <pbdata/NucConversion.hpp>
+#include <pbdata/ReverseCompressIndex.hpp>
+#include <pbdata/qvs/QualityValue.hpp>
+#include <pbdata/reads/ZMWGroupEntry.hpp>
+#include <pbdata/utils.hpp>
 
 typedef unsigned char CompressedNucleotide;
 

@@ -1,5 +1,6 @@
 #ifndef DATASTRUCTURES_ALIGNMENT_CMP_ALIGNMENT_H_
 #define DATASTRUCTURES_ALIGNMENT_CMP_ALIGNMENT_H_
+
 #include <algorithm>
 #include <cassert>
 #include <iostream>
@@ -7,8 +8,8 @@
 #include <string>
 #include <vector>
 
-#include "../Enumerations.h"
-#include "../Types.h"
+#include <pbdata/Enumerations.h>
+#include <pbdata/Types.h>
 
 class CmpAlignmentBase
 {

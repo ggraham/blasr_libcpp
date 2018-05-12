@@ -1,4 +1,4 @@
-#include "LogUtils.hpp"
+#include <alignment/utils/LogUtils.hpp>
 
 double LogSumOfTwo(double value1, double value2)
 {

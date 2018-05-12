@@ -1,4 +1,4 @@
-#include "pdfs.hpp"
+#include <alignment/statistics/pdfs.hpp>
 
 float Binomial(float p, int x, int n) { return pow(p, n) * pow(1 - p, x - n) * Choose(x, n); }
 

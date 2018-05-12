@@ -1,5 +1,4 @@
-
-#include "SMRTReadUtils.hpp"
+#include <pbdata/utils/SMRTReadUtils.hpp>
 
 void GetSMRTReadCoordinates(FASTQSequence &seq, int &x, int &y)
 {

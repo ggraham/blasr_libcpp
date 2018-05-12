@@ -1,6 +1,7 @@
 // Author: Mark Chaisson
 
-#include "PulseBaseCommon.hpp"
+#include <pbdata/reads/PulseBaseCommon.hpp>
+
 #include <algorithm>
 #include <vector>
 

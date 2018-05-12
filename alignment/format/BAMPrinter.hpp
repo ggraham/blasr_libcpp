@@ -2,11 +2,14 @@
 #define _BLASR_FORMAT_BAMPRINTER_HPP_
 
 #ifdef USE_PBBAM
-#include <pbbam/BamHeader.h>
-#include <pbbam/BamWriter.h>
+
 #include <cstdint>
 #include <sstream>
-#include "SAMPrinter.hpp"
+
+#include <pbbam/BamHeader.h>
+#include <pbbam/BamWriter.h>
+
+#include <alignment/format/SAMPrinter.hpp>
 
 template <typename T_Sequence>
 void AlignmentToBamRecord(T_AlignmentCandidate &alignment, T_Sequence &read, T_Sequence &subread,

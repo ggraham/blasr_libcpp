@@ -2,9 +2,10 @@
 #define _BLASR_HDF_ALN_GROUP_HPP_
 
 #include <string>
-#include "../pbdata/saf/AlnGroup.hpp"
-#include "HDFArray.hpp"
-#include "HDFGroup.hpp"
+
+#include <hdf/HDFArray.hpp>
+#include <hdf/HDFGroup.hpp>
+#include <pbdata/saf/AlnGroup.hpp>
 
 class HDFAlnGroupGroup
 {

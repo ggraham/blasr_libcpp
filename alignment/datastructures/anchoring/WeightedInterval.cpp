@@ -1,4 +1,4 @@
-#include "WeightedInterval.hpp"
+#include <alignment/datastructures/anchoring/WeightedInterval.hpp>
 
 WeightedInterval::WeightedInterval() {}
 

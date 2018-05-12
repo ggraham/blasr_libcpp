@@ -1,4 +1,4 @@
-#include "HoleXY.hpp"
+#include <pbdata/reads/HoleXY.hpp>
 
 bool HoleXY::operator<(const HoleXY &rhs) const { return *this < rhs.xy; }
 

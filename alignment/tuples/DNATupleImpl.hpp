@@ -1,5 +1,6 @@
 #include <cassert>
-#include "../../pbdata/NucConversion.hpp"
+
+#include <pbdata/NucConversion.hpp>
 
 inline int DNATuple::FromStringLR(Nucleotide *strPtr, TupleMetrics &tm)
 {

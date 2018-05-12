@@ -1,4 +1,4 @@
-#include "HDFAtom.hpp"
+#include <hdf/HDFAtom.hpp>
 
 template <>
 void HDFAtom<std::string>::Create(H5::H5Object &object, const std::string &atomName)

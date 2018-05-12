@@ -5,8 +5,8 @@
 #include <map>
 #include <string>
 
-#include "../../pbdata/utils.hpp"
-#include "OutputSampleList.hpp"
+#include <alignment/simulator/OutputSampleList.hpp>
+#include <pbdata/utils.hpp>
 
 typedef std::map<std::string, OutputSampleList> OutputSampleListMap;
 class OutputSampleListSet

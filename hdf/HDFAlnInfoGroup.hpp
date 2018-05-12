@@ -5,13 +5,12 @@
 #include <string>
 #include <vector>
 
-#include "../pbdata/alignment/CmpAlignment.hpp"  // pbdata/alignment, not ../alignment!
-#include "../pbdata/saf/AlnInfo.hpp"
-
-#include "HDF2DArray.hpp"
-#include "HDFArray.hpp"
-#include "HDFAtom.hpp"
-#include "HDFGroup.hpp"
+#include <hdf/HDF2DArray.hpp>
+#include <hdf/HDFArray.hpp>
+#include <hdf/HDFAtom.hpp>
+#include <hdf/HDFGroup.hpp>
+#include <pbdata/alignment/CmpAlignment.hpp>
+#include <pbdata/saf/AlnInfo.hpp>
 
 class HDFAlnInfoGroup
 {

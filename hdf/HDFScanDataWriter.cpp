@@ -1,6 +1,6 @@
 // Author: Yuan Li
 
-#include "HDFScanDataWriter.hpp"
+#include <hdf/HDFScanDataWriter.hpp>
 
 void HDFScanDataWriter::CreateAcqParamsGroup()
 {

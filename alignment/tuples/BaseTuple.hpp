@@ -1,7 +1,7 @@
 #ifndef _BLASR_BASE_TUPLE_HPP_
 #define _BLASR_BASE_TUPLE_HPP_
 
-#include "TupleMetrics.hpp"
+#include <alignment/tuples/TupleMetrics.hpp>
 
 class BaseTuple
 {

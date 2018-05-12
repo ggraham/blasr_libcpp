@@ -6,21 +6,20 @@
 #include <cstdlib>
 #include <ostream>
 #include <vector>
-// pbdata
-#include "../../../pbdata/DNASequence.hpp"
-#include "../../../pbdata/Enumerations.h"
-#include "../../../pbdata/Types.h"
-#include "../../../pbdata/defs.h"
-#include "../../../pbdata/matrix/FlatMatrix.hpp"
-#include "../../../pbdata/utils.hpp"
 
-#include "../../datastructures/alignment/Alignment.hpp"
-#include "AlignmentUtils.hpp"
-#include "GraphPaper.hpp"
-#include "SDPAlign.hpp"
-#include "SWAlign.hpp"
-#include "sdp/SDPFragment.hpp"
-#include "sdp/SparseDynamicProgramming.hpp"
+#include <pbdata/Enumerations.h>
+#include <pbdata/Types.h>
+#include <pbdata/defs.h>
+#include <alignment/algorithms/alignment/AlignmentUtils.hpp>
+#include <alignment/algorithms/alignment/GraphPaper.hpp>
+#include <alignment/algorithms/alignment/SDPAlign.hpp>
+#include <alignment/algorithms/alignment/SWAlign.hpp>
+#include <alignment/algorithms/alignment/sdp/SDPFragment.hpp>
+#include <alignment/algorithms/alignment/sdp/SparseDynamicProgramming.hpp>
+#include <alignment/datastructures/alignment/Alignment.hpp>
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/matrix/FlatMatrix.hpp>
+#include <pbdata/utils.hpp>
 
 template <typename T_QuerySequence, typename T_TargetSequence, typename T_ScoreFn>
 int SDPAlign(T_QuerySequence &query, T_TargetSequence &target, T_ScoreFn &scoreFn, int wordSize,

@@ -1,5 +1,6 @@
-#include "gtest/gtest.h"
-#include "utils/SMRTTitle.hpp"
+#include <gtest/gtest.h>
+
+#include <pbdata/utils/SMRTTitle.hpp>
 
 TEST(SMRTTitleTest, test1)
 {

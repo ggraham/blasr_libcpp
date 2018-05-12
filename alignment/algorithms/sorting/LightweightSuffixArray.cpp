@@ -1,5 +1,5 @@
-#include "LightweightSuffixArray.hpp"
-#include "../../../pbdata/utils.hpp"
+#include <alignment/algorithms/sorting/LightweightSuffixArray.hpp>
+#include <pbdata/utils.hpp>
 
 UInt DiffMod(UInt a, UInt b, UInt d)
 {

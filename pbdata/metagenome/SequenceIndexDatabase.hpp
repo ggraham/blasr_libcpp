@@ -9,9 +9,10 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include "../DNASequence.hpp"
-#include "../StringUtils.hpp"
-#include "../Types.h"
+
+#include <pbdata/Types.h>
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/StringUtils.hpp>
 
 #define SEQUENCE_INDEX_DATABASE_MAGIC 1233211233
 

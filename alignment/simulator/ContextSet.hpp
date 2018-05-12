@@ -3,7 +3,8 @@
 
 #include <iostream>
 #include <map>
-#include "ContextSample.hpp"
+
+#include <alignment/simulator/ContextSample.hpp>
 
 typedef std::map<std::string, ContextSample *> T_ContextSampleMap;
 

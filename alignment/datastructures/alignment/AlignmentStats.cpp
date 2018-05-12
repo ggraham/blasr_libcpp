@@ -1,4 +1,4 @@
-#include "AlignmentStats.hpp"
+#include <alignment/datastructures/alignment/AlignmentStats.hpp>
 
 using namespace blasr;
 

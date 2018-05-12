@@ -1,7 +1,7 @@
 #ifndef _BLASR_HDF_2DARRAY_HPP_
 #define _BLASR_HDF_2DARRAY_HPP_
 
-#include "BufferedHDF2DArray.hpp"
+#include <hdf/BufferedHDF2DArray.hpp>
 
 template <typename T>
 class HDF2DArray : public BufferedHDF2DArray<T>

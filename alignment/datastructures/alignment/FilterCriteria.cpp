@@ -16,8 +16,8 @@
  * =====================================================================================
  */
 
-#include "FilterCriteria.hpp"
-#include "PrettyException.hpp"
+#include <alignment/datastructures/alignment/FilterCriteria.hpp>
+#include <pbdata/PrettyException.hpp>
 
 constexpr float Score::errorunit;
 

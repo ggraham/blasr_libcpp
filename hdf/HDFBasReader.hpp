@@ -7,22 +7,20 @@
 #include <string>
 #include <vector>
 
-// pbdata/
-#include "../pbdata/ChangeListID.hpp"
-#include "../pbdata/Enumerations.h"
-#include "../pbdata/FASTQSequence.hpp"
-#include "../pbdata/SMRTSequence.hpp"
-#include "../pbdata/VectorUtils.hpp"
-#include "../pbdata/reads/BaseFile.hpp"
-
-#include "DatasetCollection.hpp"
-#include "HDF2DArray.hpp"
-#include "HDFArray.hpp"
-#include "HDFAtom.hpp"
-#include "HDFGroup.hpp"
-#include "HDFPulseDataFile.hpp"
-#include "HDFScanDataReader.hpp"
-#include "HDFZMWReader.hpp"
+#include <pbdata/Enumerations.h>
+#include <hdf/DatasetCollection.hpp>
+#include <hdf/HDF2DArray.hpp>
+#include <hdf/HDFArray.hpp>
+#include <hdf/HDFAtom.hpp>
+#include <hdf/HDFGroup.hpp>
+#include <hdf/HDFPulseDataFile.hpp>
+#include <hdf/HDFScanDataReader.hpp>
+#include <hdf/HDFZMWReader.hpp>
+#include <pbdata/ChangeListID.hpp>
+#include <pbdata/FASTQSequence.hpp>
+#include <pbdata/SMRTSequence.hpp>
+#include <pbdata/VectorUtils.hpp>
+#include <pbdata/reads/BaseFile.hpp>
 
 //
 // Below is sample code for using the bas reader to read in sequences
@@ -33,8 +31,8 @@
 // call InitializeDefaultIncludedFields() BEFORE initializing the
 // reader on the file name.
 //
-//#include "../hdf/HDFBasReader.h"
-//#include "../pbdata/SMRTSequence.hpp"
+//#include <hdf/HDFBasReader.h>
+//#include <pbdata/SMRTSequence.hpp>
 //#include <string>
 //
 //int main(int argc, char* argv[]) {

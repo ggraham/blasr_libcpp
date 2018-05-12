@@ -7,7 +7,8 @@
 // This includes values that both pulse and base files must have.
 //
 #include <cstdint>
-#include "ScanData.hpp"
+
+#include <pbdata/reads/ScanData.hpp>
 
 class PulseBaseCommon
 {

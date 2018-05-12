@@ -1,4 +1,4 @@
-#include "AlnGroup.hpp"
+#include <pbdata/saf/AlnGroup.hpp>
 
 int AlnGroup::FindPath(unsigned int idKey, std::string &val)
 {

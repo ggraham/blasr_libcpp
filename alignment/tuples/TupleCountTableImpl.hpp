@@ -1,6 +1,7 @@
 #ifndef _BLASR_TUPLE_COUNT_TABLE_IMPL_HPP_
 #define _BLASR_TUPLE_COUNT_TABLE_IMPL_HPP_
-#include "../../pbdata/utils.hpp"
+
+#include <pbdata/utils.hpp>
 
 template <typename TSequence, typename TTuple>
 void TupleCountTable<TSequence, TTuple>::InitCountTable(TupleMetrics &ptm)

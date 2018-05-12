@@ -1,6 +1,8 @@
 #ifndef _BLASR_COMPARE_STRINGS_HPP_
 #define _BLASR_COMPARE_STRINGS_HPP_
 
+#include <pbdata/NucConversion.hpp>
+
 template <typename T>
 class DefaultCompareStrings
 {

@@ -3,10 +3,10 @@
 #ifndef _BLASR_HDF_HDFZMWMETRICSWriter_HPP_
 #define _BLASR_HDF_HDFZMWMETRICSWriter_HPP_
 
-#include "../pbdata/SMRTSequence.hpp"
-#include "BufferedHDF2DArray.hpp"
-#include "BufferedHDFArray.hpp"
-#include "HDFWriterBase.hpp"
+#include <hdf/BufferedHDF2DArray.hpp>
+#include <hdf/BufferedHDFArray.hpp>
+#include <hdf/HDFWriterBase.hpp>
+#include <pbdata/SMRTSequence.hpp>
 
 class HDFBaseCallerWriter;
 

@@ -6,9 +6,9 @@
 #include <string>
 #include <vector>
 
-#include "MD5Utils.hpp"
-#include "Types.h"
-#include "reads/ReadType.hpp"
+#include <pbdata/Types.h>
+#include <pbdata/MD5Utils.hpp>
+#include <pbdata/reads/ReadType.hpp>
 
 int ExactPatternMatch(std::string orig, std::string pattern);
 

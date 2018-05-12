@@ -1,4 +1,4 @@
-#include "TitleTable.hpp"
+#include <pbdata/metagenome/TitleTable.hpp>
 
 TitleTable::TitleTable()
 {

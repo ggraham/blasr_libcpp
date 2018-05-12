@@ -4,10 +4,10 @@
 #include <utility>
 #include <vector>
 
-#include "../../pbdata/DNASequence.hpp"
-#include "../../pbdata/NucConversion.hpp"
-#include "../../pbdata/SeqUtils.hpp"
-#include "../../pbdata/Types.h"
+#include <pbdata/Types.h>
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/NucConversion.hpp>
+#include <pbdata/SeqUtils.hpp>
 
 template <typename Sequence, typename T_TupleList>
 int SequenceToTupleList(Sequence &seq, TupleMetrics &tm, T_TupleList &tupleList)

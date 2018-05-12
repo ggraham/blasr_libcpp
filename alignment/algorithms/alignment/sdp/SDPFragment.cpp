@@ -1,4 +1,4 @@
-#include "SDPFragment.hpp"
+#include <alignment/algorithms/alignment/sdp/SDPFragment.hpp>
 
 int Fragment::operator>(const Fragment &f) const { return (!(*this < f) && !(*this == f)); }
 int Fragment::GetLength() { return length; }

@@ -1,4 +1,7 @@
-#include "Alignment.hpp"
+#include <pbdata/Types.h>
+#include <alignment/datastructures/alignment/Alignment.hpp>
+#include <pbdata/DNASequence.hpp>
+
 #include <cassert>
 #include <cstdint>
 #include <cstdlib>
@@ -8,8 +11,6 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include "../../../pbdata/DNASequence.hpp"
-#include "../../../pbdata/Types.h"
 
 using namespace blasr;
 

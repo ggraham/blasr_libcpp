@@ -2,9 +2,10 @@
 #define _BLASR_LISPVALUE_HPP_
 
 #include <cmath>
-#include "../../datastructures/anchoring/MatchPos.hpp"
-#include "../../tuples/TupleCountTable.hpp"
-#include "ScoreAnchors.hpp"
+
+#include <alignment/algorithms/anchoring/ScoreAnchors.hpp>
+#include <alignment/datastructures/anchoring/MatchPos.hpp>
+#include <alignment/tuples/TupleCountTable.hpp>
 
 template <typename T_MatchPos>
 void StoreNonOverlappingIndices(std::vector<T_MatchPos> &lis, std::vector<T_MatchPos> &noOvpLis);

@@ -41,12 +41,12 @@ documentation and/or software.
 
  */
 
+#include <pbdata/MD5Utils.hpp>
+#include <pbdata/utils.hpp>
+
 #include <cassert>
 #include <cstring>
 #include <iostream>
-
-#include "MD5Utils.hpp"
-#include "utils.hpp"
 
 // MD5 simple initialization method
 

@@ -1,6 +1,7 @@
-#include "DifferenceCovers.hpp"
+#include <alignment/algorithms/sorting/DifferenceCovers.hpp>
+#include <pbdata/utils.hpp>
+
 #include <cstring>
-#include "../../../pbdata/utils.hpp"
 
 int InitializeDifferenceCover(UInt diffCoverSize, UInt &diffCoverLength, UInt *&diffCover)
 {

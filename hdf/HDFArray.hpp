@@ -6,11 +6,11 @@
 
 #include <H5Cpp.h>
 
-#include "../pbdata/DNASequence.hpp"
-#include "../pbdata/FASTQSequence.hpp"
-#include "BufferedHDFArray.hpp"
-#include "HDFConfig.hpp"
-#include "HDFData.hpp"
+#include <hdf/BufferedHDFArray.hpp>
+#include <hdf/HDFConfig.hpp>
+#include <hdf/HDFData.hpp>
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/FASTQSequence.hpp>
 
 /*
  *

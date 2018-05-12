@@ -1,11 +1,11 @@
 // Author: Mark Chaisson
 // Modified by: Yuan Li
 
+#include <pbdata/reads/RegionTable.hpp>
+
 #include <algorithm>
 #include <iostream>
 #include <ostream>
-
-#include "RegionTable.hpp"
 
 RegionTable& RegionTable::Reset()
 {

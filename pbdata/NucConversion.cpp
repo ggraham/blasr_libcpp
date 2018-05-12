@@ -1,4 +1,4 @@
-#include "NucConversion.hpp"
+#include <pbdata/NucConversion.hpp>
 
 int TwoBit[] = {
     0,   1,   2,   3,   0,   1,   2,   3,   255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,

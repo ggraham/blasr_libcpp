@@ -7,15 +7,14 @@
 
 #include <memory>
 #include <sstream>
-// pbdata/
-#include "../pbdata/Enumerations.h"
-#include "../pbdata/SMRTSequence.hpp"
 
-#include "HDFBaseCallsWriter.hpp"
-#include "HDFFile.hpp"
-#include "HDFRegionsWriter.hpp"
-#include "HDFScanDataWriter.hpp"
-#include "HDFWriterBase.hpp"
+#include <pbdata/Enumerations.h>
+#include <hdf/HDFBaseCallsWriter.hpp>
+#include <hdf/HDFFile.hpp>
+#include <hdf/HDFRegionsWriter.hpp>
+#include <hdf/HDFScanDataWriter.hpp>
+#include <hdf/HDFWriterBase.hpp>
+#include <pbdata/SMRTSequence.hpp>
 
 using namespace H5;
 

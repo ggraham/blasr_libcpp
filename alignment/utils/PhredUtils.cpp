@@ -1,4 +1,5 @@
-#include "PhredUtils.hpp"
+#include <alignment/utils/PhredUtils.hpp>
+
 #include <cmath>
 
 double InversePhred(double phred)

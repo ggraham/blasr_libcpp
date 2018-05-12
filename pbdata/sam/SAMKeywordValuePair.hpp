@@ -2,12 +2,11 @@
 #define _BLASR_SAM_KVPAIR_HPP_
 
 #include <cstdlib>
-
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "../StringUtils.hpp"
+#include <pbdata/StringUtils.hpp>
 
 class SAMKeywordValuePair
 {

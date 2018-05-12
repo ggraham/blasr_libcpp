@@ -15,12 +15,14 @@
  * =====================================================================================
  */
 
-#include <gtest/gtest.h>
 #include <algorithm>
 #include <cstdio>
 #include <cstring>
-#include "files/ReaderAgglomerate.hpp"
-#include "pbdata/testdata.h"
+
+#include <gtest/gtest.h>
+
+#include <pbdata/testdata.h>
+#include <alignment/files/ReaderAgglomerate.hpp>
 
 class ReaderAgglomerateTest : public testing::Test
 {

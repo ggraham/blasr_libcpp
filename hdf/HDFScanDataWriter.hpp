@@ -5,13 +5,13 @@
 
 #include <iostream>
 #include <string>
-#include "HDFAtom.hpp"
-#include "HDFFile.hpp"
-#include "HDFGroup.hpp"
-// pbdata/
-#include "../pbdata/Enumerations.h"
-#include "../pbdata/reads/AcqParams.hpp"
-#include "../pbdata/reads/ScanData.hpp"
+
+#include <pbdata/Enumerations.h>
+#include <hdf/HDFAtom.hpp>
+#include <hdf/HDFFile.hpp>
+#include <hdf/HDFGroup.hpp>
+#include <pbdata/reads/AcqParams.hpp>
+#include <pbdata/reads/ScanData.hpp>
 
 class HDFScanDataWriter
 {

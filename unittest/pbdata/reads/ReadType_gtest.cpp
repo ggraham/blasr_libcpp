@@ -15,8 +15,10 @@
  *
  * ==================================================================
  */
-#include "gtest/gtest.h"
-#include "reads/ReadType.hpp"
+
+#include <gtest/gtest.h>
+
+#include <pbdata/reads/ReadType.hpp>
 
 std::string standard = "Standard";
 std::string ccs = "CCS";

@@ -1,4 +1,4 @@
-#include "ScoreMatrices.hpp"
+#include <alignment/algorithms/alignment/ScoreMatrices.hpp>
 
 int QVDistanceMatrix[5][5] = {
     {-1, 1, 1, 1, 1}, {1, -1, 1, 1, 1}, {1, 1, -1, 1, 1}, {1, 1, 1, -1, 1}, {1, 1, 1, 1, 1}};

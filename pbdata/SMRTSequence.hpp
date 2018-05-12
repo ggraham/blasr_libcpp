@@ -7,12 +7,12 @@
 #include <iostream>
 #include <sstream>
 
-#include "Enumerations.h"
-#include "FASTQSequence.hpp"
-#include "NucConversion.hpp"
-#include "Types.h"
-#include "reads/RegionTable.hpp"
-#include "reads/ZMWGroupEntry.hpp"
+#include <pbdata/Enumerations.h>
+#include <pbdata/Types.h>
+#include <pbdata/FASTQSequence.hpp>
+#include <pbdata/NucConversion.hpp>
+#include <pbdata/reads/RegionTable.hpp>
+#include <pbdata/reads/ZMWGroupEntry.hpp>
 
 class SMRTSequence : public FASTQSequence
 {

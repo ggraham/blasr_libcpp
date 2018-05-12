@@ -1,4 +1,4 @@
-#include "AnchorParameters.hpp"
+#include <alignment/datastructures/anchoring/AnchorParameters.hpp>
 
 AnchorParameters::AnchorParameters()
 {

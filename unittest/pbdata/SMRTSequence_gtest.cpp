@@ -19,8 +19,9 @@
 #include <sstream>
 #include <string>
 
-#include "SMRTSequence.hpp"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+
+#include <pbdata/SMRTSequence.hpp>
 
 Nucleotide seqnt[] = "ATATGGGGATTAGGGGATA";
 const std::string seqst("ATATGGGGATTAGGGGATA");

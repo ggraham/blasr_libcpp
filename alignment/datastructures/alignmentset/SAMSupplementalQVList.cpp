@@ -1,4 +1,4 @@
-#include "SAMSupplementalQVList.hpp"
+#include <alignment/datastructures/alignmentset/SAMSupplementalQVList.hpp>
 
 const char *SupplementalQVList::qvNames[] = {"InsertionQV", "DeletionQV",      "SubstitutionQV",
                                              "MergeQV",     "SubstitutionTag", "DeletionTag"};

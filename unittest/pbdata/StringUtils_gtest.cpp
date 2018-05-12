@@ -15,9 +15,10 @@
  * ==================================================================
  */
 
-#include "StringUtils.hpp"
-#include "gtest/gtest.h"
-#include "reads/ReadType.hpp"
+#include <gtest/gtest.h>
+
+#include <pbdata/StringUtils.hpp>
+#include <pbdata/reads/ReadType.hpp>
 
 TEST(StringUtilTest, MakeReadGroupId)
 {

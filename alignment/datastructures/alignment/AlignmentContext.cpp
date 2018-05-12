@@ -1,4 +1,4 @@
-#include "AlignmentContext.hpp"
+#include <alignment/datastructures/alignment/AlignmentContext.hpp>
 
 AlignmentContext::AlignmentContext()
 {

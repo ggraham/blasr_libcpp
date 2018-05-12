@@ -1,4 +1,4 @@
-#include "AlignmentSet.hpp"
+#include <pbdata/sam/AlignmentSet.hpp>
 
 template <typename T_ReferenceSequence, typename T_ReadGroup, typename T_Alignment>
 void AlignmentSet<T_ReferenceSequence, T_ReadGroup, T_Alignment>::RearrangeReferences(

@@ -1,4 +1,4 @@
-#include "RegionUtils.hpp"
+#include <alignment/utils/RegionUtils.hpp>
 
 // General functions.
 bool LookupHQRegion(int holeNumber, RegionTable &regionTable, int &start, int &end, int &score)

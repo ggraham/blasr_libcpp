@@ -6,10 +6,11 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include "../../pbdata/DNASequence.hpp"
-#include "../../pbdata/Types.h"
-#include "../../pbdata/utils.hpp"
-#include "../../pbdata/utils/BitUtils.hpp"
+
+#include <pbdata/Types.h>
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/utils.hpp>
+#include <pbdata/utils/BitUtils.hpp>
 
 class PackedHash
 {

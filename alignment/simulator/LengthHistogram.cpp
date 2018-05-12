@@ -1,4 +1,4 @@
-#include "LengthHistogram.hpp"
+#include <alignment/simulator/LengthHistogram.hpp>
 
 int LengthHistogram::Read(std::string &inName)
 {

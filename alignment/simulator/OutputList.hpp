@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "CDFMap.hpp"
+#include <alignment/simulator/CDFMap.hpp>
 
 class Output
 {

@@ -2,11 +2,10 @@
 #define _BLASR_GLOBAL_CHAIN_IMPL_HPP_
 
 #include <algorithm>
-// pbdata
-#include "../../../pbdata/DNASequence.hpp"
-#include "../../../pbdata/Types.h"
 
-#include "PrioritySearchTree.hpp"
+#include <pbdata/Types.h>
+#include <alignment/algorithms/anchoring/PrioritySearchTree.hpp>
+#include <pbdata/DNASequence.hpp>
 
 template <typename T_Fragment, typename T_Endpoint>
 void FragmentSetToEndpoints(T_Fragment *fragments, int nFragments,

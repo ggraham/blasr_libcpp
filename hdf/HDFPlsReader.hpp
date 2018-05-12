@@ -1,24 +1,22 @@
 #ifndef _BLASR_HDF_PLS_READER_HPP_
 #define _BLASR_HDF_PLS_READER_HPP_
 
-#include "DatasetCollection.hpp"
-#include "HDF2DArray.hpp"
-#include "HDFArray.hpp"
-#include "HDFAtom.hpp"
-#include "HDFBasReader.hpp"
-#include "HDFGroup.hpp"
-#include "HDFPulseDataFile.hpp"
-#include "HDFScanDataReader.hpp"
-#include "HDFZMWReader.hpp"
-
-// pbdata/
-#include "../pbdata/FASTQSequence.hpp"
-#include "../pbdata/VectorUtils.hpp"
-#include "../pbdata/reads/PulseFile.hpp"
-
 #include <set>
 #include <sstream>
 #include <vector>
+
+#include <hdf/DatasetCollection.hpp>
+#include <hdf/HDF2DArray.hpp>
+#include <hdf/HDFArray.hpp>
+#include <hdf/HDFAtom.hpp>
+#include <hdf/HDFBasReader.hpp>
+#include <hdf/HDFGroup.hpp>
+#include <hdf/HDFPulseDataFile.hpp>
+#include <hdf/HDFScanDataReader.hpp>
+#include <hdf/HDFZMWReader.hpp>
+#include <pbdata/FASTQSequence.hpp>
+#include <pbdata/VectorUtils.hpp>
+#include <pbdata/reads/PulseFile.hpp>
 
 using namespace H5;
 /*
