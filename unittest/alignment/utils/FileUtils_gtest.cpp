@@ -16,8 +16,9 @@
  * =====================================================================================
  */
 
-#include "gtest/gtest.h"
-#include "utils/FileUtils.hpp"
+#include <gtest/gtest.h>
+
+#include <alignment/utils/FileUtils.hpp>
 
 std::string nonexistfile = "/nonexistingdir/nonexistingfile";
 std::string readablefile = "/bin/ls";

@@ -1,7 +1,7 @@
 #ifndef _BLASR_XML_PRINTER_HPP_
 #define _BLASR_XML_PRINTER_HPP_
 
-#include "utils/SimpleXMLUtils.hpp"
+#include <alignment/utils/SimpleXMLUtils.hpp>
 
 namespace XMLOutput {
 

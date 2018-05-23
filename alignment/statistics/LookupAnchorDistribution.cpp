@@ -1,4 +1,4 @@
-#include "LookupAnchorDistribution.hpp"
+#include <alignment/statistics/LookupAnchorDistribution.hpp>
 
 int LookupAnchorDistribution(int readLength, int minMatchLength, int accuracy, float &mn,
                              float &sdn, float &mnab, float &sdnab)

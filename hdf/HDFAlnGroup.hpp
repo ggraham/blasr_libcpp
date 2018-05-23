@@ -1,8 +1,8 @@
 #ifndef _BLASR_HDF_ALN_GROUP_HPP_
 #define _BLASR_HDF_ALN_GROUP_HPP_
 
-#include "HDFArray.h"
-#include "HDFGroup.h"
+#include <hdf/HDFArray.h>
+#include <hdf/HDFGroup.h>
 
 class HDFAlnGroup
 {

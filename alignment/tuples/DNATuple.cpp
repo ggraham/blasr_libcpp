@@ -1,4 +1,4 @@
-#include "DNATuple.hpp"
+#include <alignment/tuples/DNATuple.hpp>
 
 DNATuple::DNATuple() : pos(0) {}
 

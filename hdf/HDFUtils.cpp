@@ -1,4 +1,4 @@
-#include "HDFUtils.hpp"
+#include <hdf/HDFUtils.hpp>
 
 std::string GetH5MovieName(std::string fileName)
 {

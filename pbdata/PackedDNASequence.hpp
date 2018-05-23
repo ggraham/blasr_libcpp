@@ -2,9 +2,10 @@
 #define _BLASR_PACKED_DNA_SEQUENCE_HPP_
 
 #include <fstream>
-#include "DNASequence.hpp"
-#include "NucConversion.hpp"
-#include "utils/BitUtils.hpp"
+
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/NucConversion.hpp>
+#include <pbdata/utils/BitUtils.hpp>
 
 /*
  * Implement a structure to maintain DNA as 3 bits per nucleotide.

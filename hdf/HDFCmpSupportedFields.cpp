@@ -1,4 +1,4 @@
-#include "HDFCmpSupportedFields.hpp"
+#include <hdf/HDFCmpSupportedFields.hpp>
 
 HDFCmpSupportedFields::HDFCmpSupportedFields()
 {

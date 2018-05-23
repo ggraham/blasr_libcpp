@@ -1,13 +1,15 @@
 #ifndef _BLASR_HDF_GROUP_HPP_
 #define _BLASR_HDF_GROUP_HPP_
 
-#include <H5Cpp.h>
 #include <cstdlib>
 #include <iostream>
 #include <string>
 #include <vector>
-#include "../pbdata/StringUtils.hpp"
-#include "HDFAttributable.hpp"
+
+#include <H5Cpp.h>
+
+#include <hdf/HDFAttributable.hpp>
+#include <pbdata/StringUtils.hpp>
 
 class HDFGroup : public HDFAttributable
 {

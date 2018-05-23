@@ -1,4 +1,5 @@
-#include "BaseFile.hpp"
+#include <pbdata/reads/BaseFile.hpp>
+
 #include <algorithm>
 
 bool CompareHoleXY::operator()(const HoleXY &lhs, const HoleXY &rhs) const

@@ -21,8 +21,9 @@
 #include <iostream>
 #include <string>
 
-#include "DNASequence.hpp"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+
+#include <pbdata/DNASequence.hpp>
 
 //Note ::testing::Test not ::testing::TEST
 //SetUp() and TearDown(), not Setup() and Teardown()

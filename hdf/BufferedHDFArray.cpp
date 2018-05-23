@@ -1,4 +1,4 @@
-#include "BufferedHDFArray.hpp"
+#include <hdf/BufferedHDFArray.hpp>
 
 /*
  *

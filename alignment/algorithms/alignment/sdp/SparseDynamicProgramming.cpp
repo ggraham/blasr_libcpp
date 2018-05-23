@@ -1,4 +1,4 @@
-#include "SparseDynamicProgramming.hpp"
+#include <alignment/algorithms/alignment/sdp/SparseDynamicProgramming.hpp>
 
 int IndelPenalty(int x1, int y1, int x2, int y2, int insertion, int deletion)
 {

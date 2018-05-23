@@ -4,12 +4,11 @@
 #include <map>
 #include <string>
 
-// pbdata/
-#include "../pbdata/Enumerations.h"
-#include "../pbdata/reads/ScanData.hpp"
-#include "HDFAtom.hpp"
-#include "HDFFile.hpp"
-#include "HDFGroup.hpp"
+#include <pbdata/Enumerations.h>
+#include <hdf/HDFAtom.hpp>
+#include <hdf/HDFFile.hpp>
+#include <hdf/HDFGroup.hpp>
+#include <pbdata/reads/ScanData.hpp>
 
 //
 // The SanDataReader cannot live outside

@@ -7,11 +7,12 @@
 #include <ostream>
 #include <string>
 #include <string>
-#include "DNASequence.hpp"
-#include "Enumerations.h"
-#include "NucConversion.hpp"
-#include "Types.h"
-#include "reads/ZMWGroupEntry.hpp"
+
+#include <pbdata/Enumerations.h>
+#include <pbdata/Types.h>
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/NucConversion.hpp>
+#include <pbdata/reads/ZMWGroupEntry.hpp>
 
 //
 // NO proteins for now.

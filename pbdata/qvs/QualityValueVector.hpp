@@ -1,12 +1,14 @@
 #ifndef _BLASR_QUALITY_VALUE_VECTOR_HPP_
 #define _BLASR_QUALITY_VALUE_VECTOR_HPP_
+
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
 #include <ostream>
-#include "../Types.h"
-#include "../utils.hpp"
-#include "QualityValue.hpp"
+
+#include <pbdata/Types.h>
+#include <pbdata/qvs/QualityValue.hpp>
+#include <pbdata/utils.hpp>
 
 template <typename T_QV>
 class QualityValueVector

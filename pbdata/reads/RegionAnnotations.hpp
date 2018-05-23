@@ -6,8 +6,9 @@
 #include <algorithm>
 #include <string>
 #include <vector>
-#include "ReadInterval.hpp"
-#include "RegionAnnotation.hpp"
+
+#include <pbdata/reads/ReadInterval.hpp>
+#include <pbdata/reads/RegionAnnotation.hpp>
 
 class RegionAnnotations
 {

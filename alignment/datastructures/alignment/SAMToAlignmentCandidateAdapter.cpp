@@ -1,6 +1,7 @@
-#include "SAMToAlignmentCandidateAdapter.hpp"
+#include <alignment/datastructures/alignment/SAMToAlignmentCandidateAdapter.hpp>
+#include <pbdata/utils/SMRTTitle.hpp>
+
 #include <algorithm>
-#include "../../../pbdata/utils/SMRTTitle.hpp"
 
 void InitializeCandidateFromSAM(SAMAlignment &sam, AlignmentCandidate<> &candidate)
 {

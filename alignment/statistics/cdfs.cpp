@@ -1,4 +1,4 @@
-#include "cdfs.hpp"
+#include <alignment/statistics/cdfs.hpp>
 
 float NormalCDF(float mu, float sigmaSq, float x)
 {

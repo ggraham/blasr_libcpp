@@ -1,6 +1,6 @@
 // Author: Yuan Li
 
-#include "HDFRegionsWriter.hpp"
+#include <hdf/HDFRegionsWriter.hpp>
 
 HDFRegionsWriter::HDFRegionsWriter(const std::string &filename, HDFGroup &parentGroup,
                                    const std::vector<std::string> &regionTypes)

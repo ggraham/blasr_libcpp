@@ -19,15 +19,15 @@
 #include <string>
 #include <vector>
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 #define private public
 
-#include "HDFRegionTableReader.hpp"
-#include "files/CCSIterator.hpp"
-#include "files/FragmentCCSIterator.hpp"
-#include "pbdata/testdata.h"
-#include "reads/RegionTable.hpp"
+#include <pbdata/testdata.h>
+#include <alignment/files/CCSIterator.hpp>
+#include <alignment/files/FragmentCCSIterator.hpp>
+#include <hdf/HDFRegionTableReader.hpp>
+#include <pbdata/reads/RegionTable.hpp>
 
 static const UInt HOLENUMBER = 76772;
 

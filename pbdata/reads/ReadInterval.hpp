@@ -1,7 +1,7 @@
 #ifndef _BLASR_READ_INTERVAL_HPP_
 #define _BLASR_READ_INTERVAL_HPP_
 
-#include "RegionAnnotation.hpp"
+#include <pbdata/reads/RegionAnnotation.hpp>
 
 class RegionAnnotation;
 

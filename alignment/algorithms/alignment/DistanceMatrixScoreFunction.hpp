@@ -1,8 +1,9 @@
 #ifndef _BLASR_DISTANCE_MATRIX_SCORE_FUNCTION_HPP_
 #define _BLASR_DISTANCE_MATRIX_SCORE_FUNCTION_HPP_
 
-#include "BaseScoreFunction.hpp"
-#include "ScoreMatrices.hpp"
+#include <pbdata/Types.h>
+#include <alignment/algorithms/alignment/BaseScoreFunction.hpp>
+#include <alignment/algorithms/alignment/ScoreMatrices.hpp>
 
 template <typename T_RefSequence, typename T_QuerySequence>
 class DistanceMatrixScoreFunction : public BaseScoreFunction

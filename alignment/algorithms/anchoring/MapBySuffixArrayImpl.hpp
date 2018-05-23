@@ -1,8 +1,8 @@
 #ifndef _BLASR_MAP_BY_SUFFIX_ARRAY_IMPL_HPP_
 #define _BLASR_MAP_BY_SUFFIX_ARRAY_IMPL_HPP_
 
-#include "../../../pbdata/defs.h"
-#include "MapBySuffixArray.hpp"
+#include <pbdata/defs.h>
+#include <alignment/algorithms/anchoring/MapBySuffixArray.hpp>
 
 /*
  * Parameters:

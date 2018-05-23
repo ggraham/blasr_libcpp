@@ -3,18 +3,18 @@
 
 #error \
     "Where is data/??? Apparently this file is no longer needed, since it probably cannot compile."
-#include "data/hdf/BufferedHDF2DArray.h"
-#include "data/hdf/BufferedHDFArray.h"
-#include "data/hdf/HDF2DArray.h"
-#include "data/hdf/HDFArray.h"
-#include "data/hdf/HDFAtom.h"
-#include "data/hdf/HDFFile.h"
-#include "data/hdf/PlatformId.h"
-// pbdata/
-#include <FASTQSequence.h>
-#include <utils/SMRTReadUtils.h>
 
 #include <sstream>
+
+#include <hdf/BufferedHDF2DArray.h>
+#include <hdf/BufferedHDFArray.h>
+#include <hdf/HDF2DArray.h>
+#include <hdf/HDFArray.h>
+#include <hdf/HDFAtom.h>
+#include <hdf/HDFFile.h>
+#include <hdf/PlatformId.h>
+#include <pbdata/FASTQSequence.h>
+#include <pbdata/utils/SMRTReadUtils.h>
 
 using namespace H5;
 

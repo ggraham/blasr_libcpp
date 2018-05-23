@@ -1,18 +1,19 @@
 #ifndef _BLASR_FIND_MAX_INTERVAL_HPP_
 #define _BLASR_FIND_MAX_INTERVAL_HPP_
 
-#include <semaphore.h>
 #include <cmath>
 #include <fstream>
 #include <iostream>
 
-#include "../../datastructures/anchoring/ClusterList.hpp"
-#include "../../datastructures/anchoring/MatchPos.hpp"
-#include "../../datastructures/anchoring/WeightedInterval.hpp"
-#include "../../statistics/VarianceAccumulator.hpp"
-#include "BasicEndpoint.hpp"
-#include "GlobalChain.hpp"
-#include "LongestIncreasingSubsequence.hpp"
+#include <semaphore.h>
+
+#include <alignment/algorithms/anchoring/BasicEndpoint.hpp>
+#include <alignment/algorithms/anchoring/GlobalChain.hpp>
+#include <alignment/algorithms/anchoring/LongestIncreasingSubsequence.hpp>
+#include <alignment/datastructures/anchoring/ClusterList.hpp>
+#include <alignment/datastructures/anchoring/MatchPos.hpp>
+#include <alignment/datastructures/anchoring/WeightedInterval.hpp>
+#include <alignment/statistics/VarianceAccumulator.hpp>
 
 unsigned int NumRemainingBases(DNALength curPos, DNALength intervalLength);
 

@@ -4,9 +4,10 @@
 #ifndef PBIFILTER_ZMWGROUPQUERY_H
 #define PBIFILTER_ZMWGROUPQUERY_H
 
+#include <memory>
+
 #include <pbbam/PbiFilter.h>
 #include <pbbam/internal/QueryBase.h>
-#include <memory>
 
 namespace PacBio {
 namespace BAM {

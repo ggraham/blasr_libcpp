@@ -1,20 +1,19 @@
 #ifndef _BLASR_DISTANCE_MATRIX_SCORE_FUNCTION_IMPL_HPP_
 #define _BLASR_DISTANCE_MATRIX_SCORE_FUNCTION_IMPL_HPP_
+
 #include <cstdint>
 #include <cstring>
 #include <iostream>
 #include <ostream>
 #include <string>
 #include <string>
-// pbdata
-#include "../../../pbdata/DNASequence.hpp"
-#include "../../../pbdata/Enumerations.h"
-#include "../../../pbdata/FASTASequence.hpp"
-#include "../../../pbdata/FASTQSequence.hpp"
-#include "../../../pbdata/NucConversion.hpp"
-#include "../../../pbdata/Types.h"
 
-#include "DistanceMatrixScoreFunction.hpp"
+#include <pbdata/Enumerations.h>
+#include <pbdata/Types.h>
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/FASTASequence.hpp>
+#include <pbdata/FASTQSequence.hpp>
+#include <pbdata/NucConversion.hpp>
 
 template <typename T_RefSequence, typename T_QuerySequence>
 void DistanceMatrixScoreFunction<T_RefSequence, T_QuerySequence>::InitializeScoreMatrix(

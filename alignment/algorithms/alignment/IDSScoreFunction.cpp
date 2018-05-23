@@ -1,4 +1,4 @@
-#include "IDSScoreFunction.hpp"
+#include <alignment/algorithms/alignment/IDSScoreFunction.hpp>
 
 float SumAsValidPhred(float v1, float v2, float v3)
 {

@@ -1,4 +1,4 @@
-#include "HDFAlnGroupGroup.hpp"
+#include <hdf/HDFAlnGroupGroup.hpp>
 
 bool HDFAlnGroupGroup::Create(HDFGroup &parent)
 {

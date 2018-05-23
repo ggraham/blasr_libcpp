@@ -1,4 +1,4 @@
-#include "QualityValueProfile.hpp"
+#include <alignment/qvs/QualityValueProfile.hpp>
 
 QualityValueProfile::QualityValueProfile(int _wordSize, int _numQualityValues)
 {

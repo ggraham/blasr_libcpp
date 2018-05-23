@@ -1,7 +1,9 @@
-#include <gtest/gtest.h>
 #include <string>
-#include "pbdata/testdata.h"
-#include "query/PbiFilterZmwGroupQuery.h"
+
+#include <gtest/gtest.h>
+
+#include <alignment/query/PbiFilterZmwGroupQuery.h>
+#include <pbdata/testdata.h>
 
 using namespace PacBio;
 using namespace PacBio::BAM;

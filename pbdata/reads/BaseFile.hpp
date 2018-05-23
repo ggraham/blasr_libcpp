@@ -3,12 +3,12 @@
 
 #include <cstdint>
 #include <vector>
-#include "../Enumerations.h"
-#include "../SMRTSequence.hpp"
 
-#include "HoleXY.hpp"
-#include "PulseBaseCommon.hpp"
-#include "ScanData.hpp"
+#include <pbdata/Enumerations.h>
+#include <pbdata/SMRTSequence.hpp>
+#include <pbdata/reads/HoleXY.hpp>
+#include <pbdata/reads/PulseBaseCommon.hpp>
+#include <pbdata/reads/ScanData.hpp>
 
 class CompareHoleXY
 {

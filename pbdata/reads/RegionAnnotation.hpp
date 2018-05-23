@@ -10,10 +10,11 @@
 #include <ostream>
 #include <string>
 #include <vector>
-#include "../Enumerations.h"
-#include "../PacBioDefs.h"
-#include "../Types.h"
-#include "RegionTypeMap.hpp"
+
+#include <pbdata/Enumerations.h>
+#include <pbdata/PacBioDefs.h>
+#include <pbdata/Types.h>
+#include <pbdata/reads/RegionTypeMap.hpp>
 
 class HDFRegionTableReader;
 class HDFRegionTableWriter;

@@ -40,7 +40,7 @@
 #include <iostream>
 #include <string>
 
-#include "../Types.h"
+#include <pbdata/Types.h>
 
 class MovieAlnIndexLookupTable
 {

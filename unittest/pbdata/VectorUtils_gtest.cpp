@@ -18,8 +18,9 @@
 
 #include <vector>
 
-#include "VectorUtils.hpp"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+
+#include <pbdata/VectorUtils.hpp>
 
 // Test ClearMemory(std::vector<T> vt)
 TEST(VectorUtils, ClearMemory)

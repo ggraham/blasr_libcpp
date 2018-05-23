@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "../Types.h"
+#include <pbdata/Types.h>
 
 class MovieInfo
 {

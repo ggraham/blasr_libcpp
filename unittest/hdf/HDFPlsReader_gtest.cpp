@@ -16,9 +16,10 @@
  * ============================================================================
  */
 
-#include "HDFPlsReader.hpp"
-#include "gtest/gtest.h"
-#include "pbdata/testdata.h"
+#include <gtest/gtest.h>
+
+#include <pbdata/testdata.h>
+#include <hdf/HDFPlsReader.hpp>
 
 using namespace H5;
 

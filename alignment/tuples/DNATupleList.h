@@ -2,7 +2,8 @@
 #define TUPLES_DNA_TUPLE_LIST_H_
 
 #include <vector>
-#include "DNATuple.h"
+
+#include <alignment/tuples/DNATuple.h>
 
 template <typename Sequence>
 DNALength StoreTuplePosList(Sequence seq, TupleMetrics &tm,

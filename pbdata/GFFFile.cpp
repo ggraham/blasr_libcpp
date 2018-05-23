@@ -1,4 +1,4 @@
-#include "GFFFile.hpp"
+#include <pbdata/GFFFile.hpp>
 
 GFFEntry::GFFEntry(std::string& _name, std::string& _source, std::string& _type, UInt& _start,
                    UInt& _end, float& _score, char& _strand, std::string& _frame,

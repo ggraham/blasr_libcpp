@@ -1,7 +1,8 @@
 #ifndef _BLASR_SAMSUPPLEMENTALQVLIST_HPP_
 #define _BLASR_SAMSUPPLEMENTALQVLIST_HPP_
-#include "../../../pbdata/SMRTSequence.hpp"
-#include "SAMQVConversion.hpp"
+
+#include <alignment/datastructures/alignmentset/SAMQVConversion.hpp>
+#include <pbdata/SMRTSequence.hpp>
 
 class SupplementalQVList
 {

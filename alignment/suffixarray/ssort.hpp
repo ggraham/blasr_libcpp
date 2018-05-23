@@ -234,7 +234,7 @@ Bad input
 */
 
 #include <cstdlib>
-#include "../../pbdata/utils.hpp"
+#include <pbdata/utils.hpp>
 
 enum
 {

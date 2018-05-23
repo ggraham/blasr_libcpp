@@ -1,8 +1,8 @@
 #ifndef _BLASR_SENTINAL_FILE_HPP_
 #define _BLASR_SENTINAL_FILE_HPP_
 
-#include "HDF2DArray.h"
-#include "HDFArray.h"
+#include <hdf/HDF2DArray.h>
+#include <hdf/HDFArray.h>
 
 class HDFSentinal
 {

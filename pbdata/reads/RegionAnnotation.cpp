@@ -1,6 +1,7 @@
 // Author: Mark Chaisson
 
-#include "RegionAnnotation.hpp"
+#include <pbdata/reads/RegionAnnotation.hpp>
+
 #include <ostream>
 
 std::ostream& operator<<(std::ostream& os, const RegionAnnotation& ra)

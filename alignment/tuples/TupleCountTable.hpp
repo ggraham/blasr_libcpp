@@ -6,7 +6,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "TupleMetrics.hpp"
+#include <alignment/tuples/TupleMetrics.hpp>
 
 template <typename TSequence, typename TTuple>
 class TupleCountTable

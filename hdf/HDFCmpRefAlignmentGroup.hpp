@@ -4,10 +4,11 @@
 #include <map>
 #include <string>
 
-#include "H5Cpp.h"
-#include "HDFCmpExperimentGroup.hpp"
-#include "HDFData.hpp"
-#include "HDFGroup.hpp"
+#include <H5Cpp.h>
+
+#include <hdf/HDFCmpExperimentGroup.hpp>
+#include <hdf/HDFData.hpp>
+#include <hdf/HDFGroup.hpp>
 
 class HDFCmpRefAlignmentGroup
 {

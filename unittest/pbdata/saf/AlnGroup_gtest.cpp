@@ -16,8 +16,9 @@
  * =====================================================================================
  */
 
-#include "gtest/gtest.h"
-#include "saf/AlnGroup.hpp"
+#include <gtest/gtest.h>
+
+#include <pbdata/saf/AlnGroup.hpp>
 
 //Test AlnGroup.FindPath();
 TEST(AlnGroupTest, FindPath)

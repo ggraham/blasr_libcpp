@@ -1,6 +1,7 @@
 #ifndef VARIABLE_LENGTH_SDP_FRAGMENT_H_
 #define VARIABLE_LENGTH_SDP_FRAGMENT_H_
-#include "SDPFragment.h"
+
+#include <alignment/algorithms/alignment/sdp/SDPFragment.h>
 
 class ChainedFragment : public Fragment
 {

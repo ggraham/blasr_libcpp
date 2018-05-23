@@ -1,9 +1,11 @@
 #ifndef _SIMULATOR_CDF_MAP_HPP_
 #define _SIMULATOR_CDF_MAP_HPP_
+
 #include <algorithm>
 #include <cassert>
 #include <vector>
-#include "../statistics/StatUtils.hpp"
+
+#include <alignment/statistics/StatUtils.hpp>
 
 template <typename T_Data>
 class CDFMap

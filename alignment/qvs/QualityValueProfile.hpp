@@ -2,10 +2,11 @@
 #define _BLASR_QUALITY_VALUE_PROFILE_HPP_
 
 #include <fstream>
-#include "../../pbdata/matrix/FlatMatrix.hpp"
-#include "../../pbdata/qvs/QualityValue.hpp"
-#include "../tuples/DNATuple.hpp"
-#include "../tuples/TupleMetrics.hpp"
+
+#include <alignment/tuples/DNATuple.hpp>
+#include <alignment/tuples/TupleMetrics.hpp>
+#include <pbdata/matrix/FlatMatrix.hpp>
+#include <pbdata/qvs/QualityValue.hpp>
 
 class QualityValueProfile
 {

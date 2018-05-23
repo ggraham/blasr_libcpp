@@ -1,7 +1,8 @@
-#include "DNASequence.hpp"
+#include <pbdata/Types.h>
+#include <pbdata/DNASequence.hpp>
+
 #include <cassert>
 #include <cstring>
-#include "Types.h"
 
 DNALength DNASequence::size() { return length; }
 

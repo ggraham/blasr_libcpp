@@ -1,4 +1,4 @@
-#include "ReadGroup.hpp"
+#include <pbdata/sam/ReadGroup.hpp>
 
 void SAMReadGroup::StoreValues(std::vector<SAMKeywordValuePair> &kvPairs, uint64_t lineNumber)
 {

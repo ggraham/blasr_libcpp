@@ -2,9 +2,10 @@
 #define _SIMULATOR_QUALITY_SAMPLE_HPP_
 
 #include <iostream>
-#include "../../pbdata/SMRTSequence.hpp"
-#include "../../pbdata/Types.h"
-#include "../../pbdata/qvs/QualityValue.hpp"
+
+#include <pbdata/Types.h>
+#include <pbdata/SMRTSequence.hpp>
+#include <pbdata/qvs/QualityValue.hpp>
 
 #define NQV 4
 #define NFV 3

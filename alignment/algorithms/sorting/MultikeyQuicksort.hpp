@@ -16,10 +16,10 @@
 #include <algorithm>
 #include <climits>
 #include <vector>
-// pbdata
-#include "../../../pbdata/FASTASequence.hpp"
-#include "../../../pbdata/NucConversion.hpp"
-#include "../../../pbdata/Types.h"
+
+#include <pbdata/Types.h>
+#include <pbdata/FASTASequence.hpp>
+#include <pbdata/NucConversion.hpp>
 
 typedef unsigned int UInt;
 

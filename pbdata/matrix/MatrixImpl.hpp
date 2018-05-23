@@ -1,12 +1,14 @@
 #ifndef _BLASR_MATRIX_IMPL_HPP
 #define _BLASR_MATRIX_IMPL_HPP
+
 #include <cassert>
 #include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <vector>
-#include "../Types.h"
-#include "../utils.hpp"
+
+#include <pbdata/Types.h>
+#include <pbdata/utils.hpp>
 
 template <typename T>
 void CreateMatrix(VectorIndex rows, int cols, std::vector<T *> matrix)

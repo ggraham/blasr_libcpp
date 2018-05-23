@@ -1,7 +1,8 @@
-#include "SAMQVConversion.hpp"
+#include <alignment/datastructures/alignmentset/SAMQVConversion.hpp>
+#include <pbdata/FASTQSequence.hpp>
+
 #include <cassert>
 #include <cstddef>
-#include "../../../pbdata/FASTQSequence.hpp"
 
 void QualityVectorToPrintable(unsigned char *data, int length)
 {

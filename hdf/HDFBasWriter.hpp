@@ -2,18 +2,17 @@
 #define _BLASR_HDF_BAS_WRITER_HPP_
 
 #include <sstream>
-// pbdata/
-#include <utils/SMRTReadUtils.hpp>
-#include "../pbdata/Enumerations.h"
-#include "../pbdata/SMRTSequence.hpp"
-#include "../pbdata/Types.h"
 
-#include "DatasetCollection.hpp"
-#include "HDF2DArray.hpp"
-#include "HDFArray.hpp"
-#include "HDFAtom.hpp"
-#include "HDFFile.hpp"
-#include "HDFScanDataWriter.hpp"
+#include <pbdata/Enumerations.h>
+#include <pbdata/Types.h>
+#include <hdf/DatasetCollection.hpp>
+#include <hdf/HDF2DArray.hpp>
+#include <hdf/HDFArray.hpp>
+#include <hdf/HDFAtom.hpp>
+#include <hdf/HDFFile.hpp>
+#include <hdf/HDFScanDataWriter.hpp>
+#include <pbdata/SMRTSequence.hpp>
+#include <pbdata/utils/SMRTReadUtils.hpp>
 
 using namespace H5;
 

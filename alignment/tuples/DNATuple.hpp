@@ -6,14 +6,15 @@
 #include <ostream>
 #include <string>
 #include <vector>
-#include "../../pbdata/DNASequence.hpp"
-#include "../../pbdata/NucConversion.hpp"
-#include "../../pbdata/SeqUtils.hpp"
-#include "../../pbdata/Types.h"
-#include "BaseTuple.hpp"
-#include "TupleList.hpp"
-#include "TupleMetrics.hpp"
-#include "TupleOperations.h"
+
+#include <alignment/tuples/TupleOperations.h>
+#include <pbdata/Types.h>
+#include <alignment/tuples/BaseTuple.hpp>
+#include <alignment/tuples/TupleList.hpp>
+#include <alignment/tuples/TupleMetrics.hpp>
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/NucConversion.hpp>
+#include <pbdata/SeqUtils.hpp>
 
 class DNATuple : public BaseTuple
 {

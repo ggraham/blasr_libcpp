@@ -1,8 +1,9 @@
 #ifndef _BLASR_BASIC_ENDPOINT_HPP_
 #define _BLASR_BASIC_ENDPOINT_HPP_
 
-#include "../../../pbdata/Types.h"
-#include "Coordinate.hpp"
+#include <pbdata/Types.h>
+#include <alignment/algorithms/anchoring/Coordinate.hpp>
+
 //
 // An endpoint is one of the ends of a fragment, where
 // a fragment is an exact match between two genomes.

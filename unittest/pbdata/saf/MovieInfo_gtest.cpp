@@ -16,9 +16,10 @@
  * =====================================================================================
  */
 
-#include "Types.h"
-#include "gtest/gtest.h"
-#include "saf/MovieInfo.hpp"
+#include <gtest/gtest.h>
+
+#include <pbdata/Types.h>
+#include <pbdata/saf/MovieInfo.hpp>
 
 // Test MovieInfo.FindMovie
 TEST(MovieInfoTest, FindMovie)

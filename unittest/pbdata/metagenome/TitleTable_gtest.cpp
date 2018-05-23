@@ -16,9 +16,10 @@
  * =====================================================================================
  */
 
-#include "gtest/gtest.h"
-#include "metagenome/TitleTable.hpp"
-#include "pbdata/testdata.h"
+#include <gtest/gtest.h>
+
+#include <pbdata/testdata.h>
+#include <pbdata/metagenome/TitleTable.hpp>
 
 TEST(TitleTable, Read)
 {

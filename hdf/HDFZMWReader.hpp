@@ -1,12 +1,14 @@
 #ifndef _BLASR_HDF_ZMW_READER_HPP_
 #define _BLASR_HDF_ZMW_READER_HPP_
 
-#include <H5Cpp.h>
 #include <cstdint>
-#include "../pbdata/reads/ZMWGroupEntry.hpp"
-#include "HDF2DArray.hpp"
-#include "HDFArray.hpp"
-#include "HDFGroup.hpp"
+
+#include <H5Cpp.h>
+
+#include <hdf/HDF2DArray.hpp>
+#include <hdf/HDFArray.hpp>
+#include <hdf/HDFGroup.hpp>
+#include <pbdata/reads/ZMWGroupEntry.hpp>
 
 class HDFZMWReader
 {

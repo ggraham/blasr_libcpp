@@ -8,34 +8,30 @@
 
 #include <H5Cpp.h>
 
-#include "HDF2DArray.hpp"
-#include "HDFAlnGroupGroup.hpp"
-#include "HDFAlnInfoGroup.hpp"
-#include "HDFArray.hpp"
-#include "HDFAtom.hpp"
-#include "HDFCmpData.hpp"
-#include "HDFCmpExperimentGroup.hpp"
-#include "HDFCmpRefAlignmentGroup.hpp"
-
-#include "HDFCmpRootGroup.hpp"
-#include "HDFCmpSupportedFields.hpp"
-#include "HDFFileLogGroup.hpp"
-#include "HDFMovieInfoGroup.hpp"
-#include "HDFRefGroupGroup.hpp"
-#include "HDFRefInfoGroup.hpp"
-
-// pbdata/
-#include "../pbdata/SMRTSequence.hpp"
-#include "../pbdata/alignment/CmpAlignment.hpp"  // not ../alignment!
-#include "../pbdata/saf/RefInfo.hpp"
-
+#include <hdf/HDF2DArray.hpp>
+#include <hdf/HDFAlnGroupGroup.hpp>
+#include <hdf/HDFAlnInfoGroup.hpp>
+#include <hdf/HDFArray.hpp>
+#include <hdf/HDFAtom.hpp>
+#include <hdf/HDFCmpData.hpp>
+#include <hdf/HDFCmpExperimentGroup.hpp>
+#include <hdf/HDFCmpRefAlignmentGroup.hpp>
+#include <hdf/HDFCmpRootGroup.hpp>
+#include <hdf/HDFCmpSupportedFields.hpp>
+#include <hdf/HDFFileLogGroup.hpp>
+#include <hdf/HDFMovieInfoGroup.hpp>
+#include <hdf/HDFRefGroupGroup.hpp>
+#include <hdf/HDFRefInfoGroup.hpp>
+#include <pbdata/SMRTSequence.hpp>
+#include <pbdata/alignment/CmpAlignment.hpp>  // not ../alignment!
+#include <pbdata/saf/RefInfo.hpp>
 // alignment/datastructures/alignment  -- Yes, seriously.
-#include "../alignment/datastructures/alignment/Alignment.hpp"
-#include "../alignment/datastructures/alignment/AlignmentCandidate.hpp"
-#include "../alignment/datastructures/alignment/ByteAlignment.h"
-#include "../alignment/datastructures/alignment/CmpFile.hpp"
-#include "../alignment/datastructures/alignment/CmpReadGroupTable.h"
-#include "../alignment/datastructures/alignment/CmpRefSeqTable.h"
+#include <alignment/datastructures/alignment/ByteAlignment.h>
+#include <alignment/datastructures/alignment/CmpReadGroupTable.h>
+#include <alignment/datastructures/alignment/CmpRefSeqTable.h>
+#include <alignment/datastructures/alignment/Alignment.hpp>
+#include <alignment/datastructures/alignment/AlignmentCandidate.hpp>
+#include <alignment/datastructures/alignment/CmpFile.hpp>
 
 using namespace H5;
 

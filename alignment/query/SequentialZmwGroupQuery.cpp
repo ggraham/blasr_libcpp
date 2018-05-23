@@ -1,10 +1,13 @@
 #include <LibBlasrConfig.h>
 
 #ifdef USE_PBBAM
+
+#include <alignment/query/SequentialZmwGroupQuery.h>
+
 #include <pbbam/CompositeBamReader.h>
 #include <boost/optional.hpp>
+
 #include <cassert>
-#include "SequentialZmwGroupQuery.h"
 
 using namespace PacBio;
 using namespace PacBio::BAM;

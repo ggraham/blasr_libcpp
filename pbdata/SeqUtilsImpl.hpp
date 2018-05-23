@@ -1,10 +1,11 @@
 #include <cstdint>
 #include <iostream>
 #include <vector>
-#include "DNASequence.hpp"
-#include "NucConversion.hpp"
-#include "SeqUtils.hpp"
-#include "utils.hpp"
+
+#include <pbdata/DNASequence.hpp>
+#include <pbdata/NucConversion.hpp>
+#include <pbdata/SeqUtils.hpp>
+#include <pbdata/utils.hpp>
 
 template <typename T_Sequence>
 int OnlyACTG(T_Sequence &seq)

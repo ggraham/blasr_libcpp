@@ -16,11 +16,12 @@
  * =====================================================================================
  */
 
-#include "HDFRegionTableReader.hpp"
-#include "files/CCSIterator.hpp"
-#include "gtest/gtest.h"
-#include "pbdata/testdata.h"
-#include "reads/RegionTable.hpp"
+#include <gtest/gtest.h>
+
+#include <pbdata/testdata.h>
+#include <alignment/files/CCSIterator.hpp>
+#include <hdf/HDFRegionTableReader.hpp>
+#include <pbdata/reads/RegionTable.hpp>
 
 class CCSIteratorTestFixture : public testing::Test
 {

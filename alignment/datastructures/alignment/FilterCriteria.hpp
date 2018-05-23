@@ -1,11 +1,13 @@
 #ifndef _BLASR_FILTER_CRITERIA_HPP_
 #define _BLASR_FILTER_CRITERIA_HPP_
+
 #include <algorithm>  // transform
 #include <cctype>     // toupper
 #include <iostream>
 #include <string>
 #include <vector>
-#include "AlignmentCandidate.hpp"
+
+#include <alignment/datastructures/alignment/AlignmentCandidate.hpp>
 
 /// POSITIVE - larger score value is better.
 /// NEGATIVE - smaller score value is better.

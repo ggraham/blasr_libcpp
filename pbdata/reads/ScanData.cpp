@@ -1,6 +1,6 @@
 // Author: Mark Chaisson
+#include <pbdata/reads/ScanData.hpp>
 
-#include "ScanData.hpp"
 #include <algorithm>
 #include <iostream>
 

@@ -20,8 +20,9 @@
 #include <string>
 #include <vector>
 
-#include "CCSSequence.hpp"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+
+#include <pbdata/CCSSequence.hpp>
 
 Nucleotide sr0[] = "ATATGGGGATTAGGGGATA";
 Nucleotide sr1[] = "TAATCCCGTAATCCCGGTAT";  //rc = TAATCCCGTAATCCCGGTAT

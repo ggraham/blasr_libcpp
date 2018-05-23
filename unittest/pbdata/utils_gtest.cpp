@@ -19,8 +19,9 @@
 #include <fstream>
 #include <string>
 
-#include "gtest/gtest.h"
-#include "utils.hpp"
+#include <gtest/gtest.h>
+
+#include <pbdata/utils.hpp>
 
 TEST(UTILS, CrucialOpen)
 {

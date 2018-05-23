@@ -18,8 +18,9 @@
 
 #include <string>
 
-#include "ChangeListID.hpp"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+
+#include <pbdata/ChangeListID.hpp>
 
 // Test ChangeListID.GetVersion().
 TEST(ChangeListID, GetVersion)

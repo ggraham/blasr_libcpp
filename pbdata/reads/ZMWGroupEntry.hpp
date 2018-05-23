@@ -1,7 +1,7 @@
 #ifndef _BLASR_ZMW_GROUP_ENTRY_HPP_
 #define _BLASR_ZMW_GROUP_ENTRY_HPP_
 
-#include "../Types.h"
+#include <pbdata/Types.h>
 
 class ZMWGroupEntry
 {

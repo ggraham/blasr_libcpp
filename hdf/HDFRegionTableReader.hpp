@@ -6,11 +6,11 @@
 
 #include <H5Cpp.h>
 
-#include "../pbdata/reads/RegionTable.hpp"
-#include "HDF2DArray.hpp"
-#include "HDFArray.hpp"
-#include "HDFAtom.hpp"
-#include "HDFFile.hpp"
+#include <hdf/HDF2DArray.hpp>
+#include <hdf/HDFArray.hpp>
+#include <hdf/HDFAtom.hpp>
+#include <hdf/HDFFile.hpp>
+#include <pbdata/reads/RegionTable.hpp>
 
 class HDFRegionTableReader
 {

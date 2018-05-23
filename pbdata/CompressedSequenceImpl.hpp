@@ -1,6 +1,7 @@
 #ifndef _BLASR_COMPRESSED_SEQUENCES_IMPL_HPP_
 #define _BLASR_COMPRESSED_SEQUENCES_IMPL_HPP_
-#include "utils.hpp"
+
+#include <pbdata/utils.hpp>
 
 template <typename T_Sequence>
 void CompressedSequence<T_Sequence>::CopyConfiguration(CompressedSequence<T_Sequence> &rhs)

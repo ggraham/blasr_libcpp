@@ -2,7 +2,8 @@
 #define _SIMULATOR_OUTPUT_SAMPLE_LIST_HPP_
 
 #include <vector>
-#include "OutputSample.hpp"
+
+#include <alignment/simulator/OutputSample.hpp>
 
 class OutputSampleList : public std::vector<OutputSample>
 {

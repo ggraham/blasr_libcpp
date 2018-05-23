@@ -1,6 +1,7 @@
 #ifndef _BLASR_LONGEST_INCREASING_SUBSEQUENCE_IMPL_HPP_
 #define _BLASR_LONGEST_INCREASING_SUBSEQUENCE_IMPL_HPP_
-#include "../../../pbdata/Types.h"
+
+#include <pbdata/Types.h>
 
 template <typename T, typename F_IntValue>
 int BinarySearch(T *x, std::vector<int> &m, int i, int lenM, F_IntValue IntValue)

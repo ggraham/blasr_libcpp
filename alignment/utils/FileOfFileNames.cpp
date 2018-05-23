@@ -1,6 +1,7 @@
-#include "FileOfFileNames.hpp"
+#include <alignment/utils/FileOfFileNames.hpp>
+#include <hdf/HDFNewBasReader.hpp>
+
 #include <cstdlib>
-#include "../../hdf/HDFNewBasReader.hpp"
 
 void FileOfFileNames::StoreFileOrFileList(std::string fileName, std::vector<std::string> &fofnList)
 {

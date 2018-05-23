@@ -1,4 +1,4 @@
-#include "HDFPulseDataFile.hpp"
+#include <hdf/HDFPulseDataFile.hpp>
 
 DSLength HDFPulseDataFile::GetAllReadLengths(std::vector<DNALength> &readLengths)
 {

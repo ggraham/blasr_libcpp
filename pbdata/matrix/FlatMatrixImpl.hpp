@@ -2,9 +2,10 @@
 #include <cstdint>
 #include <iostream>
 #include <vector>
-#include "../Types.h"
-#include "../utils.hpp"
-#include "FlatMatrix.hpp"
+
+#include <pbdata/Types.h>
+#include <pbdata/matrix/FlatMatrix.hpp>
+#include <pbdata/utils.hpp>
 
 template <typename T>
 void CreateFlatMatrix(int rows, int cols, std::vector<T> &matrix)

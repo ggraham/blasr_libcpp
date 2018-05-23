@@ -1,4 +1,4 @@
-#include "CmpFile.hpp"
+#include <alignment/datastructures/alignment/CmpFile.hpp>
 
 void CmpFile::StoreReadType(std::string &readTypeStringP)
 {

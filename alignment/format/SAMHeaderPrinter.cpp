@@ -1,4 +1,5 @@
-#include "SAMHeaderPrinter.hpp"
+#include <alignment/format/SAMHeaderPrinter.hpp>
+
 #include <cassert>
 
 const std::string SAMVERSION("1.5");

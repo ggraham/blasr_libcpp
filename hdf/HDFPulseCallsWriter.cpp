@@ -1,12 +1,14 @@
 #include <LibBlasrConfig.h>
 
 #ifdef USE_PBBAM
+
+#include <hdf/HDFPulseCallsWriter.hpp>
+#include <pbdata/utils/TimeUtils.hpp>
+
 #include <algorithm>
 #include <cctype>
 #include <cmath>
 #include <sstream>
-#include "../pbdata/utils/TimeUtils.hpp"
-#include "HDFPulseCallsWriter.hpp"
 
 const std::vector<PacBio::BAM::BaseFeature> HDFPulseCallsWriter::ValidQVEnums = {
     PacBio::BAM::BaseFeature::PULSE_CALL,      PacBio::BAM::BaseFeature::LABEL_QV,

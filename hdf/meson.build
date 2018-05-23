@@ -2,8 +2,6 @@
 # Sources #
 ###########
 
-libblasr_include_directories += include_directories('.')
-
 libblasr_sources += files([
   'BufferedHDF2DArray.cpp',
   'BufferedHDFArray.cpp',

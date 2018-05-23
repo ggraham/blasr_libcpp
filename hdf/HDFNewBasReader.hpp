@@ -5,8 +5,8 @@
 #include <sstream>
 #include <vector>
 
-#include "HDFArray.hpp"
-#include "HDFGroup.hpp"
+#include <hdf/HDFArray.hpp>
+#include <hdf/HDFGroup.hpp>
 
 const int BAXPERBAS = 3;  // Number of bax files per base file.
 

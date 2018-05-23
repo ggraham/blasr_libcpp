@@ -1,4 +1,4 @@
-#include "MatchPos.hpp"
+#include <alignment/datastructures/anchoring/MatchPos.hpp>
 
 MatchPos::MatchPos(const MatchPos &rhs) { (*this) = rhs; }
 

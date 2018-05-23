@@ -1,7 +1,7 @@
 #ifndef _BLASR_HDF_CCS_READER_HPP_
 #define _BLASR_HDF_CCS_READER_HPP_
 
-#include "HDFBasReader.hpp"
+#include <hdf/HDFBasReader.hpp>
 
 template <typename T_Sequence>
 class HDFCCSReader : public T_HDFBasReader<T_Sequence>

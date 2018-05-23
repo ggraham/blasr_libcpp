@@ -1,4 +1,5 @@
-#include "AlignmentUtils.hpp"
+#include <alignment/algorithms/alignment/AlignmentUtils.hpp>
+
 #include <cassert>
 #include <cstdint>
 #include <cstdlib>

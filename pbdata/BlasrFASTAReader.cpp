@@ -1,18 +1,19 @@
-#include <sys/fcntl.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
+#include <pbdata/Enumerations.h>
+#include <pbdata/FASTAReader.hpp>
+#include <pbdata/FASTASequence.hpp>
+#include <pbdata/NucConversion.hpp>
+
 #include <climits>
 #include <cstdlib>
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "Enumerations.h"
-#include "FASTAReader.hpp"
-#include "FASTASequence.hpp"
-#include "NucConversion.hpp"
+#include <sys/fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 void FASTAReader::SetFileSize()
 {

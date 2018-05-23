@@ -1,4 +1,4 @@
-#include "CompareSequencesPrinter.hpp"
+#include <alignment/format/CompareSequencesPrinter.hpp>
 
 void CompareSequencesOutput::PrintHeader(std::ostream &out)
 {

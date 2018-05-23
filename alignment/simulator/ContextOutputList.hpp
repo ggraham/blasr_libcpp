@@ -7,8 +7,8 @@
 #include <map>
 #include <string>
 
-#include "../../pbdata/utils.hpp"
-#include "OutputList.hpp"
+#include <alignment/simulator/OutputList.hpp>
+#include <pbdata/utils.hpp>
 
 class ContextOutputList
 {

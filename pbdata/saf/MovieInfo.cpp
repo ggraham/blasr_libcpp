@@ -1,4 +1,4 @@
-#include "MovieInfo.hpp"
+#include <pbdata/saf/MovieInfo.hpp>
 
 int MovieInfo::FindMovie(UInt idKey, std::string &nameVal)
 {

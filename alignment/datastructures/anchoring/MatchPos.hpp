@@ -4,8 +4,9 @@
 #include <algorithm>
 #include <ostream>
 #include <vector>
-#include "../../../pbdata/DNASequence.hpp"
-#include "../../../pbdata/Types.h"
+
+#include <pbdata/Types.h>
+#include <pbdata/DNASequence.hpp>
 
 class MatchPos
 {

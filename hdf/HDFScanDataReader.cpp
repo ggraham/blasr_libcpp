@@ -1,4 +1,4 @@
-#include "HDFScanDataReader.hpp"
+#include <hdf/HDFScanDataReader.hpp>
 
 HDFScanDataReader::HDFScanDataReader()
 {

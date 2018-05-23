@@ -4,9 +4,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "../../pbdata/alignment/CmpAlignment.hpp"  // pbdata
-#include "../../pbdata/utils.hpp"
-#include "CDFMap.hpp"
+
+#include <alignment/simulator/CDFMap.hpp>
+#include <pbdata/alignment/CmpAlignment.hpp>
+#include <pbdata/utils.hpp>
 
 class LengthHistogram
 {

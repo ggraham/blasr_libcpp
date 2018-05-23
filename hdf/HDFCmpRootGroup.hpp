@@ -1,9 +1,10 @@
 #ifndef _BLASR_HDF_CMP_ROOT_GROUP_HPP_
 #define _BLASR_HDF_CMP_ROOT_GROUP_HPP_
 
-#include "../alignment/datastructures/alignment/CmpFile.hpp"
-#include "HDF2DArray.hpp"
-#include "HDFAtom.hpp"
+#include <alignment/datastructures/alignment/CmpFile.hpp>
+#include <hdf/HDF2DArray.hpp>
+#include <hdf/HDFAtom.hpp>
+
 template <typename T_Alignment>
 class HDFCmpRootGroup
 {

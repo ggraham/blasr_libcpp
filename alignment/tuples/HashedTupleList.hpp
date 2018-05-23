@@ -1,9 +1,9 @@
 #ifndef _BLASR_HASHED_TUPLE_LIST_HPP_
 #define _BLASR_HASHED_TUPLE_LIST_HPP_
 
-#include "../../pbdata/DNASequence.hpp"
-#include "TupleList.hpp"
-#include "TupleMetrics.hpp"
+#include <alignment/tuples/TupleList.hpp>
+#include <alignment/tuples/TupleMetrics.hpp>
+#include <pbdata/DNASequence.hpp>
 
 template <typename T_Tuple>
 class HashedTupleList
@@ -54,6 +54,6 @@ public:
 template <typename T_Tuple>
 void SequenceToHash(DNASequence &seq, HashedTupleList<T_Tuple> &hash, TupleMetrics &tm);
 
-#include "tuples/HashedTupleList.hpp"
+#include "HashedTupleList.hpp"
 
 #endif

@@ -1,4 +1,5 @@
-#include "StatUtils.hpp"
+#include <alignment/statistics/StatUtils.hpp>
+
 #ifndef __WORDSIZE
 #include <bits/user.h>
 #endif

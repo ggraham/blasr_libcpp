@@ -9,8 +9,9 @@
 #include <map>
 #include <string>
 #include <vector>
-#include "../Enumerations.h"
-#include "../Types.h"
+
+#include <pbdata/Enumerations.h>
+#include <pbdata/Types.h>
 
 class RegionTypeMap
 {

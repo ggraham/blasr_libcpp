@@ -1,9 +1,10 @@
 // Author: Mark Chaisson
 
-#include "SMRTSequence.hpp"
+#include <pbdata/PrettyException.hpp>
+#include <pbdata/SMRTSequence.hpp>
+#include <pbdata/utils/SMRTTitle.hpp>
+
 #include <cstdlib>
-#include "PrettyException.hpp"
-#include "utils/SMRTTitle.hpp"
 
 SMRTSequence::SMRTSequence()
     : FASTQSequence()

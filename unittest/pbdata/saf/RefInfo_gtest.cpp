@@ -16,8 +16,9 @@
  * =====================================================================================
  */
 
-#include "gtest/gtest.h"
-#include "saf/RefInfo.hpp"
+#include <gtest/gtest.h>
+
+#include <pbdata/saf/RefInfo.hpp>
 
 TEST(RefInfoTEST, RefIdToIndex)
 {

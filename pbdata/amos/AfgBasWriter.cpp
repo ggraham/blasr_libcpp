@@ -1,4 +1,4 @@
-#include "AfgBasWriter.hpp"
+#include <pbdata/amos/AfgBasWriter.hpp>
 
 unsigned char AfgBasWriter::pacbioQVtoPhredQV(unsigned char pacbio)
 {

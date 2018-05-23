@@ -6,10 +6,11 @@
 #ifdef USE_PBBAM
 
 #include <pbbam/BamRecord.h>
-#include "../pbdata/SMRTSequence.hpp"
-#include "BufferedHDF2DArray.hpp"
-#include "BufferedHDFArray.hpp"
-#include "HDFWriterBase.hpp"
+
+#include <hdf/BufferedHDF2DArray.hpp>
+#include <hdf/BufferedHDFArray.hpp>
+#include <hdf/HDFWriterBase.hpp>
+#include <pbdata/SMRTSequence.hpp>
 
 class HDFBaseCallerWriter;
 class HDFPulseCallerWriter;

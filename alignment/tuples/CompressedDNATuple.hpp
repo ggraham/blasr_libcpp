@@ -1,8 +1,8 @@
 #ifndef _BLASR_COMPRESSED_DNA_TUPLE_HPP_
 #define _BLASR_COMPRESSED_DNA_TUPLE_HPP_
 
-#include "../../pbdata/CompressedSequence.hpp"
-#include "DNATuple.hpp"
+#include <alignment/tuples/DNATuple.hpp>
+#include <pbdata/CompressedSequence.hpp>
 
 template <typename T_Sequence>
 class CompressedDNATuple : public DNATuple

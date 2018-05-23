@@ -13,21 +13,9 @@ subdir('saf')
 subdir('sam')
 subdir('utils')
 
-##########
-# Config #
-##########
-
-libblasr_libconfig_h_config = configuration_data()
-libblasr_libconfig_h_config.set('USE_PBBAM', 1)
-libblasr_libconfig_h = configure_file(output : 'LibBlasrConfig.h', configuration : libblasr_libconfig_h_config)
-
-libblasr_sources += libblasr_libconfig_h
-
 ###########
 # Sources #
 ###########
-
-libblasr_include_directories += include_directories('.')
 
 libblasr_sources += files([
   'BlasrFASTAReader.cpp',
@@ -51,10 +39,6 @@ libblasr_sources += files([
 ###########
 
 meson.is_subproject() and subdir_done()
-
-install_headers(
-  libblasr_libconfig_h,
-  subdir : 'libblasr/pbdata')
 
 install_headers(
   files([

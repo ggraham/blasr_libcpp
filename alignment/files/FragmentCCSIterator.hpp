@@ -2,9 +2,10 @@
 #define _BLASR_FRAGMENT_CCS_ITERATOR_HPP_
 
 #include <vector>
-#include "../../pbdata/reads/RegionTable.hpp"  // pbdata
-#include "../utils/RegionUtils.hpp"
-#include "CCSIterator.hpp"
+
+#include <alignment/files/CCSIterator.hpp>
+#include <alignment/utils/RegionUtils.hpp>
+#include <pbdata/reads/RegionTable.hpp>
 
 class FragmentCCSIterator : public CCSIterator
 {

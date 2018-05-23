@@ -5,14 +5,13 @@
 #include <climits>
 #include <iosfwd>
 #include <vector>
-// pbdata
-#include "../../../pbdata/NucConversion.hpp"
-#include "../../../pbdata/defs.h"
-#include "../../../pbdata/matrix/FlatMatrix.hpp"
 
-#include "../../datastructures/alignment/Alignment.hpp"
-#include "../../statistics/StatUtils.hpp"
-#include "AlignmentUtils.hpp"
+#include <pbdata/defs.h>
+#include <alignment/algorithms/alignment/AlignmentUtils.hpp>
+#include <alignment/datastructures/alignment/Alignment.hpp>
+#include <alignment/statistics/StatUtils.hpp>
+#include <pbdata/NucConversion.hpp>
+#include <pbdata/matrix/FlatMatrix.hpp>
 
 class DefaultGuide
 {
