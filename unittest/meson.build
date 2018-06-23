@@ -37,12 +37,11 @@ test(
   workdir : meson.source_root())
 
 test(
-  'libblasr unit tests',
+  'libblasr gtest unittests',
   libblasr_unittest,
   args : [
-    '--gtest_output=xml:' + join_paths(meson.build_root(), 'libblasr-unit-tests.xml')],
+    '--gtest_output=xml:' + join_paths(meson.build_root(), 'libblasr-gtest-unittests.xml')],
   env : [
     'ARGS=-V',
     'VERBOSE=1'],
-  workdir : meson.source_root(),
   timeout : 3600)
