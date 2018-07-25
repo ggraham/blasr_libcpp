@@ -72,7 +72,6 @@ void AlignmentToBamRecord(T_AlignmentCandidate &alignment, T_Sequence &read, T_S
             exit(-1);
         }
         bamRecord.Impl().SetSequenceAndQualities(seqString, alignedSequence.qual.ToString());
-        bamRecord.Impl().CigarData(cigar);
         bamRecord.Impl().Bin(0);
         bamRecord.Impl().InsertSize(0);
         bamRecord.Impl().MapQuality(static_cast<uint8_t>(alignment.mapQV));
@@ -134,6 +133,7 @@ void AlignmentToBamRecord(T_AlignmentCandidate &alignment, T_Sequence &read, T_S
             tags["dt"] = deletionTags;
         }
         bamRecord.Impl().Tags(tags);
+        bamRecord.Impl().CigarData(cigar);
     } else {
         // The following code can be used to hard-clip reads, if needed.
         // PacBio::BAM::Position clipStart = read.bamRecord.QueryStart() + alignment.QAlignStart();
