@@ -1,3 +1,15 @@
+<h1 align="center"><img src="http://www.pacb.com/wp-content/themes/pacific-biosciences/img/pacific-biosciences-logo-mobile.svg"/></h1>
+<h1 align="center">blasr_libcpp</h1>
+<p align="center">A C++ library for blasr</p>
+
+***
+
+## Availability
+This library is part of blasr and latest version can be installed via bioconda package `blasr`.
+
+Please refer to our [official pbbioconda page](https://github.com/PacificBiosciences/pbbioconda)
+for information on Installation, Support, License, Copyright, and Disclaimer.
+
 # What is blasr_libcpp
 
 **Blasr_libcpp** is a *library* used by **blasr** and other executables such as samtoh5, loadPulses for analyzing PacBio sequences. This library contains three sub-libraries, including pbdata, hdf and alignment:
@@ -7,24 +19,6 @@
    - contains source code for handling Pacbio hdf5 files (e.g., *.pls.h5, *.rgn.h5, *.bas.h5) and builds ```libpbhdf```.
 + alignment
    - contains source code for aligning Pacbio reads to target sequences used in blasr and builds ```libblasr```.
-
-## Availability
-The latest release binary can be installed via [bioconda](https://bioconda.github.io/):
-
-    conda install -c bioconda blasr_libcpp
-
-Official support is only provided for official and stable
-[SMRT Analysis builds](http://www.pacb.com/products-and-services/analytical-software/)
-provided by PacBio and not for source builds.
-
-Unofficial support for binary releases is provided via github issues,
-not via mail to developers.
-**No** support for source builds; issues will be closed without comment.
-
-## Documentation
-
- - [Wiki: all you need to know](https://github.com/PacificBiosciences/blasr_libcpp/wiki)
- - [Developer environment](DEVELOPER.md)
 
 DISCLAIMER
 ----------
