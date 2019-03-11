@@ -1,7 +1,7 @@
 project(
   'libblasr',
   'cpp',
-  version : '5.3.1',
+  version : '5.3.3',
   default_options : [
     'buildtype=release',
     'warning_level=3',
