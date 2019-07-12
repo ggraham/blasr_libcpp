@@ -52,12 +52,20 @@ libblasr_boost_dep = dependency('boost', required : true)
 libblasr_pbbam_dep = dependency('pbbam', fallback : ['pbbam', 'pbbam_dep'])
 
 # zlib
-libblasr_zlib_dep = dependency('zlib', required : true)
+libblasr_zlib_dep = dependency('zlib', required : true, fallback : ['zlib', 'zlib_dep'])
+
+# htslib
+libblasr_htslib_dep = dependency('htslib', required : true, version : '>=1.4', fallback : ['htslib', 'htslib_dep'])
 
 # clock_gettime on old glibc systems
 libblasr_rt_dep = cpp.find_library('rt', required : false)
 
-libblasr_deps = [libblasr_boost_dep, libblasr_pbbam_dep, libblasr_zlib_dep, libblasr_rt_dep]
+libblasr_deps = [
+  libblasr_boost_dep,
+  libblasr_pbbam_dep,
+  libblasr_zlib_dep,
+  libblasr_htslib_dep,
+  libblasr_rt_dep]
 
 ##########
 # Config #
