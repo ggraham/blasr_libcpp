@@ -67,7 +67,7 @@ for i in "1.10" "1.8"; do
   # TODO(dseifert)
   # HDF5 doesn't have pkg-config files yet
   export CPPFLAGS="${HDF5_CFLAGS}"
-  export LDFLAGS="-static-libstdc++ -static-libgcc ${HDF5_LIBS}"
+  export LDFLAGS="-static-libstdc++ -static-libgcc ${HDF5_LIBS} -Wl,-rpath-link,${LD_LIBRARY_PATH}"
 
   bash scripts/ci/build.sh
   bash scripts/ci/test.sh
