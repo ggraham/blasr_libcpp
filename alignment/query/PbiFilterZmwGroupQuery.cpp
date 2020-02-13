@@ -19,7 +19,7 @@ struct PbiFilterZmwGroupQuery::PbiFilterZmwGroupQueryPrivate
     /// sequentially in bam files, such as in movie.subreads.bam.
 public:
     PbiFilterZmwGroupQueryPrivate(const PbiFilter& filter, const DataSet& dataset)
-        : reader_(new PbiFilterCompositeBamReader<Compare::None>(filter, dataset))
+        : reader_(new PbiFilterCompositeBamReader<Compare::Zmw>(filter, dataset))
         , nextRecord_(boost::none)
     {
     }
@@ -59,7 +59,7 @@ public:
     }
 
 public:
-    std::unique_ptr<PbiFilterCompositeBamReader<Compare::None>> reader_;
+    std::unique_ptr<PbiFilterCompositeBamReader<Compare::Zmw>> reader_;
 
     boost::optional<BamRecord> nextRecord_;
 };
