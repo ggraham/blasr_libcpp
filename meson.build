@@ -8,7 +8,7 @@ project(
     'cpp_std=c++14',
     'b_ndebug=false'],
   license : 'BSD-3',
-  meson_version : '>= 0.46.0')
+  meson_version : '>= 0.52.0')
 
 # TODO:
 # try to reenable 'b_ndebug=true'
@@ -46,7 +46,7 @@ endif
 ################
 
 # boost
-libblasr_boost_dep = dependency('boost', required : true)
+libblasr_boost_dep = dependency('boost', include_type : 'system', required : true)
 
 # pbbam
 libblasr_pbbam_dep = dependency('pbbam', fallback : ['pbbam', 'pbbam_dep'])
