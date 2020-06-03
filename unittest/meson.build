@@ -11,7 +11,11 @@ subdir('pbdata')
 # Sources #
 ###########
 
-libblasr_gtest_dep = dependency('gtest_main', fallback : ['gtest', 'gtest_main_dep'])
+# find GoogleTest
+libblasr_gtest_dep = dependency(
+  'gtest',
+  main : true,
+  fallback : ['gtest', 'gtest_main_dep'])
 
 libblasr_unittest = executable(
   'libblasr_unittest', [
