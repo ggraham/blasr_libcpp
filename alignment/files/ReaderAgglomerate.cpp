@@ -264,7 +264,7 @@ int ReaderAgglomerate::Initialize(bool unrolled_mode, bool polymerase_mode)
             // create dataset , common for both unrolled and regular modes
             try {
                 dataSetPtr = new PacBio::BAM::DataSet(fileName);
-            } catch (std::exception e) {
+            } catch (const std::exception &e) {
                 std::cout << "ERROR! Failed to open " << fileName << ": " << e.what() << std::endl;
                 return 0;
             }

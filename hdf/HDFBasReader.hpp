@@ -599,7 +599,7 @@ public:
         DNALength seqLength;
         try {
             seqLength = GetNextWithoutPosAdvance(seq);
-        } catch (H5::DataSetIException e) {
+        } catch (const H5::DataSetIException &e) {
             std::cout << "ERROR, could not read base calls for FASTA Sequence " << seq.GetName()
                       << std::endl;
             std::exit(EXIT_FAILURE);
@@ -644,7 +644,7 @@ public:
             }
             seq.SetQVScale(qvScale);
             curBasePos += seqLength;
-        } catch (H5::DataSetIException e) {
+        } catch (const H5::DataSetIException &e) {
             std::cout << "ERROR, could not read quality metrics for FASTQ Sequence "
                       << seq.GetName() << std::endl;
             std::exit(EXIT_FAILURE);
@@ -688,7 +688,7 @@ public:
 
             seq.SubreadStart(0).SubreadEnd(seq.length);
             zmwReader.GetNext(seq.zmwData);
-        } catch (H5::DataSetIException e) {
+        } catch (const H5::DataSetIException &e) {
             std::cout << "ERROR, could not read bases or QVs for SMRTSequence " << seq.GetName()
                       << std::endl;
             std::exit(EXIT_FAILURE);
@@ -757,7 +757,7 @@ public:
             //
             seq.SubreadStart(0).SubreadEnd(seq.length);
             zmwReader.GetNext(seq.zmwData);
-        } catch (H5::DataSetIException e) {
+        } catch (const H5::DataSetIException &e) {
             std::cout << "ERROR, could not read pulse metrics for SMRTSequence " << seq.GetName()
                       << std::endl;
             std::exit(EXIT_FAILURE);

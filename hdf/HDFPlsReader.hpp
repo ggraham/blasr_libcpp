@@ -546,7 +546,7 @@ public:
 
             curRead++;
             curPos += seqLength;
-        } catch (DataSetIException e) {
+        } catch (const DataSetIException &e) {
             std::cout << "ERROR, could not read pulse metrics for SMRTSequence " << read.GetName()
                       << std::endl;
             std::exit(EXIT_FAILURE);
