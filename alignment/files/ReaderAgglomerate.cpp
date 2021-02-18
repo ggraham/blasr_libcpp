@@ -623,6 +623,7 @@ int ReaderAgglomerate::GetNextBases(SMRTSequence &seq, bool readQVs)
 #ifdef USE_PBBAM
             std::cout << "ERROR! Can not GetNextBases from a BAM File." << std::endl;
 #endif
+            break;
         case FileType::Fourbit:
         case FileType::None:
             UNREACHABLE();
@@ -668,6 +669,7 @@ int ReaderAgglomerate::GetNext(CCSSequence &seq)
 #ifdef USE_PBBAM
             std::cout << "ERROR! Could not read BamRecord as CCSSequence" << std::endl;
 #endif
+            break;
         case FileType::Fourbit:
         case FileType::None:
             UNREACHABLE();
