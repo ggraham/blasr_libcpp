@@ -325,8 +325,9 @@ float SMRTSequence::HQRegionSnr(const char base) const
         return hqRegionSnr_[SMRTSequence::SnrIndex4Base::G];
     else if (::toupper(base) == 'T')
         return hqRegionSnr_[SMRTSequence::SnrIndex4Base::T];
-    else
+    else {
         BLASR_THROW("Base must be in A, C, G, T");
+    }
 }
 
 SMRTSequence &SMRTSequence::HQRegionSnr(const char base, float v)

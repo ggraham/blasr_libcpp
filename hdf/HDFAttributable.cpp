@@ -45,7 +45,7 @@ int HDFAttributable::ContainsAttribute(const std::string &attributeName)
         for (i = 0; i < tmpAttributeNames.size(); i++) {
             if (tmpAttributeNames[i] == attributeName) return true;
         }
-    } catch (H5::Exception e) {
+    } catch (const H5::Exception &e) {
         //Failed to read attribute // e.printError();
     }
     return false;

@@ -49,7 +49,7 @@ public:
         try {
             H5::Exception::dontPrint();
             this->hdfBasFile.openFile(ccsBasFileName.c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
-        } catch (H5::Exception &e) {
+        } catch (const H5::Exception &e) {
             std::cout << "ERROR, could not open hdf file " << ccsBasFileName << " Stopping."
                       << std::endl;
             std::exit(EXIT_FAILURE);
@@ -267,7 +267,7 @@ public:
             ccsSequence.CopyTitle(ccsSequence.unrolledRead.title);
             std::string newTitle = std::string(ccsSequence.title) + "/ccs";
             ccsSequence.CopyTitle(newTitle.c_str());
-        } catch (H5::DataSetIException e) {
+        } catch (const H5::DataSetIException &e) {
             std::cout << "ERROR, could not read ccs data for CCS Sequence "
                       << ccsSequence.unrolledRead.title << std::endl;
             std::exit(EXIT_FAILURE);

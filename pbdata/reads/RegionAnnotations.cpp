@@ -63,8 +63,9 @@ RegionAnnotation RegionAnnotations::TheHQRegion() const
         return RegionAnnotation(holeNumber_, RegionTypeMap::ToIndex(HQRegion, types_), 0, 0, 0);
     else if (hqs_.size() == 1)
         return hqs_[0];
-    else
+    else {
         BLASR_THROW("Zmw has more than one HQRegion");
+    }
 }
 
 DNALength RegionAnnotations::HQStart() const { return TheHQRegion().GetStart(); }
