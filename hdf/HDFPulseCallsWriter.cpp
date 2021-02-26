@@ -510,7 +510,7 @@ void HDFPulseCallsWriter::Close(void)
     // Write attributes to pulsecallsGroup
     try {
         _WriteAttributes();
-    } catch (H5::Exception e) {
+    } catch (const H5::Exception& e) {
         AddErrorMessage("Failed to write attributes to " + PacBio::GroupNames::pulsecalls);
     }
 

@@ -143,7 +143,7 @@ void BufferedHDFArray<T>::Flush(bool append, DSLength writePos)
     //
     try {
         TypedWrite(this->writeBuffer, memorySpace, extendedSpace);
-    } catch (H5::DataSetIException e) {
+    } catch (const H5::DataSetIException &e) {
         std::cout << "ERROR! Could not write HDF5 data." << std::endl;
         e.printErrorStack();
         std::exit(EXIT_FAILURE);

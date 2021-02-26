@@ -361,7 +361,7 @@ void HDFBaseCallsWriter::Close(void)
 
     try {
         _WriteAttributes();
-    } catch (H5::Exception e) {
+    } catch (const H5::Exception& e) {
         AddErrorMessage("Failed to write attributes to " + PacBio::GroupNames::basecalls);
     }
 

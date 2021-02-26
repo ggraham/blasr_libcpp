@@ -20,7 +20,7 @@ void HDFFile::Open(std::string fileName, unsigned int flags, const FileAccPropLi
     if (fileExists and H5File::isHdf5(fileName.c_str()) and flagsIsNotTrunc) {
         try {
             hdfFile.openFile(fileName.c_str(), flags, fileAccPropList);
-        } catch (FileIException e) {
+        } catch (const FileIException& e) {
             std::cout << "Error opening file " << fileName << std::endl;
             std::exit(EXIT_FAILURE);
         }
@@ -32,7 +32,7 @@ void HDFFile::Open(std::string fileName, unsigned int flags, const FileAccPropLi
             FileCreatPropList filePropList;
             filePropList.setUserblock(512);
             hdfFile = H5File(fileName.c_str(), H5F_ACC_TRUNC, filePropList);
-        } catch (FileIException fileException) {
+        } catch (const FileIException& fileException) {
             std::cout << "Error creating file " << fileName << std::endl;
             std::exit(EXIT_FAILURE);
         }

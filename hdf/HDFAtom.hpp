@@ -49,7 +49,7 @@ public:
     {
         try {
             attribute = object.openAttribute(attributeName.c_str());
-        } catch (H5::Exception e) {
+        } catch (const H5::Exception &e) {
             std::cout << "ERROR. Could not open attribute " << attributeName << std::endl;
             std::exit(EXIT_FAILURE);
         }
