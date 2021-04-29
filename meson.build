@@ -48,6 +48,9 @@ endif
 # boost
 libblasr_boost_dep = dependency('boost', include_type : 'system', required : true)
 
+#hdf5
+libblasr_hdf5_dep = dependency('hdf5', include_type : 'system', required : true, language : 'cpp')
+
 # pbbam
 libblasr_pbbam_dep = dependency('pbbam', fallback : ['pbbam', 'pbbam_dep'])
 
@@ -62,6 +65,7 @@ libblasr_rt_dep = cpp.find_library('rt', required : false)
 
 libblasr_deps = [
   libblasr_boost_dep,
+  libblasr_hdf5_dep,
   libblasr_pbbam_dep,
   libblasr_zlib_dep,
   libblasr_htslib_dep,
